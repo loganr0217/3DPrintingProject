@@ -16,7 +16,6 @@ function midpoint(p1, p2) = (p1 + p2)/2;
 
 // Module to create frame from polygon profile (not used much)
 module frame(xDim, yDim, polyPoints, polyPath, shapeWidth, shapeHeight) {
-    // ©️, 2021, Logan Richards
     // Creates frame using a polygon and the frame dimensions
     
     // Creating bottom frame and cutting the overlap
@@ -99,7 +98,6 @@ module frame(xDim, yDim, polyPoints, polyPath, shapeWidth, shapeHeight) {
 
 // Module to create a frame from an SVG design / frame properties
 module frameSVG(xDim, yDim, svgPath, shapeWidth, shapeHeight) {
-    // ©️, 2021, Logan Richards
     // Creates frame using a polygon and the frame dimensions
     safetyNum = yDim*xDim;
     // Creating right frame and cutting the overlap
@@ -201,7 +199,6 @@ module frameSVG(xDim, yDim, svgPath, shapeWidth, shapeHeight) {
 
 // Module to create n-sided frame from an SVG design
 module weirdFrameSVG(sideLength, numPoints, svgPath, shapeWidth, shapeHeight) {
-    // ©️, 2021, Logan Richards
     // Creates frame using an SVG file, numSides, and sideLength
     // must be equal side lengths (hexagons, octagons, etc.)
     
