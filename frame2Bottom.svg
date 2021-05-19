@@ -33,7 +33,7 @@
      inkscape:window-width="1252"
      inkscape:window-height="793"
      inkscape:window-x="0"
-     inkscape:window-y="67"
+     inkscape:window-y="25"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata128">
@@ -53,7 +53,7 @@
      id="layer1">
     <path
        style="fill:#999999;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.282491px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 148.25522,31.029661 v 9.000243 h 6.01141 v -2.99806 h 11.98859 v -5.999976 h -11.98859 v -0.0023 h -6.01141 z"
+       d="m 166.25522,31.029661 v 9.000243 h -6.01141 v -2.99806 h -11.98859 v -5.999976 h 11.98859 v -0.0023 h 6.01141 z"
        id="rect4387"
        inkscape:connector-curvature="0" />
   </g>
