@@ -1,8 +1,9 @@
 /*
 ©️, 2021, Logan Richards
-This script is used for generating picture frames with varying
-dimensions/properties. OpenScad polygons or SVG files of the rail 
-profile as well as their corresponding dimensions are necessary.
+This script provides modules for generating picture frames with 
+varying dimensions/properties. OpenScad polygons or SVG files of 
+the rail profile as well as their corresponding dimensions are 
+necessary.
 */
 
 function changeElement(arr, index, value) = [for(i = [0:len(arr)-1]) if(i == index) value else arr[i]];

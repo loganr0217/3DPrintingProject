@@ -1,6 +1,6 @@
 /*
 ©️, 2021, Logan Richards
-This script is used for generating screws for picture frames
+This script provides modules for generating screws for picture frames
 with varying dimensions/properties. 
 Tips/Requirements:
 - screw holes need to be 1mm larger than actual screw (4mm -> 5mm)
