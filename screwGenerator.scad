@@ -1,5 +1,4 @@
 /*
-©️, 2021, Logan Richards
 This script provides modules for generating screws for picture frames
 with varying dimensions/properties. 
 Tips/Requirements:
