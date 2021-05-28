@@ -1,5 +1,4 @@
 /*
-©️, 2021, Logan Richards
 This script is used for creating the picture frame STL files using
 the frameGenerator (and screwGenerator) with the corresponding frame
 rail profile, given as an SVG, and its dimensions.
