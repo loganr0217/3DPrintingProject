@@ -1,5 +1,4 @@
 /*
-©️, 2021, Logan Richards
 This script provides modules for generating picture frames with 
 varying dimensions/properties. OpenScad polygons or SVG files of 
 the rail profile as well as their corresponding dimensions are 
