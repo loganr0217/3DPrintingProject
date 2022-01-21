@@ -296,3 +296,154 @@ module weirdFrameSVG(sideLength, numPoints, svgPath, shapeWidth, shapeHeight) {
     }
 // end of module
 }
+
+// Module to create top frame with screw holes
+module topFrameSVG(topFrameX, topFrameY, bottomFrameX, bottomFrameY, bottomHeight, svgPath, topWidth, topHeight, screwDiam = 5, screwPitch = .70, screwLength = 15) {
+    difference() {
+        // Creating top frame piece
+        translate([-(frameX-bottomFrameX)/2, (frameY-bottomFrameY)/2, bottomHeight])
+        frameSVG(topFrameX,topFrameY, svgPath, topWidth, topHeight);
+        
+        // Getting inner dimensions
+        innerX = topFrameX - (2*topWidth);
+        innerY = topFrameY - (2*topWidth);
+        
+        
+        bottomWidth = (bottomFrameX - innerX)/2;
+        
+        // Adding screw holes
+        translate([0, 0, 3])
+        rectangleScrews(bottomFrameX, bottomFrameY, bottomWidth/2, screwDiam, screwPitch, screwLength);
+        
+        // Cutting 6x6 well
+        translate([-(frameX-bottomFrameX)/2 + topWidth-6, (frameY-bottomFrameY)/2 -(topWidth-6), bottomHeight])
+        frame(12 + innerX, 12 + innerY, [[0, 0], [6, 0], [6, 6], [0, 6]], [[0, 1, 2, 3]], 6, 6);
+    } 
+}
+
+// Module to generate bottom frame with screw holes, hangers, clips
+module bottomFrameSVG(bottomFrameX, bottomFrameY, svgPath, bottomWidth, bottomHeight, hangersOn = true, clipType = 0, screwDiam = 5, screwPitch = .70, screwLength = 15) {
+    
+    // Hanger info
+    hangerPocketWidth = 44;
+    hangerPocketHeight = 15;
+    hangerPocketDepth = 6.1;
+
+    hangerWidth = 44;
+    hangerHeight = 10;
+    hangerDepth = 3;
+    
+    // Clip pocket info
+    pocketWidth = 22.247;
+    pocketHeight = 12.108;
+    
+    // Clip info
+    clip = "clip.svg";
+    clipPocket = "clipPocket.svg";
+
+    clipWidth = 5.008;
+    clipHeight = 18.956;
+    clipDepth = 5;
+
+    
+    difference() {
+        frameSVG(bottomFrameX,bottomFrameY, bottomV3, bottomWidth, bottomHeight); 
+        //translate([0, 0, 9])
+        //frameSVG(frameX,frameY, frame3Top, desWidth, desHeight); 
+
+        // top hanger box
+        translate([bottomFrameX/2, hangerPocketHeight/2 - bottomWidth - 5.1, hangerPocketDepth/2 -.1])
+        cube([hangerPocketWidth, hangerPocketHeight, hangerPocketDepth], center = true);
+        
+        translate([bottomFrameX/2, hangerPocketHeight/2 - bottomWidth+3, hangerPocketDepth/2 -.1])
+        cube([hangerPocketWidth, hangerPocketHeight, hangerPocketDepth], center = true);
+            
+        // side hanger box
+        translate([bottomFrameX + hangerPocketHeight/2 - bottomWidth - 5.1, -bottomFrameY/2, hangerPocketDepth/2 -.1])
+        cube([hangerPocketHeight, hangerPocketWidth, hangerPocketDepth], center = true);
+        
+        translate([bottomFrameX + hangerPocketHeight/2 - bottomWidth+3, -bottomFrameY/2, hangerPocketDepth/2 -.1])
+        cube([hangerPocketHeight, hangerPocketWidth, hangerPocketDepth], center = true);
+        
+        // topClip pocket
+        translate([bottomFrameX/4, pocketHeight/2 - bottomWidth - .1, -.1])
+        linear_extrude(height = 7)
+        import(clipPocket, center = true);
+        
+        // leftClip pocket
+        translate([pocketHeight/2 - bottomWidth - .1, -frameX/4, -.1])
+        translate([bottomFrameX, 0, 0])
+        linear_extrude(height = 7)
+        rotate([0, 0, -90])
+        import(clipPocket, center = true);
+        
+        // rightClip pocket
+        translate([-pocketHeight/2 + bottomWidth +.1, bottomFrameX/4, -.1])
+        translate([0, -bottomFrameY, 0])
+        linear_extrude(height = 7)
+        rotate([0, 0, 90])
+        import(clipPocket, center = true);
+        
+        // bottomClip pocket
+        translate([-bottomFrameX/4, -pocketHeight/2 + bottomWidth + .1, -.1])
+        translate([bottomFrameX, -bottomFrameY, 0])
+        linear_extrude(height = 7)
+        rotate([0, 180, -180])
+        import(clipPocket, center = true);
+        
+        // Actual screws 
+        translate([0, 0, 3])
+        rectangleScrews(bottomFrameX, bottomFrameY, bottomWidth/2, diam4, p4, length4);
+        
+        // Holes to lay flush on wall
+        translate([bottomWidth/2, -bottomWidth/2, 0])
+        cylinder(h = 6, r = diam4, center = true);
+        translate([bottomFrameX - bottomWidth/2, -bottomWidth/2, 0])
+        cylinder(h = 6, r = diam4, center = true);
+        
+        translate([bottomFrameX - bottomWidth/2, -bottomFrameY + bottomWidth/2, 0])
+        cylinder(h = 6, r = diam4, center = true);
+        
+        translate([bottomWidth/2, -bottomFrameY + bottomWidth/2, 0])
+        cylinder(h = 6, r = diam4, center = true);
+    }
+
+
+    // top hanger
+    translate([bottomFrameX/2, -hangerHeight/2 - (bottomWidth-hangerPocketHeight)-5, 0])
+    linear_extrude(height = hangerDepth)
+    import(hanger, center = true);
+
+    // side hanger
+    translate([bottomFrameX -hangerHeight/2 - (bottomWidth-hangerPocketHeight) - 5, -bottomFrameY/2, 0])
+    linear_extrude(height = hangerDepth)
+    rotate([0, 0, -90])
+    import(hanger, center = true);
+
+    // top bendy clip
+    linear_extrude(height = clipDepth)
+    translate([bottomFrameX/4+pocketWidth/4, -clipHeight/2 - (bottomWidth - pocketHeight), 0])
+    rotate([0, 180, 0])
+    import(clip, center = true);
+
+    // left bendy clip
+    linear_extrude(height = clipDepth)
+    translate([-clipHeight/2 - (bottomWidth - pocketHeight), -bottomFrameX/4-pocketWidth/4, 0])
+    translate([bottomFrameX, 0, 0])
+    rotate([0, 180, -90])
+    import(clip, center = true);
+
+    // right bendy clip
+    linear_extrude(height = clipDepth)
+    translate([clipHeight/2 + (bottomWidth - pocketHeight), bottomFrameX/4+pocketWidth/4, 0])
+    translate([0, -bottomFrameY, 0])
+    rotate([0, 180, 90])
+    import(clip, center = true);
+
+    // bottom bendy clip
+    linear_extrude(height = clipDepth)
+    translate([-bottomFrameX/4-pocketWidth/4, clipHeight/2 + (bottomWidth - pocketHeight), 0])
+    translate([bottomFrameX, -bottomFrameY, 0])
+    rotate([0, 180, -180])
+    import(clip, center = true);
+}

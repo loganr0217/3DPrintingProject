@@ -1,0 +1,158 @@
+/*
+This script provides modules for generating stain glass panels with 
+varying dimensions/properties. SVG files of 
+the inner design profile as well as the panel dimensions are 
+necessary.
+*/
+
+include <frameGenerator.scad>;
+
+// innerRailDims and outerRailDims => [width, height] (done with cap)
+module stainGlassPanelold(panelDims, innerDesignSVG, outerRailProfile, innerRailDims, outerRailDims, innerWellDims, outerWellDims, capsOn) {
+    
+    
+    // Getting the dimensions of the wells (inner and outer)
+    outerWellWidth = outerWellDims[0];
+    outerWellHeight = outerWellDims[1];
+    nonWellOuterHeight = outerRailDims[1] - outerWellHeight;
+    
+    innerWellWidth = innerWellDims[0];
+    innerWellHeight = innerWellDims[1];
+    nonWellInnerHeight = innerRailDims[1] - innerWellHeight;
+    
+    // Getting the dimensions of the inner rail and outer rail
+    outerWidth = outerRailDims[0];
+    outerHeight = capsOn ? outerRailDims[1] : outerRailDims[1] - nonWellOuterHeight/2;
+    
+    innerWidth = innerRailDims[0];
+    innerHeight = capsOn ? innerRailDims[1] : innerRailDims[1] - nonWellInnerHeight/2;
+    
+    xOuter = panelDims[0];
+    yOuter = panelDims[1];
+    
+    // Extruding the outer frame rails
+    frameSVG(xOuter, yOuter, outerRailProfile, outerWidth, outerHeight);
+    
+    // Code for creating rounded top
+//    for(i = [0:100]) {
+//        translate([0, 0, .1*i])
+//        linear_extrude(height = .1) {
+//            offset(r=-.03*i)
+//            import(innerDesignSVG, center = true);
+//        }
+//    }
+    
+    /***** Extruding the inner design *****/
+    // Moving inner design to same spot as outer rails
+    translate([xOuter/2, -yOuter/2, 0]) {
+        // Placing the bottom layer for inner design
+        linear_extrude(height = nonWellInnerHeight/2) {
+            import(innerDesignSVG, center = true);
+        }
+        
+        // Placing the middle (well) layer for inner design
+        translate([0, 0, nonWellInnerHeight/2]) {
+            linear_extrude(height = innerWellHeight) {
+                offset(r = -innerWellWidth) {
+                    import(innerDesignSVG, center = true);
+                }
+            }
+        }
+        
+        // Placing the top layer for inner design (if capsOn)
+        if(capsOn) {
+            translate([0, 0, innerHeight - nonWellInnerHeight/2]) {
+                linear_extrude(height = nonWellInnerHeight/2) {
+                    import(innerDesignSVG, center = true);
+                }
+            }
+        }
+    }
+    
+}
+
+
+module innerPanel(panelDims, innerDesignSVG) {
+    // Placing the bottom layer for inner design
+    linear_extrude(height = 3) {
+        import(innerDesignSVG, center = true);
+    }
+    
+    // Placing the middle (well) layer for inner design
+    translate([0, 0, 3]) {
+        linear_extrude(height = 3.199) {
+            offset(r = -3) {
+                import(innerDesignSVG, center = true);
+            }
+        }
+    }
+    
+    // Placing the bottom of the cap layer for inner design
+    for(i = [0:5]) {
+        translate([0, 0, 3+3.199+(i*.2)]) {
+            linear_extrude(height = .2) {
+                offset(r = -3 + ((i+1)*.4)) {
+                    import(innerDesignSVG, center = true);
+                }
+            }
+        }
+    }
+    
+    // Placing the middle of the cap layer for inner design
+    translate([0, 0, 3+3.199+1.2]) {
+        linear_extrude(height = 2.401) {
+            offset(r = -(.4)) {
+                import(innerDesignSVG, center = true);
+            }
+        }
+    }
+    
+    // Placing the top of the cap layer for inner design
+    for(i = [0:4]) {
+        translate([0, 0, 3+3.199+1.2+2.401+(i*.2)]) {
+            linear_extrude(height = .2) {
+                offset(r = -(.4)*(i+2)) {
+                    import(innerDesignSVG, center = true);
+                }
+            }
+        }
+    }
+    
+    // Placing the very top of the cap layer for inner design
+    translate([0, 0, 3+3.199+1.2+2.401+1]) {
+        linear_extrude(height = .2) {
+            offset(r = -3) {
+                import(innerDesignSVG, center = true);
+            }
+        }
+    }
+}
+// innerRailDims and outerRailDims => [width, height] (done with cap)
+module stainGlassPanel(panelDims, innerDesignSVG, outerRailProfile, outerRailDims) {
+    
+    // Code for creating rounded top
+//    for(i = [0:100]) {
+//        translate([0, 0, .1*i])
+//        linear_extrude(height = .1) {
+//            offset(r=-.03*i)
+//            import(innerDesignSVG, center = true);
+//        }
+//    }
+    
+    xOuter = panelDims[0];
+    yOuter = panelDims[1];
+    
+    outerWidth = outerRailDims[0];
+    outerHeight = outerRailDims[1];
+    
+    // Extruding the outer frame rails
+    
+    frameSVG(xOuter, yOuter, outerRailProfile, outerWidth, outerHeight);
+    
+    /***** Extruding the inner design using static cap *****/
+    // Moving inner design to same spot as outer rails
+    translate([xOuter/2, -yOuter/2, 0]) {
+        innerPanel(panelDims, innerDesignSVG);
+    }
+    
+}
