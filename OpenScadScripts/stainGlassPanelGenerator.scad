@@ -71,7 +71,7 @@ module stainGlassPanelold(panelDims, innerDesignSVG, outerRailProfile, innerRail
     
 }
 
-
+// Module for innersvg design
 module innerPanel(innerDesignSVG, scaleNum, offsetNum) {
     // Placing the bottom layer for inner design
     linear_extrude(height = 3) {
@@ -90,8 +90,7 @@ module innerPanel(innerDesignSVG, scaleNum, offsetNum) {
                 // Scaling and differencing for changing dims
                 offset(delta=-offsetNum) {
                     scale([scaleNum, scaleNum, 1]) {
-                            import(innerDesignSVG, center = true);
-                        
+                        import(innerDesignSVG, center = true);
                     }
                 }
             }
@@ -158,8 +157,109 @@ module innerPanel(innerDesignSVG, scaleNum, offsetNum) {
         }
     }
 }
+
+// Module for inner svg design with different x,y scales
+module innerPanelScale(innerDesignSVG, scaleNums) {
+    // Placing the bottom layer for inner design
+    linear_extrude(height = 3) {
+        // Scaling and differencing for changing dims
+        minkowski() {
+            scale([scaleNums[0], scaleNums[1], 1]) {
+                offset(delta=-3.84)
+                import(innerDesignSVG, center = true);
+            }
+            square([8, 8], center=true);
+        }
+    }
+    
+    // Placing the middle (well) layer for inner design
+    translate([0, 0, 3]) {
+        linear_extrude(height = 3.199) {
+            offset(r = -3) {
+                // Scaling and differencing for changing dims
+                minkowski() {
+                    scale([scaleNums[0], scaleNums[1], 1]) {
+                        offset(delta=-3.84)
+                        import(innerDesignSVG, center = true);
+                    }
+                    square([8, 8], center=true);
+                }
+            }
+        }
+    }
+    
+    // Placing the bottom of the cap layer for inner design
+    for(i = [0:5]) {
+        translate([0, 0, 3+3.199+(i*.2)]) {
+            linear_extrude(height = .2) {
+                offset(r = -3 + ((i+1)*.4)) {
+                    // Scaling and differencing for changing dims
+                    minkowski() {
+                        scale([scaleNums[0], scaleNums[1], 1]) {
+                            offset(delta=-3.84)
+                            import(innerDesignSVG, center = true); 
+                        }
+                        square([8, 8], center=true);
+                    }
+                }
+            }
+        }
+    }
+    
+    // Placing the middle of the cap layer for inner design
+    translate([0, 0, 3+3.199+1.2]) {
+        linear_extrude(height = 2.401) {
+            offset(r = -(.4)) {
+                // Scaling and differencing for changing dims
+                minkowski() {
+                    scale([scaleNums[0], scaleNums[1], 1]) {
+                        offset(delta=-3.84)
+                        import(innerDesignSVG, center = true);
+                    }
+                    square([8, 8], center=true);
+                }
+            }
+        }
+    }
+    
+    // Placing the top of the cap layer for inner design
+    for(i = [0:4]) {
+        translate([0, 0, 3+3.199+1.2+2.401+(i*.2)]) {
+            linear_extrude(height = .2) {
+                offset(r = -(.4)*(i+2)) {
+                    // Scaling and differencing for changing dims
+                    minkowski() {
+                        scale([scaleNums[0], scaleNums[1], 1]) {
+                            offset(delta=-3.84)
+                            import(innerDesignSVG, center = true);
+                        }
+                        square([8, 8], center=true);
+                    }
+                }
+            }
+        }
+    }
+    
+    // Placing the very top of the cap layer for inner design
+    translate([0, 0, 3+3.199+1.2+2.401+1]) {
+        linear_extrude(height = .2) {
+            offset(r = -3) {
+                // Scaling and minkowski for changing dims
+                minkowski() {
+                    scale([scaleNums[0], scaleNums[1], 1]) {
+                        offset(delta=-3.84)
+                        import(innerDesignSVG, center = true);
+                    }
+                    square([8, 8], center=true);
+                }
+            }
+        }
+    }
+}
+
+
 // innerRailDims and outerRailDims => [width, height] (done with cap)
-module stainGlassPanel(panelDims, innerDesignSVG, outerRailProfile, outerRailDims, userScale=1) {
+module stainGlassPanel(panelDims, innerDesignSVG, outerRailProfile, outerRailDims, userScales=[1, 1]) {
     
     // Code for creating rounded top
 //    for(i = [0:100]) {
@@ -171,11 +271,13 @@ module stainGlassPanel(panelDims, innerDesignSVG, outerRailProfile, outerRailDim
 //    }
     
     // Getting the scaleNum from the userScale / offsetNum from scaleNum
-    scaleNum = (userScale*panelDims[0] - 8) / (panelDims[0] - 8);
+    scaleNum = (userScales[0]*panelDims[0] - 8) / (panelDims[0] - 8);
+    scaleNums = [(userScales[0]*panelDims[0] - 8) / (panelDims[0] - 8), 
+    (userScales[1]*panelDims[1] - 8) / (panelDims[1] - 8)];
     offsetNum = 4*(scaleNum-1);
     
     // New panel dims with user scale applied
-    scaledPanelDims = [panelDims[0]*userScale, panelDims[1]*userScale];
+    scaledPanelDims = [panelDims[0]*userScales[0], panelDims[1]*userScales[1]];
     xOuter = scaledPanelDims[0];
     yOuter = scaledPanelDims[1];
     
@@ -188,8 +290,15 @@ module stainGlassPanel(panelDims, innerDesignSVG, outerRailProfile, outerRailDim
     
     /***** Extruding the inner design using static cap *****/
     // Moving inner design to same spot as outer rails
-    translate([xOuter/2, -yOuter/2, 0]) {
-        innerPanel(innerDesignSVG, scaleNum, offsetNum);
+    if(userScales[0] == userScales[1]) {
+        translate([xOuter/2, -yOuter/2, 0]) {
+            innerPanel(innerDesignSVG, scaleNum, offsetNum);
+        }
+    }
+    else {
+        translate([xOuter/2, -yOuter/2, 0]) {
+            innerPanelScale(innerDesignSVG, scaleNums);
+        }
     }
     
 }
