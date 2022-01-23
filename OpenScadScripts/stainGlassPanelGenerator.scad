@@ -72,17 +72,28 @@ module stainGlassPanelold(panelDims, innerDesignSVG, outerRailProfile, innerRail
 }
 
 
-module innerPanel(panelDims, innerDesignSVG) {
+module innerPanel(innerDesignSVG, scaleNum, offsetNum) {
     // Placing the bottom layer for inner design
     linear_extrude(height = 3) {
-        import(innerDesignSVG, center = true);
+        // Scaling and differencing for changing dims
+        offset(delta=-offsetNum) {
+            scale([scaleNum, scaleNum, 1]) {
+                import(innerDesignSVG, center = true);
+            }
+        }
     }
     
     // Placing the middle (well) layer for inner design
     translate([0, 0, 3]) {
         linear_extrude(height = 3.199) {
             offset(r = -3) {
-                import(innerDesignSVG, center = true);
+                // Scaling and differencing for changing dims
+                offset(delta=-offsetNum) {
+                    scale([scaleNum, scaleNum, 1]) {
+                            import(innerDesignSVG, center = true);
+                        
+                    }
+                }
             }
         }
     }
@@ -92,7 +103,12 @@ module innerPanel(panelDims, innerDesignSVG) {
         translate([0, 0, 3+3.199+(i*.2)]) {
             linear_extrude(height = .2) {
                 offset(r = -3 + ((i+1)*.4)) {
-                    import(innerDesignSVG, center = true);
+                    // Scaling and differencing for changing dims
+                    offset(delta=-offsetNum) {
+                        scale([scaleNum, scaleNum, 1]) {
+                            import(innerDesignSVG, center = true); 
+                        }
+                    }
                 }
             }
         }
@@ -102,7 +118,12 @@ module innerPanel(panelDims, innerDesignSVG) {
     translate([0, 0, 3+3.199+1.2]) {
         linear_extrude(height = 2.401) {
             offset(r = -(.4)) {
-                import(innerDesignSVG, center = true);
+                // Scaling and differencing for changing dims
+                offset(delta=-offsetNum) {
+                    scale([scaleNum, scaleNum, 1]) {
+                        import(innerDesignSVG, center = true);
+                    }
+                }
             }
         }
     }
@@ -112,7 +133,12 @@ module innerPanel(panelDims, innerDesignSVG) {
         translate([0, 0, 3+3.199+1.2+2.401+(i*.2)]) {
             linear_extrude(height = .2) {
                 offset(r = -(.4)*(i+2)) {
-                    import(innerDesignSVG, center = true);
+                    // Scaling and differencing for changing dims
+                    offset(delta=-offsetNum) {
+                        scale([scaleNum, scaleNum, 1]) {
+                            import(innerDesignSVG, center = true);
+                        }
+                    }
                 }
             }
         }
@@ -122,13 +148,18 @@ module innerPanel(panelDims, innerDesignSVG) {
     translate([0, 0, 3+3.199+1.2+2.401+1]) {
         linear_extrude(height = .2) {
             offset(r = -3) {
-                import(innerDesignSVG, center = true);
+                // Scaling and differencing for changing dims
+                offset(delta=-offsetNum) {
+                    scale([scaleNum, scaleNum, 1]) {
+                        import(innerDesignSVG, center = true);
+                    }
+                }
             }
         }
     }
 }
 // innerRailDims and outerRailDims => [width, height] (done with cap)
-module stainGlassPanel(panelDims, innerDesignSVG, outerRailProfile, outerRailDims) {
+module stainGlassPanel(panelDims, innerDesignSVG, outerRailProfile, outerRailDims, userScale=1) {
     
     // Code for creating rounded top
 //    for(i = [0:100]) {
@@ -139,8 +170,14 @@ module stainGlassPanel(panelDims, innerDesignSVG, outerRailProfile, outerRailDim
 //        }
 //    }
     
-    xOuter = panelDims[0];
-    yOuter = panelDims[1];
+    // Getting the scaleNum from the userScale / offsetNum from scaleNum
+    scaleNum = (userScale*panelDims[0] - 8) / (panelDims[0] - 8);
+    offsetNum = 4*(scaleNum-1);
+    
+    // New panel dims with user scale applied
+    scaledPanelDims = [panelDims[0]*userScale, panelDims[1]*userScale];
+    xOuter = scaledPanelDims[0];
+    yOuter = scaledPanelDims[1];
     
     outerWidth = outerRailDims[0];
     outerHeight = outerRailDims[1];
@@ -152,7 +189,7 @@ module stainGlassPanel(panelDims, innerDesignSVG, outerRailProfile, outerRailDim
     /***** Extruding the inner design using static cap *****/
     // Moving inner design to same spot as outer rails
     translate([xOuter/2, -yOuter/2, 0]) {
-        innerPanel(panelDims, innerDesignSVG);
+        innerPanel(innerDesignSVG, scaleNum, offsetNum);
     }
     
 }
