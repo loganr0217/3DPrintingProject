@@ -272,8 +272,8 @@ module stainGlassPanel(panelDims, innerDesignSVG, outerRailProfile, outerRailDim
     
     // Getting the scaleNum from the userScale / offsetNum from scaleNum
     scaleNum = (userScales[0]*panelDims[0] - 8) / (panelDims[0] - 8);
-    scaleNums = [(userScales[0]*panelDims[0] - 8) / (panelDims[0] - 8), 
-    (userScales[1]*panelDims[1] - 8) / (panelDims[1] - 8)];
+    scaleNums = [(userScales[0]*panelDims[0] - 7.68) / (panelDims[0] - 7.68+.32), 
+    (userScales[1]*panelDims[1] - 7.68) / (panelDims[1] - 7.68+.32)];
     offsetNum = 4*(scaleNum-1);
     
     // New panel dims with user scale applied
