@@ -32,6 +32,7 @@ class Polygon {
     polygonWidth:number;
     polygonHeight:number;
 
+    // Basic constructor with polygon path and previous polygon's last point (if applicable)
     constructor(polyPath:string, prevPolyPoint:number[] = []) {
         this.prevPolygonPoint = prevPolyPoint;
         
@@ -53,6 +54,17 @@ class Polygon {
         if(this.currentPoint[1] > this.yMax) {this.yMax = this.currentPoint[1];}
     }
 
+    // Method to reset mins and maxes of polygons to the starting point if it exists
+    resetMinMax():void {
+        if(this.startingPoint[0] != null && this.startingPoint[1] != null) {
+            // Setting the mins and maxes as the starting point
+            this.xMin = this.startingPoint[0];
+            this.xMax = this.startingPoint[0];
+            this.yMin = this.startingPoint[1];
+            this.yMax = this.startingPoint[1];
+        }
+    }
+
     // Method to parse the given array of commands
     parsePath(pathArray:string[]):void {
         let currentChar:string;
@@ -60,74 +72,9 @@ class Polygon {
         let nextPoint:number[] = [];
         let diffPoints:number[] = [];
 
-        // Getting the next numbers to go with the first command
-        for(let j:number = 1; "MmLlHhVvZz".indexOf(pathArray[j]) == -1; ++j) {
-            nextChars = nextChars.concat(pathArray[j].split(","));
-        }
-
-        // Starting path off with absolute M
-        this.scalablePath.push("M");
-        // Getting starting and current point depending on M/m command
-        if(pathArray[0] == "M") {
-            // Looping for implicit commands (implicit for M are L)
-            for(let j:number = 0; j < Math.floor(nextChars.length/2); ++j) {
-                nextPoint = [Number(nextChars[0+(j*2)]), Number(nextChars[1+(j*2)])];
-                // Implicit commands
-                if(j > 0) {
-                    this.scalablePath.push("l");
-                    diffPoints = [nextPoint[0]-this.currentPoint[0], nextPoint[1]-this.currentPoint[1]];
-                    this.scalablePath.push(diffPoints[0].toString(), diffPoints[1].toString());
-                }
-                // First command
-                else {
-                    this.startingPoint.push(Number(nextChars[0]), Number(nextChars[1]));
-                    this.currentPoint = this.startingPoint;
-                    this.scalablePath.push(nextPoint[0].toString(), nextPoint[1].toString());
-                }
-
-                // Updating current point
-                this.currentPoint = nextPoint;
-                this.updateMinMax();
-            }
-        }
-        else if(pathArray[0] == "m") {
-            // Looping for implicit commands (implicit for M are L)
-            for(let j:number = 0; j < Math.floor(nextChars.length/2); ++j) {
-                // Implicit commands
-                if(j > 0) {   
-                    this.scalablePath.push("l");
-                    nextPoint = [this.currentPoint[0] + Number(nextChars[0+(j*2)]), this.currentPoint[1] + Number(nextChars[1+(j*2)])];
-                    // Difference from next point
-                    diffPoints = [nextPoint[0]-this.currentPoint[0], nextPoint[1]-this.currentPoint[1]];
-                    this.scalablePath.push(diffPoints[0].toString(), diffPoints[1].toString());
-                }
-                // First command
-                else {
-                    // Starting polygon with relative m
-                    if(this.prevPolygonPoint.length == 0) {this.startingPoint.push(Number(nextChars[0]), Number(nextChars[1]));}
-                    // Relative m with a previous polygon
-                    else {this.startingPoint.push(this.prevPolygonPoint[0] + Number(nextChars[0]), this.prevPolygonPoint[1] + Number(nextChars[1]));}
-                    this.currentPoint = this.startingPoint;
-                    nextPoint = this.startingPoint;
-                    this.scalablePath.push(nextPoint[0].toString(), nextPoint[1].toString());
-                }
-
-                // Updating current point
-                this.currentPoint = nextPoint;
-                this.updateMinMax();
-            }
-            
-            
-        }
-
-        // Starting the mins and maxes as the starting point
-        this.xMin = this.startingPoint[0];
-        this.xMax = this.startingPoint[0];
-        this.yMin = this.startingPoint[1];
-        this.yMax = this.startingPoint[1];
 
         // Ignoring the first M/m command and value as well as final Z command
-        for(let i:number = 2; i < pathArray.length - 1; ++i) {
+        for(let i:number = 0; i < pathArray.length - 1; ++i) {
             currentChar = pathArray[i];
             nextPoint = [];
             diffPoints = [];
@@ -141,13 +88,21 @@ class Polygon {
                 case "M":
                     // Looping for implicit commands (implicit for M are L)
                     for(let j:number = 0; j < Math.floor(nextChars.length/2); ++j) {
-                        if(j > 0) {this.scalablePath.push("l");}
-                        else {this.scalablePath.push("m");}
-
                         nextPoint = [Number(nextChars[0+(j*2)]), Number(nextChars[1+(j*2)])];
-                        diffPoints = [nextPoint[0]-this.currentPoint[0], nextPoint[1]-this.currentPoint[1]];
-                        this.scalablePath.push(diffPoints[0].toString(), diffPoints[1].toString());
-
+                        // First command (need it to be absolute)
+                        if(i == 0 && j == 0) {
+                            this.scalablePath.push("M");
+                            this.startingPoint.push(Number(nextChars[0]), Number(nextChars[1]));
+                            this.scalablePath.push(nextPoint[0].toString(), nextPoint[1].toString());
+                            this.resetMinMax();
+                        }
+                        else {
+                            if(j > 0) {this.scalablePath.push("l");}
+                            else {this.scalablePath.push("m");}
+                            diffPoints = [nextPoint[0]-this.currentPoint[0], nextPoint[1]-this.currentPoint[1]];
+                            this.scalablePath.push(diffPoints[0].toString(), diffPoints[1].toString());
+                        }
+                        
                         // Updating current point and mins/maxes
                         this.currentPoint = nextPoint;
                         this.updateMinMax();
@@ -156,12 +111,26 @@ class Polygon {
                 case "m":
                     // Looping for implicit commands (implicit for m are l)
                     for(let j:number = 0; j < Math.floor(nextChars.length/2); ++j) {
-                        if(j > 0) {this.scalablePath.push("l");}
-                        else {this.scalablePath.push("m");}
+                        // First command
+                        if(i == 0 && j == 0) {
+                            // Need to start polygon with absolute M
+                            this.scalablePath.push("M");
+                            // Starting polygon with a relative m  
+                            if(this.prevPolygonPoint.length == 0) {this.startingPoint.push(Number(nextChars[0]), Number(nextChars[1]));}
+                            // Relative m with a previous polygon
+                            else {this.startingPoint.push(this.prevPolygonPoint[0] + Number(nextChars[0]), this.prevPolygonPoint[1] + Number(nextChars[1]));}
+                            nextPoint = this.startingPoint;
+                            this.scalablePath.push(nextPoint[0].toString(), nextPoint[1].toString());
+                            this.resetMinMax();
+                        }
+                        else {
+                            if(j > 0) {this.scalablePath.push("l");}
+                            else {this.scalablePath.push("m");}
 
-                        nextPoint = [this.currentPoint[0] + Number(nextChars[0+(j*2)]), this.currentPoint[1] + Number(nextChars[1+(j*2)])];
-                        diffPoints = [nextPoint[0]-this.currentPoint[0], nextPoint[1]-this.currentPoint[1]];
-                        this.scalablePath.push(diffPoints[0].toString(), diffPoints[1].toString());
+                            nextPoint = [this.currentPoint[0] + Number(nextChars[0+(j*2)]), this.currentPoint[1] + Number(nextChars[1+(j*2)])];
+                            diffPoints = [nextPoint[0]-this.currentPoint[0], nextPoint[1]-this.currentPoint[1]];
+                            this.scalablePath.push(diffPoints[0].toString(), diffPoints[1].toString());
+                        }
 
                         // Updating current point and mins/maxes
                         this.currentPoint = nextPoint;
