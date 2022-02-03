@@ -328,9 +328,7 @@ class SVGTemplate {
 
         subShapes:Polygon[] --> holds each subPolygon
     Methods:
-        updateMinMax():void {} --> updates the min/max attributes using currentPoint attribute
-        parsePath(pathArray:string[]):void {} --> creates scalablePath using array of normal path commands
-        outset():string {} --> returns the optimized path (will offset path eventually)
+        getOptimizedD:string() --> returns the optimized d attribute for the template
     */
     polygonPaths:string[];
     startingPoint:number[];
@@ -349,7 +347,7 @@ class SVGTemplate {
     // Array to hold the polygons making up the template
     subShapes:Polygon[];
 
-
+    // Basic constructor which takes d attribute (string)
     constructor(svgPath:string) {
         this.polygonPaths = svgPath.split("z").join("z; ").split("Z").join("Z; ").split("; ");
         this.subShapes = [];
