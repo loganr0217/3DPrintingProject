@@ -19,7 +19,7 @@ class Polygon {
     */
     currentPoint:number[];
     startingPoint:number[];
-    scalablePath:string[];
+    private scalablePath:string[];
 
     prevPolygonPoint:number[];
 
@@ -306,6 +306,9 @@ class Polygon {
     outset():string[] {
         return this.scalablePath;
     }
+
+    // Method to return scalable path
+    getScalablePath():string {return this.scalablePath.join(" ");}
 }
 
 // Class for an SVG design template
@@ -375,11 +378,14 @@ class SVGTemplate {
             if(this.subShapes[i].polygonWidth == this.width && this.subShapes[i].polygonHeight == this.height) {this.outerEdgeIndex = i;}
         }
     }
-}
 
-// Early test stuff
-//let p:string = "M 254.94507,123.84466 V 896.28411 H 1027.3865 V 123.84466 Z m 28.51953,28.51758 H 626.82007 V 320.32318 A 196.20422,196.20425 0 0 0 451.22241,495.71966 H 283.4646 Z m 372.04688,0 H 998.8689 V 495.71966 H 830.90601 A 196.20441,196.2044 0 0 0 655.51148,320.12005 Z M 641.16577,347.24505 A 162.81888,162.81886 0 0 1 803.98413,510.06536 162.81888,162.81886 0 0 1 641.16577,672.88372 162.81888,162.81886 0 0 1 478.34741,510.06536 162.81888,162.81886 0 0 1 641.16577,347.24505 Z M 283.4646,524.40911 H 451.42554 A 196.20445,196.20439 0 0 0 626.82202,700.00872 V 867.76653 H 283.4646 Z m 547.44141,0 H 998.8689 V 867.76653 H 655.51148 V 700.00872 A 196.20441,196.20293 0 0 0 830.90601,524.40911 Z";
-//let p:string = "M 26.904297 119.57422 L 26.904297 696.52344 L 756.3125 696.52344 L 756.3125 119.57422 L 26.904297 119.57422 z M 83.703125 167.4043 L 415.52344 167.4043 L 415.52344 415.52344 L 83.703125 415.52344 L 83.703125 167.4043 z M 484.2793 409.54492 L 657.66211 409.54492 L 657.66211 585.91797 L 484.2793 585.91797 L 484.2793 409.54492 z M 128.54297 484.2793 L 373.67188 484.2793 L 373.67188 597.875 L 128.54297 597.875 L 128.54297 484.2793 z";
+    // Method to access the templates' optimized svg d attribute
+    getOptimizedD():string {
+        let optimzedD:string = "";
+        for(let i:number = 0; i < this.subShapes.length; ++i) {optimzedD += this.subShapes[i].getScalablePath() + " ";}
+        return optimzedD.trim();
+    }
+}
 
 // 1.7A 01
 //let p:string = "M -3.1667375,34.1668 V 262.16653 H 214.8334 V 34.1668 Z m 8.0003398,8.000337 H 44.833642 V 206.16692 H 4.8336023 Z m 47.9998267,0 H 101.83316 V 173.16676 l -48.999731,33.00016 v -33.00016 z m 57.000071,0 h 49.00028 V 173.16676 h -5.6e-4 v 33.00016 L 109.8335,173.16676 Z m 57.00007,0 h 40.00004 V 206.16692 h -40.00004 z m -61.00024,137.999503 52.9999,34.00006 v 40.00004 H 52.833429 V 214.1667 Z M 4.8170641,214.1667 H 44.816553 v 40.00004 H 4.8170641 Z m 162.0159559,0 h 40.00004 v 40.00004 h -40.00004 z";
@@ -396,17 +402,5 @@ let p:string = "M -3.1667317,34.166907 V 262.16642 H 214.8334 V 34.166907 Z M 52
 // 1.7A 05
 //let p:string = "M -3.1667319,34.166907 V 262.16643 H 214.8334 V 34.166907 Z m 8.0005459,8.00003 H 44.833439 V 82.167078 H 4.833814 Z m 47.999654,0 H 158.8332 V 82.167078 H 52.833468 Z m 114.000272,0 h 39.99963 V 82.167078 H 166.83374 Z M 52.833468,90.166588 H 158.8332 v 5.64e-4 39.999628 l -0.001,5.6e-4 h 0.001 l -52.99987,33.99938 -52.999862,-33.99947 h 0.0011 l -0.0011,-5.7e-4 V 90.167107 Z m -47.999654,5.64e-4 h 39.999625 v 115.999638 5.6e-4 H 4.833814 v -5.6e-4 z m 161.999926,0 h 39.99963 V 206.16674 H 166.83374 Z M 52.833468,139.22509 101.83306,172.16624 v 5.6e-4 h 5.1e-4 v 81.99965 h -5.1e-4 -48.999592 v -81.99965 -5.6e-4 -32.94063 z m 105.999732,0 v 5.7e-4 32.94063 5.6e-4 h 5.6e-4 v 81.99964 h -5.6e-4 -48.9996 v -81.99964 -5.6e-4 h 5.2e-4 z M 4.833814,214.16677 h 39.999625 v 40.00014 H 4.833814 Z m 161.999926,0 h 39.99963 v 40.00014 h -39.99963 z";
 
-let pA:string[];
-pA = p.split("z").join("z; ").split("Z").join("Z; ").split("; ");
-
-//[0].split(" ")
 let test:SVGTemplate = new SVGTemplate(p);
-//let test:Polygon = new Polygon(pA[0]);
-let t:Polygon[] = test.subShapes;
-let finalPath:string = "";
-for(let i:number = 0; i < t.length; ++i) {
-    finalPath += " " + t[i].outset().join(" ");
-}
-console.log(finalPath.trim());
-// console.log(test.width);
-// console.log(test.height);
+console.log(test.getOptimizedD());
