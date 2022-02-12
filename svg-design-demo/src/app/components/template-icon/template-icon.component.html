@@ -1,0 +1,3 @@
+<img class="svgTemplateIcons" *ngFor="let svgTemplate of svgTemplateData" 
+src="{{'/assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
+(click)="displayTemplate(svgTemplate.d)"/>

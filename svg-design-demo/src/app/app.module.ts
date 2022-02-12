@@ -3,14 +3,22 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ImageDetailComponent } from './image-view/image-detail/image-detail.component';
-import { PopupComponent } from './image-view/popup-model/popup.component';
+import { DesignWindowComponent } from './components/design-window/design-window.component';
+import { ColorsContainerComponent } from './components/colors-container/colors-container.component';
+import { ColorsSelectionButtonComponent } from './components/colors-selection-button/colors-selection-button.component';
+import { DimensionsFormComponent } from './components/dimensions-form/dimensions-form.component';
+import { TemplateIconComponent } from './components/template-icon/template-icon.component';
+import { TemplateSelectionContainerComponent } from './components/template-selection-container/template-selection-container.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PopupComponent,
-    ImageDetailComponent
+    DesignWindowComponent,
+    ColorsContainerComponent,
+    ColorsSelectionButtonComponent,
+    DimensionsFormComponent,
+    TemplateIconComponent,
+    TemplateSelectionContainerComponent
   ],
   imports: [
     BrowserModule,
