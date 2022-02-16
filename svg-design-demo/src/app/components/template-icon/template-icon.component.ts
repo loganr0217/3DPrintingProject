@@ -19,7 +19,8 @@ export class TemplateIconComponent implements OnInit {
     let numPanes = this.sharedDataService.numberPanes;
     for(let i = 0; i < numPanes; ++i) {
       document.getElementById("pane"+i)?.setAttribute("d", "");
-      document.getElementById("pane"+i)?.setAttribute("style", "");
+      document.getElementById("pane"+i)?.setAttribute("style", "")
+      document.getElementById("pane"+i)?.setAttribute("transform", "");
     }
     this.sharedDataService.numberPanes = 0;
   }
@@ -46,15 +47,15 @@ export class TemplateIconComponent implements OnInit {
     }
     this.sharedDataService.numberPanes = numPane;
 
+    
     // Updating the current displayed template
     document.getElementById("svgTemplate")?.setAttribute("d", newTemplate.getOptimizedD());
-    document.getElementById("svgTemplate")?.setAttribute("width", ""+newTemplate.width+"mm");
-    document.getElementById("svgTemplate")?.setAttribute("height", ""+newTemplate.height+"mm");
+
     let viewboxValue:string = ""+newTemplate.xMin+" "+newTemplate.yMin+" "+newTemplate.width+" "+newTemplate.height;
-    document.getElementById("svgTemplate")?.setAttribute("viewBox", viewboxValue);
+    document.getElementById("currentTemplate")?.setAttribute("viewBox", viewboxValue);
+    document.getElementById("svgTemplate")?.setAttribute("transform", "");
     // document.getElementById("currentTemplate")?.setAttribute("width", ""+newTemplate.width+"mm");
     // document.getElementById("currentTemplate")?.setAttribute("height", ""+newTemplate.height+"mm");
-    document.getElementById("currentTemplate")?.setAttribute("viewBox", viewboxValue);
   }
 
   ngOnInit(): void {
