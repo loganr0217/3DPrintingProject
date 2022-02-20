@@ -25,5 +25,4 @@ export class ColorsSelectionButtonComponent implements OnInit {
     // Getting the colors from the shared data service
     this.colorsData = this.sharedDataService.colorsData;
   }
-
 }

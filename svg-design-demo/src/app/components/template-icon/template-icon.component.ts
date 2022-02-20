@@ -11,7 +11,7 @@ import { SVGTemplate } from '../svgScaler';
 export class TemplateIconComponent implements OnInit {
 
   // Array containing the svgPath data for displaying icons / generating a template
-  svgTemplateData:{id:number, name:string, d:string}[];
+  svgTemplateData:{id:number, name:string, d:string}[][];
   constructor(private sharedDataService:SharedDataService) { }
 
   // Method to clear old panes
@@ -25,37 +25,82 @@ export class TemplateIconComponent implements OnInit {
     this.sharedDataService.numberPanes = 0;
   }
 
+  // Clears the old window preview
+  clearWindowPreview():void {
+    // Not ever null
+    let parent:HTMLElement = document.getElementById("windowPreviewContainer")!;
+
+    while(parent.firstChild) {
+      parent.removeChild(parent.firstChild);
+    }
+  }
+
+  // Displays live window preview
+  createWindowPreview(window:{id:number, name:string, d:string}[]) {
+    let currentTemplate:SVGTemplate;
+    let viewboxValue:string;
+    for(let i:number = 0; i < window.length; ++i) {
+      currentTemplate = new SVGTemplate(window[i].d);
+      viewboxValue = ""+currentTemplate.xMin+" "+currentTemplate.yMin+" "+currentTemplate.width+" "+currentTemplate.height;
+
+      // Creating svg element
+      let newSVG:Element = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      newSVG.setAttribute("class", "windowSVG");
+      newSVG.setAttribute("style", "overflow:visible;")
+      newSVG.setAttribute("width", "100");
+      newSVG.setAttribute("height", "104");
+      newSVG.setAttribute("viewBox", viewboxValue);
+
+      let numPane:number = 0; // <-- In case the outer edge is not the first element
+      // Creating pane paths and adding them to svg
+      for(let j = 0; j < currentTemplate.subShapes.length; ++j) {
+        let newPath:Element = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        if(j != currentTemplate.outerEdgeIndex) {
+          newPath.setAttribute("style", "fill:#ffffff;");
+          newPath.setAttribute("d", currentTemplate.subShapes[j].getScalablePath());
+          newPath.setAttribute("id", "windowPane"+i+"_"+numPane);
+          ++numPane;
+        }
+        else {
+          // Creating template path for outeredgeindex
+          newPath.setAttribute("style", "fill:#666666;");
+          newPath.setAttribute("d", currentTemplate.getOptimizedD());
+        }
+        newSVG.appendChild(newPath);
+      }
+      document.getElementById("windowPreviewContainer")?.appendChild(newSVG);
+    }
+  }
+
   // Updates current template in display window with selected version
-  displayTemplate(svgD:string):void {
+  displayTemplate(window:{id:number, name:string, d:string}[], windowNumber:number):void {
+    // Clearing the display window and windowPreview
+    this.sharedDataService.currentTemplateNumber = 0; // Start at top of window
+    this.sharedDataService.currentWindowNumber = windowNumber;
     this.clearOldPanes();
-    this.sharedDataService.currentSvgTemplate = new SVGTemplate(svgD);
+    this.clearWindowPreview();
+    this.createWindowPreview(window);
+
+    // Getting new template
+    this.sharedDataService.currentSvgTemplate = new SVGTemplate(window[0].d);
     let newTemplate:SVGTemplate = this.sharedDataService.currentSvgTemplate;
 
     let numPane:number = 0; // <-- In case the outer edge is not the first element
     // Adding each individual pane
     for(let i = 0; i < newTemplate.subShapes.length; ++i) {
       if(i != newTemplate.outerEdgeIndex) {
-        // let newPane:Element = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        
         document.getElementById("pane"+numPane)?.setAttribute("d", newTemplate.subShapes[i].getScalablePath());
-        //document.getElementById("pane"+numPane)?.setAttribute("id", "pane"+numPane);
         document.getElementById("pane"+numPane)?.setAttribute("style", "fill:#ffffff");
-        document.getElementById("pane"+numPane)?.setAttribute("onclick", "updateSelectedPane(pane"+numPane+")");
-        //document.getElementById("currentTemplate")?.appendChild(newPane);
         ++numPane;
       }
     }
     this.sharedDataService.numberPanes = numPane;
-
     
     // Updating the current displayed template
     document.getElementById("svgTemplate")?.setAttribute("d", newTemplate.getOptimizedD());
-
     let viewboxValue:string = ""+newTemplate.xMin+" "+newTemplate.yMin+" "+newTemplate.width+" "+newTemplate.height;
     document.getElementById("currentTemplate")?.setAttribute("viewBox", viewboxValue);
     document.getElementById("svgTemplate")?.setAttribute("transform", "");
-    // document.getElementById("currentTemplate")?.setAttribute("width", ""+newTemplate.width+"mm");
-    // document.getElementById("currentTemplate")?.setAttribute("height", ""+newTemplate.height+"mm");
   }
 
   ngOnInit(): void {

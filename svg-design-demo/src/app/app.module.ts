@@ -9,6 +9,7 @@ import { ColorsSelectionButtonComponent } from './components/colors-selection-bu
 import { DimensionsFormComponent } from './components/dimensions-form/dimensions-form.component';
 import { TemplateIconComponent } from './components/template-icon/template-icon.component';
 import { TemplateSelectionContainerComponent } from './components/template-selection-container/template-selection-container.component';
+import { WindowPreviewContainerComponent } from './components/window-preview-container/window-preview-container.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { TemplateSelectionContainerComponent } from './components/template-selec
     ColorsSelectionButtonComponent,
     DimensionsFormComponent,
     TemplateIconComponent,
-    TemplateSelectionContainerComponent
+    TemplateSelectionContainerComponent,
+    WindowPreviewContainerComponent
   ],
   imports: [
     BrowserModule,

@@ -23,10 +23,16 @@ export class DesignWindowComponent implements OnInit {
     
   }
 
-  // Updates which pane is selected by the user
+  // Returns 0 to n-1 (mainly used for iterating svg path items)
+  range(n:number=this.sharedDataService.maxPanes):number[] {
+    return [...Array(n).keys()];
+  }
+  
+  // Updates the color of the pane selected by the user (also updated the window preview)
   updateSelectedPane(paneID:number):void {
     if(this.sharedDataService.currentColor != "") {
       document.getElementById("pane"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentColor);
+      document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentColor);
     }
     this.sharedDataService.currentPaneID = "pane"+paneID;
   }
