@@ -434,7 +434,7 @@ export class SVGTemplate {
             if(i === 0 || this.subShapes[i].xMin < this.xMin) {this.xMin = this.subShapes[i].xMin;}
             if(i === 0 || this.subShapes[i].xMax > this.xMax) {this.xMax = this.subShapes[i].xMax;}
             if(i === 0 || this.subShapes[i].yMin < this.yMin) {this.yMin = this.subShapes[i].yMin;}
-            if(i === 0 || this.subShapes[i].yMax > this.xMax) {this.yMax = this.subShapes[i].yMax;}
+            if(i === 0 || this.subShapes[i].yMax > this.yMax) {this.yMax = this.subShapes[i].yMax;}
         }
 
         // Getting starting point for template
