@@ -1,0 +1,13 @@
+#stage2Container {
+    display: flex;
+}
+#stage2Div1 {
+    flex:1;
+}
+#stage2Div2 {
+    flex:1;
+    border: 1px solid red;
+}
+#stage2Div2 {
+    width:50%;
+}
