@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { Polygon } from '../svgScaler';
 import { SVGTemplate } from '../svgScaler';
@@ -9,6 +10,19 @@ import { SVGTemplate } from '../svgScaler';
   styleUrls: ['./template-icon.component.css']
 })
 export class TemplateIconComponent implements OnInit {
+
+
+  @ViewChild('scroll') scroll: ElementRef;
+
+  scrollRight(){
+    //for some reason .scrollRight would not work so just changed scrollLeft values
+    this.scroll.nativeElement.scrollLeft += 50;
+  
+  }
+
+  scrollLeft(){
+    this.scroll.nativeElement.scrollLeft -= 50;
+  }
 
   // Array containing the svgPath data for displaying icons / generating a template
   svgTemplateData:{id:number, name:string, d:string}[][];
@@ -106,6 +120,7 @@ export class TemplateIconComponent implements OnInit {
   ngOnInit(): void {
     // Getting svgTemplateData
     this.svgTemplateData = this.sharedDataService.svgTemplateData;
+    console.log(this.svgTemplateData);
   }
 
 }

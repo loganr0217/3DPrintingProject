@@ -6,6 +6,31 @@
     border-radius: 50%;
 }
 
+.right{ 
+    position: absolute;
+    top: 565px;
+    right: 150px
+}
+.left{ 
+    position: absolute;
+    top: 565px;
+    left: 360px;
+}
+
+.scroll-ele{
+    background-color: lightblue;
+    border: 1px solid black;
+    height: 100px;
+    width: 750px;
+    overflow-x: scroll;
+    }
+    p {
+    width: 1000px;
+    margin: 10px;
+    }
+    
+
+
 #button_0000ffff {background-color: #0000ffff;}
 #button_ff0000ff {background-color: #ff0000ff;}
 #button_008000ff {background-color: #008000ff;}

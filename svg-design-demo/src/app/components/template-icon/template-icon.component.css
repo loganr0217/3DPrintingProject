@@ -1,13 +1,33 @@
 .svgTemplateIcons {
     width:75px;
-    height:75px;
+    height:400px;
     padding-top: 0px;
     padding-bottom: 0px;
 }
 
-div {
-    width:30%;
+.scroll-ele {
+    background-color: lightblue;
+    border: 1px solid black;
+    height: 500px;
+    width: 296px;
     display: flex;
-    flex-direction: column;
-    float:left;
+    flex-direction: row;
+    overflow-x: scroll;
+    }
+    p {
+    width: 130px;
+    margin: 10px;
+    }
+    
+
+.left{
+    position: absolute;
+    
+
+}
+
+.right{ 
+    position: absolute;
+    left: 231px;
+
 }

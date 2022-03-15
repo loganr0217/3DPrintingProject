@@ -1,12 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { DesignWindowComponent } from '../design-window/design-window.component';
+import { tap, takeWhile } from 'rxjs/operators';
+import { interval } from 'rxjs';
+
 
 @Component({
   selector: 'app-colors-selection-button',
   templateUrl: './colors-selection-button.component.html',
   styleUrls: ['./colors-selection-button.component.css']
 })
+
 export class ColorsSelectionButtonComponent implements OnInit {
   // Array holding all colors currently offered with corresponding hex values
   colorsData:{id:number, value:string, hex:string}[];
@@ -21,8 +25,23 @@ export class ColorsSelectionButtonComponent implements OnInit {
     this.sharedDataService.currentColor = hexValue;
   }
 
+  @ViewChild('scroll') scroll: ElementRef;
+
+  scrollRight(){
+    //for some reason .scrollRight would not work so just changed scrollLeft values
+    this.scroll.nativeElement.scrollLeft += 50;
+  
+  }
+
+  scrollLeft(){
+    this.scroll.nativeElement.scrollLeft -= 50;
+  }
+
   ngOnInit(): void {
     // Getting the colors from the shared data service
     this.colorsData = this.sharedDataService.colorsData;
   }
+  
 }
+
+

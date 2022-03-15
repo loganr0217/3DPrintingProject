@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div>
+<p><div *ngFor="let window of svgTemplateData; let i = index">
+    <img class="svgTemplateIcons" *ngFor="let svgTemplate of window" 
+    src="{{'/assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
+    (click)="displayTemplate(window, i)"/>
+</div>
+</div>
+</body>
+</html>

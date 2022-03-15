@@ -1,0 +1,11 @@
+
+<html>
+<body>
+<div>
+<p> <input type="button" value="left"> <input class="colorButtons" type="button" *ngFor="let color of colorsData" id="button_{{color.hex}}"
+    (click)="changePanesColor(color.hex)"/> <input type="button" value="right"></p>
+</div>
+<input id = "slideRight" type="button" value="Right">
+<button id="slideRight" type="button">Slide Right</button>
+</body>
+</html>

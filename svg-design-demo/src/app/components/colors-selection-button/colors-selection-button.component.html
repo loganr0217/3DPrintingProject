@@ -1,4 +1,18 @@
-<input class="colorButtons" type="button" *ngFor="let color of colorsData" id="button_{{color.hex}}"
-(click)="changePanesColor(color.hex)"/>
+
+<html>
+    <body>
+    <div class="scroll-ele" #scroll>
+    <div>
+    <p> <input class="colorButtons" type="button" *ngFor="let color of colorsData" id="button_{{color.hex}}"
+        (click)="changePanesColor(color.hex)"/>
+    </p>
+    </div>
+    </div>
+    <button class="left" (click)="scrollLeft()">Scroll Left</button>
+    <button class="right" (click)="scrollRight()">Scroll Right</button>
+    
+
+    </body>
+    </html>
 
 

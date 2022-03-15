@@ -10,11 +10,6 @@ import { DimensionsFormComponent } from './components/dimensions-form/dimensions
 import { TemplateIconComponent } from './components/template-icon/template-icon.component';
 import { TemplateSelectionContainerComponent } from './components/template-selection-container/template-selection-container.component';
 import { WindowPreviewContainerComponent } from './components/window-preview-container/window-preview-container.component';
-import { Stage1Component } from './components/stage1/stage1.component';
-import { Stage2Component } from './components/stage2/stage2.component';
-import { Stage3Component } from './components/stage3/stage3.component';
-import { Stage4Component } from './components/stage4/stage4.component';
-import { Stage5Component } from './components/stage5/stage5.component';
 
 @NgModule({
   declarations: [
@@ -25,12 +20,7 @@ import { Stage5Component } from './components/stage5/stage5.component';
     DimensionsFormComponent,
     TemplateIconComponent,
     TemplateSelectionContainerComponent,
-    WindowPreviewContainerComponent,
-    Stage1Component,
-    Stage2Component,
-    Stage3Component,
-    Stage4Component,
-    Stage5Component
+    WindowPreviewContainerComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,22 @@
+
+<div class="scroll-ele" #scroll>
+
+
 <div *ngFor="let window of svgTemplateData; let i = index">
-    <img class="svgTemplateIcons" *ngFor="let svgTemplate of window" 
-    src="{{'/assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
+    <p>
+        <div *ngIf="i == 0">
+    <img class="svgTemplateIcons"
+    src="assets/img/1_7togetherV2.svg"
     (click)="displayTemplate(window, i)"/>
 </div>
+<div *ngIf="i == 1">
+    <img class="svgTemplateIcons"
+    src="assets/img/1_8togetherV1.svg"
+    (click)="displayTemplate(window, i)"/>
+</div>
+    
+
+</div>
+</div>
+<button class="left" (click)="scrollLeft()">Scroll Left</button>
+<button class="right" (click)="scrollRight()">Scroll Right</button>
