@@ -1,3 +1,93 @@
 #stage1Con {
-    height: 300px;
+    height: 800px;
+    background-color: transparent;
+    position: relative;
+    overflow-y: scroll;
+}
+
+.header_title {
+    width: 100%;
+    height: 25%;
+    top: 0px;
+    position: absolute;
+    left: 0px;
+    background-color: #ffffff;
+}
+.side_text {
+    position: absolute;
+    background-color: #ffffff;
+    left: 0px;
+    width: 30%;
+    height: 70%;
+    top: 25%;
+}
+
+.carousel_div { 
+    position: absolute;
+    background-color:#ffffff;
+    width: 66%;
+    border: thick double black;
+    top: 25%;
+    left: 33%;
+    height: 70%
+}
+
+.carousel { 
+    
+    position: absolute;
+    background-color: #ffffff;
+    width: 100%;
+    top: 1%;
+    left: 0%;
+    height: 100%
+
+}
+
+p {
+    color: #000000;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+    font-size: 60px;
+    top: 10%;
+    left: 1%;
+    position: relative;
+}
+
+b { 
+    color: #000000;
+    font-size: 35px;
+    left: 4%;
+    font-family: 'Lato', sans-serif;
+    position: relative;
+}
+
+.start{
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    position: relative;
+    left: 4%
+      
+}
+
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+   }
+   
+   .carousel-control-next-icon {
+     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+   }
+
+
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
 }
