@@ -7,12 +7,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="218.00014mm"
-   height="227.99973mm"
-   viewBox="0 0 218.00014 227.99973"
+   width="218.00012mm"
+   height="284.00021mm"
+   viewBox="0 0 218.00012 284.00021"
    version="1.1"
-   id="svg34"
-   sodipodi:docname="1_8Aframe04_development.svg"
+   id="svg33"
+   sodipodi:docname="1_9AL_frame02_development.svg"
    inkscape:version="1.0.2 (e86c8708, 2021-01-15)">
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -27,17 +27,18 @@
      inkscape:window-height="480"
      id="namedview15"
      showgrid="false"
-     inkscape:zoom="0.22084132"
-     inkscape:cx="408.81916"
-     inkscape:cy="444.0821"
+     inkscape:zoom="0.089454712"
+     inkscape:cx="429.16857"
+     inkscape:cy="544.91895"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg34" />
+     inkscape:current-layer="svg33"
+     inkscape:document-rotation="0" />
   <defs
-     id="defs28" />
+     id="defs27" />
   <metadata
-     id="metadata31">
+     id="metadata30">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -50,10 +51,10 @@
   </metadata>
   <g
      id="layer1"
-     transform="translate(3.1667353,-31.003277)">
+     transform="translate(8.550852,-4.3235281)">
     <path
-       id="rect4727"
-       d="M -3.1667353,31.003277 V 259.00301 H 214.8334 V 31.003277 Z m 7.9997875,7.999788 H 206.83306 V 71.003317 H 4.8330522 Z m 0,40.000038 H 44.833091 V 251.00322 H 4.8330522 Z m 48.0003788,0 H 158.83323 V 127.00349 H 52.833431 Z m 113.999589,0 h 40.00004 V 251.00322 H 166.83302 Z M 52.833431,135.00328 H 158.83323 V 251.00322 H 52.833431 Z"
-       style="fill:#666666;fill-rule:evenodd;stroke:none;stroke-width:0.282222px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       id="rect7543-5"
+       style="fill:#666666;fill-rule:evenodd;stroke:none;stroke-width:0.282222px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M -8.550852,4.3235281 V 288.32376 H 209.44927 V 4.3235281 Z m 8.00002999,8.0000299 H 92.44918 V 280.32374 H -0.55082201 Z m 101.00003201,0 h 19.99981 V 280.32374 h -19.99981 z m 27.99984,0 h 73.00019 V 280.32374 h -73.00019 z" />
   </g>
 </svg>

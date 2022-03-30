@@ -4,12 +4,13 @@
 }
 
 .windowSVG {
-    padding-top: 100px;
-    padding-bottom: 1px;
     overflow: visible;
 }
 
 svg {
-    margin:50px;
     overflow: visible;
+}
+
+#button_nextPane {
+    margin-top: 1vh;
 }

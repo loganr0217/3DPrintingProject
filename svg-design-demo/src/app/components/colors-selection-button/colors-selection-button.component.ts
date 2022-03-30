@@ -8,21 +8,37 @@ import { DesignWindowComponent } from '../design-window/design-window.component'
   styleUrls: ['./colors-selection-button.component.css']
 })
 export class ColorsSelectionButtonComponent implements OnInit {
+
+  @Input() paneColors:boolean;
+
   // Array holding all colors currently offered with corresponding hex values
-  colorsData:{id:number, value:string, hex:string}[];
+  colorsData:{id:number, value:string, hex:string, paneColor:boolean}[];
   constructor(private sharedDataService:SharedDataService) { }
 
   // Method to change color of currently selected panes
-  changePanesColor(hexValue:string):void {
-    document.getElementById("button_"+this.sharedDataService.currentColor)?.setAttribute("style", "");
+  changePanesColor(hexValue:string, paneColor:boolean):void {
     //let currentPaneID:string = this.sharedDataService.currentPaneID;
     //document.getElementById(currentPaneID)?.setAttribute("style", "fill:#"+hexValue+";opacity:.9");
-    document.getElementById("button_"+hexValue)?.setAttribute("style", "border:1px solid #0000ff");
-    this.sharedDataService.currentColor = hexValue;
+    if(paneColor) {
+      document.getElementById("button_"+this.sharedDataService.currentPaneColor+"_true")?.setAttribute("style", "");
+      document.getElementById("button_"+hexValue+"_true")?.setAttribute("style", "border:1px solid #0000ff");
+      this.sharedDataService.currentPaneColor = hexValue;
+    }
+    else {
+      document.getElementById("button_"+this.sharedDataService.currentFilamentColor+"_false")?.setAttribute("style", "");
+      document.getElementById("button_"+hexValue+"_false")?.setAttribute("style", "border:1px solid #0000ff");
+      this.sharedDataService.currentFilamentColor = hexValue;
+      document.getElementById("svgTemplate")?.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor);
+      for(let i = 0; i < this.sharedDataService.svgTemplateData[this.sharedDataService.currentWindowNumber].length; ++i) {
+        document.getElementById("windowSVG_"+this.sharedDataService.currentWindowNumber+"_"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor+";");
+      }
+    }
   }
 
   ngOnInit(): void {
     // Getting the colors from the shared data service
-    this.colorsData = this.sharedDataService.colorsData;
+    if(this.paneColors == true) {this.colorsData = this.sharedDataService.colorsData;}
+    else {this.colorsData = this.sharedDataService.filamentColorsData;}
+    
   }
 }

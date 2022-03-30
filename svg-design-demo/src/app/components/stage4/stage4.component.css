@@ -1,3 +1,30 @@
-#stage4Con {
-    height: 300px;
+#bigContainer {
+    display:flex;
+    width:100%;
+}
+#section1 {
+    flex:2;
+    justify-content: space-around;
+}
+#section2 {
+    flex:4;
+    justify-content: space-around;
+}
+#section3 {
+    flex:1;
+    justify-content: space-around;
+}
+.section {margin:10px;}
+
+h1 {
+    color: #000000;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+    font-size: 2.2vw;
+}
+
+p {
+    color: #000000;
+    font-size: 1.3vw;
+    font-family: 'Lato', sans-serif;
 }
