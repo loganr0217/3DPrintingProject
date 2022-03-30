@@ -32,7 +32,7 @@
   <div id="section2" class="section">
     <div id="dividerTypeImages">
       <figure class="dividerTypeImageCon" *ngFor="let dividerType of ['plain', 'realdiv', 'simdiv']" (click)="chooseDivider(dividerType);">
-        <img id="dividerTypeImage_{{dividerType}}" class="dividerTypeImage" src="/assets/img/windowButtons/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/>
+        <img id="dividerTypeImage_{{dividerType}}" class="dividerTypeImage" src="assets/img/windowButtons/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/>
         <figcaption>{{dividerType}}</figcaption>
       </figure>
     </div>
@@ -59,7 +59,7 @@
   <div id="section2b" class="section">
     <div id="windowShapeImages">
       <figure class="windowShapeImageCon" *ngFor="let windowShape of windowShapes" (click)="chooseWindowShape(windowShape);">
-        <img id="windowShapeImage_{{windowShape}}" class="windowShapeImage" src="/assets/img/windowButtons/{{windowShape}}{{dividerType}}.svg" alt="{{windowShape}}"/>
+        <img id="windowShapeImage_{{windowShape}}" class="windowShapeImage" src="assets/img/windowButtons/{{windowShape}}{{dividerType}}.svg" alt="{{windowShape}}"/>
       </figure>
     </div>
   </div>
