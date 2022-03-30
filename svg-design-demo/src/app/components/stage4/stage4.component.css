@@ -2,6 +2,20 @@
     display:flex;
     width:100%;
 }
+/* Text */
+h1 {
+    color: #000000;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+    font-size: 2.2vw;
+}
+p {
+    color: #000000;
+    font-size: 1.3vw;
+    font-family: 'Lato', sans-serif;
+}
+
+/* Sections */
 #section1 {
     flex:2;
     justify-content: space-around;
@@ -16,15 +30,19 @@
 }
 .section {margin:10px;}
 
-h1 {
-    color: #000000;
-    font-family: 'Raleway', sans-serif;
-    font-weight: bold;
-    font-size: 2.2vw;
+/* Breadcrumbs */
+.breadCrumbs {
+    width: 100%;
+    padding-bottom: 20vh;
 }
-
-p {
-    color: #000000;
-    font-size: 1.3vw;
-    font-family: 'Lato', sans-serif;
+.prevBreadCrumb {
+    position: absolute;
+    left: 5vw;
+}
+.nextBreadCrumb {
+    position: absolute;
+    right: 5vw;
+}
+.breadCrumbButton {
+    font-size: 1.5vw;
 }

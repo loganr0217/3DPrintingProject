@@ -1,64 +1,71 @@
-  <div class="row">
-    <div class="col">
-      <div class="jumbotron" id="stage2Div1">
-        <h1>Window Selection</h1>
-        <p>Select your type of window, and enter the dimensions which correspond to the window (they need not be exact).</p>
-      </div>
+<!-- Step 2.a -->
+<div id="stage2ACon">
+  <div id="section1" class="section">
+    <h1>First, a couple of quick questions</h1>
+    <p>What does your window look like? Is it a plain single pane of glass or does it have dividers? Are the
+      dividers raised above the window separating the panes or are they embedded between double panes?
+      <br/>
+      <br/>
+      Click the window at right that looks the most like your window.
+      <br/>
+      What is your preferred unit of measure?
+    </p>
+
+    <!-- Start of Radio form -->
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="radio" class="form-check-input" name="optradio">inches
+      </label>
     </div>
-    <div class="col-6">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <div class="row justify-content-center">
-              <img width="200px" height="200px" src="/assets/img/window_shapes/horz8to1realdiv.svg" (click)="click_button1()" [class.filter]="color_change_status==1">
-            </div>
-            <div class="row">
-              <div class="col-3">
-                <img width="75px" height="241px" src="/assets/img/window_shapes/vert1to8realdiv.svg" (click)="click_button2()" [class.filter]="color_change_status==2">
-              </div>
-              <div class="col-4">
-                <img width="75px" height="241px" src="/assets/img/window_shapes/vert1to4realdiv.svg" (click)="click_button3()" [class.filter]="color_change_status==3">
-              </div>
-              <div class="col-5">
-                  <img width="75px" height="75px" src="/assets/img/window_shapes/square1to1realdiv.svg" (click)="click_button4()" [class.filter]="color_change_status==4">
-                  <img width="75px" height="200px" src="/assets/img/window_shapes/vert1to2realdiv.svg" (click)="click_button5()" [class.filter]="color_change_status==5">
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="row justify-content-center">
-              <img swidth="50px" height="200px" src="/assets/img/window_shapes/horz4to1realdiv.svg" (click)="click_button6()" [class.filter]="color_change_status==6">
-              <img width="50px" height="200px" src="/assets/img/window_shapes/2xhung1to1realdiv.svg" (click)="click_button7()" [class.filter]="color_change_status==7">
-            </div>
-          </div>
-          <div class="col">
-            <div class="row">
-              <img class="svgTemplateIcons" src="/assets/img/window_shapes/horz2to1realdiv.svg" (click)="click_button8()" [class.filter]="color_change_status==8">
-              <img class="svgTemplateIcons" src="/assets/img/window_shapes/2xhung1to2realdiv.svg" (click)="click_button9()" [class.filter]="color_change_status==9">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>    
-    <div class="col">
-      <div class="container">
-        <form>
-            <div class="form-group col-xs-2">
-              <label for="exampleFormControlSelect1">Units:</label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option>mm</option>
-                <option>cm</option>
-                <option>inches</option>
-              </select>
-            </div>
-            <div class="form-group col-xs-2">
-              <label for="exampleFormControlTextarea1">Width:</label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
-            </div>
-            <div class="form-group col-xs-2">
-                <label for="exampleFormControlTextarea1">Height:</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
-              </div>
-          </form>
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="radio" class="form-check-input" name="optradio">mm
+      </label>
+    </div>
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="radio" class="form-check-input" name="optradio">cm
+      </label>
+    </div>
+    <!-- End of Radio form -->
+  </div>
+  <div id="section2" class="section">
+    <div id="dividerTypeImages">
+      <figure class="dividerTypeImageCon" *ngFor="let dividerType of ['plain', 'realdiv', 'simdiv']" (click)="chooseDivider(dividerType);">
+        <img id="dividerTypeImage_{{dividerType}}" class="dividerTypeImage" src="/assets/img/windowButtons/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/>
+        <figcaption>{{dividerType}}</figcaption>
+      </figure>
     </div>
   </div>
+</div>
+<!-- Adding Breadcrumbs -->
+<div class="breadCrumbs" id="step2ABreadCrumbs">
+  <a href="#" class="prevBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Prev"/> </a>
+  <a href="#stage2BCon" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next"/> </a>
+</div>
+
+<!-- Step 2.b -->
+<div id="stage2BCon">
+  <div id="section1b" class="section">
+    <h1>Select the shape of your window</h1>
+    <p>What's the general shape of your window? Is it horizontal, vertical square? Is it narrow or wide? 
+      Maybe it's a double hung sash window with two separate panes?
+      <br/>
+      <br/>
+      Click the window at right that looks the most like your window. Don't be too concerned with the 
+      exact dimensions, we'll get to that in the next step.
+    </p>
+  </div>
+  <div id="section2b" class="section">
+    <div id="windowShapeImages">
+      <figure class="windowShapeImageCon" *ngFor="let windowShape of windowShapes" (click)="chooseWindowShape(windowShape);">
+        <img id="windowShapeImage_{{windowShape}}" class="windowShapeImage" src="/assets/img/windowButtons/{{windowShape}}{{dividerType}}.svg" alt="{{windowShape}}"/>
+      </figure>
+    </div>
+  </div>
+</div>
+<!-- Adding Breadcrumbs -->
+<div class="breadCrumbs" id="step2BBreadCrumbs">
+  <a href="#stage2ACon" class="prevBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Prev"/> </a>
+  <a href="#stage3" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next"/> </a>
+</div>

@@ -1,14 +1,13 @@
 #stage1Con {
-    height: 700px;
+    padding-bottom:20vh;
     background-color: transparent;
     overflow-y: scroll;
     display: flex;
-    width: 100%;
+    padding-top: 1vh;
 }
 
 #header_title {
     width: 100%;
-    
     background-color: #ffffff;
 }
 #side_text {
@@ -21,11 +20,12 @@
 #sideTextContainer {
     flex:1;
     padding-left: 2%;
+    max-width: 40vw;
 }
 .carousel_div { 
     flex:2;
-    padding-right: 5%;
-    padding-left: 5%;
+    padding-right: 1vw;
+    padding-left: 1vw;
     /* border: thick double black; */
 }
 .carousel-inner {
@@ -41,31 +41,15 @@
 .carousel { 
     background-color: #e6e6e6;
     height: 80vh;
+    max-width: 60vw;
 }
 
-p {
-    color: #000000;
-    font-family: 'Raleway', sans-serif;
-    font-weight: bold;
+h1 {
     font-size: 2.5vw;
 }
 
-b { 
-    color: #000000;
+p { 
     font-size: 1.7vw;
-    font-family: 'Lato', sans-serif;
-}
-
-.start{
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    position: relative;
-      
 }
 
 .carousel-control-prev-icon {
