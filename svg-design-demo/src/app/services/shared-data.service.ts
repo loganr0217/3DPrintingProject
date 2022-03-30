@@ -14,7 +14,12 @@ export class SharedDataService {
   currentTemplateNumber:number = -1;
   currentWindowNumber:number;
   maxPanes:number = 15;
-  
+  selectedDividerType:string = "plain";
+  selectedWindowShape:string = "2xhung1to1";
+
+  // Array holding all window shapes offered
+  windowShapes:string[] = ['horz8to1', 'horz4to1',  'horz2to1', 'vert1to8', 'vert1to4', 'vert1to2', '2xhung1to2', '2xhung1to1', 'square1to1' ];
+
   // Array holding all colors currently offered with corresponding hex values
   colorsData:{id:number, value:string, hex:string, paneColor:boolean}[] = [
     {id:0, value:"blue", hex:"0000ffff", paneColor:true},
