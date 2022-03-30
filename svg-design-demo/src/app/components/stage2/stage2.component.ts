@@ -24,7 +24,7 @@ export class Stage2Component implements OnInit {
   displayWindowShapes(dividerType:string) {
     // Adding new window shapes
     for(let i = 0; i < this.windowShapes.length; ++i) {
-      document.getElementById("windowShapeImage_"+this.windowShapes[i])?.setAttribute("src", "/assets/img/windowButtons/"+this.windowShapes[i]+this.dividerType+".svg");
+      document.getElementById("windowShapeImage_"+this.windowShapes[i])?.setAttribute("src", "assets/img/windowButtons/"+this.windowShapes[i]+this.dividerType+".svg");
     }
   }
 
