@@ -13,7 +13,7 @@ export class SharedDataService {
   currentSvgTemplate:SVGTemplate;
   currentTemplateNumber:number = -1;
   currentWindowNumber:number;
-  maxPanes:number = 15;
+  maxPanes:number = 25;
   selectedDividerType:string = "plain";
   selectedWindowShape:string = "2xhung1to1";
 
