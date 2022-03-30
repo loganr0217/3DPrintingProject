@@ -1,12 +1,47 @@
-<div id="stage2Container">
-    <div class="jumbotron" id="stage2Div1">
+  <div class="row">
+    <div class="col">
+      <div class="jumbotron" id="stage2Div1">
         <h1>Window Selection</h1>
         <p>Select your type of window, and enter the dimensions which correspond to the window (they need not be exact).</p>
+      </div>
     </div>
-    <div id="stage2Div2">
-        <h3>Window shapes will go here</h3>
-    </div>
-    <div id="stage2Div3">
+    <div class="col-6">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="row justify-content-center">
+              <img width="200px" height="200px" src="/assets/img/window_shapes/horz8to1realdiv.svg" (click)="click_button1()" [class.filter]="color_change_status==1">
+            </div>
+            <div class="row">
+              <div class="col-3">
+                <img width="75px" height="241px" src="/assets/img/window_shapes/vert1to8realdiv.svg" (click)="click_button2()" [class.filter]="color_change_status==2">
+              </div>
+              <div class="col-4">
+                <img width="75px" height="241px" src="/assets/img/window_shapes/vert1to4realdiv.svg" (click)="click_button3()" [class.filter]="color_change_status==3">
+              </div>
+              <div class="col-5">
+                  <img width="75px" height="75px" src="/assets/img/window_shapes/square1to1realdiv.svg" (click)="click_button4()" [class.filter]="color_change_status==4">
+                  <img width="75px" height="200px" src="/assets/img/window_shapes/vert1to2realdiv.svg" (click)="click_button5()" [class.filter]="color_change_status==5">
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="row justify-content-center">
+              <img swidth="50px" height="200px" src="/assets/img/window_shapes/horz4to1realdiv.svg" (click)="click_button6()" [class.filter]="color_change_status==6">
+              <img width="50px" height="200px" src="/assets/img/window_shapes/2xhung1to1realdiv.svg" (click)="click_button7()" [class.filter]="color_change_status==7">
+            </div>
+          </div>
+          <div class="col">
+            <div class="row">
+              <img class="svgTemplateIcons" src="/assets/img/window_shapes/horz2to1realdiv.svg" (click)="click_button8()" [class.filter]="color_change_status==8">
+              <img class="svgTemplateIcons" src="/assets/img/window_shapes/2xhung1to2realdiv.svg" (click)="click_button9()" [class.filter]="color_change_status==9">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+    <div class="col">
+      <div class="container">
         <form>
             <div class="form-group col-xs-2">
               <label for="exampleFormControlSelect1">Units:</label>
@@ -26,4 +61,4 @@
               </div>
           </form>
     </div>
-</div>
+  </div>
