@@ -1,4 +1,4 @@
-<input class="colorButtons" type="button" *ngFor="let color of colorsData" id="button_{{color.hex}}"
-(click)="changePanesColor(color.hex)"/>
+<input class="colorButtons" type="button" *ngFor="let color of colorsData" id="button_{{color.hex}}_{{color.paneColor}}"
+(click)="changePanesColor(color.hex, color.paneColor)"/>
 
 

@@ -1,64 +1,59 @@
 #stage1Con {
-    height: 800px;
+    height: 700px;
     background-color: transparent;
-    position: relative;
     overflow-y: scroll;
-}
-
-.header_title {
+    display: flex;
     width: 100%;
-    height: 25%;
-    top: 0px;
-    position: absolute;
-    left: 0px;
-    background-color: #ffffff;
-}
-.side_text {
-    position: absolute;
-    background-color: #ffffff;
-    left: 0px;
-    width: 30%;
-    height: 70%;
-    top: 25%;
 }
 
-.carousel_div { 
-    position: absolute;
-    background-color:#ffffff;
-    width: 66%;
-    border: thick double black;
-    top: 25%;
-    left: 33%;
-    height: 70%
-}
-
-.carousel { 
+#header_title {
+    width: 100%;
     
-    position: absolute;
+    background-color: #ffffff;
+}
+#side_text {
     background-color: #ffffff;
     width: 100%;
-    top: 1%;
-    left: 0%;
-    height: 100%
+    padding-top: 2%;
+    padding-bottom: 10%;
+}
 
+#sideTextContainer {
+    flex:1;
+    padding-left: 2%;
+}
+.carousel_div { 
+    flex:2;
+    padding-right: 5%;
+    padding-left: 5%;
+    /* border: thick double black; */
+}
+.carousel-inner {
+    margin: auto;
+    width: 80%;
+}
+.carousel-item {
+    padding-top: 2%;
+    padding-bottom: 2%;
+    height: 70vh;
+    object-fit: contain;
+}
+.carousel { 
+    background-color: #e6e6e6;
+    height: 80vh;
 }
 
 p {
     color: #000000;
     font-family: 'Raleway', sans-serif;
     font-weight: bold;
-    font-size: 60px;
-    top: 10%;
-    left: 1%;
-    position: relative;
+    font-size: 2.5vw;
 }
 
 b { 
     color: #000000;
-    font-size: 35px;
-    left: 4%;
+    font-size: 1.7vw;
     font-family: 'Lato', sans-serif;
-    position: relative;
 }
 
 .start{
@@ -68,10 +63,8 @@ b {
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     font-size: 16px;
     position: relative;
-    left: 4%
       
 }
 
@@ -86,8 +79,6 @@ b {
 
 
 img {
-    width: 100%;
-    height: 100%;
+    height: 70vh;
     object-fit: contain;
-
 }

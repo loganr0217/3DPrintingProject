@@ -5,11 +5,35 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="218.00014mm"
+   height="227.99974mm"
+   viewBox="0 0 218.00014 227.99974"
    version="1.1"
-   id="svg34">
+   id="svg34"
+   sodipodi:docname="1_8Aframe01_development.svg"
+   inkscape:version="1.0.2 (e86c8708, 2021-01-15)">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="718"
+     inkscape:window-height="480"
+     id="namedview14"
+     showgrid="false"
+     inkscape:zoom="0.22085273"
+     inkscape:cx="404.35207"
+     inkscape:cy="461.87899"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg34" />
   <defs
      id="defs28" />
   <metadata
@@ -20,12 +44,12 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <path
      id="rect4767"
-     d="M -1.9848173 26.294517 v 227.99974300000002 h 218.0001373 v -227.99974300000002 Z M 6.014970699999999 34.294305 h 63.999954300000006 v 92.000045 h -63.999954300000006 Z M 78.015262 34.294305 h 23.999917999999994 v 92.000045 h -23.999917999999994 Z M 112.01533 34.294305 h 23.99991 v 92.000045 h -23.99991 Z M 144.01503 34.294305 h 63.999949999999984 v 92.000045 h -63.999949999999984 Z M 6.0149707 134.29469 h 97.00010929999999 v 47.99983 h -97.00010929999999 Z M 111.01542 134.29469 h 96.99956 v 47.99983 h -96.99956 Z M 6.0149707 190.2943 h 202.00000930000002 v 56.00017 h -202.00000930000002 Z"
+     d="M 0,0 V 227.99974 H 218.00014 V 0 Z M 7.999788,7.999788 H 71.999742 V 99.999833 H 7.999788 Z m 72.000291,0 H 104 V 99.999833 H 80.000079 Z m 34.000071,0 h 23.99991 v 92.000045 h -23.99991 z m 31.9997,0 H 209.9998 V 99.999833 H 145.99985 Z M 7.999788,108.00017 H 104.9999 V 156 H 7.999788 Z m 105.000452,0 H 209.9998 V 156 H 113.00024 Z M 7.999788,163.99978 H 209.9998 v 56.00017 H 7.999788 Z"
      style="fill:#666666;fill-rule:evenodd;stroke:none;stroke-width:0.282222px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
 </svg>

@@ -30,9 +30,9 @@ export class DesignWindowComponent implements OnInit {
   
   // Updates the color of the pane selected by the user (also updated the window preview)
   updateSelectedPane(paneID:number):void {
-    if(this.sharedDataService.currentColor != "") {
-      document.getElementById("pane"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentColor);
-      document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentColor);
+    if(this.sharedDataService.currentPaneColor != "") {
+      document.getElementById("pane"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
+      document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
     }
     this.sharedDataService.currentPaneID = "pane"+paneID;
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-colors-container',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./colors-container.component.css']
 })
 export class ColorsContainerComponent implements OnInit {
-  
+  @Input() paneColors:boolean;
   constructor() { }
 
   ngOnInit(): void {

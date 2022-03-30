@@ -1,4 +1,4 @@
 #templateSelectionContainer {
-    justify-content: space-around;
-    width:100%;
+    display:flex;
+    width:21vw;
 }

@@ -5,11 +5,35 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="218.00014mm"
+   height="227.99974mm"
+   viewBox="0 0 218.00014 227.99974"
    version="1.1"
-   id="svg34">
+   id="svg34"
+   sodipodi:docname="1_8Aframe03_development.svg"
+   inkscape:version="1.0.2 (e86c8708, 2021-01-15)">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="718"
+     inkscape:window-height="480"
+     id="namedview15"
+     showgrid="false"
+     inkscape:zoom="0.22084132"
+     inkscape:cx="408.81916"
+     inkscape:cy="414.19055"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg34" />
   <defs
      id="defs28" />
   <metadata
@@ -20,15 +44,16 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
-     id="layer1">
+     id="layer1"
+     transform="translate(3.1667353,-38.912085)">
     <path
        id="rect5301"
-       d="M -3.1667353 38.912085 v 227.999735 h 218.0001353 v -227.999735 Z M 4.8330522 46.911873 h 97.00010780000001 v 40.000038 h -97.00010780000001 Z M 109.8335 46.911873 h 96.99955999999999 v 40.000038 h -96.99955999999999 Z M 4.8330522 94.912251 h 24.0004658 v 40.00004899999999 h -24.0004658 Z M 36.833304 94.912251 h 31.999702999999997 v 40.00004899999999 h -31.999702999999997 Z M 76.833344 94.912251 h 23.999916 v 40.00004899999999 h -23.999916 Z M 109.83349999999999 94.912251 h 23.99991 v 40.00004899999999 h -23.999909999999986 Z M 141.83319999999998 94.912251 h 32.00026 v 40.00004899999999 h -32.00025999999997 Z M 181.83324 94.912251 h 23.999920000000003 v 40.00004899999999 h -23.999920000000003 Z M 4.8330522 142.91209 h 63.9999548 v 115.99994000000001 h -63.9999548 Z M 76.833344 142.91209 h 23.999916 v 62.000140000000016 h -23.999916 Z M 109.83349999999999 142.91209 h 23.99991 v 62.000140000000016 h -23.999909999999986 Z M 141.83319999999998 142.91209 h 63.99995999999999 v 115.99994000000001 h -63.99995999999996 Z M 76.83334399999998 210.91221000000002 h 23.999916 v 47.99982 h -23.999915999999985 Z M 109.83349999999999 210.91221000000002 h 23.99991 v 47.99982 h -23.999909999999986 Z"
+       d="M -3.1667353,38.912085 V 266.91182 H 214.8334 V 38.912085 Z m 7.9997875,7.999788 H 101.83316 V 86.911911 H 4.8330522 Z m 105.0004478,0 h 96.99956 V 86.911911 H 109.8335 Z M 4.8330522,94.912251 H 28.833518 V 134.9123 H 4.8330522 Z m 32.0002518,0 H 68.833007 V 134.9123 H 36.833304 Z m 40.00004,0 H 100.83326 V 134.9123 H 76.833344 Z m 33.000156,0 h 23.99991 V 134.9123 H 109.8335 Z m 31.9997,0 h 32.00026 V 134.9123 H 141.8332 Z m 40.00004,0 h 23.99992 V 134.9123 H 181.83324 Z M 4.8330522,142.91209 H 68.833007 V 258.91203 H 4.8330522 Z m 72.0002918,0 h 23.999916 v 62.00014 H 76.833344 Z m 33.000156,0 h 23.99991 v 62.00014 H 109.8335 Z m 31.9997,0 h 63.99996 V 258.91203 H 141.8332 Z m -64.999856,68.00012 h 23.999916 v 47.99982 H 76.833344 Z m 33.000156,0 h 23.99991 v 47.99982 H 109.8335 Z"
        style="fill:#666666;fill-rule:evenodd;stroke:none;stroke-width:0.282222px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
   </g>
 </svg>
