@@ -63,10 +63,7 @@ export class TemplateIconComponent implements OnInit {
         }
         else {
           // Creating template path for outeredgeindex
-          if((this.sharedDataService.currentWindowNumber == 2 || this.sharedDataService.currentWindowNumber == 3) && i == 0) {
-            newPath.setAttribute("d", this.sharedDataService.svgTemplateData[this.sharedDataService.currentWindowNumber][0].d);
-          }
-          else {newPath.setAttribute("d", currentTemplate.getOptimizedD());}
+          newPath.setAttribute("d", currentTemplate.getOptimizedD());
           newPath.setAttribute("id", "windowSVG_"+this.sharedDataService.currentWindowNumber+"_"+i)
           newPath.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor+";");
           

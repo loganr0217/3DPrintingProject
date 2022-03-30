@@ -90,7 +90,7 @@ export class Polygon {
         y1 = (sinPhi*rx*cosTheta) + (cosPhi*ry*sinTheta) + cy;
         x2 = (cosPhi*rx*cosTheta2) - (sinPhi*ry*sinTheta2) + cx;
         y2 = (sinPhi*rx*cosTheta2) + (cosPhi*ry*sinTheta2) + cy;
-        fA = Math.abs(dTheta) > 180 ? 1 : 0;
+        fA = Math.abs(dTheta * Math.PI/180) > 180 ? 1 : 0;
         fS = dTheta > 0 ? 1 : 0;
 
         return [x1, y1, x2, y2, fA, fS];
@@ -115,10 +115,16 @@ export class Polygon {
         
         // Making sure radii are valid
         if(alpha > 1) {
-            rx = Math.sqrt(alpha)*rx;
-            ry = Math.sqrt(alpha)*ry;
-            rxSquared = rx*rx, rySquared = ry*ry; 
+            rx = Math.sqrt(alpha)*Math.abs(rx);
+            ry = Math.sqrt(alpha)*Math.abs(ry);
+            rxSquared = rx*rx; rySquared = ry*ry; 
         }
+        
+        else {
+            rx = Math.abs(rx);
+            ry = Math.abs(ry);
+        }
+       
         const sign:number = fA == fS ? -1 : 1;
         const scalarValue:number = sign * Math.sqrt( 
             ((rxSquared*rySquared) - (rxSquared*y1PrimeSquared) - (rySquared*x1PrimeSquared)) / 
@@ -132,8 +138,8 @@ export class Polygon {
         cy = (sinPhi*cxPrime) + (cosPhi*cyPrime) + ((y1+y2)/2);
 
         // Step 4: getting theta and dTheta
-        theta = this.vectorAngle([1, 0], [(x1Prime-cxPrime)/rx, (y1Prime-cyPrime)/ry]);
-        dTheta = this.vectorAngle([(x1Prime-cxPrime)/rx, (y1Prime-cyPrime)/ry], [(-x1Prime-cxPrime)/rx, (-y1Prime-cyPrime)/ry]) % 360;
+        theta = (this.vectorAngle([1, 0], [(x1Prime-cxPrime)/rx, (y1Prime-cyPrime)/ry])) * 180 / Math.PI;
+        dTheta = ((this.vectorAngle([(x1Prime-cxPrime)/rx, (y1Prime-cyPrime)/ry], [(-x1Prime-cxPrime)/rx, (-y1Prime-cyPrime)/ry])) * 180 / Math.PI) % 360;
 
         // Updating dTheta depending on sweep parameter
         if(fS == 0 && dTheta > 0) {dTheta -= 360;}
@@ -142,9 +148,37 @@ export class Polygon {
         return [cx, cy, theta, dTheta];
     }
 
+    // Method to return (x,y) of given theta for an arc
+    pointsAtTheta(cx:number, cy:number, rx:number, ry:number, phi:number, theta:number):number[] {
+        const x:number = cx + (Math.cos(phi*Math.PI/180) * rx * Math.cos(theta*Math.PI/180)) - 
+        (Math.sin(phi**Math.PI/180) * ry * Math.sin(theta*Math.PI/180));
+        const y:number = cy + (Math.sin(phi*Math.PI/180) * rx * Math.cos(theta*Math.PI/180)) + 
+        (Math.cos(phi*Math.PI/180) * ry * Math.sin(theta*Math.PI/180));
+        return [x, y];
+    }
+
     // Method to get mins/maxes for Arc command
     arcMinMax(x1:number, y1:number, rx:number, ry:number, phi:number, largeArcFlag:number, sweepFlag:number, x2:number, y2:number):void {
-        
+        // Getting the center paramaterization
+        const conversionResult:number[] = this.endpointToCenter(x1, y1, x2, y2, rx, ry, phi, largeArcFlag, sweepFlag);
+        let cx:number = conversionResult[0], cy:number = conversionResult[1], 
+        theta:number = conversionResult[2], dTheta = conversionResult[3], theta2:number = theta + dTheta;
+
+        let critThetaX:number = Math.atan(-Math.tan(phi*Math.PI/180)*ry/rx)*180/Math.PI;
+        let critThetaY:number = Math.atan(ry/(rx*Math.tan(phi*Math.PI/180)))*180/Math.PI;
+
+        // Updating mins/maxes if possible for x and y
+        let currentResult:number[];
+        if(critThetaX >= theta && critThetaX <= theta2) {
+            currentResult = this.pointsAtTheta(cx, cy, rx, ry, phi, critThetaX);
+            if(currentResult[0] > this.xMax) {this.xMax = currentResult[0];}
+            if(currentResult[0] < this.xMin) {this.xMin = currentResult[0];}
+        }
+        if(critThetaY >= theta && critThetaY <= theta2) {
+            currentResult = this.pointsAtTheta(cx, cy, rx, ry, phi, critThetaY);
+            if(currentResult[1] > this.yMax) {this.yMax = currentResult[1];}
+            if(currentResult[1] < this.yMin) {this.yMin = currentResult[1];}
+        }
     }
 
     // M 371.96484 266.07422 A 243.65184 116.59413 50 0 0 129.83789 370.70898 z 
@@ -165,7 +199,7 @@ export class Polygon {
             nextChars = [];
 
             // Getting the next numbers to go with this command
-            for(let j:number = i+1; "MmLlHhVvZz".indexOf(pathArray[j]) == -1; ++j) {nextChars = nextChars.concat(pathArray[j].split(","));}
+            for(let j:number = i+1; "MmLlHhVvAaZz".indexOf(pathArray[j]) == -1; ++j) {nextChars = nextChars.concat(pathArray[j].split(","));}
             
             // Adding the next optimized command to scalablePath based on currentChar
             switch(currentChar) {
@@ -349,8 +383,11 @@ export class Polygon {
                             this.scalablePath.push(nextChars[k+(j*7)]);
                         }
                         this.scalablePath.push(diffPoints[0].toString(), diffPoints[1].toString());
-
                         // Updating current point and mins/maxes
+                        this.arcMinMax(this.currentPoint[0], this.currentPoint[1], Number(nextChars[0+(j*7)]), 
+                            Number(nextChars[1+(j*7)]), Number(nextChars[2+(j*7)]), Number(nextChars[3+(j*7)]),
+                            Number(nextChars[4+(j*7)]), nextPoint[0], nextPoint[1]
+                        );
                         this.currentPoint = nextPoint;
                         this.updateMinMax();
                     }
@@ -358,18 +395,20 @@ export class Polygon {
                 case "a":
                     // Looping for implicit commands
                     for(let j:number = 0; j < Math.floor(nextChars.length/7); ++j) {
-                        if(j > 0) {
-                            this.currentPoint = nextPoint;
-                            this.updateMinMax();
-                        }
-
-                        nextPoint = [this.currentPoint[0] + Number(nextChars[5+(j*7)]), this.currentPoint[1] + Number(nextChars[6+(j*7)])];
+                        nextPoint = [this.currentPoint[0]+Number(nextChars[5+(j*7)]), this.currentPoint[1]+Number(nextChars[6+(j*7)])];
                         this.scalablePath.push("a");
-                        diffPoints = [nextPoint[0], nextPoint[1]];
+                        diffPoints = [nextPoint[0]-this.currentPoint[0], nextPoint[1]-this.currentPoint[1]];
                         for(let k:number = 0; k < 5; ++k) {
                             this.scalablePath.push(nextChars[k+(j*7)]);
                         }
                         this.scalablePath.push(diffPoints[0].toString(), diffPoints[1].toString());
+                        // Updating current point and mins/maxes
+                        this.arcMinMax(this.currentPoint[0], this.currentPoint[1], Number(nextChars[0+(j*7)]), 
+                            Number(nextChars[1+(j*7)]), Number(nextChars[2+(j*7)]), Number(nextChars[3+(j*7)]),
+                            Number(nextChars[4+(j*7)]), nextPoint[0], nextPoint[1]
+                        );
+                        this.currentPoint = nextPoint;
+                        this.updateMinMax();
                     }
                     break;
                 default:
@@ -601,7 +640,3 @@ export class SVGTemplate {
 // let test:SVGTemplate = new SVGTemplate(p);
 // let result:string[] = test.getScaledD(2, 2);
 // console.log(test.getLaserCutPanes());
-
-let p:Polygon = new Polygon("M 53.500104,202.85528 A 266.76195,127.65296 50 0 0 295.62705,98.220523 Z");
-
-console.log(p.endpointToCenter(371.97, 266.07, 129.84, 370.71, 243.65, 116.59, 50, 0, 0));
