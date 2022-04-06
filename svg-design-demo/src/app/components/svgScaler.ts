@@ -1,3 +1,127 @@
+// Basic class for a window pane
+export class WindowPane {
+    dString:string;
+    width:number;
+    height:number;
+    startPoint:number[];
+    sizeAdjusted:boolean;
+
+    constructor(width:number = 0, height:number = 0, startPoint:number[] = [0,0], dString:string = "", adjusted=false) {
+        this.dString = dString;
+        this.width = width;
+        this.height = height;
+        this.startPoint = startPoint
+        this.sizeAdjusted = adjusted;
+    }
+
+    // Method to update attributes of pane with new values
+    updateWindowPane(newWidth:number = this.width, newHeight:number = this.height, newStartPoint:number[]=this.startPoint):void {
+        // Starting d attribute at new startPoint and changing width/height
+        let dTmp:string = "M " + newStartPoint[0] + " " + newStartPoint[1] + " ";
+        dTmp += "v " + newHeight + " h " + newWidth + " v " + (-newHeight) + " Z";;
+
+        // Updating attributes
+        this.width = newWidth;
+        this.height = newHeight;
+        this.startPoint = newStartPoint;
+        this.dString = dTmp;
+    }
+}
+
+// Class for creating a DividerWindow svg
+export class DividerWindow {
+    dString:string;
+    numberHorizontalPanes:number;
+    numberVerticalPanes:number;
+    dividerWidth:number;
+    windowWidth:number;
+    windowHeight:number;
+    windowPanes:WindowPane[][];
+    windowSVG:SVGTemplate;
+    remainingWidth:number;
+    remainingHeight:number;
+    dividerType:string;
+
+    // Constructor which takes the width and height of the window
+    constructor(width:number = 200, height:number = 200, numHorzDividers:number = 0, numVertDividers:number = 0, dividerWidth:number = 8, dividerType:string="plain") {
+        this.dString = "";
+        this.numberHorizontalPanes = numVertDividers + 1;
+        this.numberVerticalPanes = numHorzDividers + 1;
+        this.dividerWidth = dividerWidth;
+        this.windowWidth = width;
+        this.windowHeight = height;
+        this.remainingWidth = width - (dividerWidth*numVertDividers);
+        this.remainingHeight = height - (dividerWidth*numHorzDividers);
+        this.dividerType = dividerType;
+        
+        // Initialize windowPanes
+        this.windowPanes = [];
+        this.initializeWindowPanes();
+        this.createWindowPerimeter(width, height);
+
+        this.windowSVG = new SVGTemplate(this.dString);
+    }
+
+    // Method to create window perimeter SVG using width and height
+    createWindowPerimeter(width:number, height:number):void {
+        this.dString = this.createSVGBox(width+12, height+12, true, [-6, -6]) + " " +
+        this.createSVGBox(width+4, height+4, true, [-2, -2]);
+        if(this.dividerType != "realdiv") {this.dString += this.createSVGBox(width, height, true, [0, 0]);}
+    }
+
+    // Method to update divider type
+    updateDividerType(newDividerType:string):void {
+        this.dividerType = newDividerType;
+        this.createWindowPerimeter(this.windowWidth, this.windowHeight);
+    }
+
+    // Method to create an svg box with a certain width and height (counterClockwise used for inner shapes)
+    createSVGBox(width:number, height:number, clockWise:boolean=false, startPoint:number[] = [0,0]):string {
+        // Starting d attribute at startPoint
+        let dTmp:string = "M " + startPoint[0] + " " + startPoint[1] + " ";
+
+        // Drawing clockwise or counter-clockwise
+        if(clockWise) {dTmp += "h " + width + " v " + height + " h " + (-width) + " Z";}
+        else {dTmp += "v " + height + " h " + width + " v " + (-height) + " Z";}
+
+        return dTmp;
+    }
+
+    // Method to initialize the windowPanes array with symmetrical window panes
+    initializeWindowPanes():void {
+        // Getting values for divider info
+        let numberHorizontalDividers:number = this.numberVerticalPanes-1;
+        let numberVerticalDividers:number = this.numberHorizontalPanes-1;
+        let totalDividerWidth:number = this.dividerWidth*numberVerticalDividers;
+        let totalDividerHeight:number = this.dividerWidth*numberHorizontalDividers;
+        let paneWidth:number = (this.windowWidth - totalDividerWidth) / this.numberHorizontalPanes;
+        let paneHeight:number = (this.windowHeight - totalDividerHeight) / this.numberVerticalPanes;
+
+        // Initializing array
+        let startingPoint:number[] = [0,0];
+        for(let row = 0; row < this.numberVerticalPanes; ++row) {
+            this.windowPanes[row] = [];
+            for(let col = 0; col < this.numberHorizontalPanes; ++col) {
+                startingPoint = [col*paneWidth + col*this.dividerWidth, row*paneHeight + row*this.dividerWidth];
+                this.windowPanes[row][col] = new WindowPane(paneWidth, paneHeight, startingPoint, 
+                    this.createSVGBox(paneWidth, paneHeight, false, startingPoint));
+            }
+        }
+    }
+
+    // Method to get the full svg d attribute with panes
+    getDWithPanes():string {
+        let result:string = this.dString;
+        // Adding each pane's d to the final dString
+        for(let row = 0; row < this.numberHorizontalPanes; ++row) {
+            for(let col = 0; col < this.numberVerticalPanes; ++col) {
+                result += " " + this.windowPanes[row][col].dString;
+            }
+        }
+        return result;
+    }
+}
+
 // Class for individual polygon object within an SVG design template
 export class Polygon {
     /* 
@@ -640,3 +764,5 @@ export class SVGTemplate {
 // let test:SVGTemplate = new SVGTemplate(p);
 // let result:string[] = test.getScaledD(2, 2);
 // console.log(test.getLaserCutPanes());
+// let test:DividerWindow = new DividerWindow(undefined, undefined, 10, 10, undefined);
+// console.log(test.windowSVG.getScaledD(2, 1)[0]);

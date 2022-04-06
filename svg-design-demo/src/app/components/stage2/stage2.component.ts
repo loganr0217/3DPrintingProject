@@ -33,11 +33,27 @@ export class Stage2Component implements OnInit {
     // Unhighlighting old selection if possible and highlighting new one
     if(this.dividerType != null) {document.getElementById("dividerTypeImage_"+this.dividerType)?.setAttribute("style", "");}
     document.getElementById("dividerTypeImage_"+dividerType)?.setAttribute("style", "filter: invert(8%) sepia(100%) saturate(7101%) hue-rotate(248deg) brightness(104%) contrast(144%);");
-
+    if(dividerType == "plain") {
+      document.getElementById("dividerDetailsText")!.innerHTML = "Enter the dimensions of your window below.";
+      document.getElementById("horizontalDividersInput")?.setAttribute("disabled", "true");
+      document.getElementById("verticalDividersInput")?.setAttribute("disabled", "true");
+    }
+    else {
+      document.getElementById("dividerDetailsText")!.innerHTML = "Enter the dimensions of your window below. Then, let us know how many horizontal and vertical dividers you have.";
+      document.getElementById("horizontalDividersInput")?.removeAttribute("disabled");
+      document.getElementById("verticalDividersInput")?.removeAttribute("disabled");
+    }
+    
     // Updating values for dividerType
     this.sharedDataService.selectedDividerType = dividerType;
     this.dividerType = dividerType;
 
+    // Updating the dividerWindow if it exists already
+    if(this.sharedDataService.dividerWindow != null) {
+      this.sharedDataService.dividerWindow.updateDividerType(dividerType);
+      document.getElementById("windowPerimeter")?.setAttribute("d", this.sharedDataService.dividerWindow.dString);
+    }
+    
     this.displayWindowShapes(dividerType);
   }
 
