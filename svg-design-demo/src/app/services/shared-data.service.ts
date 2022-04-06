@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SVGTemplate } from '../components/svgScaler';
+import { DividerWindow, SVGTemplate } from '../components/svgScaler';
 import { Polygon } from '../components/svgScaler';
 
 @Injectable({
@@ -11,11 +11,14 @@ export class SharedDataService {
   currentPaneColor:string = "";
   currentFilamentColor:string = "666666";
   currentSvgTemplate:SVGTemplate;
+  dividerWindow:DividerWindow;
   currentTemplateNumber:number = -1;
   currentWindowNumber:number;
-  maxPanes:number = 25;
+  maxPanes:number = 100;
   selectedDividerType:string = "plain";
   selectedWindowShape:string = "2xhung1to1";
+  windowWidth:number = 0;
+  windowHeight:number = 0;
 
   // Array holding all window shapes offered
   windowShapes:string[] = ['horz8to1', 'horz4to1',  'horz2to1', 'vert1to8', 'vert1to4', 'vert1to2', '2xhung1to2', '2xhung1to1', 'square1to1' ];

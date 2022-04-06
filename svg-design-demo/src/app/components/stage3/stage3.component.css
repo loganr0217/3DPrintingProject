@@ -1,3 +1,42 @@
 #stage3Container {
-    height:300px;
+    display: flex;
+    padding-top: 2vh;
+    padding-bottom: 20vh;
+}
+
+.sideText {
+    flex: 1;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    max-height: 60vh;
+}
+
+.dividerDetails {
+    flex: 2;
+    max-height: 60vh;
+}
+
+/* Text */
+h1 {
+    font-size: 2.5vw;
+}
+p {
+    font-size: 1.7vw;
+}
+
+/* Breadcrumbs */
+.breadCrumbs {
+    width: 100%;
+    padding-bottom: 20vh;
+}
+.prevBreadCrumb {
+    position: absolute;
+    left: 5vw;
+}
+.nextBreadCrumb {
+    position: absolute;
+    right: 5vw;
+}
+.breadCrumbButton {
+    font-size: 1.5vw;
 }

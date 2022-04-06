@@ -1,3 +1,17 @@
 <div id="stage3Container">
-    <h1>This is filler for step 3 which is window details</h1>
+    <div class="sideText">
+        <h1>Now, onto your actual window</h1>
+        <p id="dividerDetailsText">Enter the dimensions of your window below. Then, let us know how many horizontal and 
+            vertical dividers you have.
+        </p>
+        <app-dimensions-form></app-dimensions-form>
+    </div>
+    <div class="dividerDetails">
+        <app-divider-window></app-divider-window>
+    </div>
+</div>
+<!-- Adding Breadcrumbs -->
+<div class="breadCrumbs" id="step2BBreadCrumbs">
+    <a href="#stage2BCon" class="prevBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Prev"/> </a>
+    <a href="#stage4" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next"/> </a>
 </div>
