@@ -4,14 +4,16 @@ export class WindowPane {
     width:number;
     height:number;
     startPoint:number[];
-    sizeAdjusted:boolean;
+    widthAdjusted:boolean;
+    heightAdjusted:boolean;
 
-    constructor(width:number = 0, height:number = 0, startPoint:number[] = [0,0], dString:string = "", adjusted=false) {
+    constructor(width:number = 0, height:number = 0, startPoint:number[] = [0,0], dString:string = "", widthAdjusted:boolean=false, heightAdjusted:boolean=false) {
         this.dString = dString;
         this.width = width;
         this.height = height;
         this.startPoint = startPoint
-        this.sizeAdjusted = adjusted;
+        this.widthAdjusted = widthAdjusted;
+        this.heightAdjusted = heightAdjusted;
     }
 
     // Method to update attributes of pane with new values
