@@ -1,20 +1,20 @@
 <div id="dividerWindow">
     <svg xmlns="http://www.w3.org/2000/svg" width="109mm" height="114mm" viewBox="-4 40 109 114" id="dividerTemplate">
         <path id="windowPerimeter" style="fill:#666666" d=""/>
-        <path *ngFor="let i of range()" id="dividerPane{{i}}" (click)="updateSelectedDividerPane(i)"/>
+        <path *ngFor="let i of range()" id="dividerPane{{i}}"/>
     </svg>
 </div>
-<form id="dividerPaneFormContainer">
+<!-- <form id="dividerPaneFormContainer">
     <div class="form-group form-row">
         <div class="col">
             <label class="formLabel" for="dividerPaneWidthInput">Width:</label>
-            <input type="number" min="0" class="form-control" id="dividerPaneWidthInput" placeholder="mm">
+            <input type="number" min="0" class="form-control" id="dividerPaneWidthInput" [value]="selectedDividerPaneWidth" placeholder="mm">
         </div>
         <div class="col">
             <label class="formLabel" for="dividerPaneHeightInput">Height:</label>
-            <input type="number" min="0" class="form-control" id="dividerPaneHeightInput" placeholder="mm">
+            <input type="number" min="0" class="form-control" id="dividerPaneHeightInput" [value]="selectedDividerPaneHeight" placeholder="mm">
         </div>
     </div>
 
     <input type="button" class="btn btn-dark btn-med" id="submitInput" (click)="updateDividerPaneDimensions()" value="Update Pane"/>
-</form>
+</form> -->
