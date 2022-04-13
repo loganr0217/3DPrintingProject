@@ -1,15 +1,10 @@
 #stage2ACon, #stage2BCon {
     display: flex;
-    padding-top: 2vh;
+    padding-top: 10vh;
 }
 
 /* Text */
-h1 {
-    font-size: 2.5vw;
-}
-p {
-    font-size: 1.7vw;
-}
+
 
 /* Sections */
 #section1, #section1b {
