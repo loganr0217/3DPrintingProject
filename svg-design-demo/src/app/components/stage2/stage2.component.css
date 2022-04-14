@@ -1,15 +1,10 @@
 #stage2ACon, #stage2BCon {
     display: flex;
-    padding-top: 2vh;
+    padding-top: 10vh;
 }
 
 /* Text */
-h1 {
-    font-size: 2.5vw;
-}
-p {
-    font-size: 1.7vw;
-}
+
 
 /* Sections */
 #section1, #section1b {
@@ -24,11 +19,11 @@ p {
 }
 #section2b {
     flex: 2;
-    height: 70vh;
-    overflow-y: scroll;
+    max-height: 70vh;
+    /* overflow-y: scroll; */
     margin-left: 2vw;
     margin-right: 2vw;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 /* Divider types */
@@ -52,8 +47,8 @@ p {
     padding-right: 1vw;
     padding-top: 1vh;
     padding-bottom: 1vh;
-    max-width:25vw;
-    max-height:20vw;
+    max-width:22vw;
+    max-height:30vh;
     object-fit: contain;
 }
 
@@ -72,7 +67,6 @@ figcaption {
     padding-top: 10vh;
     padding-bottom: 20vh;
 }
-
 .prevBreadCrumb {
     position: absolute;
     left: 5vw;

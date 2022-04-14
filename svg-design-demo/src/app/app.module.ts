@@ -15,6 +15,7 @@ import { Stage2Component } from './components/stage2/stage2.component';
 import { Stage3Component } from './components/stage3/stage3.component';
 import { Stage4Component } from './components/stage4/stage4.component';
 import { Stage5Component } from './components/stage5/stage5.component';
+import { DividerWindowComponent } from './components/divider-window/divider-window.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { Stage5Component } from './components/stage5/stage5.component';
     Stage2Component,
     Stage3Component,
     Stage4Component,
-    Stage5Component
+    Stage5Component,
+    DividerWindowComponent
   ],
   imports: [
     BrowserModule,
