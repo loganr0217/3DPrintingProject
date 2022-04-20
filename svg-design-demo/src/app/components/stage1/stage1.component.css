@@ -10,7 +10,7 @@
     width: 100%;
     background-color: #ffffff;
     padding-left: 12%;
-    padding-right: 23%;
+    padding-right: 12%;
     text-align: left;
 }
 #side_text {
@@ -19,7 +19,7 @@
     padding-top: 2%;
     padding-bottom: 4%;
     padding-left: 12%;
-    padding-right: 23%;
+    padding-right: 12%;
     text-align: left;
 }
 
@@ -45,6 +45,7 @@
     height: 76vh;
     object-fit: contain;
 }
+
 .carousel { 
     background-color: #e6e6e6;
     height: 80vh;

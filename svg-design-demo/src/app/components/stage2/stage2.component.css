@@ -9,8 +9,8 @@
 /* Sections */
 #section1, #section1b {
     flex:1;
-    padding-left: 2vw;
-    padding-right: 2vw;
+    padding-left: 12vh;
+    padding-right: 12vh;
 }
 #section2 {
     flex: 2;
@@ -36,7 +36,7 @@
     flex: 1;
     padding-left: 2vw;
     padding-right: 2vw;
-    width: 20vw;
+    width: 10vw;
     object-fit: contain;
 }
 
@@ -54,11 +54,16 @@
 
 /* Figures and forms */
 .form-check-label {
-    font-size: 1.5vw;
+    font-size: 1.4vw;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
 }
 
 figcaption {
     text-align: center;
+    font-size: 1.4vw;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
 }
 
 /* Breadcrumbs */
@@ -69,12 +74,15 @@ figcaption {
 }
 .prevBreadCrumb {
     position: absolute;
-    left: 5vw;
-}
-.nextBreadCrumb {
-    position: absolute;
     right: 5vw;
 }
+
+.nextBreadCrumb {
+    /*position: absolute;
+    left: 5vw;*/
+}
+
+
 .breadCrumbButton {
     font-size: 1.5vw;
 }
