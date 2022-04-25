@@ -85,8 +85,8 @@ module innerPanel(innerDesignSVG, scaleNum, offsetNum) {
     
     // Placing the middle (well) layer for inner design
     translate([0, 0, 3]) {
-        linear_extrude(height = 3.199) {
-            offset(r = -3) {
+        linear_extrude(height = 3) {
+            offset(r = -2) {
                 // Scaling and differencing for changing dims
                 offset(delta=-offsetNum) {
                     scale([scaleNum, scaleNum, 1]) {
@@ -98,8 +98,8 @@ module innerPanel(innerDesignSVG, scaleNum, offsetNum) {
     }
     
     // Placing the bottom of the cap layer for inner design
-    for(i = [0:5]) {
-        translate([0, 0, 3+3.199+(i*.2)]) {
+    for(i = [0:4]) {
+        translate([0, 0, 3+3+(floor(i/2)*.2)]) {
             linear_extrude(height = .2) {
                 offset(r = -3 + ((i+1)*.4)) {
                     // Scaling and differencing for changing dims
@@ -114,24 +114,24 @@ module innerPanel(innerDesignSVG, scaleNum, offsetNum) {
     }
     
     // Placing the middle of the cap layer for inner design
-    translate([0, 0, 3+3.199+1.2]) {
-        linear_extrude(height = 2.401) {
-            offset(r = -(.4)) {
-                // Scaling and differencing for changing dims
-                offset(delta=-offsetNum) {
-                    scale([scaleNum, scaleNum, 1]) {
-                        import(innerDesignSVG, center = true);
-                    }
+    translate([0, 0, 3+3+.4]) {
+        linear_extrude(height = 2) {
+             
+            // Scaling and differencing for changing dims
+            offset(delta=-offsetNum) {
+                scale([scaleNum, scaleNum, 1]) {
+                    import(innerDesignSVG, center = true);
                 }
             }
+            
         }
     }
     
     // Placing the top of the cap layer for inner design
-    for(i = [0:4]) {
-        translate([0, 0, 3+3.199+1.2+2.401+(i*.2)]) {
+    for(i = [0:2]) {
+        translate([0, 0, 3+3+.4+2+(i*.2)]) {
             linear_extrude(height = .2) {
-                offset(r = -(.4)*(i+2)) {
+                offset(r = -(.8)*(i+1)) {
                     // Scaling and differencing for changing dims
                     offset(delta=-offsetNum) {
                         scale([scaleNum, scaleNum, 1]) {
@@ -143,19 +143,19 @@ module innerPanel(innerDesignSVG, scaleNum, offsetNum) {
         }
     }
     
-    // Placing the very top of the cap layer for inner design
-    translate([0, 0, 3+3.199+1.2+2.401+1]) {
-        linear_extrude(height = .2) {
-            offset(r = -3) {
-                // Scaling and differencing for changing dims
-                offset(delta=-offsetNum) {
-                    scale([scaleNum, scaleNum, 1]) {
-                        import(innerDesignSVG, center = true);
-                    }
-                }
-            }
-        }
-    }
+//    // Placing the very top of the cap layer for inner design
+//    translate([0, 0, 3+3.199+1.2+2.401+1]) {
+//        linear_extrude(height = .2) {
+//            offset(r = -3) {
+//                // Scaling and differencing for changing dims
+//                offset(delta=-offsetNum) {
+//                    scale([scaleNum, scaleNum, 1]) {
+//                        import(innerDesignSVG, center = true);
+//                    }
+//                }
+//            }
+//        }
+//    }
 }
 
 // Module for inner svg design with different x,y scales
