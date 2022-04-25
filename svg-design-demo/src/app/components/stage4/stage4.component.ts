@@ -12,4 +12,11 @@ export class Stage4Component implements OnInit {
   ngOnInit(): void {
   }
 
+  prestage3() {
+    document.getElementById("stage3")?.scrollIntoView({behavior: 'smooth'});
+  }
+
+  nextstage5() {
+    document.getElementById("stage5")?.scrollIntoView({behavior: 'smooth'});
+  }
 }
