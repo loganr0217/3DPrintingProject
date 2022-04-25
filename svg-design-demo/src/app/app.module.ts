@@ -16,13 +16,6 @@ import { Stage3Component } from './components/stage3/stage3.component';
 import { Stage4Component } from './components/stage4/stage4.component';
 import { Stage5Component } from './components/stage5/stage5.component';
 import { DividerWindowComponent } from './components/divider-window/divider-window.component';
-import { MainPageComponent } from './components/main-page/main-page.component';
-import { FormLoginComponent } from './components/form-login/form-login.component';
-import { FormRegisterComponent } from './components/form-register/form-register.component';
-import { YourIdentifyComponent } from './components/verify-identity/your-identify/your-identify.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { ForgotPassComponent } from './components/forgot-pass/forgot-pass.component';
 
 @NgModule({
   declarations: [
@@ -39,19 +32,11 @@ import { ForgotPassComponent } from './components/forgot-pass/forgot-pass.compon
     Stage3Component,
     Stage4Component,
     Stage5Component,
-    DividerWindowComponent,
-    MainPageComponent,
-    FormLoginComponent,
-    FormRegisterComponent,
-    YourIdentifyComponent,
-    ResetPasswordComponent,
-    ForgotPassComponent
+    DividerWindowComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    FormsModule
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
