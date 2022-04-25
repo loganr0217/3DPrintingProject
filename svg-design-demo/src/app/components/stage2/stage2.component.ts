@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 
@@ -8,7 +9,7 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
 })
 export class Stage2Component implements OnInit {
 
-  constructor(private sharedDataService:SharedDataService) { }
+  constructor(private sharedDataService:SharedDataService, private location: Location) { }
   
   // Stage 2 attributes
   dividerType:string;
@@ -66,5 +67,21 @@ export class Stage2Component implements OnInit {
     // Updating values for windowShape
     this.sharedDataService.selectedWindowShape = windowShape;
     this.windowShape = windowShape;
+  }
+
+  nextstage2BCon() {
+    document.getElementById("stage2BCon")?.scrollIntoView({behavior: 'smooth'});
+  }
+
+  preStage1Con() {
+    document.getElementById("stage1Con")?.scrollIntoView({behavior: 'smooth'});
+  }
+
+  prestage2ACon() {
+    document.getElementById("stage2ACon")?.scrollIntoView({behavior: 'smooth'});
+  }
+
+  nextstage3() {
+    document.getElementById("stage3")?.scrollIntoView({behavior: 'smooth'});
   }
 }
