@@ -1,12 +1,13 @@
 <!-- Step 2.a -->
 <div id="stage2ACon">
   <div id="section1" class="section">
-    <h1>First, a couple of quick questions</h1>
+    <h1><b>First, a couple of quick questions</b></h1>
     <p>What does your window look like? Is it a plain single pane of glass or does it have dividers? Are the
       dividers raised above the window separating the panes or are they embedded between double panes?
       <br/>
       <br/>
       Click the window at right that looks the most like your window.
+      <br/>
       <br/>
       What is your preferred unit of measure?
     </p>
@@ -28,6 +29,15 @@
       </label>
     </div>
     <!-- End of Radio form -->
+
+    <!-- Start of Breadcrumbs -->
+     <div class="breadCrumbs" id="step2ABreadCrumbs">
+       <div class="text-center">
+       <a (click)="nextstage2BCon()" class="nextBreadCrumb"> <input type="button" class="btn btn-success btn-lg breadCrumbButton" value="Next"/> </a>
+      </div>
+       <a (click)="preStage1Con()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-sm breadCrumbButton" value="Back"/> </a>
+     </div>
+     <!-- End of Breadcrumbs -->
   </div>
   <div id="section2" class="section">
     <div id="dividerTypeImages">
@@ -38,11 +48,11 @@
     </div>
   </div>
 </div>
-<!-- Adding Breadcrumbs -->
+<!-- Adding Breadcrumbs 
 <div class="breadCrumbs" id="step2ABreadCrumbs">
   <a (click)="preStage1Con()" class="prevBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Prev"/> </a>
   <a (click)="nextstage2BCon()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next"/> </a>
-</div>
+</div> -->
 
 <!-- Step 2.b -->
 <div id="stage2BCon">
@@ -55,6 +65,14 @@
       Click the window at right that looks the most like your window. Don't be too concerned with the 
       exact dimensions, we'll get to that in the next step.
     </p>
+    <!-- Start of Breadcrumbs -->
+    <div class="breadCrumbs" id="step2ABreadCrumbs">
+      <div class="text-center">
+      <a (click)="nextstage3()" class="nextBreadCrumb"> <input type="button" class="btn btn-success btn-lg breadCrumbButton" value="Next"/> </a>
+    </div>
+      <a (click)="prestage2ACon()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-sm breadCrumbButton" value="Back"/> </a>
+    </div>
+    <!-- End of Breadcrumbs -->
   </div>
   <div id="section2b" class="section">
     <div id="windowShapeImages">
@@ -64,8 +82,11 @@
     </div>
   </div>
 </div>
-<!-- Adding Breadcrumbs -->
+
+
+
+<!-- Adding Breadcrumbs 
 <div class="breadCrumbs" id="step2BBreadCrumbs">
   <a (click)="prestage2ACon()" class="prevBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Prev"/> </a>
   <a (click)="nextstage3()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next"/> </a>
-</div>
+</div> -->
