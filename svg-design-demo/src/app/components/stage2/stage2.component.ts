@@ -74,7 +74,7 @@ export class Stage2Component implements OnInit {
   }
 
   preStage1Con() {
-    document.getElementById("stage1Con")?.scrollIntoView({behavior: 'smooth'});
+    document.getElementById("entirePage")?.scrollIntoView({behavior: 'smooth'});
   }
 
   prestage2ACon() {

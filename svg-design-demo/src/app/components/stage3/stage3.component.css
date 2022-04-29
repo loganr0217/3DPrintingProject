@@ -1,6 +1,6 @@
 #stage3Container {
     display: flex;
-    padding-top: 2vh;
+    padding-top: 75px;
     padding-bottom: 20vh;
 }
 
@@ -31,11 +31,11 @@ p {
 }
 .prevBreadCrumb {
     position: absolute;
-    left: 5vw;
+    right: 5vw;
 }
 .nextBreadCrumb {
-    position: absolute;
-    right: 5vw;
+    /* position: absolute;
+    right: 5vw; */
 }
 .breadCrumbButton {
     font-size: 1.5vw;

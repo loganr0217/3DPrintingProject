@@ -1,6 +1,7 @@
 #bigContainer {
     display:flex;
     width:100%;
+    padding-top: 75px;
 }
 /* Text */
 h1 {
@@ -37,11 +38,11 @@ p {
 }
 .prevBreadCrumb {
     position: absolute;
-    left: 5vw;
+    right: 5vw;
 }
 .nextBreadCrumb {
     position: absolute;
-    right: 5vw;
+    left: 5vw;
 }
 .breadCrumbButton {
     font-size: 1.5vw;
