@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { User } from 'src/app/services/loginservice/user';
+import { UserLoginService } from 'src/app/services/loginservice/user-login.service';
 
 @Component({
   selector: 'form-register',
@@ -15,8 +18,10 @@ export class FormRegisterComponent implements OnInit {
   isShow!: boolean;
   cpass!: string;
   isCshow!: boolean;
+  userRegist!: User;
   fakeUrl: string = 'http://localhost:4200/';
-  constructor(private formBuilder: FormBuilder) { }
+  isProcess: boolean;
+  constructor(private formBuilder: FormBuilder, private userService: UserLoginService, private router: Router) { }
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -29,6 +34,8 @@ export class FormRegisterComponent implements OnInit {
     this.pass = 'password';
     this.cpass = 'password';
     this.isCshow = false;
+    this.userRegist = new User();
+    this.isProcess = false;
   }
 
   changeConfirmPass() {
@@ -83,18 +90,30 @@ export class FormRegisterComponent implements OnInit {
   }
 
   // function submit
-  onSubmit(url: string) {
+  onSubmit() {
     // stop here if form is invalid
-    // if (this.registerForm.invalid) {
-    //     return;
-    // }
-
-    // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value))
     if (this.registerForm.invalid) {
-      console.log(this.registerForm.invalid);
+      return;
     } else {
-      console.log(this.registerForm.value);
-      window.location.href = this.fakeUrl + url;
+      this.isProcess = true;
+      this.userRegist = new User();
+      this.userRegist.userName = this.registerForm.value.userName;
+      this.userRegist.userMail = this.registerForm.value.emailId;
+      this.userRegist.userPassword = this.registerForm.value.password;
+
+      this.userService.sendCode(this.userRegist)
+      .subscribe(data => {
+        if (data !== undefined || data !== []) {
+          this.userService.publishData(this.userRegist);
+          this.isProcess = false;
+          this.router.navigate(['verify-code']);
+        }
+        else {
+          alert("error occur while registring User. please try after sometime.");
+        }
+      });
+      // window.location.href = this.fakeUrl + url;
+      // this.router.navigate(['']);
     }
   }
 
