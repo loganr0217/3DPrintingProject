@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { User } from 'src/app/services/loginservice/user';
+import { UserLoginService } from 'src/app/services/loginservice/user-login.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -15,7 +18,9 @@ export class ResetPasswordComponent implements OnInit {
   newPw!: string;
   confirmPw!: string;
   fakeUrl: string = 'http://localhost:4200/';
-  constructor(private formBuilder: FormBuilder) { }
+  user!: any;
+  
+  constructor(private formBuilder: FormBuilder, private userService: UserLoginService, private router: Router) { }
 
   ngOnInit(): void {
     this.resetForm = this.formBuilder.group({
@@ -57,9 +62,20 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   onSubmit() {
+    this.user = new User();
+    // this.user = this.userService.getData();
+    this.user.userMail = localStorage.getItem('userMail');
     if(this.confirmPw === this.newPw) {
-      console.log('ngon rồi');
-      window.location.href = this.fakeUrl + 'login';;
+      this.user.userPassword = this.newPw;
+      this.userService.resetPass(this.user)
+      .subscribe(data => {
+        if (data !== undefined || data !== []) {
+          this.router.navigate(['login']);
+        }
+        else {
+          alert("error occur while registring User. please try after sometime.");
+        }
+      });
     }else {
       this.resetForm.setErrors({'invalid': true});
     }
