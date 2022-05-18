@@ -13,7 +13,7 @@
                 <form [formGroup]="loginForm">
                     <div class="form-group mt-2 mb-2">
                         <label>Email</label>
-                        <input type="text" [(ngModel)]="userMail" formControlName="emailId" autocomplete="emailId" class="form-control" />
+                        <input type="text" formControlName="emailId" autocomplete="emailId" class="form-control" />
                         <div style="color: red;" *ngIf="emailid?.invalid && (emailid?.touched || emailid?.dirty)">
                             <span *ngIf="emailid?.errors?.['required']">*Email is required</span>
                             <span *ngIf="emailid?.errors?.['email']">*Enter valid email (example@gmail.com)</span>
@@ -22,7 +22,7 @@
                     <div class="form-group mt-2 mb-2">
                         <label>Password</label>
                         <div class="input-group flex-nowrap">
-                            <input [(ngModel)]="passW" [type]="pass" [(ngModel)]="userPassword" formControlName="password" class="form-control" />
+                            <input [(ngModel)]="passW" [type]="pass" formControlName="password" class="form-control" />
                             <button class="btn btn-outline-secondary" (click)="onClickShowPass()">
                                 <i class="fa fa-eye" aria-hidden="true" *ngIf="!isShow"></i>
                                 <i class="fa fa-eye-slash" aria-hidden="true" *ngIf="isShow"></i>

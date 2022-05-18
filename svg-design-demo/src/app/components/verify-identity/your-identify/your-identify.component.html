@@ -1,13 +1,13 @@
-<form [formGroup]="verifyForm" name="myForm" method="post">
+<form name="myForm" method="post">
     <div class="" style="margin: 3px;">
         <label>Enter the code from the email we just sent you</label>
     </div>
     <div class="row" style="margin: 5px 0;">
-        <input formControlName="num1" class="" style="margin-right: 10px;" type="text" id="inpNum">
-        <input formControlName="num2" style="margin-right: 10px;" type="text"  id="inpNum">
-        <input formControlName="num3" style="margin-right: 10px;" type="text" id="inpNum">
-        <input formControlName="num4" type="text" id="inpNum">
+        <input class="" style="margin-right: 10px;" type="text" name="">
+        <input style="margin-right: 10px;" type="text"  name="">
+        <input style="margin-right: 10px;" type="text" name="">
+        <input type="text" name="">
     </div>
 
-    <input [disabled]="verifyForm.invalid" (click)="onSubmit()" type="submit" value="Submit">
+    <input (click)="onSubmit()" type="submit" value="Submit">
 </form>

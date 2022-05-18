@@ -23,8 +23,6 @@ import { YourIdentifyComponent } from './components/verify-identity/your-identif
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ForgotPassComponent } from './components/forgot-pass/forgot-pass.component';
-import { HttpClientModule } from '@angular/common/http';
-import { UserLoginService } from './services/loginservice/user-login.service';
 
 @NgModule({
   declarations: [
@@ -53,10 +51,9 @@ import { UserLoginService } from './services/loginservice/user-login.service';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule,
-    HttpClientModule
+    FormsModule
   ],
-  providers: [UserLoginService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
