@@ -18,19 +18,21 @@
             <input type="number" min="0" class="form-control" id="heightInput" placeholder="mm">
         </div>
     </div>
-    <div class="form-group form-row">
-        <div class="col">
-            <label class="formLabel" for="horizontalDividersInput">Horizontal Dividers:</label>
-            <input type="number" min="0" class="form-control" id="horizontalDividersInput" disabled="true" placeholder="0">
+    <div id="dividerDetailInputs">
+        <div class="form-group form-row">
+            <div class="col">
+                <label class="formLabel" for="horizontalDividersInput">Horizontal Dividers:</label>
+                <input type="number" min="0" class="form-control" id="horizontalDividersInput" disabled="true" placeholder="0">
+            </div>
+            <div class="col">
+                <label class="formLabel" for="verticalDividersInput">Vertical Dividers:</label>
+                <input type="number" min="0" class="form-control" id="verticalDividersInput" disabled="true" placeholder="0">
+            </div>
         </div>
-        <div class="col">
-            <label class="formLabel" for="verticalDividersInput">Vertical Dividers:</label>
-            <input type="number" min="0" class="form-control" id="verticalDividersInput" disabled="true" placeholder="0">
+        <div class="form-group">
+            <label class="formLabel" for="dividerWidthInput">Divider Width:</label>
+            <input type="number" min="0" class="form-control" id="dividerWidthInput" placeholder="mm">
         </div>
-    </div>
-    <div class="form-group">
-        <label class="formLabel" for="dividerWidthInput">Divider Width:</label>
-        <input type="number" min="0" class="form-control" id="dividerWidthInput" placeholder="mm">
     </div>
 
     <input type="button" class="btn btn-dark btn-med" id="submitInput" (click)="updateDimensions()" value="Submit"/>

@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'svg-design-demo';
+  goToFooter():void {
+    document.getElementById("footer")?.scrollIntoView({behavior: 'smooth'});
+  }
 }

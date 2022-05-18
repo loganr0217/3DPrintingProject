@@ -62,9 +62,19 @@ export class DimensionsFormComponent implements OnInit {
     // Getting the user's desired width and height and divider info
     let newWidth:number = Number((<HTMLInputElement>document.getElementById("widthInput")).value);
     let newHeight:number = Number((<HTMLInputElement>document.getElementById("heightInput")).value);
-    let horzDividers:number = Number((<HTMLInputElement>document.getElementById("horizontalDividersInput")).value);
-    let vertDividers:number = Number((<HTMLInputElement>document.getElementById("verticalDividersInput")).value);
-    let dividerWidth:number = Number((<HTMLInputElement>document.getElementById("dividerWidthInput")).value);
+    let horzDividers:number;
+    let vertDividers:number;
+    let dividerWidth:number;
+    if(this.sharedDataService.selectedDividerType == "plain") {
+      horzDividers = 0;
+      vertDividers = 0;
+      dividerWidth = 0;
+    }
+    else {
+      horzDividers = Number((<HTMLInputElement>document.getElementById("horizontalDividersInput")).value);
+      vertDividers = Number((<HTMLInputElement>document.getElementById("verticalDividersInput")).value);
+      dividerWidth = Number((<HTMLInputElement>document.getElementById("dividerWidthInput")).value);
+    }
     let newDividerWindow:DividerWindow = new DividerWindow(newWidth, newHeight, horzDividers, vertDividers, dividerWidth, this.sharedDataService.selectedDividerType);
 
     // Updating template dimensions

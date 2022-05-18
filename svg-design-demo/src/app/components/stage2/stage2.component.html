@@ -7,43 +7,29 @@
       <br/>
       <br/>
       Click the window at right that looks the most like your window.
-      <br/>
-      <br/>
-      What is your preferred unit of measure?
     </p>
-
-    <!-- Start of Radio form -->
-    <div class="form-check">
-      <label class="form-check-label">
-        <input type="radio" class="form-check-input" name="optradio">inches
-      </label>
-    </div>
-    <div class="form-check">
-      <label class="form-check-label">
-        <input type="radio" class="form-check-input" name="optradio">mm
-      </label>
-    </div>
-    <div class="form-check">
-      <label class="form-check-label">
-        <input type="radio" class="form-check-input" name="optradio">cm
-      </label>
-    </div>
-    <!-- End of Radio form -->
-
-    <!-- Start of Breadcrumbs -->
-     <div class="breadCrumbs" id="step2ABreadCrumbs">
-       <div class="text-center">
-       <a (click)="nextstage2BCon()" class="nextBreadCrumb"> <input type="button" class="btn btn-success btn-lg breadCrumbButton" value="Next"/> </a>
-      </div>
-       <a (click)="preStage1Con()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-sm breadCrumbButton" value="Back"/> </a>
-     </div>
-     <!-- End of Breadcrumbs -->
-  </div>
-  <div id="section2" class="section">
     <div id="dividerTypeImages">
       <figure class="dividerTypeImageCon" *ngFor="let dividerType of ['plain', 'realdiv', 'simdiv']" (click)="chooseDivider(dividerType);">
         <img id="dividerTypeImage_{{dividerType}}" class="dividerTypeImage" src="assets/img/windowButtons/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/>
-        <figcaption>{{dividerType}}</figcaption>
+        <figcaption>{{dividerName(dividerType)}}</figcaption>
+      </figure>
+    </div>
+    <p id="windowShapeText">Click the window at right that looks the most like your window. Don't be too concerned with the 
+      exact dimensions, we'll get to that in the next step.
+    </p>
+    <!-- Start of Breadcrumbs -->
+     <!-- <div class="breadCrumbs" id="step2ABreadCrumbs">
+       <div class="text-center">
+        <a (click)="nextstage2BCon()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next"/> </a>
+       </div>
+       <a (click)="preStage1Con()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-sm breadCrumbButton" value="Back"/> </a>
+     </div> -->
+     <!-- End of Breadcrumbs -->
+  </div>
+  <div id="section2" class="section">
+    <div id="windowShapeImages">
+      <figure class="windowShapeImageCon" *ngFor="let windowShape of windowShapes" (click)="chooseWindowShape(windowShape);">
+        <img id="windowShapeImage_{{windowShape}}" class="windowShapeImage" src="assets/img/windowButtons/{{windowShape}}{{dividerType}}.svg" alt="{{windowShape}}"/>
       </figure>
     </div>
   </div>
@@ -52,41 +38,4 @@
 <div class="breadCrumbs" id="step2ABreadCrumbs">
   <a (click)="preStage1Con()" class="prevBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Prev"/> </a>
   <a (click)="nextstage2BCon()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next"/> </a>
-</div> -->
-
-<!-- Step 2.b -->
-<div id="stage2BCon">
-  <div id="section1b" class="section">
-    <h1>Select the shape of your window</h1>
-    <p>What's the general shape of your window? Is it horizontal, vertical square? Is it narrow or wide? 
-      Maybe it's a double hung sash window with two separate panes?
-      <br/>
-      <br/>
-      Click the window at right that looks the most like your window. Don't be too concerned with the 
-      exact dimensions, we'll get to that in the next step.
-    </p>
-    <!-- Start of Breadcrumbs -->
-    <div class="breadCrumbs" id="step2ABreadCrumbs">
-      <div class="text-center">
-      <a (click)="nextstage3()" class="nextBreadCrumb"> <input type="button" class="btn btn-success btn-lg breadCrumbButton" value="Next"/> </a>
-    </div>
-      <a (click)="prestage2ACon()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-sm breadCrumbButton" value="Back"/> </a>
-    </div>
-    <!-- End of Breadcrumbs -->
-  </div>
-  <div id="section2b" class="section">
-    <div id="windowShapeImages">
-      <figure class="windowShapeImageCon" *ngFor="let windowShape of windowShapes" (click)="chooseWindowShape(windowShape);">
-        <img id="windowShapeImage_{{windowShape}}" class="windowShapeImage" src="assets/img/windowButtons/{{windowShape}}{{dividerType}}.svg" alt="{{windowShape}}"/>
-      </figure>
-    </div>
-  </div>
-</div>
-
-
-
-<!-- Adding Breadcrumbs 
-<div class="breadCrumbs" id="step2BBreadCrumbs">
-  <a (click)="prestage2ACon()" class="prevBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Prev"/> </a>
-  <a (click)="nextstage3()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next"/> </a>
 </div> -->
