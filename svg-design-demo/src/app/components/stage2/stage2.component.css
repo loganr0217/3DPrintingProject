@@ -1,6 +1,6 @@
 #stage2ACon, #stage2BCon {
     display: flex;
-    padding-top: 75px;
+    padding-top: 80px;
 }
 
 /* Text */
@@ -9,13 +9,14 @@
 /* Sections */
 #section1, #section1b {
     flex:1;
-    padding-left: 12vh;
-    padding-right: 12vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
 }
 #section2 {
+    visibility: hidden;
     flex: 2;
     height: 70vh;
-    padding-top: 20vh;
+    padding-top: 0vh;
 }
 #section2b {
     flex: 2;
@@ -26,6 +27,9 @@
     /* border: 1px solid black; */
 }
 
+#windowShapeText {
+    visibility: hidden;
+}
 /* Divider types */
 #dividerTypeImages {
     display: flex;

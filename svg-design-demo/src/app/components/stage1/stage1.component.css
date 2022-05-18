@@ -1,5 +1,6 @@
 #stage1Con {
     padding-bottom:20vh;
+    padding-top: 2vh;
     background-color: transparent;
     overflow-y: scroll;
     display: flex;
@@ -24,8 +25,8 @@
 
 #sideTextContainer {
     flex:1;
-    padding-left: 2%;
-    padding-right: 2%;
+    padding-left: 2vw;
+    padding-right: 2vw;
     max-width: 40vw;
 }
 .carousel_div { 
@@ -45,7 +46,6 @@
     object-fit: contain;
 }
 .carousel { 
-    background-color: #e6e6e6;
     height: 80vh;
     max-width: 60vw;
     border-radius: 2%;

@@ -31,6 +31,8 @@ export class Stage2Component implements OnInit {
 
   // Method to change the currently selected divider
   chooseDivider(dividerType:string) {
+    document.getElementById("windowShapeText")?.setAttribute("style", "visibility:visible;");
+    document.getElementById("section2")?.setAttribute("style", "visibility:visible;");
     // Unhighlighting old selection if possible and highlighting new one
     if(this.dividerType != null) {document.getElementById("dividerTypeImage_"+this.dividerType)?.setAttribute("style", "");}
     document.getElementById("dividerTypeImage_"+dividerType)?.setAttribute("style", "filter: invert(8%) sepia(100%) saturate(7101%) hue-rotate(248deg) brightness(104%) contrast(144%);");
@@ -38,11 +40,13 @@ export class Stage2Component implements OnInit {
       document.getElementById("dividerDetailsText")!.innerHTML = "Enter the dimensions of your window below.";
       document.getElementById("horizontalDividersInput")?.setAttribute("disabled", "true");
       document.getElementById("verticalDividersInput")?.setAttribute("disabled", "true");
+      document.getElementById("dividerDetailInputs")?.setAttribute("style", "display:none;");
     }
     else {
       document.getElementById("dividerDetailsText")!.innerHTML = "Enter the dimensions of your window below. Then, let us know how many horizontal and vertical dividers you have.";
       document.getElementById("horizontalDividersInput")?.removeAttribute("disabled");
       document.getElementById("verticalDividersInput")?.removeAttribute("disabled");
+      document.getElementById("dividerDetailInputs")?.setAttribute("style", "display:inline;");
     }
     
     // Updating values for dividerType
@@ -67,6 +71,7 @@ export class Stage2Component implements OnInit {
     // Updating values for windowShape
     this.sharedDataService.selectedWindowShape = windowShape;
     this.windowShape = windowShape;
+    this.nextstage3();
   }
 
   nextstage2BCon() {
@@ -83,5 +88,12 @@ export class Stage2Component implements OnInit {
 
   nextstage3() {
     document.getElementById("stage3")?.scrollIntoView({behavior: 'smooth'});
+  }
+
+  dividerName(id:string):string {
+    if(id == "plain") {return "No Dividers";}
+    else if(id == "realdiv") {return "Raised Dividers";}
+    else if(id == "simdiv") {return "Embedded Dividers";}
+    else {return "";}
   }
 }

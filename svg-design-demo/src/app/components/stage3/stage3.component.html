@@ -1,17 +1,37 @@
 <div id="stage3Container">
     <div class="sideText">
-        <h1>Now, onto your actual window</h1>
+        <h1><b>Now, onto your actual window</b></h1>
+        <p>What is your preferred unit of measure?</p>
+        <!-- Start of Radio form for units -->
+        <div class="form-check-inline">
+            <label class="form-check-label">
+            <input type="radio" class="form-check-input" name="optradio">inches
+            </label>
+        </div>
+        <div class="form-check-inline">
+            <label class="form-check-label">
+            <input type="radio" class="form-check-input" name="optradio">mm
+            </label>
+        </div>
+        <div class="form-check-inline">
+            <label class="form-check-label">
+            <input type="radio" class="form-check-input" name="optradio">cm
+            </label>
+        </div>
+        <!-- End of Radio form -->
+        <br/>
+        <br/>
         <p id="dividerDetailsText">Enter the dimensions of your window below. Then, let us know how many horizontal and 
             vertical dividers you have.
         </p>
         <app-dimensions-form></app-dimensions-form>
         <!-- Start of Breadcrumbs -->
-        <div class="breadCrumbs" id="step2BBreadCrumbs">
+        <!-- <div class="breadCrumbs" id="step2BBreadCrumbs">
             <div class="text-center">
-                <a (click)="nextstage4()" class="nextBreadCrumb"> <input type="button" class="btn btn-success btn-lg breadCrumbButton" value="Next"/> </a>
+                <a (click)="nextstage4()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next"/> </a>
             </div>
             <a (click)="prestage2BCon()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-sm breadCrumbButton" value="Back"/> </a>
-        </div>
+        </div> -->
         <!-- End of Breadcrumbs -->
     </div>
     <div class="dividerDetails">
