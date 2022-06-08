@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ColorPageComponent } from './components/color-page/color-page.component';
 import { ForgotPassComponent } from './components/forgot-pass/forgot-pass.component';
 import { FormLoginComponent } from './components/form-login/form-login.component';
 import { FormRegisterComponent } from './components/form-register/form-register.component';
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: "login",
     component: FormLoginComponent
+  },
+  {
+    path: "windowCreation",
+    component: ColorPageComponent
   },
   {
     path: "signup",

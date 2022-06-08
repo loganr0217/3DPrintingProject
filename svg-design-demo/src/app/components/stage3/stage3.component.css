@@ -24,6 +24,13 @@ p {
     font-size: 1.7vw;
 }
 
+#dropdownMenuButton {
+    color: #000000;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 1.7vw;
+}
+
 /* Breadcrumbs */
 .breadCrumbs {
     width: 100%;

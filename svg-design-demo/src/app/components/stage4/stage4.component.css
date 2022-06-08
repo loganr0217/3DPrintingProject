@@ -11,6 +11,13 @@ p {
     font-size: 1.3vw;
 }
 
+#autofillCheckbox {
+    color: #000000;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 1.3vw;
+}
+
 /* Sections */
 #section1 {
     flex:2;

@@ -68,7 +68,7 @@ export class DividerWindow {
     createWindowPerimeter(width:number, height:number):void {
         this.dString = this.createSVGBox(width+12, height+12, true, [-6, -6]) + " " +
         this.createSVGBox(width+4, height+4, true, [-2, -2]);
-        if(this.dividerType != "realdiv") {this.dString += this.createSVGBox(width, height, true, [0, 0]);}
+        if(this.dividerType != "raiseddiv") {this.dString += this.createSVGBox(width, height, true, [0, 0]);}
     }
 
     // Method to update divider type
@@ -325,7 +325,7 @@ export class Polygon {
             nextChars = [];
 
             // Getting the next numbers to go with this command
-            for(let j:number = i+1; "MmLlHhVvAaZz".indexOf(pathArray[j]) == -1; ++j) {nextChars = nextChars.concat(pathArray[j].split(","));}
+            for(let j:number = i+1; "MmLlHhVvAaCcZz".indexOf(pathArray[j]) == -1; ++j) {nextChars = nextChars.concat(pathArray[j].split(","));}
             
             // Adding the next optimized command to scalablePath based on currentChar
             switch(currentChar) {
@@ -458,19 +458,29 @@ export class Polygon {
                     }
                     break;
                 case "C":
-                    nextPoint = [Number(nextChars[4]), Number(nextChars[5])];
-                    this.scalablePath.push("c");
-                    for(let i:number = 0; i < nextChars.length; ++i) {
-                        diffPoints.push(Number(nextChars[i]) - this.currentPoint[i%2]);
-                        this.scalablePath.push(diffPoints[i].toString());
+                    // Looping for implicit commands
+                    for(let j:number = 0; j < Math.floor(nextChars.length/6); ++j) {
+                        nextPoint = [Number(nextChars[4+(j*6)]), Number(nextChars[5+(j*6)])];
+                        this.scalablePath.push("c");
+                        for(let i:number = 0; i < 6; ++i) {
+                            diffPoints.push(Number(nextChars[i+(j*6)]) - this.currentPoint[i%2]);
+                            this.scalablePath.push(diffPoints[i+(j*6)].toString());
+                        }
+                        this.currentPoint = nextPoint;
+                        this.updateMinMax();
                     }
                     break;
                 case "c":
-                    nextPoint = [this.currentPoint[0] + Number(nextChars[4]), this.currentPoint[1] + Number(nextChars[5])];
-                    this.scalablePath.push("c");
-                    for(let i:number = 0; i < nextChars.length; ++i) {
-                        diffPoints.push(Number(nextChars[i]));
-                        this.scalablePath.push(diffPoints[i].toString());
+                    // Looping for implicit commands
+                    for(let j:number = 0; j < Math.floor(nextChars.length/6); ++j) {
+                        nextPoint = [this.currentPoint[0] + Number(nextChars[4+(j*6)]), this.currentPoint[1] + Number(nextChars[5+(j*6)])];
+                        this.scalablePath.push("c");
+                        for(let i:number = 0; i < 6; ++i) {
+                            diffPoints.push(Number(nextChars[i+(j*6)]));
+                            this.scalablePath.push(diffPoints[i+(j*6)].toString());
+                        }
+                        this.currentPoint = nextPoint;
+                        this.updateMinMax();
                     }
                     break;
                 // S/s will be added later (adds onto C/c)
@@ -568,7 +578,7 @@ export class Polygon {
         for(let i:number = 3; i < scaledPath.length - 1; ++i) {
             nextPoint = []; diffPoints = []; nextChars = [];
             // Getting the next numbers to go with this command
-            for(let j:number = i+1; "MmLlHhVvZz".indexOf(scaledPath[j]) == -1; ++j) {nextChars = nextChars.concat(scaledPath[j].split(","));}
+            for(let j:number = i+1; "MmLlHhVvAaCcZz".indexOf(scaledPath[j]) == -1; ++j) {nextChars = nextChars.concat(scaledPath[j].split(","));}
             switch(scaledPath[i]) {
                 case "m":
                 case "l":
@@ -705,13 +715,18 @@ export class SVGTemplate {
         return optimizedD.trim();
     }
 
-
+    /*
+    Equations to get xOutset and newScale:
+    newScaleX = scaleX*width / (width - 2xOutset)
+    (railWidth - 2xOutset)*newScaleX = railWidth
+    */
     // Method to get a scaled version of the template --> returns [scaledD, newScaleX, newScaleY]
     getScaledD(scaleX:number, scaleY:number):string[] {
         let scaledD:string = "";
         // Getting outset values for reducing wallwidth in x/y
-        let xOutset:number = (4*this.width*(scaleX-1)) / (scaleX*this.width - 8);
-        let yOutset:number = (4*this.height*(scaleY-1)) / (scaleY*this.height - 8);
+        let xOutset:number = (3*this.width*(scaleX-1)) / (scaleX*this.width - 6);
+        let yOutset:number = (3*this.height*(scaleY-1)) / (scaleY*this.height - 6);
+        
 
         // Getting new scale values
         let newScaleX:number = (scaleX*this.width) / (this.width - (2*xOutset));
@@ -729,15 +744,15 @@ export class SVGTemplate {
     getLaserCutPanes(scaleX:number=1, scaleY:number=1):string[] {
         let result:string = "";
         // Getting outset values for reducing wallwidth in x/y
-        let xOutset:number = (4*this.width*(scaleX-1)) / (scaleX*this.width - 8);
-        let yOutset:number = (4*this.height*(scaleY-1)) / (scaleY*this.height - 8);
+        let xOutset:number = (3*this.width*(scaleX-1)) / (scaleX*this.width - 6);
+        let yOutset:number = (3*this.height*(scaleY-1)) / (scaleY*this.height - 6);
 
         // Getting new scale values
         let newScaleX:number = (scaleX*this.width) / (this.width - (2*xOutset));
         let newScaleY:number = (scaleY*this.height) / (this.height - (2*yOutset));
 
         // Looping through each pane and outsetting by 2mm so pane will fit in aperture
-        for(let i:number = 0; i < this.subShapes.length; ++i) {if(i != this.outerEdgeIndex) {result += this.subShapes[i].outset(2, 2) + " ";}}
+        for(let i:number = 0; i < this.subShapes.length; ++i) {if(i != this.outerEdgeIndex) {result += this.subShapes[i].outset(1.25, 1.25) + " ";}}
         return [result.trim(), newScaleX.toString(), newScaleY.toString()];
     }
 }
@@ -763,8 +778,24 @@ export class SVGTemplate {
 // let p:string = "M -3.1667353 38.912085 v 227.999735 h 218.0001353 v -227.999735 Z M 4.8330522 46.911873 h 97.00010780000001 v 40.000038 h -97.00010780000001 Z M 109.8335 46.911873 h 96.99955999999999 v 40.000038 h -96.99955999999999 Z M 4.8330522 94.912251 h 24.0004658 v 40.00004899999999 h -24.0004658 Z M 36.833304 94.912251 h 31.999702999999997 v 40.00004899999999 h -31.999702999999997 Z M 76.833344 94.912251 h 23.999916 v 40.00004899999999 h -23.999916 Z M 109.83349999999999 94.912251 h 23.99991 v 40.00004899999999 h -23.999909999999986 Z M 141.83319999999998 94.912251 h 32.00026 v 40.00004899999999 h -32.00025999999997 Z M 181.83324 94.912251 h 23.999920000000003 v 40.00004899999999 h -23.999920000000003 Z M 4.8330522 142.91209 h 63.9999548 v 115.99994000000001 h -63.9999548 Z M 76.833344 142.91209 h 23.999916 v 62.000140000000016 h -23.999916 Z M 109.83349999999999 142.91209 h 23.99991 v 62.000140000000016 h -23.999909999999986 Z M 141.83319999999998 142.91209 h 63.99995999999999 v 115.99994000000001 h -63.99995999999996 Z M 76.83334399999998 210.91221000000002 h 23.999916 v 47.99982 h -23.999915999999985 Z M 109.83349999999999 210.91221000000002 h 23.99991 v 47.99982 h -23.999909999999986 Z";
 // let p:string = "M -3.1667353 31.003277 v 227.99973300000002 h 218.0001353 v -227.99973300000002 Z M 4.8330522 39.003065 h 202.0000078 v 32.000251999999996 h -202.0000078 Z M 4.8330522 79.00310300000001 h 40.000038800000006 v 172.000117 h -40.000038800000006 Z M 52.833431 79.00310300000001 h 105.999799 v 48.00038699999999 h -105.999799 Z M 166.83302 79.00310300000001 h 40.000039999999984 v 172.000117 h -40.000039999999984 Z M 52.833431 135.00328 h 105.999799 v 115.99994000000001 h -105.999799 Z";
 
+// 1.7's
+// 1
+//let p:string = `M -42.584919,6.0771179 V 306.07383 H 257.41511 V 6.0771179 Z m 5.000074,5.0000751 H 17.414867 V 240.07629 h -54.999712 z m 60.999689,0 H 104.41483 V 195.07728 l -80.999986,42.99975 v -42.99975 z m 87.000516,0 h 80.99998 v 184.000087 42.99975 l -80.99998,-42.99975 z m 86.99996,0 h 54.99971 V 240.07629 h -54.99971 z m -90.00023,189.999517 84.00025,44.99954 v 55.00028 H 23.415397 v -55.00028 z m -144.999935,44.999 h 54.999712 v 55.00082 h -54.999712 z m 235.000165,0.003 h 54.99971 v 54.99971 h -54.99971 z`;
+
+// 2
+//let p:string = `M -42.584919,4.4937035 V 304.49373 H 257.41511 V 4.4937035 Z m 5.000074,5.0000747 H 17.414867 V 299.49365 h -54.999712 z m 60.999689,0 H 104.41483 V 299.49365 H 23.414844 Z m 87.000516,0 h 80.99943 V 299.49365 h -80.99943 z m 86.99941,0 h 54.9997 V 299.49365 h -54.9997 z`;
+
+// 4
+//let p:string = `M -44.166681,2.1210553 V 302.12108 H 255.83335 V 2.1210553 Z M 21.833635,7.0152969 H 189.83358 V 77.015214 L 105.83333,122.01532 21.833635,77.015214 Z M -39.166607,7.1211302 H 15.833105 V 236.12129 h -54.999712 z m 235.000167,0 h 54.99971 V 236.12129 H 195.83356 Z M 21.833082,84.777426 102.8011,128.10407 h 0.0314 v 0.0166 0 168.99986 H 21.833082 V 128.12072 128.1035 84.776862 Z m 167.999948,0 v 43.326644 0.0172 168.99987 H 108.8336 v -168.99987 -0.0172 h 0.032 z M -39.166607,242.12128 h 54.999712 v 54.99973 h -54.999712 z m 235.000167,0 h 54.99971 v 54.99973 h -54.99971 z`;
+
+// 5
+// let p:string = `M -44.166681,0.53929352 V 300.53932 H 255.83335 V 0.53929352 Z m 5.000074,5.00007488 H 15.833105 V 60.53909 h -54.999712 z m 60.999689,0 H 189.83358 V 60.53909 H 21.833082 Z m 174.000478,0 h 54.99971 V 60.53909 H 195.83356 Z M -39.166607,66.539079 H 15.833105 V 234.53903 h -54.999712 z m 61.000242,0 H 189.83358 V 136.53899 L 105.83333,181.5391 21.833635,136.53899 Z m 173.999925,0 h 54.99971 V 234.53903 H 195.83356 Z M 21.833082,144.30067 102.83197,187.64436 h 5.6e-4 v 0 107.89432 H 21.833096 v -107.89432 0 -43.34369 z m 167.999948,0 v 43.34369 0 107.89432 H 108.8336 v -107.89432 0 h 10e-4 l 80.99834,-43.34369 z m -228.999637,96.23832 h 54.999712 v 55.00026 h -54.999712 z m 235.000167,0 h 54.99971 v 55.00026 h -54.99971 z`;
+
 // let test:SVGTemplate = new SVGTemplate(p);
 // let result:string[] = test.getScaledD(2, 2);
-// console.log(test.getLaserCutPanes());
+//console.log(test.getScaledD(343/300, 305/300));
+//console.log(test.getScaledD(343/300, 305/300));
+//console.log(test.getLaserCutPanes());
 // let test:DividerWindow = new DividerWindow(undefined, undefined, 10, 10, undefined);
 // console.log(test.windowSVG.getScaledD(2, 1)[0]);
+

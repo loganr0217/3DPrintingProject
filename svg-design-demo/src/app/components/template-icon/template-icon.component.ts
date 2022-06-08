@@ -28,9 +28,13 @@ export class TemplateIconComponent implements OnInit {
   // Clears the old window preview
   clearWindowPreview():void {
     // Not ever null
-    let parent:HTMLElement = document.getElementById("windowPreviewContainer")!;
+    let parent:HTMLElement = document.getElementById("windowPreviewContainerfalse")!;
+    let parentFinished:HTMLElement = document.getElementById("windowPreviewContainertrue")!;
     while(parent.firstChild) {
-      parent.removeChild(parent.firstChild);
+      parent.removeChild(parent.firstChild); 
+    }
+    while(parentFinished.firstChild) {
+      parentFinished.removeChild(parentFinished.firstChild);
     }
   }
 
@@ -49,16 +53,27 @@ export class TemplateIconComponent implements OnInit {
       newSVG.setAttribute("style", "overflow:visible;")
       newSVG.setAttribute("width", "100");
       newSVG.setAttribute("viewBox", viewboxValue);
+      // Creating svg element for finished view
+      let finishedSVG:Element = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      finishedSVG.setAttribute("class", "windowSVG");
+      finishedSVG.setAttribute("style", "overflow:visible;")
+      finishedSVG.setAttribute("width", "100");
+      finishedSVG.setAttribute("viewBox", viewboxValue);
+
       //newSVG.addEventListener("click");
 
       let numPane:number = 0; // <-- In case the outer edge is not the first element
       // Creating pane paths and adding them to svg
       for(let j = 0; j < currentTemplate.subShapes.length; ++j) {
         let newPath:Element = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        let finishedPath:Element = document.createElementNS("http://www.w3.org/2000/svg", "path");
         if(j != currentTemplate.outerEdgeIndex) {
           newPath.setAttribute("style", "fill:#ffffff;");
           newPath.setAttribute("d", currentTemplate.subShapes[j].getScalablePath());
           newPath.setAttribute("id", "windowPane"+i+"_"+numPane);
+          finishedPath.setAttribute("style", "fill:#ffffff;");
+          finishedPath.setAttribute("d", currentTemplate.subShapes[j].getScalablePath());
+          finishedPath.setAttribute("id", "windowPaneFinished"+i+"_"+numPane);
           ++numPane;
         }
         else {
@@ -66,11 +81,17 @@ export class TemplateIconComponent implements OnInit {
           newPath.setAttribute("d", currentTemplate.getOptimizedD());
           newPath.setAttribute("id", "windowSVG_"+this.sharedDataService.currentWindowNumber+"_"+i)
           newPath.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor+";");
+
+          finishedPath.setAttribute("d", currentTemplate.getOptimizedD());
+          finishedPath.setAttribute("id", "windowSVGFinished_"+this.sharedDataService.currentWindowNumber+"_"+i)
+          finishedPath.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor+";");
           
         }
         newSVG.appendChild(newPath);
+        finishedSVG.appendChild(finishedPath);
       }
-      document.getElementById("windowPreviewContainer")?.appendChild(newSVG);
+      document.getElementById("windowPreviewContainertrue")?.appendChild(finishedSVG);
+      document.getElementById("windowPreviewContainerfalse")?.appendChild(newSVG);
     }
   }
 
@@ -107,6 +128,13 @@ export class TemplateIconComponent implements OnInit {
     let viewboxValue:string = ""+newTemplate.xMin+" "+newTemplate.yMin+" "+newTemplate.width+" "+newTemplate.height;
     document.getElementById("currentTemplate")?.setAttribute("viewBox", viewboxValue);
     document.getElementById("svgTemplate")?.setAttribute("transform", "");
+
+    this.nextstage4();
+  }
+
+  nextstage4() {
+    document.getElementById("stage4")?.setAttribute("style", "visibility:visible;")
+    document.getElementById("stage4")?.scrollIntoView({behavior: 'smooth'});
   }
 
   ngOnInit(): void {

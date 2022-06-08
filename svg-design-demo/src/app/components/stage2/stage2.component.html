@@ -9,13 +9,13 @@
       Click the window at right that looks the most like your window.
     </p>
     <div id="dividerTypeImages">
-      <figure class="dividerTypeImageCon" *ngFor="let dividerType of ['plain', 'realdiv', 'simdiv']" (click)="chooseDivider(dividerType);">
-        <img id="dividerTypeImage_{{dividerType}}" class="dividerTypeImage" src="assets/img/windowButtons/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/>
+      <figure class="dividerTypeImageCon" *ngFor="let dividerType of ['nodiv', 'raiseddiv', 'embeddeddiv']" (click)="chooseDivider(dividerType);">
+        <img id="dividerTypeImage_{{dividerType}}" class="dividerTypeImage" src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/>
         <figcaption>{{dividerName(dividerType)}}</figcaption>
       </figure>
     </div>
-    <p id="windowShapeText">Click the window at right that looks the most like your window. Don't be too concerned with the 
-      exact dimensions, we'll get to that in the next step.
+    <p id="windowShapeText">Now, click the window at right that looks the most like your window. Don't be concerned with the 
+      exact dimensions: we'll get to that in the next step.
     </p>
     <!-- Start of Breadcrumbs -->
      <!-- <div class="breadCrumbs" id="step2ABreadCrumbs">
@@ -27,9 +27,14 @@
      <!-- End of Breadcrumbs -->
   </div>
   <div id="section2" class="section">
+    <!-- <div id="windowShapeExamples" style="visibility: hidden;">
+      <figure class="windowShapeExampleCon" *ngFor="let windowExample of ['square', '2xhung', 'horizontal', 'vertical']" (click)="chooseWindowExample(windowExample);">
+        <img id="windowShapeImage_{{windowExample}}" class="windowShapeImage" src="assets/img/windowButtons2/{{windowShapeExample(windowExample)}}{{dividerType}}.svg" alt="{{windowExample}}"/>
+      </figure>
+    </div> -->
     <div id="windowShapeImages">
       <figure class="windowShapeImageCon" *ngFor="let windowShape of windowShapes" (click)="chooseWindowShape(windowShape);">
-        <img id="windowShapeImage_{{windowShape}}" class="windowShapeImage" src="assets/img/windowButtons/{{windowShape}}{{dividerType}}.svg" alt="{{windowShape}}"/>
+        <img id="windowShapeImage_{{windowShape}}" class="windowShapeImage" src="" alt="{{windowShape}}"/>
       </figure>
     </div>
   </div>

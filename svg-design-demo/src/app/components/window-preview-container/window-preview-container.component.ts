@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { SVGTemplate } from '../svgScaler';
 import { Polygon } from '../svgScaler';
+import { Input } from '@angular/core';
 
 @Component({
   selector: 'app-window-preview-container',
@@ -9,7 +10,7 @@ import { Polygon } from '../svgScaler';
   styleUrls: ['./window-preview-container.component.css']
 })
 export class WindowPreviewContainerComponent implements OnInit {
-
+  @Input() finished:boolean;
   constructor(private sharedDataService:SharedDataService) { }
 
   // Method to move to next pane in window

@@ -12,7 +12,7 @@ export class ColorsSelectionButtonComponent implements OnInit {
   @Input() paneColors:boolean;
 
   // Array holding all colors currently offered with corresponding hex values
-  colorsData:{id:number, value:string, hex:string, paneColor:boolean}[];
+  colorsData:{id:number, hex:string, paneColor:boolean}[];
   constructor(private sharedDataService:SharedDataService) { }
 
   // Method to change color of currently selected panes
@@ -31,6 +31,7 @@ export class ColorsSelectionButtonComponent implements OnInit {
       document.getElementById("svgTemplate")?.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor);
       for(let i = 0; i < this.sharedDataService.svgTemplateData[this.sharedDataService.currentWindowNumber].length; ++i) {
         document.getElementById("windowSVG_"+this.sharedDataService.currentWindowNumber+"_"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor+";");
+        document.getElementById("windowSVGFinished_"+this.sharedDataService.currentWindowNumber+"_"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor+";");
       }
     }
   }

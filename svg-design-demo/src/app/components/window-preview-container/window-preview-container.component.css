@@ -1,7 +1,13 @@
-#windowPreviewContainer {
+#windowPreviewContainertrue {
     display: flex;
     flex-direction: column;
 }
+
+#windowPreviewContainerfalse {
+    display: flex;
+    flex-direction: column;
+}
+
 
 .windowSVG {
     overflow: visible;

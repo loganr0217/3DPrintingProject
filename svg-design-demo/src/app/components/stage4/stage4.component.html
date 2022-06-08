@@ -1,10 +1,13 @@
 <div id="bigContainer">
     <div id="section1" class="section">
-        <h1><b>Select a Design and Color it In</b></h1>
-        <p>Some random text. And then some more random text. Please stop reading it and instead focus on the visual elements.</p>
-        <p>No, seriously, please stop reading this, itmight as well be written in Greek, and maybe that was the better thing to do.</p>
-        <p>And one more last line just to fill things in.</p>
-        <app-template-selection-container></app-template-selection-container>
+        <h1><b>Color it In!</b></h1>
+        <p>Click a color from the palette then click the panes for that color. 
+            Select the panels at right and color in each to complete your lightscreen.</p>
+        <p>Color pane by pane or select Autofill to speed things up. 
+            You can switch between modes and revert to get just the design you want. </p>
+        <input type="button" class="btn btn-dark btn-med" id="submitInput" (click)="nextstage5()" value="Next"/>
+        <!-- <input type="button" class="btn btn-dark btn-med" id="submitInput" value="Autofill"/> -->
+        <!-- <app-template-selection-container></app-template-selection-container> -->
         <!-- Start of Breadcrumbs -->
         <!-- <div class="breadCrumbs" id="step2BBreadCrumbs">
             <div class="text-center">
@@ -18,10 +21,10 @@
         <app-design-window></app-design-window>
         <p>Pane Color:</p>
         <app-colors-container [paneColors]=true></app-colors-container>
-        <p>Filament Color:</p>
+        <p>Frame Color:</p>
         <app-colors-container [paneColors]=false></app-colors-container>
     </div>
     <div id="section3" class="section">
-        <app-window-preview-container></app-window-preview-container>
+        <app-window-preview-container [finished]="false"></app-window-preview-container>
     </div>
 </div>

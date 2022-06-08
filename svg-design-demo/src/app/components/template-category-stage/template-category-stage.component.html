@@ -1,0 +1,25 @@
+<div id="bigContainer">
+    <div id="section1" class="section">
+        <h1><b>Choose your design</b></h1>
+        <p>Browse through our collections of design templates and select the one that’s best for your window. 
+            Click Next when you’ve found the right one.</p>
+        <div id="dividerTypeImages">
+            <figure class="dividerTypeImageCon" *ngFor="let dividerType of ['nodiv', 'raiseddiv', 'embeddeddiv']">
+              <img id="dividerTypeImage_{{dividerType}}" class="dividerTypeImage" src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/>
+              <figcaption>{{dividerName(dividerType)}}</figcaption>
+            </figure>
+        </div>
+        
+        <!-- Start of Breadcrumbs -->
+        <!-- <div class="breadCrumbs" id="step2BBreadCrumbs">
+            <div class="text-center">
+                <a (click)="nextstage5()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next"/> </a>
+            </div>
+            <a (click)="prestage3()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-sm breadCrumbButton" value="Back"/> </a>
+        </div> -->
+        <!-- End of Breadcrumbs -->
+    </div>
+    <div id="section2" class="section">
+        <app-template-selection-container></app-template-selection-container>
+    </div>
+</div>

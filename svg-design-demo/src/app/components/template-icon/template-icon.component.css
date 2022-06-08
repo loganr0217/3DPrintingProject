@@ -3,11 +3,11 @@
 }
 
 .fullWin {
-    width: 21vw;
     display: flex;
     overflow-x: scroll;  
     overflow-y: hidden;  
     white-space: nowrap;
+    max-width: 55vw;
     border: 1px solid black;
 }
 

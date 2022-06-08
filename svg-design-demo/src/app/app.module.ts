@@ -23,6 +23,9 @@ import { YourIdentifyComponent } from './components/verify-identity/your-identif
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ForgotPassComponent } from './components/forgot-pass/forgot-pass.component';
+import { TemplateCategoryStageComponent } from './components/template-category-stage/template-category-stage.component';
+import { TemplateInfoFormComponent } from './components/template-info-form/template-info-form.component';
+import { ColorPageComponent } from './components/color-page/color-page.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +48,10 @@ import { ForgotPassComponent } from './components/forgot-pass/forgot-pass.compon
     FormRegisterComponent,
     YourIdentifyComponent,
     ResetPasswordComponent,
-    ForgotPassComponent
+    ForgotPassComponent,
+    TemplateCategoryStageComponent,
+    TemplateInfoFormComponent,
+    ColorPageComponent
   ],
   imports: [
     BrowserModule,

@@ -7,16 +7,34 @@
 }
 
 /* Pane Color Offerings */
-#button_0000ffff_true {background-color: #0000ffff;}
-#button_ff0000ff_true {background-color: #ff0000ff;}
-#button_008000ff_true {background-color: #008000ff;}
-#button_000000ff_true {background-color: #000000ff;}
-#button_ffff00ff_true {background-color: #ffff00ff;}
-#button_ffffffff_true {background-color: #ffffffff;}
-#button_ff0080ff_true {background-color: #ff0080ff;}
-#button_ff8000ff_true {background-color: #ff8000ff;}
-#button_00ffffff_true {background-color: #00ffffff;}
-#button_00ff00ff_true {background-color: #00ff00ff;}
+#button_9D9788_true {background-color: #9D9788;}
+#button_B6B5B3_true {background-color: #B6B5B3;}
+#button_999997_true {background-color: #999997;}
+#button_A8A7A5_true {background-color: #A8A7A5;}
+#button_281248_true {background-color: #281248;}
+#button_AEAAC8_true {background-color: #AEAAC8;}
+#button_D0D1E2_true {background-color: #D0D1E2;}
+#button_ADAAA2_true {background-color: #ADAAA2;}
+#button_2B4A86_true {background-color: #2B4A86;}
+#button_A2ACB7_true {background-color: #A2ACB7;}
+
+#button_C4C1B2_true {background-color: #C4C1B2;}
+#button_2D60AA_true {background-color: #2D60AA;}
+#button_ABB863_true {background-color: #ABB863;}
+#button_4D816D_true {background-color: #4D816D;}
+#button_2B6443_true {background-color: #2B6443;}
+#button_51636D_true {background-color: #51636D;}
+#button_B1C4C2_true {background-color: #B1C4C2;}
+#button_C5C1A6_true {background-color: #C5C1A6;}
+#button_EAE04A_true {background-color: #EAE04A;}
+#button_D3BE6F_true {background-color: #D3BE6F;}
+
+#button_F4C242_true {background-color: #F4C242;}
+#button_DE936B_true {background-color: #DE936B;}
+#button_EEB0CF_true {background-color: #EEB0CF;}
+#button_C93527_true {background-color: #C93527;}
+#button_7B3A33_true {background-color: #7B3A33;}
+#button_DA8886_true {background-color: #DA8886;}
 
 /* Filament color offerings */
 #button_666666_false {background-color: #666666;}

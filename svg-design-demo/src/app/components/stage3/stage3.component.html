@@ -1,28 +1,19 @@
 <div id="stage3Container">
     <div class="sideText">
-        <h1><b>Now, onto your actual window</b></h1>
-        <p>What is your preferred unit of measure?</p>
-        <!-- Start of Radio form for units -->
-        <div class="form-check-inline">
-            <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="optradio">inches
-            </label>
+        <h1><b>About your window</b></h1>
+        <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                What's your preferred unit of measure?
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" (click)="changeUnits('inches')">inches</a>
+              <a class="dropdown-item" (click)="changeUnits('mm')">mm</a>
+              <a class="dropdown-item" (click)="changeUnits('cm')">cm</a>
+            </div>
         </div>
-        <div class="form-check-inline">
-            <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="optradio">mm
-            </label>
-        </div>
-        <div class="form-check-inline">
-            <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="optradio">cm
-            </label>
-        </div>
-        <!-- End of Radio form -->
-        <br/>
-        <br/>
-        <p id="dividerDetailsText">Enter the dimensions of your window below. Then, let us know how many horizontal and 
-            vertical dividers you have.
+        
+        <p>Enter your window's dimensions below. If you don't have exact dimensions now, 
+            you can always go back to this step. Be sure to get your dimensions right!
         </p>
         <app-dimensions-form></app-dimensions-form>
         <!-- Start of Breadcrumbs -->

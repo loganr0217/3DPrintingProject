@@ -1,0 +1,46 @@
+#bigContainer {
+    display:flex;
+    width:100%;
+    padding-top: 80px;
+}
+/* Text */
+h1 {
+    font-size: 2.2vw;
+}
+p {
+    font-size: 1.3vw;
+}
+
+/* Sections */
+#section1 {
+    flex:1;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    justify-content: space-around;
+}
+#section2 {
+    flex:2;
+    justify-content: space-around;
+}
+.section {margin:10px;}
+
+/* Divider types */
+#dividerTypeImages {
+    display: flex;
+    padding-left: 2vw;
+    padding-right: 2vw;
+}
+.dividerTypeImage {
+    flex: 1;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    width: 10vw;
+    object-fit: contain;
+}
+
+figcaption {
+    text-align: center;
+    font-size: 1.4vw;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+}

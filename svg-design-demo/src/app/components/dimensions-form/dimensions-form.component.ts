@@ -9,7 +9,6 @@ import { Polygon, DividerWindow, WindowPane, SVGTemplate } from '../svgScaler';
   styleUrls: ['./dimensions-form.component.css']
 })
 export class DimensionsFormComponent implements OnInit {
-
   constructor(private sharedDataService:SharedDataService) { }
 
   ngOnInit(): void {
@@ -46,6 +45,8 @@ export class DimensionsFormComponent implements OnInit {
   }
 */
 
+  unitChoice:string = this.sharedDataService.unitChoice;
+
   // Method to clear old panes
   clearOldDividerPanes():void {
     let numPanes = this.sharedDataService.dividerWindow.numberHorizontalPanes * this.sharedDataService.dividerWindow.numberVerticalPanes;
@@ -56,12 +57,18 @@ export class DimensionsFormComponent implements OnInit {
     }
   }
 
-  // Method to update dimensions
-  updateDimensions():void {
-    if(this.sharedDataService.dividerWindow != null) {this.clearOldDividerPanes();}
-    // Getting the user's desired width and height and divider info
+  //
+  updateDimensionsButton():void {
     let newWidth:number = Number((<HTMLInputElement>document.getElementById("widthInput")).value);
     let newHeight:number = Number((<HTMLInputElement>document.getElementById("heightInput")).value);
+    this.updateDimensions(newWidth, newHeight);
+  }
+  // Method to update dimensions
+  updateDimensions(newWidth:number, newHeight:number):void {
+    if(this.sharedDataService.dividerWindow != null) {this.clearOldDividerPanes();}
+    // Getting the user's desired width and height and divider info
+    // let newWidth:number = Number((<HTMLInputElement>document.getElementById("widthInput")).value);
+    // let newHeight:number = Number((<HTMLInputElement>document.getElementById("heightInput")).value);
     let horzDividers:number;
     let vertDividers:number;
     let dividerWidth:number;
@@ -95,6 +102,11 @@ export class DimensionsFormComponent implements OnInit {
     }
 
     this.sharedDataService.dividerWindow = newDividerWindow;
+  }
+
+  nextstage() {
+    document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;")
+    document.getElementById("templateCategoryStage")?.scrollIntoView({behavior: 'smooth'});
   }
 
 }

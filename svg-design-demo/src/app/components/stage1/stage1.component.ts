@@ -13,6 +13,7 @@ export class Stage1Component implements OnInit {
   }
 
   nextstage2() {
+    document.getElementById("stage2")?.setAttribute("style", "visibility:visible;")
     document.getElementById("stage2")?.scrollIntoView({behavior: 'smooth'});
   }
 }
