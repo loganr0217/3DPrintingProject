@@ -5,10 +5,24 @@
 .fullWin {
     display: flex;
     overflow-x: scroll;  
-    overflow-y: hidden;  
+    overflow-y: hidden;
     white-space: nowrap;
     max-width: 55vw;
     border: 1px solid black;
+}
+
+.fullWin::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.fullWin::-webkit-scrollbar:horizontal {
+    height: 11px;
+}
+
+.fullWin::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, .5);
 }
 
 .windowTemplate {

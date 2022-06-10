@@ -82,12 +82,13 @@ export class DimensionsFormComponent implements OnInit {
       vertDividers = Number((<HTMLInputElement>document.getElementById("verticalDividersInput")).value);
       dividerWidth = Number((<HTMLInputElement>document.getElementById("dividerWidthInput")).value);
     }
+    if(dividerWidth == 0) {dividerWidth = 2;}
     let newDividerWindow:DividerWindow = new DividerWindow(newWidth, newHeight, horzDividers, vertDividers, dividerWidth, this.sharedDataService.selectedDividerType);
-
+    
     // Updating template dimensions
     document.getElementById("windowPerimeter")?.setAttribute("d", newDividerWindow.dString);
     document.getElementById("windowPerimeter")?.setAttribute("style", "fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:.2;");
-    let viewboxValue:string = ""+ (-6) +" "+ (-6) +" "+(newWidth+12)+" "+(newHeight+12);
+    let viewboxValue:string = ""+ (-10) +" "+ (-10) +" "+(newWidth+20)+" "+(newHeight+20);
     document.getElementById("dividerTemplate")?.setAttribute("viewBox", viewboxValue);
 
     let paneNum:number = 0;
@@ -95,13 +96,15 @@ export class DimensionsFormComponent implements OnInit {
       for(let col:number = 0; col < newDividerWindow.windowPanes[row].length; ++col) {
         // Updating each individual pane
         document.getElementById("dividerPane"+paneNum)?.setAttribute("d", newDividerWindow.windowPanes[row][col].dString);
-        document.getElementById("dividerPane"+paneNum)?.setAttribute("style", "fill:#FFFFFF;fill-rule:evenodd;stroke:#000000;stroke-width:.2;");
+        document.getElementById("dividerPane"+paneNum)?.setAttribute("style", "fill:#ECECEC;fill-rule:evenodd;stroke:#000000;stroke-width:.2;");
         ++paneNum;
       }
       
     }
 
     this.sharedDataService.dividerWindow = newDividerWindow;
+    this.sharedDataService.windowWidth = newWidth;
+    this.sharedDataService.windowHeight = newHeight;
   }
 
   nextstage() {

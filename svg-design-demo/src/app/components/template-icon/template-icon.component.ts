@@ -14,6 +14,31 @@ export class TemplateIconComponent implements OnInit {
   svgTemplateData:{id:number, name:string, d:string}[][];
   constructor(private sharedDataService:SharedDataService) { }
 
+  // Getting optimzed d for template
+  getOptimizedTemplateD(d:string):string {
+    let myTemplate:SVGTemplate = new SVGTemplate(d);
+    return myTemplate.getOptimizedD();
+  }
+
+  // Gets template viewbox
+  getTemplateViewBox(d:string):string {
+    let myTemplate:SVGTemplate = new SVGTemplate(d);
+    let tempViewBox:string = myTemplate.xMin + " " + myTemplate.yMin + " " + myTemplate.width + " " + myTemplate.height;
+    return tempViewBox;
+  }
+
+  // Gets template width
+  getTemplateWidth(d:string):string {
+    let myTemplate:SVGTemplate = new SVGTemplate(d);
+    return String(myTemplate.width);
+  }
+
+  // Gets template height
+  getTemplateHeight(d:string):string {
+    let myTemplate:SVGTemplate = new SVGTemplate(d);
+    return String(myTemplate.height);
+  }
+
   // Method to clear old panes
   clearOldPanes():void {
     let numPanes = this.sharedDataService.numberPanes;
