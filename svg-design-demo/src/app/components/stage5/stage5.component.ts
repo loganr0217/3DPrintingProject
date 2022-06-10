@@ -24,7 +24,8 @@ export class Stage5Component implements OnInit {
   }
   
   getFinalInfo():void {
-    alert("Divider Type: " + this.sharedDataService.selectedDividerType + "\n" + 
+    let finalText:string = 
+    "Divider Type: " + this.sharedDataService.selectedDividerType + "\n" + 
     "Window Shape: " + this.sharedDataService.selectedWindowShape + "\n" +
     "Unit of measure: " + this.sharedDataService.unitChoice + " to mm\n" +
     "Width: " + this.convertNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice) + "mm\n" + 
@@ -32,7 +33,15 @@ export class Stage5Component implements OnInit {
     "Panel Width: " + this.getPanelWidthHeight(this.convertNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice)) + "mm\n" +
     "Panel Height: " + + this.getPanelWidthHeight(this.convertNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice)) + "mm\n" +
     "Template: " + this.sharedDataService.currentWindowNumber + "\n"
-    );
+    "Color Selection: " + "\n";
+
+    var serializer = new XMLSerializer();
+    var xmlString = serializer.serializeToString(document.getElementById("windowPreviewContainertrue")!);
+    let svgText:string[] = xmlString.split("<svg");
+    for(let i:number = 0; i < svgText.length; ++i) {svgText[i] = "<svg" + svgText[i]; finalText += svgText[i] + "\n\n";}
+    console.log(finalText);
+    document.getElementById("finalText")!.textContent = finalText;
+    
   
   }
 
