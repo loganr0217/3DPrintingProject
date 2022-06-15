@@ -1,4 +1,4 @@
-#bigContainer {
+#bigContainer, #bottomBigContainer {
     display:flex;
     width:100%;
     padding-top: 80px;
@@ -43,4 +43,86 @@ p {
 }
 .breadCrumbButton {
     font-size: 1.5vw;
+}
+
+.svgTemplateIcons {
+    width:5vw;
+}
+
+.bottomRightSvgTemplateIcons {
+    width:7vw;
+}
+
+.svgTemplatePanelIcons {
+    width: 18%;
+    padding-left: 1vw;
+    padding-right: 1vw;
+}
+
+.fullWin {
+    display: flex;
+    overflow-x: scroll;  
+    overflow-y: hidden;
+    white-space: nowrap;
+    max-width: 80%;
+    border: 1px solid black;
+}
+
+.bottomRightFullWin {
+    display: flex;
+    overflow: visible;
+    max-width: 80%;
+    flex-direction: column;
+}
+
+.fullWin::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.fullWin::-webkit-scrollbar:horizontal {
+    height: 11px;
+}
+
+.fullWin::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.leftSide, .rightSide {
+    flex: 1;
+}
+.windowTemplate {
+    flex:1;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.bottomRightWindowTemplate {
+    flex:1;
+    display: flex;
+}
+
+.panelWindowTemplate {
+    overflow-x: scroll;  
+    overflow-y: hidden;
+    white-space: nowrap;
+    max-width: 80%;
+    border: 1px solid black;
+}
+
+#dimensionsFormContainer {
+    width: 80%;
+}
+
+.rightSide {
+    padding-top: 5vh;
+}
+
+.btn {
+    margin-left: 1vw;
 }

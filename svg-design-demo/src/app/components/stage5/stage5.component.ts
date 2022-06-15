@@ -9,40 +9,28 @@ export class Stage5Component implements OnInit {
 
   constructor(private sharedDataService:SharedDataService) { }
 
+  getWindowWidth():string {
+    return "Width: " + this.sharedDataService.windowWidth + this.sharedDataService.unitChoice;
+  }
+
+  getWindowHeight():string {
+    return "Height: " + this.sharedDataService.windowHeight + this.sharedDataService.unitChoice;
+  }
+
   ngOnInit(): void {
   }
 
-  getPanelWidthHeight(width:number):number {
-    if(width >= 100 && width <=500) {return width;}
-    else {return width / (Math.ceil(width/500));}
+  saveDesign():void {
+    //
   }
 
-  convertNumber(num:number, unit:string):number {
-    if(unit == "mm") {return num;}
-    else if(unit == "inches") {return num*25.4;}
-    else {return num*10;};
+  goToStage4():void {
+    document.getElementById("stage4")?.setAttribute("style", "visibility:visible;")
+    document.getElementById("stage4")?.scrollIntoView({behavior: 'smooth'});
   }
-  
-  getFinalInfo():void {
-    let finalText:string = 
-    "Divider Type: " + this.sharedDataService.selectedDividerType + "\n" + 
-    "Window Shape: " + this.sharedDataService.selectedWindowShape + "\n" +
-    "Unit of measure: " + this.sharedDataService.unitChoice + " to mm\n" +
-    "Width: " + this.convertNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice) + "mm\n" + 
-    "Height: " + this.convertNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice) + "mm\n" +
-    "Panel Width: " + this.getPanelWidthHeight(this.convertNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice)) + "mm\n" +
-    "Panel Height: " + + this.getPanelWidthHeight(this.convertNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice)) + "mm\n" +
-    "Template: " + this.sharedDataService.currentWindowNumber + "\n"
-    "Color Selection: " + "\n";
-
-    var serializer = new XMLSerializer();
-    var xmlString = serializer.serializeToString(document.getElementById("windowPreviewContainertrue")!);
-    let svgText:string[] = xmlString.split("<svg");
-    for(let i:number = 0; i < svgText.length; ++i) {svgText[i] = "<svg" + svgText[i]; finalText += svgText[i] + "\n\n";}
-    console.log(finalText);
-    document.getElementById("finalText")!.textContent = finalText;
-    
-  
+  nextstageCheckout() {
+    document.getElementById("checkoutStage")?.setAttribute("style", "visibility:visible;")
+    document.getElementById("checkoutStage")?.scrollIntoView({behavior: 'smooth'});
   }
 
 }

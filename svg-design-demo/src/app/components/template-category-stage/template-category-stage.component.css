@@ -25,12 +25,12 @@ p {
 .section {margin:10px;}
 
 /* Divider types */
-#dividerTypeImages {
+#templateCategoryImages {
     display: flex;
     padding-left: 2vw;
     padding-right: 2vw;
 }
-.dividerTypeImage {
+.templateCategoryImage {
     flex: 1;
     padding-left: 2vw;
     padding-right: 2vw;
@@ -40,6 +40,7 @@ p {
 
 figcaption {
     text-align: center;
+    margin-top: 2vh;
     font-size: 1.4vw;
     font-family: 'Lato', sans-serif;
     font-weight: 300;

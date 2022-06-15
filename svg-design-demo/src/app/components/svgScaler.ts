@@ -43,9 +43,10 @@ export class DividerWindow {
     remainingWidth:number;
     remainingHeight:number;
     dividerType:string;
+    doubleHung:boolean;
 
     // Constructor which takes the width and height of the window
-    constructor(width:number = 200, height:number = 200, numHorzDividers:number = 0, numVertDividers:number = 0, dividerWidth:number = 8, dividerType:string="plain") {
+    constructor(width:number = 200, height:number = 200, numHorzDividers:number = 0, numVertDividers:number = 0, dividerWidth:number = 8, dividerType:string="plain", doubleHung:boolean=false) {
         this.dString = "";
         this.numberHorizontalPanes = numVertDividers + 1;
         this.numberVerticalPanes = numHorzDividers + 1;
@@ -55,6 +56,7 @@ export class DividerWindow {
         this.remainingWidth = width - (dividerWidth*numVertDividers);
         this.remainingHeight = height - (dividerWidth*numHorzDividers);
         this.dividerType = dividerType;
+        this.doubleHung = doubleHung;
         
         // Initialize windowPanes
         this.windowPanes = [];
@@ -69,6 +71,13 @@ export class DividerWindow {
         this.dString = this.createSVGBox(width+12, height+12, true, [-6, -6]) + " " +
         this.createSVGBox(width+4, height+4, true, [-2, -2]);
         if(this.dividerType != "raiseddiv") {this.dString += this.createSVGBox(width, height, true, [0, 0]);}
+
+        // creating bottom of 2xhung if necessary
+        if(this.doubleHung) {
+            this.dString += this.createSVGBox(width+12, height+12, true, [-6, height+6]) + " " +
+            this.createSVGBox(width+4, height+4, true, [-2, height+10]);
+            if(this.dividerType != "raiseddiv") {this.dString += this.createSVGBox(width, height, true, [0, height+12]);}
+        }
     }
 
     // Method to update divider type
@@ -107,6 +116,19 @@ export class DividerWindow {
                 startingPoint = [col*paneWidth + col*this.dividerWidth, row*paneHeight + row*this.dividerWidth];
                 this.windowPanes[row][col] = new WindowPane(paneWidth, paneHeight, startingPoint, 
                     this.createSVGBox(paneWidth, paneHeight, false, startingPoint));
+            }
+        }
+
+        if(this.doubleHung) {
+            // Initializing array
+            startingPoint = [0,this.windowHeight];
+            for(let row = this.numberVerticalPanes; row < 2*this.numberVerticalPanes; ++row) {
+                this.windowPanes[row] = [];
+                for(let col = 0; col < this.numberHorizontalPanes; ++col) {
+                    startingPoint = [col*paneWidth + col*this.dividerWidth, row*paneHeight + row*this.dividerWidth + 12 - this.dividerWidth];
+                    this.windowPanes[row][col] = new WindowPane(paneWidth, paneHeight, startingPoint, 
+                        this.createSVGBox(paneWidth, paneHeight, false, startingPoint));
+                }
             }
         }
     }

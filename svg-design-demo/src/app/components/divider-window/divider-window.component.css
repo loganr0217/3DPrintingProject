@@ -13,8 +13,8 @@
 #dividerTemplate {
     margin:auto;
     width:100%;
-    max-height: 60vh;
-    overflow: visible;
+    height: 80vh;
+    overflow: hidden;
 }
 
 #dividerPaneFormContainer {

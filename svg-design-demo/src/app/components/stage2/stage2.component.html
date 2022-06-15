@@ -33,8 +33,9 @@
       </figure>
     </div> -->
     <div id="windowShapeImages">
-      <figure class="windowShapeImageCon" *ngFor="let windowShape of windowShapes" (click)="chooseWindowShape(windowShape);">
+      <figure class="windowShapeImageCon" *ngFor="let windowShape of ['vertical1to4', 'horizontal4to1', '2xhung2to4', 'square2to2']" (click)="chooseWindowShape(windowShape);">
         <img id="windowShapeImage_{{windowShape}}" class="windowShapeImage" src="" alt="{{windowShape}}"/>
+        <figcaption>{{windowShape}}</figcaption>
       </figure>
     </div>
   </div>

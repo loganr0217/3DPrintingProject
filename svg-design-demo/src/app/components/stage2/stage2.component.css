@@ -21,10 +21,8 @@
 #section2 {
     flex: 2;
     max-height: 70vh;
-    overflow-y: scroll;
     margin-left: 2vw;
     margin-right: 2vw;
-    border: 1px solid black;
 }
 
 #windowShapeText {
@@ -45,11 +43,15 @@
 }
 
 /* Window Shapes */
+#windowShapeImages {
+    display: flex;
+}
 .windowShapeImage {
-    float: left;
+    flex:1;
     padding-left: 1vw;
     padding-right: 1vw;
     padding-top: 1vh;
+    margin-top: 60%;
     padding-bottom: 1vh;
     object-fit:contain;
 }

@@ -1,6 +1,6 @@
 <div id="bigContainer">
     <div id="section1" class="section">
-        <h1><b>Window Designer</b></h1>
+        <h1><b>Template Design Interface</b></h1>
         <p>Add each panel that creates a window from top to bottom. To get the d attribute for a panel, open it
             in InkScape and select Edit -> XML Editor: a box will appear on the right of your window. If you click on
             the panel, it should highlight the corresponding path. Sometimes, it will select an outer layer: if this happens,
@@ -24,5 +24,76 @@
     </div>
     <div id="section3" class="section">
         <app-window-preview-container></app-window-preview-container>
+    </div>
+</div>
+
+<div id="bottomBigContainer">
+    <div class="leftSide">
+        <div id="bottomSection1" class="section">
+            <h1><b>Template Layout Interface</b></h1>
+            <p>Choose a template and enter your template's panel layout (e.g. 2x4)
+            </p>
+            <!-- Start of Breadcrumbs -->
+            <!-- <div class="breadCrumbs" id="step2BBreadCrumbs">
+                <div class="text-center">
+                    <a (click)="nextstage5()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next"/> </a>
+                </div>
+                <a (click)="prestage3()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-sm breadCrumbButton" value="Back"/> </a>
+            </div> -->
+            <!-- End of Breadcrumbs -->
+        </div>
+        <div id="bottomSection2" class="section">
+            <div class="fullWin">
+                <div class="windowTemplate" *ngFor="let window of svgTemplateData; let i = index">
+                    <!-- <img class="svgTemplateIcons" *ngFor="let svgTemplate of window" 
+                    src="{{'assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
+                    (click)="displayTemplate(window, i)"/> -->
+            
+                    <svg *ngFor="let svgTemplate of window" xmlns="http://www.w3.org/2000/svg" (click)="displayTemplate(window, i)" class="svgTemplateIcons"  [attr.viewBox]=getTemplateViewBox(getOptimizedTemplateD(svgTemplate.d))>
+                        <path  style="fill:#666666;" [attr.d]=getOptimizedTemplateD(svgTemplate.d)/>
+                    </svg>
+                </div>
+            </div>
+            <div class="panelWindowTemplate">
+                <div class="panelFullWin">
+                    <svg *ngFor="let svgTemplate of currentWindow; let i = index" xmlns="http://www.w3.org/2000/svg" (click)="choosePanel(i)" class="svgTemplatePanelIcons"  [attr.viewBox]=getTemplateViewBox(getOptimizedTemplateD(svgTemplate.d))>
+                        <path id="svgTemplateLayoutPanel{{i}}" style="fill:#666666;" [attr.d]=getOptimizedTemplateD(svgTemplate.d)/>
+                    </svg>
+                </div>
+            </div>
+            <form id="dimensionsFormContainer">
+                <p>Number of Panels (e.g. 2x4):</p>
+                <div class="form-group form-row">
+                    <div class="col">
+                        <label class="formLabel" for="leftRightInput">Left to Right</label>
+                        <input type="number" class="form-control" id="leftRightInput">
+                    </div>
+                    <div class="col">
+                        <label class="formLabel" for="topBottomInput">Top to Bottom</label>
+                        <input type="number" class="form-control" id="topBottomInput">
+                    </div>
+                </div>
+            
+                <input type="button" class="btn btn-dark btn-med" (click)="updateLayout()" id="updateLayoutInput"  value="Update dims (2x6)"/>
+                <input type="button" class="btn btn-dark btn-med" id="createLayoutInput"  value="Create Layout"/>
+                <input type="button" class="btn btn-dark btn-med" id="resetLayoutInput" value="Reset"/>
+            </form>
+        </div>
+        
+    </div>
+    <div class="rightSide">
+        <p id="currentLayoutText"></p>
+        <p id="currentPanelIndexText"></p>
+        <div class="bottomRightFullWin">
+            <div class="bottomRightWindowTemplate" *ngFor="let window of panelLayout; let i = index">
+                <!-- <img class="svgTemplateIcons" *ngFor="let svgTemplate of window" 
+                src="{{'assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
+                (click)="displayTemplate(window, i)"/> -->
+        
+                <svg *ngFor="let svgTemplate of window" xmlns="http://www.w3.org/2000/svg" class="bottomRightSvgTemplateIcons"  [attr.viewBox]=getTemplateViewBox(svgTemplate.getOptimizedD())>
+                    <path  style="fill:#666666;" [attr.d]=svgTemplate.getOptimizedD()/>
+                </svg>
+            </div>
+        </div>
     </div>
 </div>

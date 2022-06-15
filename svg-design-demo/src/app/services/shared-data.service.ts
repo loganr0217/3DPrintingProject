@@ -17,9 +17,14 @@ export class SharedDataService {
   maxPanes:number = 100;
   selectedDividerType:string = "plain";
   selectedWindowShape:string = "2xhung1to1";
+  dividerNumbers:number[];
+  dividerWidth:number;
   windowWidth:number = 0;
   windowHeight:number = 0;
   unitChoice:string = "mm";
+  panelLayout:SVGTemplate[][];
+  panelLayoutDims:number[];
+  currentPanelID:number;
 
   // Array holding all window shapes offered
   windowShapes:string[] = [

@@ -25,7 +25,7 @@
             </div>
             <input (change)="updateDimensionsButton()" type="number" min="0" class="form-control" id="widthInput" placeholder="0"/>
             <div class="input-group-append">
-              <span class="input-group-text" id="widthUnits" [textContent]="unitChoice"></span>
+              <span class="input-group-text textarea-addon" id="widthUnits" [textContent]="unitChoice"></span>
             </div>
         </div>
         <!-- height input -->
@@ -35,7 +35,7 @@
             </div>
             <input (change)="updateDimensionsButton()" type="number" min="0" class="form-control" id="heightInput" placeholder="0"/>
             <div class="input-group-append">
-              <span class="input-group-text" id="heightUnits" [textContent]="unitChoice"></span>
+              <span class="input-group-text textarea-addon" id="heightUnits" [textContent]="unitChoice"></span>
             </div>
         </div>
         
@@ -76,7 +76,7 @@
                 </div>
                 <input (change)="updateDimensionsButton()" type="number" min="0" class="form-control" id="dividerWidthInput" placeholder="0"/>
                 <div class="input-group-append">
-                    <span class="input-group-text" id="dividerWidthUnits" [textContent]="unitChoice"></span>
+                    <span class="input-group-text textarea-addon" id="dividerWidthUnits" [textContent]="unitChoice"></span>
                   </div>
             </div>
         </div>

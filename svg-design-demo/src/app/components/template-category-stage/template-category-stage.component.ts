@@ -12,11 +12,6 @@ export class TemplateCategoryStageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  dividerName(id:string):string {
-    if(id == "plain") {return "Category 1";}
-    else if(id == "realdiv") {return "Category 2";}
-    else if(id == "simdiv") {return "Category 3";}
-    else {return "";}
-  }
+  showTemplates():void {document.getElementById("templateSelectionContainer")?.setAttribute("style", "visibility:visible;");}
 
 }

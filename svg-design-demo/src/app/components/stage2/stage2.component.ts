@@ -91,7 +91,6 @@ export class Stage2Component implements OnInit {
     document.getElementById("windowShapeImage_"+windowShape)?.setAttribute("style", "filter: invert(25%);");
 
     // Updating values for windowShape
-    this.sharedDataService.selectedWindowShape = windowShape;
     this.windowShape = windowShape;
 
     // Getting type of window and default dimensions
@@ -104,6 +103,7 @@ export class Stage2Component implements OnInit {
     else {defaultWidth = 25;}
     let defaultHeight:number = defaultWidth / widthHeightRatio;
 
+    this.sharedDataService.selectedWindowShape = windowShape;
     // Setting default dimensions for step 3
     this.updateDimensions(defaultWidth, defaultHeight, numHorizontalDividers, numVerticalDividers);
     this.nextstage3();
@@ -111,7 +111,8 @@ export class Stage2Component implements OnInit {
 
   // Method to clear old panes
   clearOldDividerPanes():void {
-    let numPanes = this.sharedDataService.dividerWindow.numberHorizontalPanes * this.sharedDataService.dividerWindow.numberVerticalPanes;
+    let numPanes:number = this.sharedDataService.dividerWindow.windowPanes.length*2;
+
     for(let i = 0; i < numPanes; ++i) {
       document.getElementById("dividerPane"+i)?.setAttribute("d", "");
       document.getElementById("dividerPane"+i)?.setAttribute("style", "")
@@ -122,6 +123,7 @@ export class Stage2Component implements OnInit {
   // Method to update dimensions
   updateDimensions(newWidth:number, newHeight:number, horizontalDividers:number, verticalDividers:number):void {
     if(this.sharedDataService.dividerWindow != null) {this.clearOldDividerPanes();}
+    
     // Getting the user's desired width and height and divider info
     // let newWidth:number = Number((<HTMLInputElement>document.getElementById("widthInput")).value);
     // let newHeight:number = Number((<HTMLInputElement>document.getElementById("heightInput")).value);
@@ -138,12 +140,16 @@ export class Stage2Component implements OnInit {
       vertDividers = verticalDividers;
       dividerWidth = 2;
     }
-    let newDividerWindow:DividerWindow = new DividerWindow(newWidth, newHeight, horzDividers, vertDividers, dividerWidth, this.sharedDataService.selectedDividerType);
+    let newDividerWindow:DividerWindow = new DividerWindow(newWidth, newHeight, horzDividers, vertDividers, dividerWidth, this.sharedDataService.selectedDividerType, this.windowShape.substring(0, 2) == "2x" ? true : false);
 
     // Updating template dimensions
     document.getElementById("windowPerimeter")?.setAttribute("d", newDividerWindow.dString);
     document.getElementById("windowPerimeter")?.setAttribute("style", "fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:.2;");
-    let viewboxValue:string = ""+ (-6) +" "+ (-6) +" "+(newWidth+12)+" "+(newHeight+12);
+    let viewboxValue:string;
+    if(this.sharedDataService.selectedWindowShape.substring(0, 2) == "2x") {
+      viewboxValue = ""+ (-7) +" "+ (-7) +" "+(newWidth+14)+" "+(2*(newHeight+14));
+    }
+    else {viewboxValue = ""+ (-7) +" "+ (-7) +" "+(newWidth+14)+" "+(newHeight+14);}
     document.getElementById("dividerTemplate")?.setAttribute("viewBox", viewboxValue);
 
     let paneNum:number = 0;

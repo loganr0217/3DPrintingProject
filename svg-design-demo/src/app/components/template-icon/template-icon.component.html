@@ -4,7 +4,7 @@
         src="{{'assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
         (click)="displayTemplate(window, i)"/> -->
 
-        <svg *ngFor="let svgTemplate of window" xmlns="http://www.w3.org/2000/svg" (click)="displayTemplate(window, i)" class="svgTemplateIcons"  [attr.viewBox]=getTemplateViewBox(svgTemplate.d)>
+        <svg *ngFor="let svgTemplate of window" xmlns="http://www.w3.org/2000/svg" (click)="displayTemplate(window, i)" class="svgTemplateIcons"  [attr.viewBox]=getTemplateViewBox(getOptimizedTemplateD(svgTemplate.d))>
             <path  style="fill:#666666" [attr.d]=getOptimizedTemplateD(svgTemplate.d)/>
         </svg>
     </div>

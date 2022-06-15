@@ -26,6 +26,8 @@ import { ForgotPassComponent } from './components/forgot-pass/forgot-pass.compon
 import { TemplateCategoryStageComponent } from './components/template-category-stage/template-category-stage.component';
 import { TemplateInfoFormComponent } from './components/template-info-form/template-info-form.component';
 import { ColorPageComponent } from './components/color-page/color-page.component';
+import { HttpClientModule } from '@angular/common/http';
+import { CheckoutPageComponent } from './components/checkout-page/checkout-page.component';
 
 @NgModule({
   declarations: [
@@ -51,13 +53,15 @@ import { ColorPageComponent } from './components/color-page/color-page.component
     ForgotPassComponent,
     TemplateCategoryStageComponent,
     TemplateInfoFormComponent,
-    ColorPageComponent
+    ColorPageComponent,
+    CheckoutPageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
