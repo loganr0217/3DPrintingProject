@@ -1,6 +1,18 @@
 <div>
-    <div id="windowPreviewContainer{{finished}}">
+    <!-- <div id="windowPreviewContainer{{finished}}"> -->
         <!-- Dynamically create svg items to go in here -->
+    <!-- </div> -->
+    <div class="fullWin">
+        <div class="windowTemplate" *ngFor="let row of this.sharedDataService.panelLayout; let rowNum = index">
+            <!-- <img class="svgTemplateIcons" *ngFor="let svgTemplate of window" 
+            src="{{'assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
+            (click)="displayTemplate(window, i)"/> -->
+    
+            <svg *ngFor="let svgTemplate of row; let colNum = index" xmlns="http://www.w3.org/2000/svg" (click)="displayTemplate(svgTemplate.getOptimizedD(), rowNum, colNum)" class="svgTemplateIcons" [attr.viewBox]=getTemplateViewBox(svgTemplate.getOptimizedD())>
+                <path id="{{getPanelID(rowNum, colNum)}}" style="fill:#666666;" [attr.d]=svgTemplate.getOptimizedD()/>
+                <path style="fill:#ffffff;" id="{{getPaneID(rowNum, colNum, paneNum)}}" *ngFor="let paneNum of range(svgTemplate.subShapes.length-1)" [attr.d]="svgTemplate.subShapes[paneNum+1].getScalablePath()"/>
+            </svg>
+        </div>
     </div>
 </div>
 
@@ -9,3 +21,19 @@
     <path id="svgTemplate" style="fill:#666666" d=""/>
     <path *ngFor="let i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]" id="pane{{i}}" (click)="updateSelectedPane(i)"/>
 </svg> -->
+
+<!-- <div class="rightSide">
+    <p id="currentLayoutText"></p>
+    <p id="currentPanelIndexText"></p>
+    <div class="bottomRightFullWin">
+        <div class="bottomRightWindowTemplate" *ngFor="let window of panelLayout; let i = index"> -->
+            <!-- <img class="svgTemplateIcons" *ngFor="let svgTemplate of window" 
+            src="{{'assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
+            (click)="displayTemplate(window, i)"/> -->
+    
+            <!-- <svg *ngFor="let svgTemplate of window" xmlns="http://www.w3.org/2000/svg" class="bottomRightSvgTemplateIcons"  [attr.viewBox]=getTemplateViewBox(svgTemplate.getOptimizedD())>
+                <path  style="fill:#666666;" [attr.d]=svgTemplate.getOptimizedD()/>
+            </svg>
+        </div>
+    </div>
+</div> -->

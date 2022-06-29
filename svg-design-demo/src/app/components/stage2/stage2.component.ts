@@ -191,10 +191,10 @@ export class Stage2Component implements OnInit {
   }
 
   windowShapeExample(windowShape:string):string {
-    if(windowShape == "square") {return "square1to1";}
-    else if(windowShape == "2xhung") {return "2xhung1to2";}
-    else if(windowShape == "horizontal") {return "horizontal4to1";}
-    else if(windowShape == "vertical") {return "vertical1to4";}
+    if(windowShape == "square2to2") {return "Square";}
+    else if(windowShape == "2xhung2to4") {return "Double Hung";}
+    else if(windowShape == "horizontal4to1") {return "Horizontal";}
+    else if(windowShape == "vertical1to4") {return "Vertical";}
     else {return "";}
   }
 }

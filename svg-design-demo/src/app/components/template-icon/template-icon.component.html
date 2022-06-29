@@ -1,11 +1,25 @@
 <div class="fullWin">
-    <div class="windowTemplate" *ngFor="let window of svgTemplateData; let i = index">
+    <div class="windowTemplateContainer" *ngFor="let template of templateData;">
+        <div class="windowTemplate" (click)="nextstage4(); createPreview(template)" data-toggle="modal" data-target="#exampleModalCenter" *ngFor="let row of getPanelLayout(template);">
+            <!-- <img class="svgTemplateIcons" *ngFor="let svgTemplate of window" 
+            src="{{'assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
+            (click)="displayTemplate(window, i)"/> -->
+
+            <svg *ngFor="let svgTemplate of row" xmlns="http://www.w3.org/2000/svg" class="svgTemplateIcons"  [attr.viewBox]="getTemplateViewBox(svgTemplate.getOptimizedD())">
+                <path  style="fill:#666666" [attr.d]="svgTemplate.getOptimizedD()"/>
+            </svg>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="bottomRightFullWin">
+    <div class="bottomRightWindowTemplate" *ngFor="let window of panelLayout; let i = index"> -->
         <!-- <img class="svgTemplateIcons" *ngFor="let svgTemplate of window" 
         src="{{'assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
         (click)="displayTemplate(window, i)"/> -->
 
-        <svg *ngFor="let svgTemplate of window" xmlns="http://www.w3.org/2000/svg" (click)="displayTemplate(window, i)" class="svgTemplateIcons"  [attr.viewBox]=getTemplateViewBox(getOptimizedTemplateD(svgTemplate.d))>
-            <path  style="fill:#666666" [attr.d]=getOptimizedTemplateD(svgTemplate.d)/>
+        <!-- <svg *ngFor="let svgTemplate of window" xmlns="http://www.w3.org/2000/svg" class="bottomRightSvgTemplateIcons"  [attr.viewBox]=getTemplateViewBox(svgTemplate.getOptimizedD())>
+            <path  style="fill:#666666;" [attr.d]=svgTemplate.getOptimizedD()/>
         </svg>
     </div>
-</div>
+</div> -->

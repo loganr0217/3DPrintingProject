@@ -19,18 +19,18 @@ p {
 }
 
 /* Sections */
-#section1 {
+/* #section1 {
     flex:2;
     padding-left: 2vw;
     padding-right: 2vw;
     justify-content: space-around;
-}
+} */
 #section2 {
-    flex:4;
+    flex:55;
     justify-content: space-around;
 }
 #section3 {
-    flex:1;
+    flex:45;
     justify-content: space-around;
 }
 .section {margin:10px;}

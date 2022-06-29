@@ -29,9 +29,9 @@ export class ColorsSelectionButtonComponent implements OnInit {
       document.getElementById("button_"+hexValue+"_false")?.setAttribute("style", "border:1px solid #0000ff");
       this.sharedDataService.currentFilamentColor = hexValue;
       document.getElementById("svgTemplate")?.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor);
-      for(let i = 0; i < this.sharedDataService.svgTemplateData[this.sharedDataService.currentWindowNumber].length; ++i) {
-        document.getElementById("windowSVG_"+this.sharedDataService.currentWindowNumber+"_"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor+";");
-        document.getElementById("windowSVGFinished_"+this.sharedDataService.currentWindowNumber+"_"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor+";");
+      for(let i = 0; i < this.sharedDataService.panelLayoutDims[0]*this.sharedDataService.panelLayoutDims[1]; ++i) {
+        document.getElementById("windowSVG"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor+";");
+        document.getElementById("windowSVGFinished"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor+";");
       }
     }
   }

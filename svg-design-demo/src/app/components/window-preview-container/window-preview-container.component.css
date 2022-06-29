@@ -9,14 +9,45 @@
 }
 
 
-.windowSVG {
-    overflow: visible;
+.svgTemplateIcons {
+    width:7vw;
+    padding-left: 0;
+    padding-right: 0;
 }
 
-svg {
-    overflow: visible;
+.fullWin {
+    display: flex;
+    white-space: nowrap;
+    max-width: 55vw;
+    flex-direction: column;
 }
 
-#button_nextPane {
-    margin-top: 1vh;
+.fullWin::-webkit-scrollbar {
+    -webkit-appearance: none;
 }
+
+.fullWin::-webkit-scrollbar:horizontal {
+    height: 11px;
+}
+
+.fullWin::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.windowTemplateContainer {
+    display: flex;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    padding-top: 1vw;
+    padding-bottom: 1vw;
+    flex-direction: column;
+}
+
+.windowTemplate {
+    flex:1;
+    display: flex;
+}
+
+

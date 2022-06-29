@@ -25,23 +25,40 @@ export class CheckoutPageComponent implements OnInit {
   }
   
   getFinalInfo():void {
-    let finalText:string = 
-    "Divider Type: " + this.sharedDataService.selectedDividerType + "\n" + 
-    "Window Shape: " + this.sharedDataService.selectedWindowShape + "\n" +
-    "Unit of measure: " + this.sharedDataService.unitChoice + " to mm\n" +
-    "Width: " + this.convertNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice) + "mm\n" + 
-    "Height: " + this.convertNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice) + "mm\n" +
-    "Panel Width: " + this.getPanelWidthHeight(this.convertNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice)) + "mm\n" +
-    "Panel Height: " + + this.getPanelWidthHeight(this.convertNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice)) + "mm\n" +
-    "Template: " + this.sharedDataService.currentWindowNumber + "\n"
-    "Color Selection: " + "\n";
+    // let finalText:string = 
+    // "Divider Type: " + this.sharedDataService.selectedDividerType + "\n" + 
+    // "Window Shape: " + this.sharedDataService.selectedWindowShape + "\n" +
+    // "Unit of measure: " + this.sharedDataService.unitChoice + " to mm\n" +
+    // "Width: " + this.convertNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice) + "mm\n" + 
+    // "Height: " + this.convertNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice) + "mm\n" +
+    // "Panel Width: " + this.getPanelWidthHeight(this.convertNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice)) + "mm\n" +
+    // "Panel Height: " + + this.getPanelWidthHeight(this.convertNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice)) + "mm\n" +
+    // "Template: " + this.sharedDataService.currentWindowNumber + "\n"
+    // "Color Selection: " + "\n";
 
-    var serializer = new XMLSerializer();
-    var xmlString = serializer.serializeToString(document.getElementById("windowPreviewContainertrue")!);
-    let svgText:string[] = xmlString.split("<svg");
-    for(let i:number = 0; i < svgText.length; ++i) {svgText[i] = "<svg" + svgText[i]; finalText += svgText[i] + "\n\n";}
-    console.log(finalText);
-    
+    // var serializer = new XMLSerializer();
+    // var xmlString = serializer.serializeToString(document.getElementById("windowPreviewContainertrue")!);
+    // let svgText:string[] = xmlString.split("<svg");
+    // for(let i:number = 0; i < svgText.length; ++i) {svgText[i] = "<svg" + svgText[i]; finalText += svgText[i] + "\n\n";}
+    // console.log(finalText);
+    let finalText:string[] = [String(this.convertNumber(this.sharedDataService.windowWidth / this.sharedDataService.panelLayoutDims[0], this.sharedDataService.unitChoice)),
+      String(this.convertNumber(this.sharedDataService.windowHeight / this.sharedDataService.panelLayoutDims[1], this.sharedDataService.unitChoice))
+    ];
+    let final:string = "[";
+    for(let row:number = 0; row < this.sharedDataService.panelLayoutDims[1]; ++row) {
+      for(let col:number = 0; col < this.sharedDataService.panelLayoutDims[0]; ++col) {
+        //finalText.push(this.sharedDataService.svgTemplateData[this.sharedDataService.currentTemplateNumber][i].d);
+        finalText.push(this.sharedDataService.panelLayout[row][col].getOptimizedD());
+      }
+    }
+    for(let j:number = 0; j < finalText.length; ++j) {
+      final += "'" + finalText[j] + "'";
+      if(j != finalText.length-1) {final += ",";}
+    }
+    final += "]\n"
+    final += this.sharedDataService.panelColoringArray;
+    console.log(final);
+
   
   }
 

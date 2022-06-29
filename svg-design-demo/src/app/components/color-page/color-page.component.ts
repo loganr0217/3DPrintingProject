@@ -14,6 +14,7 @@ export class ColorPageComponent implements OnInit {
   panelLayout:SVGTemplate[][];
   panelDims:number[];
   currentPanelLocation:number[];
+  templateString:string;
   constructor(private sharedDataService:SharedDataService) { }
 
   // Getting optimzed d for template
@@ -43,10 +44,11 @@ export class ColorPageComponent implements OnInit {
 
   displayTemplate(window:{id:number, name:string, d:string}[], windowNumber:number):void {
     this.currentWindow = window;
-
+    this.sharedDataService.currentWindowNumber = windowNumber;
   }
 
   choosePanel(panelNum:number):void {
+    this.templateString += this.sharedDataService.currentWindowNumber + "," + panelNum + ";";
     if(this.currentPanel != null) {
       document.getElementById("svgTemplateLayoutPanel" + this.currentPanel)?.setAttribute("style", "fill:#666666;")
     }
@@ -55,9 +57,11 @@ export class ColorPageComponent implements OnInit {
     this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]] = new SVGTemplate(this.currentWindow[panelNum].d);
     if(this.currentPanelLocation[1] + 1 >= this.panelDims[0]) {++this.currentPanelLocation[0]; this.currentPanelLocation[1]=0;}
     else {++this.currentPanelLocation[1];}
+    document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + this.currentPanelLocation; 
   }
 
   updateLayout():void {
+    this.templateString = "";
     let leftRight:number = Number((<HTMLInputElement>document.getElementById("leftRightInput")).value)
     let topBottom:number = Number((<HTMLInputElement>document.getElementById("topBottomInput")).value)
     if(leftRight != null && topBottom != null && leftRight > 0 && topBottom > 0) {
@@ -73,8 +77,26 @@ export class ColorPageComponent implements OnInit {
     
   }
 
+  undoPanelChoice():void {
+    if(this.currentPanelLocation[1] - 1 < 0 && this.currentPanelLocation[0] - 1 >= 0) {--this.currentPanelLocation[0]; this.currentPanelLocation[1]=this.panelDims[0]-1;}
+    else {--this.currentPanelLocation[1];}
+    this.panelLayout[this.currentPanelLocation[0]].pop();
+    document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + this.currentPanelLocation; 
+    let test:string[] = this.templateString.split(";");
+    // Removing empty ending and last panel
+    test.pop();
+    test.pop();
+    this.templateString = test.join(";") + ";";
+    if(this.templateString == ";") {this.templateString = "";}
+  }
+
   ngOnInit(): void {
     this.svgTemplateData = this.sharedDataService.svgTemplateData;
+    this.templateString = "";
+  }
+
+  showTemplateString():void {
+    alert(this.templateString.substring(0, this.templateString.length-1));
   }
 
 }

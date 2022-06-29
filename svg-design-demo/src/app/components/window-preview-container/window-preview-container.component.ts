@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { SVGTemplate } from '../svgScaler';
-import { Polygon } from '../svgScaler';
 import { Input } from '@angular/core';
 
 @Component({
@@ -11,17 +10,25 @@ import { Input } from '@angular/core';
 })
 export class WindowPreviewContainerComponent implements OnInit {
   @Input() finished:boolean;
-  constructor(private sharedDataService:SharedDataService) { }
+  // Array containing the svgPath data for displaying icons / generating a template
+  svgTemplateData:{id:number, name:string, d:string}[][];
+  currentPanel:number;
+  currentWindow:{id:number, name:string, d:string}[];
+  panelLayout:SVGTemplate[][];
+  panelDims:number[];
+  currentPanelLocation:number[];
+
+  constructor(public sharedDataService:SharedDataService) { }
 
   // Method to move to next pane in window
-  nextPane():void {
-    if(this.sharedDataService.currentTemplateNumber != -1) {
-      ++this.sharedDataService.currentTemplateNumber;
-      this.sharedDataService.currentTemplateNumber %= this.sharedDataService.svgTemplateData[this.sharedDataService.currentWindowNumber].length;
-      this.clearOldPanes();
-      this.displayTemplate(this.sharedDataService.svgTemplateData[this.sharedDataService.currentWindowNumber][this.sharedDataService.currentTemplateNumber].d);
-    }
-  }
+  // nextPane():void {
+  //   if(this.sharedDataService.currentTemplateNumber != -1) {
+  //     ++this.sharedDataService.currentTemplateNumber;
+  //     this.sharedDataService.currentTemplateNumber %= this.sharedDataService.svgTemplateData[this.sharedDataService.currentWindowNumber].length;
+  //     this.clearOldPanes();
+  //     this.displayTemplate(this.sharedDataService.svgTemplateData[this.sharedDataService.currentWindowNumber][this.sharedDataService.currentTemplateNumber].d);
+  //   }
+  // }
 
   // Method to clear old panes
   clearOldPanes():void {
@@ -35,8 +42,10 @@ export class WindowPreviewContainerComponent implements OnInit {
   }
 
   // Updates current template in display window with selected version
-  displayTemplate(svgD:string):void {
+  displayTemplate(svgD:string, row:number, col:number):void {
+    this.clearOldPanes();
     this.sharedDataService.currentSvgTemplate = new SVGTemplate(svgD);
+    this.sharedDataService.currentTemplateNumber = row*this.sharedDataService.panelLayoutDims[0] + col;
     let newTemplate:SVGTemplate = this.sharedDataService.currentSvgTemplate;
 
     let numPane:number = 0; // <-- In case the outer edge is not the first element
@@ -65,7 +74,35 @@ export class WindowPreviewContainerComponent implements OnInit {
     // document.getElementById("currentTemplate")?.setAttribute("height", ""+newTemplate.height+"mm");
   }
 
-  ngOnInit(): void {
+  // Gets template viewbox
+  getTemplateViewBox(d:string):string {
+    let myTemplate:SVGTemplate = new SVGTemplate(d);
+    let tempViewBox:string = myTemplate.xMin + " " + myTemplate.yMin + " " + myTemplate.width + " " + myTemplate.height;
+    return tempViewBox;
   }
 
+  ngOnInit(): void {
+    this.panelLayout = this.sharedDataService.panelLayout;
+  }
+
+  range(i:number):number[] {
+    return [...Array(i).keys()];
+  }
+
+  getPaneID(row:number, col:number, paneNum:number):string {
+    if(!this.finished) {return "windowPane" + (row*this.sharedDataService.panelLayoutDims[0] + col) + "_" + paneNum;}
+    else {return "windowPaneFinished" + (row*this.sharedDataService.panelLayoutDims[0] + col) + "_" + paneNum;}
+  }
+
+  getPanelID(row:number, col:number):string {
+    if(!this.finished) {return "windowSVG" + (row*this.sharedDataService.panelLayoutDims[0] + col);}
+    else {return "windowSVGFinished" + (row*this.sharedDataService.panelLayoutDims[0] + col);}
+  }
+
+  getRotation(svgTemp:SVGTemplate):string {
+    let midX:number = svgTemp.xMin + svgTemp.width/2;
+    let midY:number = svgTemp.yMin + svgTemp.height/2;
+    return "rotate(90," + midX + ","  + midY + ")";
+  }
+  
 }

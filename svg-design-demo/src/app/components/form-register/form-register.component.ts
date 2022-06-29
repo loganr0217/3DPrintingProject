@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ViewChild } from '@angular/core';
+import { ElementRef } from '@angular/core';
 
 @Component({
   selector: 'form-register',
@@ -17,6 +19,14 @@ export class FormRegisterComponent implements OnInit {
   isCshow!: boolean;
   fakeUrl: string = 'http://localhost:4200/';
   constructor(private formBuilder: FormBuilder) { }
+
+  @ViewChild('carousel') carousel: ElementRef;
+
+  ngAfterViewInit(): void {
+    setInterval(() => {
+      this.carousel.nativeElement.click();
+    }, 5000)
+  }
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({

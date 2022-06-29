@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ViewChild } from '@angular/core';
+import { ElementRef } from '@angular/core';
 @Component({
   selector: 'app-stage1',
   templateUrl: './stage1.component.html',
@@ -10,6 +11,14 @@ export class Stage1Component implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  @ViewChild('carousel') carousel: ElementRef;
+
+  ngAfterViewInit(): void {
+    setInterval(() => {
+      this.carousel.nativeElement.click();
+    }, 5000)
   }
 
   nextstage2() {

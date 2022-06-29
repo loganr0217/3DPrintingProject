@@ -124,7 +124,7 @@ export class Stage3Component implements OnInit {
       this.sharedDataService.panelLayout.push([]);
     }
     this.sharedDataService.panelLayoutDims = [leftRight, topBottom];
-    alert("Panel width: " + panelWidth + "\nPanel height: " + panelHeight + "\nLayout: " + this.sharedDataService.panelLayoutDims);
+    console.log("Panel width: " + panelWidth + "\nPanel height: " + panelHeight + "\nLayout: " + this.sharedDataService.panelLayoutDims);
   }
 
   changeUnits(unitChoice:string):void {

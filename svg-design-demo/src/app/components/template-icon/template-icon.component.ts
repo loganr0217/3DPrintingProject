@@ -12,13 +12,15 @@ export class TemplateIconComponent implements OnInit {
 
   // Array containing the svgPath data for displaying icons / generating a template
   svgTemplateData:{id:number, name:string, d:string}[][];
+  templateData:{id:number, numPanels:number, panelDims:number[], tempString:string}[];
   constructor(private sharedDataService:SharedDataService) { }
 
-  // Getting optimzed d for template
-  getOptimizedTemplateD(d:string):string {
-    let myTemplate:SVGTemplate = new SVGTemplate(d);
-    return myTemplate.getOptimizedD();
-  }
+  // // Getting optimzed d for template
+  // getOptimizedTemplateD(d:string):string {
+  //   let myTemplate:SVGTemplate = new SVGTemplate(d);
+    
+  //   return myTemplate.getOptimizedD();
+  // }
 
   // Gets template viewbox
   getTemplateViewBox(d:string):string {
@@ -69,6 +71,7 @@ export class TemplateIconComponent implements OnInit {
     let viewboxValue:string;
     
     for(let i:number = 0; i < window.length; ++i) {
+      this.sharedDataService.panelColoringArray.push([]);
       currentTemplate = new SVGTemplate(window[i].d);
       viewboxValue = ""+currentTemplate.xMin+" "+currentTemplate.yMin+" "+currentTemplate.width+" "+currentTemplate.height;
 
@@ -93,6 +96,7 @@ export class TemplateIconComponent implements OnInit {
         let newPath:Element = document.createElementNS("http://www.w3.org/2000/svg", "path");
         let finishedPath:Element = document.createElementNS("http://www.w3.org/2000/svg", "path");
         if(j != currentTemplate.outerEdgeIndex) {
+          this.sharedDataService.panelColoringArray[i].push("fill:#ffffff");
           newPath.setAttribute("style", "fill:#ffffff;");
           newPath.setAttribute("d", currentTemplate.subShapes[j].getScalablePath());
           newPath.setAttribute("id", "windowPane"+i+"_"+numPane);
@@ -165,6 +169,51 @@ export class TemplateIconComponent implements OnInit {
   ngOnInit(): void {
     // Getting svgTemplateData
     this.svgTemplateData = this.sharedDataService.svgTemplateData;
+    this.templateData = [
+      {id:0, numPanels:6, panelDims:[2,3], tempString:"0,0;0,1;0,2;0,3;0,4;0,4"},
+      {id:1, numPanels:6, panelDims:[1,6], tempString:"0,0;0,1;0,2;0,3;0,4;0,4"},
+      {id:2, numPanels:6, panelDims:[6,1], tempString:"0,0;0,1;0,2;0,3;0,4;0,4"},
+      {id:3, numPanels:36, panelDims:[6,6], tempString:"0,0;0,1;0,2;0,3;0,4;0,4;0,0;0,1;0,2;0,3;0,4;0,4;0,0;0,1;0,2;0,3;0,4;0,4;0,0;0,1;0,2;0,3;0,4;0,4;0,0;0,1;0,2;0,3;0,4;0,4;0,0;0,1;0,2;0,3;0,4;0,4"},
+      {id:4, numPanels:8, panelDims:[2,4], tempString:"1,0;1,0;1,1;1,1;1,2;1,2;1,4;1,4"}
+      
+    ];
   }
 
+  range(i:number):number[] {
+    return [...Array(i).keys()];
+  }
+
+  getPanelLayout(temp:{id:number, numPanels:number, panelDims:number[], tempString:string}):SVGTemplate[][] {
+    // Creating panel layout array
+    let panelLayout:SVGTemplate[][] = [];
+    for(let row:number = 0; row < temp.panelDims[1]; ++row) {panelLayout.push([]);}
+
+    // Splitting the tempString info into a 2d array of panel info
+    let tempString:string[] = temp.tempString.split(';'); 
+    let panelInfoArray:string[][] = [];
+    for(let index:number = 0; index < tempString.length; ++index) {
+      panelInfoArray.push(tempString[index].split(','));
+    }
+
+    // Adding each panel to the panel layout
+    for(let panelID:number = 0; panelID < panelInfoArray.length; ++panelID) {
+      let myTemplate:SVGTemplate = new SVGTemplate(this.svgTemplateData[Number(panelInfoArray[panelID][0])][Number(panelInfoArray[panelID][1])].d);
+      panelLayout[Math.floor(panelID/temp.panelDims[0])].push(myTemplate);
+    }
+    console.log(panelLayout);
+    return panelLayout;
+  }
+
+  // Creates the window previews
+  createPreview(temp:{id:number, numPanels:number, panelDims:number[], tempString:string}):void {
+    this.sharedDataService.panelLayout = this.getPanelLayout(temp);
+    this.sharedDataService.panelLayoutDims = [this.sharedDataService.panelLayout[0].length, this.sharedDataService.panelLayout.length];
+    this.sharedDataService.panelColoringArray = [];
+    for(let i:number = 0; i < temp.numPanels; ++i) {
+      this.sharedDataService.panelColoringArray.push([]);
+      for(let j:number = 1; j < this.sharedDataService.panelLayout[Math.floor(i/this.sharedDataService.panelLayoutDims[0])][i%this.sharedDataService.panelLayoutDims[0]].subShapes.length; ++j) {
+        this.sharedDataService.panelColoringArray[i].push("#ffffff;");
+      }
+    }
+  }
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ViewChild } from '@angular/core';
+import { ElementRef } from '@angular/core';
 
 @Component({
   selector: 'form-login',
@@ -15,6 +17,14 @@ export class FormLoginComponent implements OnInit {
   pass!: string;
   fakeUrl: string = 'http://localhost:4200/';
   constructor(private formBuilder: FormBuilder) { }
+
+  @ViewChild('carousel') carousel: ElementRef;
+
+  ngAfterViewInit(): void {
+    setInterval(() => {
+      this.carousel.nativeElement.click();
+    }, 5000)
+  }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({

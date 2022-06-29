@@ -40,33 +40,28 @@ export class DesignWindowComponent implements OnInit {
       document.getElementById("pane"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
       document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
       document.getElementById("windowPaneFinished"+this.sharedDataService.currentTemplateNumber+"_"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
+      this.sharedDataService.panelColoringArray[this.sharedDataService.currentTemplateNumber][paneID] = "fill:#"+this.sharedDataService.currentPaneColor;
     }
     this.sharedDataService.currentPaneID = "pane"+paneID;
   }
 
-  // Undoes the last change
+  // Undoes the last change recent changes array : [templateNum, paneID, style]
   undoChange():void {
     if(this.recentChanges.length > 0) {
+
       let recentChange:string[] = this.recentChanges.pop()!;
       if(recentChange[0] == String(this.sharedDataService.currentTemplateNumber)) {
         document.getElementById("pane"+recentChange[1])?.setAttribute("style", recentChange[2]);
       }
+      this.sharedDataService.panelColoringArray[Number(recentChange[0])][Number(recentChange[1])] = recentChange[2];
       document.getElementById("windowPane"+recentChange[0]+"_"+recentChange[1])?.setAttribute("style", recentChange[2]);
       document.getElementById("windowPaneFinished"+recentChange[0]+"_"+recentChange[1])?.setAttribute("style", recentChange[2]);
+
+      
     }
     
 
   }
-
-    // Method to move to next pane in window
-    nextPane():void {
-      if(this.sharedDataService.currentTemplateNumber != -1) {
-        ++this.sharedDataService.currentTemplateNumber;
-        this.sharedDataService.currentTemplateNumber %= this.sharedDataService.svgTemplateData[this.sharedDataService.currentWindowNumber].length;
-        this.clearOldPanes();
-        this.displayTemplate(this.sharedDataService.svgTemplateData[this.sharedDataService.currentWindowNumber][this.sharedDataService.currentTemplateNumber].d);
-      }
-    }
   
     // Method to clear old panes
     clearOldPanes():void {
@@ -78,12 +73,18 @@ export class DesignWindowComponent implements OnInit {
       }
       this.sharedDataService.numberPanes = 0;
     }
-  
+
+    displayFirstTemplate():void {
+      this.displayTemplate(this.sharedDataService.panelLayout[0][0].getOptimizedD(), 0, 0);
+    }
+
     // Updates current template in display window with selected version
-    displayTemplate(svgD:string):void {
+    displayTemplate(svgD:string, row:number, col:number):void {
+      this.clearOldPanes();
       this.sharedDataService.currentSvgTemplate = new SVGTemplate(svgD);
+      this.sharedDataService.currentTemplateNumber = row*this.sharedDataService.panelLayoutDims[0] + col;
       let newTemplate:SVGTemplate = this.sharedDataService.currentSvgTemplate;
-  
+
       let numPane:number = 0; // <-- In case the outer edge is not the first element
       // Adding each individual pane
       for(let i = 0; i < newTemplate.subShapes.length; ++i) {
@@ -98,11 +99,11 @@ export class DesignWindowComponent implements OnInit {
         }
       }
       this.sharedDataService.numberPanes = numPane;
-  
+
       
       // Updating the current displayed template
       document.getElementById("svgTemplate")?.setAttribute("d", newTemplate.getOptimizedD());
-  
+
       let viewboxValue:string = ""+newTemplate.xMin+" "+newTemplate.yMin+" "+newTemplate.width+" "+newTemplate.height;
       document.getElementById("currentTemplate")?.setAttribute("viewBox", viewboxValue);
       document.getElementById("svgTemplate")?.setAttribute("transform", "");
@@ -110,4 +111,20 @@ export class DesignWindowComponent implements OnInit {
       // document.getElementById("currentTemplate")?.setAttribute("height", ""+newTemplate.height+"mm");
     }
 
+    nextstage5() {
+      document.getElementById("stage5")?.setAttribute("style", "visibility:visible;")
+      document.getElementById("stage5")?.scrollIntoView({behavior: 'smooth'});
+    }
+
+    // Changes color of frame
+    changeFrameColor(hexValue:string):void {
+      document.getElementById("button_"+this.sharedDataService.currentFilamentColor+"_false")?.setAttribute("style", "");
+      document.getElementById("button_"+hexValue+"_false")?.setAttribute("style", "border:1px solid #0000ff");
+      this.sharedDataService.currentFilamentColor = hexValue;
+      document.getElementById("svgTemplate")?.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor);
+      for(let i = 0; i < this.sharedDataService.panelLayoutDims[0]*this.sharedDataService.panelLayoutDims[1]; ++i) {
+        document.getElementById("windowSVG"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor+";");
+        document.getElementById("windowSVGFinished"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor+";");
+      }
+    }
 }

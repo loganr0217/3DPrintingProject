@@ -762,20 +762,83 @@ export class SVGTemplate {
         return [scaledD.trim(), newScaleX.toString(), newScaleY.toString()];
     }
 
+    /*
+   /*
+    Equations to get xOutset and newScale (different for panes):
+    newScaleX = (scaleX*width-2paneOffset) / (width - 2xOutset)
+    (railWidth - 2xOutset)*newScaleX = railWidth - 2paneTolerance
+    */
     // Method to get panes for laser cutting
     getLaserCutPanes(scaleX:number=1, scaleY:number=1):string[] {
         let result:string = "";
         // Getting outset values for reducing wallwidth in x/y
-        let xOutset:number = (3*this.width*(scaleX-1)) / (scaleX*this.width - 6);
-        let yOutset:number = (3*this.height*(scaleY-1)) / (scaleY*this.height - 6);
+        // let xOutset:number = (3*this.width*(scaleX-1)) / (scaleX*this.width - 6);
+        // let yOutset:number = (3*this.height*(scaleY-1)) / (scaleY*this.height - 6);
+
+        // // Getting new scale values
+        // let newScaleX:number = (scaleX*this.width) / (this.width - (2*xOutset));
+        // let newScaleY:number = (scaleY*this.height) / (this.height - (2*yOutset));
+        let xOutset:number = (3.5*this.width - 6*(scaleX*this.width-2.5)) / (7 - 2*(scaleX*this.width-2.5));
+        let yOutset:number = (3.5*this.height - 6*(scaleY*this.height-2.5)) / (7 - 2*(scaleY*this.height-2.5));
 
         // Getting new scale values
-        let newScaleX:number = (scaleX*this.width) / (this.width - (2*xOutset));
-        let newScaleY:number = (scaleY*this.height) / (this.height - (2*yOutset));
+        let newScaleX:number = 3.5 / (6 - (2 * xOutset));
+        let newScaleY:number = 3.5 / (6 - (2 * yOutset));
 
         // Looping through each pane and outsetting by 2mm so pane will fit in aperture
-        for(let i:number = 0; i < this.subShapes.length; ++i) {if(i != this.outerEdgeIndex) {result += this.subShapes[i].outset(1.25, 1.25) + " ";}}
+        for(let i:number = 0; i < this.subShapes.length; ++i) {if(i != this.outerEdgeIndex) {result += this.subShapes[i].outset(xOutset, yOutset) + " ";}}
         return [result.trim(), newScaleX.toString(), newScaleY.toString()];
+    }
+
+    getFileText(scaleX:number, scaleY:number):string {
+        //
+        let scaledDInfo:string[] = this.getScaledD(scaleX, scaleY);
+        let paths:string = `\n
+            <path
+                id="rect569"
+                style="fill:#ececec;stroke-width:0.999999"
+                d="` + scaledDInfo[0] + `"
+                transform="scale(` + scaledDInfo[1] + `, ` + scaledDInfo[2] + `)" /> \n
+            `;
+
+        let svgSizeInfo:string = "\nwidth='"+(this.width*scaleX)+"mm'\n" +
+            "height='"+(this.height*scaleY)+"mm'\n" +
+            "viewBox='"+0 + " " + 0 + " " + (this.width*scaleX) + " " + (this.height*scaleY) + "'\n";
+        
+        let fullFileText:string = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:cc="http://creativecommons.org/ns#"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:svg="http://www.w3.org/2000/svg"
+xmlns="http://www.w3.org/2000/svg"` + 
+svgSizeInfo +
+`
+version="1.1"
+id="svg567">
+<defs
+    id="defs561" />
+<metadata
+    id="metadata564">
+    <rdf:RDF>
+    <cc:Work
+        rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+        rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+    </cc:Work>
+    </rdf:RDF>
+</metadata>
+<g
+    id="layer1">
+    ` + 
+    paths + 
+`     
+</g>
+</svg>
+`
+        return fullFileText;
     }
 }
 
@@ -813,11 +876,19 @@ export class SVGTemplate {
 // 5
 // let p:string = `M -44.166681,0.53929352 V 300.53932 H 255.83335 V 0.53929352 Z m 5.000074,5.00007488 H 15.833105 V 60.53909 h -54.999712 z m 60.999689,0 H 189.83358 V 60.53909 H 21.833082 Z m 174.000478,0 h 54.99971 V 60.53909 H 195.83356 Z M -39.166607,66.539079 H 15.833105 V 234.53903 h -54.999712 z m 61.000242,0 H 189.83358 V 136.53899 L 105.83333,181.5391 21.833635,136.53899 Z m 173.999925,0 h 54.99971 V 234.53903 H 195.83356 Z M 21.833082,144.30067 102.83197,187.64436 h 5.6e-4 v 0 107.89432 H 21.833096 v -107.89432 0 -43.34369 z m 167.999948,0 v 43.34369 0 107.89432 H 108.8336 v -107.89432 0 h 10e-4 l 80.99834,-43.34369 z m -228.999637,96.23832 h 54.999712 v 55.00026 h -54.999712 z m 235.000167,0 h 54.99971 v 55.00026 h -54.99971 z`;
 
-// let test:SVGTemplate = new SVGTemplate(p);
-// let result:string[] = test.getScaledD(2, 2);
-//console.log(test.getScaledD(343/300, 305/300));
+let p:string = "M -44.166681,0.53946792 V 300.5395 H 255.83335 V 0.53946792 Z m 5.000074,5.00007398 H 250.83327 V 51.539559 H -39.166607 Z m 0,51.9999971 H 50.83307 V 295.53943 h -89.999677 z m 96.000207,0 h 97.99946 V 147.53922 H 56.8336 Z m 103.99999,0 h 89.99968 V 295.53943 H 160.83359 Z M 56.8336,153.5392 h 97.99946 V 295.53943 H 56.8336 Z";
+let test:SVGTemplate = new SVGTemplate(p);
+//let result:string[] = test.getScaledD(2, 2);
+console.log(test.getFileText(157/300, 211/300));
 //console.log(test.getScaledD(343/300, 305/300));
 //console.log(test.getLaserCutPanes());
 // let test:DividerWindow = new DividerWindow(undefined, undefined, 10, 10, undefined);
 // console.log(test.windowSVG.getScaledD(2, 1)[0]);
 
+// [
+//     {id:5, name:"1_8Aframe04_development.svg", d:"M -44.166681,0.53946792 V 300.5395 H 255.83335 V 0.53946792 Z m 5.000074,5.00007398 H 250.83327 V 51.539559 H -39.166607 Z m 0,51.9999971 H 50.83307 V 295.53943 h -89.999677 z m 96.000207,0 h 97.99946 V 147.53922 H 56.8336 Z m 103.99999,0 h 89.99968 V 295.53943 H 160.83359 Z M 56.8336,153.5392 h 97.99946 V 295.53943 H 56.8336 Z"},
+//     {id:4, name:"1_8Aframe03_development.svg", d:"M -44.166681,2.9122837 V 302.91231 H 255.83335 V 2.9122837 Z m 5.000074,5.000074 H 102.83307 V 75.912482 H -39.166607 Z m 148.000207,0 H 250.83327 V 75.912482 H 108.8336 Z M -39.166607,81.912461 H 2.8332432 V 149.91203 H -39.166607 Z m 47.9998271,0 H 50.83307 V 149.91203 H 8.8332201 Z m 48.0003799,0 h 45.99947 V 149.91203 H 56.8336 Z m 51.99945,0 h 46.00001 v 67.999569 h -46.00001 z m 52.00054,0 h 41.99985 v 67.999569 h -41.99985 z m 47.99983,0 h 41.99985 V 149.91203 H 208.83342 Z M -39.166607,155.91256 H 50.83307 v 141.99968 h -89.999677 z m 96.000207,0 h 45.99947 v 75.99991 H 56.8336 Z m 51.99945,0 h 46.00001 v 75.99991 h -46.00001 z m 52.00054,0 h 89.99968 V 297.91224 H 160.83359 Z M 56.8336,237.91245 h 45.99947 v 59.99979 H 56.8336 Z m 51.99945,0 h 46.00001 v 59.99979 h -46.00001 z"},
+//     {id:3, name:"1_8Aframe02_development.svg", d:"M -44.166681,-0.25147069 V 299.74856 H 255.83335 V -0.25147069 Z m 5.000074,5.00007399 H 50.83307 V 294.74849 h -89.999677 z m 96.000207,0 h 45.99947 V 294.74849 H 56.8336 Z m 51.99945,0 h 46.00001 V 294.74849 h -46.00001 z m 52.00054,0 h 89.99968 V 294.74849 h -89.99968 z"},
+//     {id:2, name:"1_8Aframe02_development.svg", d:"M -44.166681,-0.25147069 V 299.74856 H 255.83335 V -0.25147069 Z m 5.000074,5.00007399 H 50.83307 V 294.74849 h -89.999677 z m 96.000207,0 h 45.99947 V 294.74849 H 56.8336 Z m 51.99945,0 h 46.00001 V 294.74849 h -46.00001 z m 52.00054,0 h 89.99968 V 294.74849 h -89.99968 z"},
+//     {id:1, name:"1_8Aframe01_development.svg", d:"M -44.166681,2.1213451 V 302.12137 H 255.83335 V 2.1213451 Z M 56.97416,7.2625302 h 45.71835 V 135.98012 H 56.97416 Z m 52,0 H 154.6925 V 135.98012 H 108.97416 Z M -38.969272,7.3187542 H 50.635734 V 135.92389 h -89.605006 z m 200.000202,0 h 89.60501 V 135.92389 H 161.03093 Z M -38.965965,142.3224 H 102.63243 v 66.59838 H -38.965965 Z m 148.000205,0 h 141.5984 v 66.59838 H 109.03424 Z M -38.962657,215.32536 H 250.62931 v 81.59197 H -38.962657 Z"}
+//   ],

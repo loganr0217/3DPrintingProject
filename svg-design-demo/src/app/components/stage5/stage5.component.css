@@ -1,20 +1,18 @@
 #stage5Container {
-    padding-top: 80px;
+    padding-top: 50px;
+    display: flex;
 }
 
 #sideText {
     padding-top: 20px;
-    width: 80vw;
-}
-#bigContainer {
-    display: flex;
-}
-#finishedWindowPreview {
+    padding-left: 2vw;
     flex:1;
 }
-
-#windowCartDetails {
-    flex:3;
+#bigContainer {
+    padding-top: 5vh;
+    padding-left: 5vw;
+    display: flex;
+    flex:2;
 }
 
 #submitInput {

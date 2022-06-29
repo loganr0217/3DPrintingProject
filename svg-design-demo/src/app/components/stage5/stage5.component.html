@@ -1,18 +1,20 @@
-<div id="stage5Container" class="container px-4 py-5 mx-auto">
+<div id="stage5Container">
     <div id="sideText">
         <h1>Your complete design!</h1>
         <p>Click Checkout to purchase, <a (click)="saveDesign()"><b>save your design</b></a> for later or <a (click)="goToStage4()"><b>go back</b></a> if things don’t look right</p>
+        <div id="windowCartDetails">
+            <p [textContent]="getWindowWidth()"></p>
+            <p [textContent]="getWindowHeight()"></p>
+            <p [textContent]="getPanelWidth()"></p>
+            <p [textContent]="getPanelHeight()"></p>
+            <input (click)="nextstageCheckout()" type="button" class="btn-block btn-blue btn-med" id="submitInput" value="Checkout"/>
+        </div>
     </div>
     <div id="bigContainer">
-    <div id="finishedWindowPreview">
-        <app-window-preview-container [finished]="true"></app-window-preview-container>
-        
-    </div>
-    <div id="windowCartDetails">
-        <p [textContent]="getWindowWidth()"></p>
-        <p [textContent]="getWindowHeight()"></p>
-        <input (click)="nextstageCheckout()" type="button" class="btn-block btn-blue btn-med" id="submitInput" value="Checkout"/>
-    </div>
+        <div id="finishedWindowPreview">
+            <app-window-preview-container [finished]="true"></app-window-preview-container>
+            
+        </div>
     <!-- <div class="row d-flex justify-content-center topText">
         <div class="col-5">
             <h1>Your complete design!</h1>
@@ -99,5 +101,5 @@
         </div>
     </div> -->
 
-</div>
+    </div>
 </div>

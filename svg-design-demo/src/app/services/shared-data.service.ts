@@ -73,6 +73,9 @@ export class SharedDataService {
     {id:2, value:"bronze", hex:"CD7F32", paneColor:false},
     {id:3, value:"black", hex:"000000ff", paneColor:false}
   ];
+
+  // Array that holds each panel's color makeup
+  panelColoringArray:string[][] = [];
   
   // Array containing the svgPath data for displaying icons / generating a template
   svgTemplateData:{id:number, name:string, d:string}[][] = [

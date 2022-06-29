@@ -55,24 +55,25 @@ export class DimensionsFormComponent implements OnInit {
       else {finalPanelWidth = width / (Math.ceil(width/500));}
     }
     else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
-      // Spacing using user's dividers is bigger than 500
-      if(((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
-        (vertDividers/(vertDividers+1)) > 500) {
-          finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
-            (vertDividers/(vertDividers+1)) / Math.ceil((((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
-            (vertDividers/(vertDividers+1))) / 500);
-      }
-      // Spacing using user's dividers is >= 100 and <= 500 (perfect)
-      else if(((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
-        (vertDividers/(vertDividers+1)) >= 100) {
-          finalPanelWidth = (((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
-            (vertDividers/(vertDividers+1)));
-      }
-      // Spacing is too small (have to ignore dividers)
-      else {
-        if(width >= 100 && width <=500) {finalPanelWidth = width;}
-        else {finalPanelWidth = width / (Math.ceil(width/500));}
-      }
+      // // Spacing using user's dividers is bigger than 500
+      // if(((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
+      // ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth) > 500) {
+      //     finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
+      //     ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth) / Math.ceil((((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
+      //       ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth)) / 500);
+      // }
+      // // Spacing using user's dividers is >= 100 and <= 500 (perfect)
+      // else if(((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
+      // ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth) >= 100) {
+      //     finalPanelWidth = (((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
+      //       ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth));
+      // }
+      // // Spacing is too small (have to ignore dividers)
+      // else {
+      //   if(width >= 100 && width <=500) {finalPanelWidth = width;}
+      //   else {finalPanelWidth = width / (Math.ceil(width/500));}
+      // }
+      finalPanelWidth = width / (vertDividers+1);
       
     }
     // raised divs
@@ -91,24 +92,25 @@ export class DimensionsFormComponent implements OnInit {
       else {finalPanelHeight = height / (Math.ceil(height/500));}
     }
     else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
-      // Spacing using user's dividers is bigger than 500
-      if(((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
-        (horzDividers/(horzDividers+1)) > 500) {
-          finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
-            (horzDividers/(horzDividers+1)) / Math.ceil((((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
-            (horzDividers/(horzDividers+1))) / 500);
-      }
-      // Spacing using user's dividers is >= 100 and <= 500 (perfect)
-      else if(((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
-        (horzDividers/(horzDividers+1)) >= 100) {
-          finalPanelHeight = (((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
-            (horzDividers/(horzDividers+1)));
-      }
-      // Spacing is too small (have to ignore dividers)
-      else {
-        if(height >= 100 && height <=500) {finalPanelHeight = height;}
-        else {finalPanelHeight = height / (Math.ceil(height/500));}
-      }
+      // // Spacing using user's dividers is bigger than 500
+      // if(((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
+      // ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth) > 500) {
+      //     finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
+      //     ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth) / Math.ceil((((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
+      //       ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth)) / 500);
+      // }
+      // // Spacing using user's dividers is >= 100 and <= 500 (perfect)
+      // else if(((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
+      // ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth) >= 100) {
+      //     finalPanelHeight = (((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
+      //       ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth));
+      // }
+      // // Spacing is too small (have to ignore dividers)
+      // else {
+      //   if(height >= 100 && height <=500) {finalPanelHeight = height;}
+      //   else {finalPanelHeight = height / (Math.ceil(height/500));}
+      // }
+      finalPanelHeight = height / (horzDividers+1);
       
     }
     // raised divs
@@ -158,7 +160,7 @@ export class DimensionsFormComponent implements OnInit {
       this.sharedDataService.panelLayout.push([]);
     }
     this.sharedDataService.panelLayoutDims = [leftRight, topBottom];
-    alert("Panel width: " + panelWidth + "\nPanel height: " + panelHeight + "\nLayout: " + this.sharedDataService.panelLayoutDims);
+    console.log("Panel width: " + panelWidth + "\nPanel height: " + panelHeight + "\nLayout: " + this.sharedDataService.panelLayoutDims);
   }
 
   // Method to clear old panes

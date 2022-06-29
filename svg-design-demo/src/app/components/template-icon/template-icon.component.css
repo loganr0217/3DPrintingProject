@@ -1,14 +1,18 @@
 .svgTemplateIcons {
     width:5vw;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .fullWin {
     display: flex;
-    overflow-x: scroll;  
-    overflow-y: hidden;
+    overflow-x: hidden;  
+    overflow-y: scroll;
     white-space: nowrap;
+    max-height: 75vh;
     max-width: 55vw;
     border: 1px solid black;
+    flex-direction: column;
 }
 
 .fullWin::-webkit-scrollbar {
@@ -25,12 +29,18 @@
     background-color: rgba(0, 0, 0, .5);
 }
 
-.windowTemplate {
-    flex:1;
-    padding-top: 1vh;
-    padding-bottom: 1vh;
+.windowTemplateContainer {
+    display: flex;
     padding-left: 1vw;
     padding-right: 1vw;
-    display: flex;
+    padding-top: 1vw;
+    padding-bottom: 1vw;
     flex-direction: column;
 }
+
+.windowTemplate {
+    flex:1;
+    display: flex;
+}
+
+
