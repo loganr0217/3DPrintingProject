@@ -133,6 +133,7 @@ export class Stage3Component implements OnInit {
     document.getElementById("widthUnits")!.textContent = unitChoice;
     document.getElementById("heightUnits")!.textContent = unitChoice;
     document.getElementById("dividerWidthUnits")!.textContent = unitChoice;
+    document.getElementById("dividerDetailText")?.setAttribute("style", "visibility:visible;")
   }
 
   prestage2BCon() {

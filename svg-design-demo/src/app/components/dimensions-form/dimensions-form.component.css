@@ -10,6 +10,9 @@ p {
     font-size: 1.7vw;
 }
 
+.btn {
+    margin-right: 1vw;
+}
 .textarea-addon {
     background-color: white;
 }

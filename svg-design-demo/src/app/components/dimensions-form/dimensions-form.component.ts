@@ -9,9 +9,13 @@ import { Polygon, DividerWindow, WindowPane, SVGTemplate } from '../svgScaler';
   styleUrls: ['./dimensions-form.component.css']
 })
 export class DimensionsFormComponent implements OnInit {
-  constructor(private sharedDataService:SharedDataService) { }
+  unitChoice:string;
 
+  constructor(private sharedDataService:SharedDataService) {
+  }
+  
   ngOnInit(): void {
+    this.unitChoice = this.sharedDataService.unitChoice;
   }
 
 /* SAVING FOR LATER USE IN STEP 4
@@ -44,7 +48,6 @@ export class DimensionsFormComponent implements OnInit {
     }
   }
 */
-  unitChoice:string = this.sharedDataService.unitChoice;
 
 
   getPanelWidth(width:number):number {
@@ -177,7 +180,7 @@ export class DimensionsFormComponent implements OnInit {
   updateDimensionsButton():void {
     let newWidth:number = Number((<HTMLInputElement>document.getElementById("widthInput")).value);
     let newHeight:number = Number((<HTMLInputElement>document.getElementById("heightInput")).value);
-    this.updateDimensions(newWidth, newHeight);
+    this.updateDimensions(newWidth >= 100 ? newWidth : 100, newHeight >= 100 ? newHeight : 100);
   }
   // Method to update dimensions
   updateDimensions(newWidth:number, newHeight:number):void {
@@ -199,14 +202,36 @@ export class DimensionsFormComponent implements OnInit {
       dividerWidth = Number((<HTMLInputElement>document.getElementById("dividerWidthInput")).value);
     }
     if(dividerWidth == 0) {dividerWidth = 2;}
-    let newDividerWindow:DividerWindow = new DividerWindow(newWidth, newHeight, horzDividers, vertDividers, dividerWidth, this.sharedDataService.selectedDividerType, this.sharedDataService.selectedWindowShape.substring(0, 2) == "2x" ? true : false);
+
+    let newDividerWindow:DividerWindow;
+    if(this.sharedDataService.topSash) {
+      this.sharedDataService.windowWidth = newWidth;
+      this.sharedDataService.windowHeight = newHeight;
+      newDividerWindow = new DividerWindow(newWidth, newHeight, horzDividers, vertDividers, dividerWidth, 
+      this.sharedDataService.selectedDividerType, 
+      this.sharedDataService.selectedWindowShape.substring(0, 2) == "2x" ? true : false, 
+      this.sharedDataService.bottomSashWidth, this.sharedDataService.bottomSashHeight);
+    }
+    else {
+      this.sharedDataService.bottomSashWidth = newWidth;
+      this.sharedDataService.bottomSashHeight = newHeight;
+      newDividerWindow = new DividerWindow(this.sharedDataService.windowWidth, this.sharedDataService.windowHeight, 
+        horzDividers, vertDividers, dividerWidth, 
+        this.sharedDataService.selectedDividerType, 
+        this.sharedDataService.selectedWindowShape.substring(0, 2) == "2x" ? true : false, 
+        this.sharedDataService.bottomSashWidth, this.sharedDataService.bottomSashHeight);
+    }
+    
     
     // Updating template dimensions
     document.getElementById("windowPerimeter")?.setAttribute("d", newDividerWindow.dString);
     document.getElementById("windowPerimeter")?.setAttribute("style", "fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:.2;");
     let viewboxValue:string;
-    if(this.sharedDataService.selectedWindowShape.substring(0, 2) == "2x") {
-      viewboxValue = ""+ (-7) +" "+ (-7) +" "+(newWidth+14)+" "+(2*(newHeight+14));
+    if(this.isDoubleHung()) {
+      viewboxValue = ""+ (-7 - (this.sharedDataService.windowWidth >= this.sharedDataService.bottomSashWidth ? 0 : (this.sharedDataService.bottomSashWidth - this.sharedDataService.windowWidth)/2)) +" "+ (-7) +" "+
+      ((this.sharedDataService.windowWidth >= this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth)+14)+
+      " "+(((this.sharedDataService.windowHeight + (this.sharedDataService.bottomSashHeight == -1 ? this.sharedDataService.windowHeight : this.sharedDataService.bottomSashHeight))+28));
+      
     }
     else {viewboxValue = ""+ (-7) +" "+ (-7) +" "+(newWidth+14)+" "+(newHeight+14);}
     document.getElementById("dividerTemplate")?.setAttribute("viewBox", viewboxValue);
@@ -223,8 +248,6 @@ export class DimensionsFormComponent implements OnInit {
     }
 
     this.sharedDataService.dividerWindow = newDividerWindow;
-    this.sharedDataService.windowWidth = newWidth;
-    this.sharedDataService.windowHeight = newHeight;
     this.sharedDataService.dividerWidth = dividerWidth;
     this.sharedDataService.dividerNumbers = [horzDividers, vertDividers];
   }
@@ -233,6 +256,32 @@ export class DimensionsFormComponent implements OnInit {
     this.updatePanelLayout();
     document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;")
     document.getElementById("templateCategoryStage")?.scrollIntoView({behavior: 'smooth'});
+  }
+
+  // Method to get the correct
+  sashButtonText():string {
+    if(this.sharedDataService.topSash) {return "Bottom Sash";}
+    return "Top Sash";
+  }
+
+  // Method to check whether selected window shape is a 2xHung
+  isDoubleHung():boolean {
+    if(this.sharedDataService.selectedWindowShape.substring(0, 2) == "2x") {return true;}
+    return false;
+  }
+
+  // Method to switch the current Sash for a 2xHung window
+  switchSash():void {
+    this.sharedDataService.topSash = !this.sharedDataService.topSash;
+    if(this.sharedDataService.finishedSashes == false) {
+      this.sharedDataService.finishedSashes = true;
+      document.getElementById("submitInput")?.removeAttribute("disabled");
+    }
+  }
+
+  unitText() {
+    if(this.sharedDataService.unitChoice == "inches") {return "in";}
+    return this.sharedDataService.unitChoice;
   }
 
 }

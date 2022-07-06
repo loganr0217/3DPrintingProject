@@ -11,11 +11,12 @@
               <a class="dropdown-item" (click)="changeUnits('cm')">cm</a>
             </div>
         </div>
-        
-        <p>Enter your window's dimensions below. If you don't have exact dimensions now, 
-            you can always go back to this step. Be sure to get your dimensions right!
-        </p>
-        <app-dimensions-form></app-dimensions-form>
+        <div id="dividerDetailText" style="visibility: hidden;">
+            <p>Enter your window's dimensions below. If you don't have exact dimensions now, 
+                you can always go back to this step. Be sure to get your dimensions right!
+            </p>
+            <app-dimensions-form></app-dimensions-form>
+        </div>
         <!-- Start of Breadcrumbs -->
         <!-- <div class="breadCrumbs" id="step2BBreadCrumbs">
             <div class="text-center">

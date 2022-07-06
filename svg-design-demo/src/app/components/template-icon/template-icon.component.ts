@@ -41,17 +41,6 @@ export class TemplateIconComponent implements OnInit {
     return String(myTemplate.height);
   }
 
-  // Method to clear old panes
-  clearOldPanes():void {
-    let numPanes = this.sharedDataService.numberPanes;
-    for(let i = 0; i < numPanes; ++i) {
-      document.getElementById("pane"+i)?.setAttribute("d", "");
-      document.getElementById("pane"+i)?.setAttribute("style", "")
-      document.getElementById("pane"+i)?.setAttribute("transform", "");
-    }
-    this.sharedDataService.numberPanes = 0;
-  }
-
   // Clears the old window preview
   clearWindowPreview():void {
     // Not ever null
@@ -124,17 +113,26 @@ export class TemplateIconComponent implements OnInit {
     }
   }
 
-  // Updates current template in display window with selected version
-  displayTemplate(window:{id:number, name:string, d:string}[], windowNumber:number):void {
-    // Clearing the display window and windowPreview
-    this.sharedDataService.currentTemplateNumber = 0; // Start at top of window
-    this.sharedDataService.currentWindowNumber = windowNumber;
-    this.clearOldPanes();
-    this.clearWindowPreview();
-    this.createWindowPreview(window);
+  // Method to clear old panes
+  clearOldPanes():void {
+    let numPanes = this.sharedDataService.numberPanes;
+    for(let i = 0; i < numPanes; ++i) {
+      document.getElementById("pane"+i)?.setAttribute("d", "");
+      document.getElementById("pane"+i)?.setAttribute("style", "")
+      document.getElementById("pane"+i)?.setAttribute("transform", "");
+    }
+    this.sharedDataService.numberPanes = 0;
+  }
 
-    // Getting new template
-    this.sharedDataService.currentSvgTemplate = new SVGTemplate(window[0].d);
+  displayFirstTemplate():void {
+    this.displayTemplate(this.sharedDataService.panelLayout[0][0].getOptimizedD(), 0, 0);
+  }
+
+  // Updates current template in display window with selected version
+  displayTemplate(svgD:string, row:number, col:number):void {
+    this.clearOldPanes();
+    this.sharedDataService.currentSvgTemplate = new SVGTemplate(svgD);
+    this.sharedDataService.currentTemplateNumber = row*this.sharedDataService.panelLayoutDims[0] + col;
     let newTemplate:SVGTemplate = this.sharedDataService.currentSvgTemplate;
 
     let numPane:number = 0; // <-- In case the outer edge is not the first element
@@ -142,28 +140,30 @@ export class TemplateIconComponent implements OnInit {
     for(let i = 0; i < newTemplate.subShapes.length; ++i) {
       if(i != newTemplate.outerEdgeIndex) {
         document.getElementById("pane"+numPane)?.setAttribute("d", newTemplate.subShapes[i].getScalablePath());
-        document.getElementById("pane"+numPane)?.setAttribute("style", "fill:#ffffff");
+        
+        // Filling the pane with a saved color or blank
+        let savedStyle = document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+numPane)?.getAttribute("style");
+        if(savedStyle != null) {document.getElementById("pane"+numPane)?.setAttribute("style", savedStyle);}
+        else {document.getElementById("pane"+numPane)?.setAttribute("style", "fill:#ffffff");}
         ++numPane;
       }
     }
     this.sharedDataService.numberPanes = numPane;
+
     
     // Updating the current displayed template
-    if((this.sharedDataService.currentWindowNumber == 2 || this.sharedDataService.currentWindowNumber == 3)) {
-      document.getElementById("svgTemplate")?.setAttribute("d", this.sharedDataService.svgTemplateData[this.sharedDataService.currentWindowNumber][0].d);
-    }
-    else {document.getElementById("svgTemplate")?.setAttribute("d", newTemplate.getOptimizedD());}
-    
+    document.getElementById("svgTemplate")?.setAttribute("d", newTemplate.getOptimizedD());
+
     let viewboxValue:string = ""+newTemplate.xMin+" "+newTemplate.yMin+" "+newTemplate.width+" "+newTemplate.height;
     document.getElementById("currentTemplate")?.setAttribute("viewBox", viewboxValue);
     document.getElementById("svgTemplate")?.setAttribute("transform", "");
-
-    this.nextstage4();
+    // document.getElementById("currentTemplate")?.setAttribute("width", ""+newTemplate.width+"mm");
+    // document.getElementById("currentTemplate")?.setAttribute("height", ""+newTemplate.height+"mm");
   }
 
   nextstage4() {
     document.getElementById("stage4")?.setAttribute("style", "visibility:visible;")
-    document.getElementById("stage4")?.scrollIntoView({behavior: 'smooth'});
+    document.getElementById("stage4")?.scrollIntoView({behavior: 'auto'});
   }
 
   ngOnInit(): void {
@@ -200,7 +200,7 @@ export class TemplateIconComponent implements OnInit {
       let myTemplate:SVGTemplate = new SVGTemplate(this.svgTemplateData[Number(panelInfoArray[panelID][0])][Number(panelInfoArray[panelID][1])].d);
       panelLayout[Math.floor(panelID/temp.panelDims[0])].push(myTemplate);
     }
-    console.log(panelLayout);
+    //console.log(panelLayout);
     return panelLayout;
   }
 

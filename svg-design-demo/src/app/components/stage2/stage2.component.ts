@@ -59,7 +59,7 @@ export class Stage2Component implements OnInit {
       document.getElementById("dividerDetailInputs")?.setAttribute("style", "display:none;");
     }
     else {
-      document.getElementById("dividerDetailsText")!.innerHTML = "Now, tell us the number of window dividers and their width. Click Next when you’re satisfied.";
+      document.getElementById("dividerDetailsText")!.innerHTML = "Now, tell us the number of window dividers and their width.";
       document.getElementById("horizontalDividersInput")?.removeAttribute("disabled");
       document.getElementById("verticalDividersInput")?.removeAttribute("disabled");
       document.getElementById("dividerDetailInputs")?.setAttribute("style", "display:inline;");
@@ -106,6 +106,15 @@ export class Stage2Component implements OnInit {
     this.sharedDataService.selectedWindowShape = windowShape;
     // Setting default dimensions for step 3
     this.updateDimensions(defaultWidth, defaultHeight, numHorizontalDividers, numVerticalDividers);
+    this.sharedDataService.topSash = true;
+    if(this.isDoubleHung()) {
+      this.sharedDataService.finishedSashes = false;
+      document.getElementById("submitInput")?.setAttribute("disabled", "true");
+    }
+    else {
+      this.sharedDataService.finishedSashes = true;
+      document.getElementById("submitInput")?.removeAttribute("disabled");
+    }
     this.nextstage3();
   }
 
@@ -197,4 +206,11 @@ export class Stage2Component implements OnInit {
     else if(windowShape == "vertical1to4") {return "Vertical";}
     else {return "";}
   }
+
+  // Method to check whether selected window shape is a 2xHung
+  isDoubleHung():boolean {
+    if(this.sharedDataService.selectedWindowShape.substring(0, 2) == "2x") {return true;}
+    return false;
+  }
+
 }

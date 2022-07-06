@@ -37,7 +37,7 @@
             If you don't like the final result, turn off autofill and color in pane by pane. 
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-dark" (click)="displayFirstTemplate()" data-dismiss="modal">Back to Coloring</button>
+            <button type="button" class="btn btn-dark" data-dismiss="modal">Back to Coloring</button>
             <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
         </div>
@@ -45,9 +45,10 @@
     </div>
     
     <a class="btn bg-dark text-center text-white btn-outline-light btn-floating m-1" (click)="undoChange()" role="button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z"/>
+          </svg>
     </a>
 
 

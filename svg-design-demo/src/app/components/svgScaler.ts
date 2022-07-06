@@ -44,9 +44,11 @@ export class DividerWindow {
     remainingHeight:number;
     dividerType:string;
     doubleHung:boolean;
+    bottomSashWidth:number;
+    bottomSashHeight:number;
 
     // Constructor which takes the width and height of the window
-    constructor(width:number = 200, height:number = 200, numHorzDividers:number = 0, numVertDividers:number = 0, dividerWidth:number = 8, dividerType:string="plain", doubleHung:boolean=false) {
+    constructor(width:number = 200, height:number = 200, numHorzDividers:number = 0, numVertDividers:number = 0, dividerWidth:number = 8, dividerType:string="plain", doubleHung:boolean=false, bottomSashWidth:number=-1, bottomSashHeight:number=-1) {
         this.dString = "";
         this.numberHorizontalPanes = numVertDividers + 1;
         this.numberVerticalPanes = numHorzDividers + 1;
@@ -57,6 +59,8 @@ export class DividerWindow {
         this.remainingHeight = height - (dividerWidth*numHorzDividers);
         this.dividerType = dividerType;
         this.doubleHung = doubleHung;
+        this.bottomSashWidth = bottomSashWidth == -1 ? width : bottomSashWidth;
+        this.bottomSashHeight = bottomSashHeight == -1 ? height : bottomSashHeight;
         
         // Initialize windowPanes
         this.windowPanes = [];
@@ -74,9 +78,9 @@ export class DividerWindow {
 
         // creating bottom of 2xhung if necessary
         if(this.doubleHung) {
-            this.dString += this.createSVGBox(width+12, height+12, true, [-6, height+6]) + " " +
-            this.createSVGBox(width+4, height+4, true, [-2, height+10]);
-            if(this.dividerType != "raiseddiv") {this.dString += this.createSVGBox(width, height, true, [0, height+12]);}
+            this.dString += this.createSVGBox(this.bottomSashWidth+12, this.bottomSashHeight+12, true, [-6 - (this.bottomSashWidth-width)/2, height+6]) + " " +
+            this.createSVGBox(this.bottomSashWidth+4, this.bottomSashHeight+4, true, [-2 - (this.bottomSashWidth-width)/2, height+10]);
+            if(this.dividerType != "raiseddiv") {this.dString += this.createSVGBox(this.bottomSashWidth, this.bottomSashHeight, true, [0 - (this.bottomSashWidth-width)/2, height+12]);}
         }
     }
 
@@ -120,12 +124,14 @@ export class DividerWindow {
         }
 
         if(this.doubleHung) {
+            paneWidth = (this.bottomSashWidth - totalDividerWidth) / this.numberHorizontalPanes;
+            paneHeight = (this.bottomSashHeight - totalDividerHeight) / this.numberVerticalPanes;
             // Initializing array
-            startingPoint = [0,this.windowHeight];
+            startingPoint = [0 - (this.bottomSashWidth-this.windowWidth)/2,this.windowHeight];
             for(let row = this.numberVerticalPanes; row < 2*this.numberVerticalPanes; ++row) {
                 this.windowPanes[row] = [];
                 for(let col = 0; col < this.numberHorizontalPanes; ++col) {
-                    startingPoint = [col*paneWidth + col*this.dividerWidth, row*paneHeight + row*this.dividerWidth + 12 - this.dividerWidth];
+                    startingPoint = [col*paneWidth + col*this.dividerWidth - (this.bottomSashWidth-this.windowWidth)/2, (this.windowHeight-this.bottomSashHeight) + row*paneHeight + row*this.dividerWidth + 12 - this.dividerWidth];
                     this.windowPanes[row][col] = new WindowPane(paneWidth, paneHeight, startingPoint, 
                         this.createSVGBox(paneWidth, paneHeight, false, startingPoint));
                 }
@@ -876,10 +882,10 @@ id="svg567">
 // 5
 // let p:string = `M -44.166681,0.53929352 V 300.53932 H 255.83335 V 0.53929352 Z m 5.000074,5.00007488 H 15.833105 V 60.53909 h -54.999712 z m 60.999689,0 H 189.83358 V 60.53909 H 21.833082 Z m 174.000478,0 h 54.99971 V 60.53909 H 195.83356 Z M -39.166607,66.539079 H 15.833105 V 234.53903 h -54.999712 z m 61.000242,0 H 189.83358 V 136.53899 L 105.83333,181.5391 21.833635,136.53899 Z m 173.999925,0 h 54.99971 V 234.53903 H 195.83356 Z M 21.833082,144.30067 102.83197,187.64436 h 5.6e-4 v 0 107.89432 H 21.833096 v -107.89432 0 -43.34369 z m 167.999948,0 v 43.34369 0 107.89432 H 108.8336 v -107.89432 0 h 10e-4 l 80.99834,-43.34369 z m -228.999637,96.23832 h 54.999712 v 55.00026 h -54.999712 z m 235.000167,0 h 54.99971 v 55.00026 h -54.99971 z`;
 
-let p:string = "M -44.166681,0.53946792 V 300.5395 H 255.83335 V 0.53946792 Z m 5.000074,5.00007398 H 250.83327 V 51.539559 H -39.166607 Z m 0,51.9999971 H 50.83307 V 295.53943 h -89.999677 z m 96.000207,0 h 97.99946 V 147.53922 H 56.8336 Z m 103.99999,0 h 89.99968 V 295.53943 H 160.83359 Z M 56.8336,153.5392 h 97.99946 V 295.53943 H 56.8336 Z";
-let test:SVGTemplate = new SVGTemplate(p);
+// let p:string = "M -44.166681,0.53946792 V 300.5395 H 255.83335 V 0.53946792 Z m 5.000074,5.00007398 H 250.83327 V 51.539559 H -39.166607 Z m 0,51.9999971 H 50.83307 V 295.53943 h -89.999677 z m 96.000207,0 h 97.99946 V 147.53922 H 56.8336 Z m 103.99999,0 h 89.99968 V 295.53943 H 160.83359 Z M 56.8336,153.5392 h 97.99946 V 295.53943 H 56.8336 Z";
+// let test:SVGTemplate = new SVGTemplate(p);
 //let result:string[] = test.getScaledD(2, 2);
-console.log(test.getFileText(157/300, 211/300));
+//console.log(test.getFileText(157/300, 211/300));
 //console.log(test.getScaledD(343/300, 305/300));
 //console.log(test.getLaserCutPanes());
 // let test:DividerWindow = new DividerWindow(undefined, undefined, 10, 10, undefined);

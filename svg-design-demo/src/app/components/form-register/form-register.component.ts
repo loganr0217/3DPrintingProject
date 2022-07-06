@@ -22,7 +22,7 @@ export class FormRegisterComponent implements OnInit {
 
   @ViewChild('carousel') carousel: ElementRef;
 
-  ngAfterViewInit(): void {
+  ngAfterContentInit(): void {
     setInterval(() => {
       this.carousel.nativeElement.click();
     }, 5000)
