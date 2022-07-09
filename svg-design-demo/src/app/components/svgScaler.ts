@@ -696,6 +696,7 @@ export class SVGTemplate {
     xMax:number;
     yMin:number;
     yMax:number;
+    numberRotations:number;
 
     width:number;
     height:number;
@@ -728,6 +729,7 @@ export class SVGTemplate {
         this.startingPoint = this.subShapes[0].startingPoint;
         this.width = this.xMax - this.xMin;
         this.height = this.yMax - this.yMin;
+        this.numberRotations = 0;
 
         this.outerEdgeIndex = 0;
         // Identifying outer edge of template (rest is the panes)
@@ -845,6 +847,13 @@ id="svg567">
 </svg>
 `
         return fullFileText;
+    }
+
+    getTransform():string {
+        const rotationAmount:number = this.numberRotations * 90;
+        const centerX:number = this.xMin + (this.width/2);
+        const centerY:number = this.yMin + (this.height/2);
+        return "rotate(" + rotationAmount + ", " + centerX + ", " + centerY + ")";
     }
 }
 

@@ -91,6 +91,7 @@ p {
 
 .leftSide, .rightSide {
     flex: 1;
+    max-width: 50vw;
 }
 .windowTemplate {
     flex:1;
@@ -124,5 +125,6 @@ p {
 }
 
 .btn {
-    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-top: 1vh;
 }

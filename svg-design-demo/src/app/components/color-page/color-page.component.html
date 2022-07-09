@@ -7,6 +7,7 @@
             just look under that layer in the XML editor and the path will be within that.
         </p>
         <app-template-info-form></app-template-info-form>
+        <input type="button" class="btn btn-dark btn-med" (click)="getAutofillText()" id="autofillInput"  value="Get Autofill Text"/>
         <!-- Start of Breadcrumbs -->
         <!-- <div class="breadCrumbs" id="step2BBreadCrumbs">
             <div class="text-center">
@@ -55,7 +56,7 @@
             </div>
             <div class="panelWindowTemplate">
                 <div class="panelFullWin">
-                    <svg *ngFor="let svgTemplate of currentWindow; let i = index" xmlns="http://www.w3.org/2000/svg" (click)="choosePanel(i)" class="svgTemplatePanelIcons"  [attr.viewBox]=getTemplateViewBox(getOptimizedTemplateD(svgTemplate.d))>
+                    <svg *ngFor="let svgTemplate of currentWindow; let i = index" xmlns="http://www.w3.org/2000/svg" (click)="displayPanel(svgTemplate.d, 0, 0); choosePanel(i)" class="svgTemplatePanelIcons"  [attr.viewBox]=getTemplateViewBox(getOptimizedTemplateD(svgTemplate.d))>
                         <path id="svgTemplateLayoutPanel{{i}}" style="fill:#666666;" [attr.d]=getOptimizedTemplateD(svgTemplate.d)/>
                     </svg>
                 </div>
@@ -76,6 +77,7 @@
                 <input type="button" class="btn btn-dark btn-med" (click)="updateLayout()" id="updateLayoutInput"  value="Update dims (2x6)"/>
                 <input type="button" class="btn btn-dark btn-med" (click)="showTemplateString()" id="createLayoutInput"  value="Create Layout"/>
                 <input type="button" class="btn btn-dark btn-med" (click)="undoPanelChoice()" id="undoLayoutInput" value="Undo"/>
+                <input type="button" class="btn btn-dark btn-med" (click)="rotateLastPanel()" id="rotatePanelInput" value="Rotate Last Panel"/>
             </form>
         </div>
         
@@ -90,7 +92,7 @@
                 (click)="displayTemplate(window, i)"/> -->
         
                 <svg *ngFor="let svgTemplate of window" xmlns="http://www.w3.org/2000/svg" class="bottomRightSvgTemplateIcons"  [attr.viewBox]=getTemplateViewBox(svgTemplate.getOptimizedD())>
-                    <path  style="fill:#666666;" [attr.d]=svgTemplate.getOptimizedD()/>
+                    <path  style="fill:#666666;" [attr.transform]="svgTemplate.getTransform()" [attr.d]="svgTemplate.getOptimizedD()"/>
                 </svg>
             </div>
         </div>
