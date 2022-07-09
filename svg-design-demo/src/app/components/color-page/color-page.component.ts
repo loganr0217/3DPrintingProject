@@ -47,6 +47,51 @@ export class ColorPageComponent implements OnInit {
     this.sharedDataService.currentWindowNumber = windowNumber;
   }
 
+  // Method to clear old panes
+  clearOldPanes():void {
+    let numPanes = this.sharedDataService.numberPanes;
+    for(let i = 0; i < numPanes; ++i) {
+      document.getElementById("pane"+i)?.setAttribute("d", "");
+      document.getElementById("pane"+i)?.setAttribute("style", "")
+      document.getElementById("pane"+i)?.setAttribute("transform", "");
+    }
+    this.sharedDataService.numberPanes = 0;
+  }
+
+  // Updates current template in display window with selected version
+  displayPanel(svgD:string, row:number, col:number):void {
+    this.sharedDataService.panelColoringArray = [[]];
+    this.clearOldPanes();
+    this.sharedDataService.currentSvgTemplate = new SVGTemplate(svgD);
+    this.sharedDataService.currentTemplateNumber = 0; // ******* Only for color page *********
+    let newTemplate:SVGTemplate = this.sharedDataService.currentSvgTemplate;
+
+    let numPane:number = 0; // <-- In case the outer edge is not the first element
+    // Adding each individual pane
+    for(let i = 0; i < newTemplate.subShapes.length; ++i) {
+      if(i != newTemplate.outerEdgeIndex) {
+        document.getElementById("pane"+numPane)?.setAttribute("d", newTemplate.subShapes[i].getScalablePath());
+        
+        // Filling the pane with a saved color or blank
+        let savedStyle = document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+numPane)?.getAttribute("style");
+        if(savedStyle != null) {document.getElementById("pane"+numPane)?.setAttribute("style", savedStyle);}
+        else {document.getElementById("pane"+numPane)?.setAttribute("style", "fill:#ffffff");}
+        ++numPane;
+      }
+    }
+    this.sharedDataService.numberPanes = numPane;
+
+    
+    // Updating the current displayed template
+    document.getElementById("svgTemplate")?.setAttribute("d", newTemplate.getOptimizedD());
+
+    let viewboxValue:string = ""+newTemplate.xMin+" "+newTemplate.yMin+" "+newTemplate.width+" "+newTemplate.height;
+    document.getElementById("currentTemplate")?.setAttribute("viewBox", viewboxValue);
+    document.getElementById("svgTemplate")?.setAttribute("transform", "");
+    // document.getElementById("currentTemplate")?.setAttribute("width", ""+newTemplate.width+"mm");
+    // document.getElementById("currentTemplate")?.setAttribute("height", ""+newTemplate.height+"mm");
+  }
+
   choosePanel(panelNum:number):void {
     this.templateString += this.sharedDataService.currentWindowNumber + "," + panelNum + ";";
     if(this.currentPanel != null) {
@@ -77,6 +122,7 @@ export class ColorPageComponent implements OnInit {
     
   }
 
+  // Method to remove the last selected panel in the TDI
   undoPanelChoice():void {
     if(this.currentPanelLocation[1] - 1 < 0 && this.currentPanelLocation[0] - 1 >= 0) {--this.currentPanelLocation[0]; this.currentPanelLocation[1]=this.panelDims[0]-1;}
     else {--this.currentPanelLocation[1];}
@@ -97,6 +143,47 @@ export class ColorPageComponent implements OnInit {
 
   showTemplateString():void {
     alert(this.templateString.substring(0, this.templateString.length-1));
+  }
+
+  // Method to decrease current panel location
+  decreaseCurrentLocation():void {
+    // Decreasing the current location by 1
+    if(this.currentPanelLocation[1] - 1 < 0 && this.currentPanelLocation[0] - 1 >= 0) {--this.currentPanelLocation[0]; this.currentPanelLocation[1]=this.panelDims[0]-1;}
+    else {--this.currentPanelLocation[1];}
+  }
+
+  // Method to increase current panel location
+  increaseCurrentLocation():void {
+    // Increasing the current location by 1
+    if(this.currentPanelLocation[1] + 1 >= this.panelDims[0]) {++this.currentPanelLocation[0]; this.currentPanelLocation[1]=0;}
+    else {++this.currentPanelLocation[1];}
+  }
+
+  // Method to rotate the last placed panel 90 degrees
+  rotateLastPanel():void {
+    // Decreasing the current location by 1
+    this.decreaseCurrentLocation();
+    this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].numberRotations += 1;
+    this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].numberRotations %= 4;
+    let test:string[] = this.templateString.split(";");
+    // Removing empty ending and adding number of rotations to last panel
+    test.pop();
+    test[test.length-1] += "," + this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].numberRotations;
+    this.templateString = test.join(";") + ";";
+    if(this.templateString == ";") {this.templateString = "";}
+    this.increaseCurrentLocation();
+  }
+
+  // Method to get the autofill text for a panel
+  getAutofillText():void {
+    let colorArray:string[] = this.sharedDataService.panelColoringArray[0];
+    let colorNumberArray:number[] = [];
+    for(let i:number = 0; i < colorArray.length; ++i) {
+      colorArray[i] = colorArray[i].substring(6);
+      let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.colorsData.filter(function(item) { return item.hex === colorArray[i]; });
+      colorNumberArray.push(foundColor[0].id);
+    }
+    alert(colorNumberArray.join(";"));
   }
 
 }
