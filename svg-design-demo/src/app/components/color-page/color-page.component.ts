@@ -71,11 +71,11 @@ export class ColorPageComponent implements OnInit {
     for(let i = 0; i < newTemplate.subShapes.length; ++i) {
       if(i != newTemplate.outerEdgeIndex) {
         document.getElementById("pane"+numPane)?.setAttribute("d", newTemplate.subShapes[i].getScalablePath());
-        
+        this.sharedDataService.panelColoringArray[0][numPane] = "fill:#f0f0f1";
         // Filling the pane with a saved color or blank
         let savedStyle = document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+numPane)?.getAttribute("style");
         if(savedStyle != null) {document.getElementById("pane"+numPane)?.setAttribute("style", savedStyle);}
-        else {document.getElementById("pane"+numPane)?.setAttribute("style", "fill:#ffffff");}
+        else {document.getElementById("pane"+numPane)?.setAttribute("style", "fill:#f0f0f1");}
         ++numPane;
       }
     }
@@ -176,12 +176,14 @@ export class ColorPageComponent implements OnInit {
 
   // Method to get the autofill text for a panel
   getAutofillText():void {
+    console.log("here: " + this.sharedDataService.panelColoringArray[0]);
     let colorArray:string[] = this.sharedDataService.panelColoringArray[0];
     let colorNumberArray:number[] = [];
     for(let i:number = 0; i < colorArray.length; ++i) {
       colorArray[i] = colorArray[i].substring(6);
-      let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.colorsData.filter(function(item) { return item.hex === colorArray[i]; });
-      colorNumberArray.push(foundColor[0].id);
+      let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.colorsData.filter(function(item) { return item.hex == colorArray[i]; });
+      if(foundColor.length > 0) {colorNumberArray.push(foundColor[0].id);}
+      else {colorNumberArray.push(3);}
     }
     alert(colorNumberArray.join(";"));
   }
