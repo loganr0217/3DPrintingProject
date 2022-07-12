@@ -10,7 +10,7 @@
     
             <svg *ngFor="let svgTemplate of row; let colNum = index" xmlns="http://www.w3.org/2000/svg" (click)="displayTemplate(svgTemplate.getOptimizedD(), rowNum, colNum)" class="svgTemplateIcons" [attr.viewBox]=getTemplateViewBox(svgTemplate.getOptimizedD())>
                 <path id="{{getPanelID(rowNum, colNum)}}" style="fill:#666666;" [attr.d]=svgTemplate.getOptimizedD()/>
-                <path style="fill:#ffffff;" id="{{getPaneID(rowNum, colNum, paneNum)}}" *ngFor="let paneNum of range(svgTemplate.subShapes.length-1)" [attr.d]="svgTemplate.subShapes[paneNum+1].getScalablePath()"/>
+                <path style="fill:#f0f0f1;" id="{{getPaneID(rowNum, colNum, paneNum)}}" *ngFor="let paneNum of range(svgTemplate.subShapes.length-1)" [attr.d]="svgTemplate.subShapes[paneNum+1].getScalablePath()"/>
             </svg>
         </div>
     </div>

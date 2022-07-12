@@ -17,7 +17,7 @@ export class SharedDataService {
   maxPanes:number = 100;
   selectedDividerType:string = "plain";
   selectedWindowShape:string = "square2to2";
-  dividerNumbers:number[];
+  dividerNumbers:number[] = [];
   dividerWidth:number;
   windowWidth:number = 0;
   windowHeight:number = 0;
@@ -29,6 +29,8 @@ export class SharedDataService {
   currentPanelID:number;
   topSash:boolean = true;
   finishedSashes:boolean = false;
+  userInfo:any = [];
+  selectedTemplateID:number = -1;
 
   // Array holding all window shapes offered
   windowShapes:string[] = [

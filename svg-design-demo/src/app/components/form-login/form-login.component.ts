@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { SharedDataService } from 'src/app/services/shared-data.service';
 
 @Component({
   selector: 'form-login',
@@ -16,7 +18,7 @@ export class FormLoginComponent implements OnInit {
   isShow!: boolean;
   pass!: string;
   fakeUrl: string = 'http://localhost:4200/';
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder:FormBuilder, private http:HttpClient, public sharedDataService:SharedDataService) { }
 
   @ViewChild('carousel') carousel: ElementRef;
 
@@ -58,6 +60,7 @@ export class FormLoginComponent implements OnInit {
    onSubmit() {
     this.submitted = true;
 
+    this.http.get("http://34.162.208.24:5000/login?email="+String(this.emailid?.value)+"&password="+String(this.password?.value)).subscribe(result => this.sharedDataService.userInfo = result);
     // stop here if form is invalid
     // if (this.registerForm.invalid) {
     //     return;

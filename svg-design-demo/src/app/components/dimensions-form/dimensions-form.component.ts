@@ -168,7 +168,7 @@ export class DimensionsFormComponent implements OnInit {
 
   // Method to clear old panes
   clearOldDividerPanes():void {
-    let numPanes:number = this.sharedDataService.dividerWindow.windowPanes.length*2; 
+    let numPanes:number = this.sharedDataService.dividerWindow.windowPanes.length * this.sharedDataService.dividerWindow.windowPanes[0].length; 
     for(let i = 0; i < numPanes; ++i) {
       document.getElementById("dividerPane"+i)?.setAttribute("d", "");
       document.getElementById("dividerPane"+i)?.setAttribute("style", "")
@@ -184,7 +184,7 @@ export class DimensionsFormComponent implements OnInit {
   }
   // Method to update dimensions
   updateDimensions(newWidth:number, newHeight:number):void {
-    if(this.sharedDataService.dividerWindow != null) {this.clearOldDividerPanes();}
+    this.clearOldDividerPanes();
     // Getting the user's desired width and height and divider info
     // let newWidth:number = Number((<HTMLInputElement>document.getElementById("widthInput")).value);
     // let newHeight:number = Number((<HTMLInputElement>document.getElementById("heightInput")).value);
