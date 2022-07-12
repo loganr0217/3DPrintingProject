@@ -57,7 +57,7 @@ export class WindowPreviewContainerComponent implements OnInit {
         // Filling the pane with a saved color or blank
         let savedStyle = document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+numPane)?.getAttribute("style");
         if(savedStyle != null) {document.getElementById("pane"+numPane)?.setAttribute("style", savedStyle);}
-        else {document.getElementById("pane"+numPane)?.setAttribute("style", "fill:#ffffff");}
+        else {document.getElementById("pane"+numPane)?.setAttribute("style", "fill:#f0f0f1");}
         ++numPane;
       }
     }

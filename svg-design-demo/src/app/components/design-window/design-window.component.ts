@@ -40,7 +40,7 @@ export class DesignWindowComponent implements OnInit {
       document.getElementById("pane"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
       document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
       document.getElementById("windowPaneFinished"+this.sharedDataService.currentTemplateNumber+"_"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
-      this.sharedDataService.panelColoringArray[this.sharedDataService.currentTemplateNumber][paneID] = "fill:#"+this.sharedDataService.currentPaneColor;
+      this.sharedDataService.panelColoringArray[this.sharedDataService.currentTemplateNumber][paneID] = this.sharedDataService.currentPaneColor;
     }
     this.sharedDataService.currentPaneID = "pane"+paneID;
   }
@@ -51,11 +51,11 @@ export class DesignWindowComponent implements OnInit {
 
       let recentChange:string[] = this.recentChanges.pop()!;
       if(recentChange[0] == String(this.sharedDataService.currentTemplateNumber)) {
-        document.getElementById("pane"+recentChange[1])?.setAttribute("style", recentChange[2]);
+        document.getElementById("pane"+recentChange[1])?.setAttribute("style", "fill:#"+recentChange[2]);
       }
-      this.sharedDataService.panelColoringArray[Number(recentChange[0])][Number(recentChange[1])] = recentChange[2];
-      document.getElementById("windowPane"+recentChange[0]+"_"+recentChange[1])?.setAttribute("style", recentChange[2]);
-      document.getElementById("windowPaneFinished"+recentChange[0]+"_"+recentChange[1])?.setAttribute("style", recentChange[2]);
+      this.sharedDataService.panelColoringArray[Number(recentChange[0])][Number(recentChange[1])] = recentChange[2].substring(6);
+      document.getElementById("windowPane"+recentChange[0]+"_"+recentChange[1])?.setAttribute("style", "fill:#"+recentChange[2]);
+      document.getElementById("windowPaneFinished"+recentChange[0]+"_"+recentChange[1])?.setAttribute("style", "fill:#"+recentChange[2]);
 
       
     }
@@ -93,8 +93,8 @@ export class DesignWindowComponent implements OnInit {
           
           // Filling the pane with a saved color or blank
           let savedStyle = document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+numPane)?.getAttribute("style");
-          if(savedStyle != null) {document.getElementById("pane"+numPane)?.setAttribute("style", savedStyle);}
-          else {document.getElementById("pane"+numPane)?.setAttribute("style", "fill:#ffffff");}
+          if(savedStyle != null) {document.getElementById("pane"+numPane)?.setAttribute("style", "fill:#"+savedStyle.substring(6));}
+          else {document.getElementById("pane"+numPane)?.setAttribute("style", "fill:#f0f0f1");}
           ++numPane;
         }
       }

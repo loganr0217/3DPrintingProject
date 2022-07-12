@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- main app container -->
 <div id="formRegisterContainer">
-    <div class="container">
+    <div class="container" *ngIf="!(this.sharedDataService.userInfo.length > 0 && this.sharedDataService.userInfo[0] != -1)">
         <div class="container mt-3">
             <div class="row" style="text-align: center;">
                 <div style="font-size: x-large;">Sign up</div>
@@ -12,10 +12,18 @@
                 <div class="md-3">
                     <form [formGroup]="registerForm">
                         <div class="form-group mt-2 mb-2">
-                            <label>Name</label>
-                            <input type="text" formControlName="userName" class="form-control" />
-                            <div style="color: red;" *ngIf="userName?.invalid && (userName?.touched || userName?.dirty)">
-                                <span *ngIf="userName?.errors?.['required']">*Name is required</span>
+                            <label>First Name</label>
+                            <input type="text" formControlName="firstName" class="form-control" />
+                            <div style="color: red;" *ngIf="firstName?.invalid && (firstName?.touched || firstName?.dirty)">
+                                <span *ngIf="firstName?.errors?.['required']">*Name is required</span>
+                            </div>
+                        
+                        </div>
+                        <div class="form-group mt-2 mb-2">
+                            <label>Last Name</label>
+                            <input type="text" formControlName="lastName" class="form-control" />
+                            <div style="color: red;" *ngIf="lastName?.invalid && (lastName?.touched || lastName?.dirty)">
+                                <span *ngIf="lastName?.errors?.['required']">*Name is required</span>
                             </div>
                         
                         </div>
@@ -63,10 +71,10 @@
                         </div>
                         
                         <div class="form-group mt-2 mb-2">
-                            <button (click)="onSubmit('verify-code')" style="width: 100%;" class="btn btn-dark">Create account</button>
+                            <button (click)="onSubmit()" style="width: 100%;" class="btn btn-dark">Create account</button>
                         </div>
                         <div class="form-group mb-2">
-                            <span class="psw" style="float: right;">Already have an account? <a style="color:black;" href="login">Login</a></span>
+                            <span class="psw" style="float: right;">Already have an account? <a style="color:black;" routerLink="/login">Login</a></span>
                         </div>
                     </form>
                 </div>

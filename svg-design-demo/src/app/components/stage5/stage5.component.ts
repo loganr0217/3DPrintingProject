@@ -10,7 +10,7 @@ export class Stage5Component implements OnInit {
   constructor(private sharedDataService:SharedDataService) { }
   getPanelWidth():string {
     let width:number = this.sharedDataService.windowWidth;
-    let vertDividers:number = this.sharedDataService.dividerNumbers[1];
+    let vertDividers:number = this.sharedDataService.dividerNumbers[1] ? this.sharedDataService.dividerNumbers[1] : 0;
     let finalPanelWidth:number = 0; 
     if(this.sharedDataService.selectedDividerType == 'nodiv') {
       if(width >= 100 && width <=500) {finalPanelWidth = width;}

@@ -168,7 +168,10 @@ export class ColorPageComponent implements OnInit {
     let test:string[] = this.templateString.split(";");
     // Removing empty ending and adding number of rotations to last panel
     test.pop();
-    test[test.length-1] += "," + this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].numberRotations;
+    let lastPanelInfo:string[] = test[test.length-1].split(",");
+    if(lastPanelInfo.length > 2) {lastPanelInfo[2] = String(this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].numberRotations);}
+    else {lastPanelInfo.push(String(this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].numberRotations));}
+    test[test.length-1] = lastPanelInfo.join(",");
     this.templateString = test.join(";") + ";";
     if(this.templateString == ";") {this.templateString = "";}
     this.increaseCurrentLocation();

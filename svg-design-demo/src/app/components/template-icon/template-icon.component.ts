@@ -85,11 +85,11 @@ export class TemplateIconComponent implements OnInit {
         let newPath:Element = document.createElementNS("http://www.w3.org/2000/svg", "path");
         let finishedPath:Element = document.createElementNS("http://www.w3.org/2000/svg", "path");
         if(j != currentTemplate.outerEdgeIndex) {
-          this.sharedDataService.panelColoringArray[i].push("fill:#ffffff");
-          newPath.setAttribute("style", "fill:#ffffff;");
+          this.sharedDataService.panelColoringArray[i].push("f0f0f1");
+          newPath.setAttribute("style", "fill:#f0f0f1;");
           newPath.setAttribute("d", currentTemplate.subShapes[j].getScalablePath());
           newPath.setAttribute("id", "windowPane"+i+"_"+numPane);
-          finishedPath.setAttribute("style", "fill:#ffffff;");
+          finishedPath.setAttribute("style", "fill:#f0f0f1;");
           finishedPath.setAttribute("d", currentTemplate.subShapes[j].getScalablePath());
           finishedPath.setAttribute("id", "windowPaneFinished"+i+"_"+numPane);
           ++numPane;
@@ -144,7 +144,7 @@ export class TemplateIconComponent implements OnInit {
         // Filling the pane with a saved color or blank
         let savedStyle = document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+numPane)?.getAttribute("style");
         if(savedStyle != null) {document.getElementById("pane"+numPane)?.setAttribute("style", savedStyle);}
-        else {document.getElementById("pane"+numPane)?.setAttribute("style", "fill:#ffffff");}
+        else {document.getElementById("pane"+numPane)?.setAttribute("style", "fill:#f0f0f1");}
         ++numPane;
       }
     }
@@ -212,7 +212,7 @@ export class TemplateIconComponent implements OnInit {
     for(let i:number = 0; i < temp.numPanels; ++i) {
       this.sharedDataService.panelColoringArray.push([]);
       for(let j:number = 1; j < this.sharedDataService.panelLayout[Math.floor(i/this.sharedDataService.panelLayoutDims[0])][i%this.sharedDataService.panelLayoutDims[0]].subShapes.length; ++j) {
-        this.sharedDataService.panelColoringArray[i].push("#ffffff;");
+        this.sharedDataService.panelColoringArray[i].push("f0f0f1");
       }
     }
   }

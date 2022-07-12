@@ -76,6 +76,7 @@ export class Stage2Component implements OnInit {
     }
 
     this.displayWindowShapes(dividerType);
+    console.log(this.sharedDataService.userInfo);
   }
 
   chooseWindowExample(windowExample:string):void {
@@ -89,7 +90,7 @@ export class Stage2Component implements OnInit {
     // Unhighlighting old selection if possible and highlighting new one
     if(this.windowShape != null) {document.getElementById("windowShapeImage_"+this.windowShape)?.setAttribute("style", "");}
     document.getElementById("windowShapeImage_"+windowShape)?.setAttribute("style", "filter: invert(25%);");
-
+    
     // Updating values for windowShape
     this.windowShape = windowShape;
 
@@ -120,8 +121,7 @@ export class Stage2Component implements OnInit {
 
   // Method to clear old panes
   clearOldDividerPanes():void {
-    let numPanes:number = this.sharedDataService.dividerWindow.windowPanes.length*2;
-
+    let numPanes:number = this.sharedDataService.dividerWindow.windowPanes.length * this.sharedDataService.dividerWindow.windowPanes[0].length; 
     for(let i = 0; i < numPanes; ++i) {
       document.getElementById("dividerPane"+i)?.setAttribute("d", "");
       document.getElementById("dividerPane"+i)?.setAttribute("style", "")
