@@ -146,7 +146,7 @@ export class DimensionsFormComponent implements OnInit {
     var xmlString = serializer.serializeToString(document.getElementById("windowPreviewContainertrue")!);
     let svgText:string[] = xmlString.split("<svg");
     for(let i:number = 0; i < svgText.length; ++i) {svgText[i] = "<svg" + svgText[i]; finalText += svgText[i] + "\n\n";}
-    console.log(finalText);
+    // console.log(finalText);
     
 
   }
@@ -163,7 +163,7 @@ export class DimensionsFormComponent implements OnInit {
       this.sharedDataService.panelLayout.push([]);
     }
     this.sharedDataService.panelLayoutDims = [leftRight, topBottom];
-    console.log("Panel width: " + panelWidth + "\nPanel height: " + panelHeight + "\nLayout: " + this.sharedDataService.panelLayoutDims);
+    // console.log("Panel width: " + panelWidth + "\nPanel height: " + panelHeight + "\nLayout: " + this.sharedDataService.panelLayoutDims);
   }
 
   // Method to clear old panes

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { SharedDataService } from './services/shared-data.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,4 +10,5 @@ export class AppComponent {
   goToFooter():void {
     document.getElementById("footer")?.scrollIntoView({behavior: 'smooth'});
   }
+  constructor(public sharedDataService:SharedDataService) { }
 }

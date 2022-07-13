@@ -58,10 +58,10 @@ export class CheckoutPageComponent implements OnInit {
     }
     final += "]\n"
     final += this.sharedDataService.panelColoringArray;
-    console.log(final);
+    // console.log(final);
     
     // Setting up vars to get final info for order
-    const email:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : null;
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : null;
     const selectedDividerType:string = this.sharedDataService.selectedDividerType;
     const unitChoice:string = this.sharedDataService.unitChoice;
     const windowWidth:number = this.sharedDataService.windowWidth;
@@ -75,22 +75,20 @@ export class CheckoutPageComponent implements OnInit {
       panelColoringString += this.sharedDataService.panelColoringArray[i].join(",");
       if(i != this.sharedDataService.panelColoringArray.length - 1) {panelColoringString += ";";}
     }
-    console.log(panelColoringString);
+    // console.log(panelColoringString);
     const streetAddress:string = "test drive";
     const city:string = "test city";
     const state:string = "test state";
     const zipcode:string = "test zipcode";
     const country:string = "test country";
 
-    this.http.get("http://34.162.208.24:5000/makeorder?email="+email
-    +"&selectedDividerType='"+selectedDividerType+"'&unitChoice="+unitChoice
-    +"&windowWidth="+windowWidth+"&windowHeight="+windowHeight+"&horzDividers="+horzDividers
+    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/makeorder?email='"+email
+    +"'&selectedDividerType='"+selectedDividerType+"'&unitChoice='"+unitChoice
+    +"'&windowWidth="+windowWidth+"&windowHeight="+windowHeight+"&horzDividers="+horzDividers
     +"&vertDividers="+vertDividers+"&dividerWidth="+dividerWidth
-    +"&templateID="+templateID+"&panelColoringString="+panelColoringString
-    +"&streetAddress="+streetAddress+"&city="+city+"&state="+state
-    +"&zipcode="+zipcode+"&country="+country).subscribe(result => this.sharedDataService.userInfo = result);
-
-    alert("Success! Your order has been placed.");
+    +"&templateID="+templateID+"&panelColoringString='"+panelColoringString
+    +"'&streetAddress='"+streetAddress+"'&city='"+city+"'&state='"+state
+    +"'&zipcode='"+zipcode+"'&country='"+country+"'").subscribe(result => alert("Success! Your order has been placed."));
   }
 
 }
