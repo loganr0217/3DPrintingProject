@@ -1,23 +1,30 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+import os
 app = Flask(__name__)
 CORS(app)
 import psycopg2
+
+db_user = os.environ.get('CLOUD_SQL_USERNAME')
+db_password = os.environ.get('CLOUD_SQL_PASSWORD')
+db_name = os.environ.get('CLOUD_SQL_DATABASE_NAME')
+db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
+
 @app.route('/login')
 def login():
     global conn
     email = request.args.get('email', default=None, type=str)
     password = request.args.get('password', default=None, type=str)
     try:
-        conn=psycopg2.connect("dbname='lightscreendb' user='admin' password='koprEs-fyfvuc-kapga4' host='localhost'")
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
         if email != None and password != None:
             cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = MD5(" + password + ");")
             rows = cur.fetchall()
-            return jsonify(rows)
         else:
             rows = tuple()
-            return jsonify(rows)
+        # Returning the final result
+        return jsonify(rows)
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
@@ -29,7 +36,7 @@ def signup():
     email = request.args.get('email', default=None, type=str)
     password = request.args.get('password', default=None, type=str)
     try:
-        conn=psycopg2.connect("dbname='lightscreendb' user='admin' password='koprEs-fyfvuc-kapga4' host='localhost'")
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
         if firstname != None and lastname != None and email != None and password != None:
             cur.execute("SELECT * FROM users WHERE email = " + email + ";")
@@ -37,16 +44,15 @@ def signup():
             # User already has an account with that email
             if len(rows) > 0:
                 rows = (-1,)
-                return jsonify(rows)
             else:
-                cur.execute("INSERT INTO users(firstname, lastname, email, password, permissions) VALUES(" + firstname + ", " + lastname + ", " + email + ", MD5(" + password + "), 'basic');")
+                cur.execute("INSERT INTO users(first_name, last_name, email, password, permissions) VALUES(" + firstname + ", " + lastname + ", " + email + ", MD5(" + password + "), 'basic');")
                 cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = MD5(" + password + ");")
                 rows = cur.fetchall()
                 conn.commit()
-            return jsonify(rows)
         else:
             rows = tuple()
-            return jsonify(rows)
+        # Returning the final result
+        return jsonify(rows)
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
@@ -54,7 +60,7 @@ def signup():
 def getUsers():
     global conn
     try:
-        conn=psycopg2.connect("dbname='lightscreendb' user='admin' password='koprEs-fyfvuc-kapga4' host='localhost'")
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
         cur.execute("SELECT * FROM users;")
         rows = cur.fetchall()
@@ -66,7 +72,7 @@ def getUsers():
 def getOrders():
     global conn
     try:
-        conn=psycopg2.connect("dbname='lightscreendb' user='admin' password='koprEs-fyfvuc-kapga4' host='localhost'")
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
         cur.execute("SELECT * FROM orders;")
         rows = cur.fetchall()
@@ -104,25 +110,26 @@ def makeOrder():
     country = request.args.get('country', default=None, type=str) 
 
     try:
-        conn=psycopg2.connect("dbname='lightscreendb' user='admin' password='koprEs-fyfvuc-kapga4' host='localhost'")
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
         if email != "NULL" or (streetAddress != "NULL" and city != "NULL" and state != "NULL" and country != "NULL"):
             cur.execute("""
-            INSERT INTO orders(useremail, selecteddividertype, unitchoice, windowwidth, 
-            windowheight, horizontaldividers, verticaldividers, dividerwidth, templateid, 
-            panelcoloringstring, streetaddress, city, state, zipcode, country) 
-            VALUES(%s, %s, %s, '{%s, %s}', '{%s, %s}', '{%s, %s}', '{%s, %s}', '{%s, %s}', %s, %s, %s, %s, %s, %s, %s)""", 
-            (email, selectedDividerType, unitChoice, windowWidth, bottomWindowWidth, windowHeight, 
-            bottomWindowHeight, horzDividers, bottomHorzDividers, vertDividers, bottomVertDividers, 
-            dividerWidth, bottomDividerWidth, templateID, panelColoringString, streetAddress, city, state, zipcode, country))
+            INSERT INTO orders(user_email, selected_divider_type, unit_choice, window_width, 
+            window_height, horizontal_dividers, vertical_dividers, divider_width, template_id, 
+            panel_coloring_string, street_address, city, state, zipcode, country, bottom_sash_width, bottom_sash_height) 
+            VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", 
+            (email, selectedDividerType, unitChoice, windowWidth, windowHeight, 
+            horzDividers, vertDividers, dividerWidth, templateID, panelColoringString, 
+            streetAddress, city, state, zipcode, country, bottomWindowWidth, bottomWindowHeight))
             rows = (1,)
             conn.commit()
         else:
             rows = (-1,)
+        # Returning the final result
         return jsonify(rows)
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
 if __name__ == '__main__':
     from waitress import serve
-    serve(app, host="0.0.0.0", port=5000)
+    serve(app)

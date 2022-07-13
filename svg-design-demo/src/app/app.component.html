@@ -15,8 +15,8 @@
             <div class="navbar-nav ml-auto">
               <a (click)="goToFooter()" class="nav-item nav-link">Contact</a>
               <a routerLink="" class="nav-item nav-link">About</a>
-              <a routerLink="/signup" class="nav-item nav-link">Signup</a>
-              <a routerLink="/login" class="nav-item nav-link">Login</a>
+              <a *ngIf="!this.sharedDataService.signedIn" routerLink="/signup" class="nav-item nav-link">Signup</a>
+              <a *ngIf="!this.sharedDataService.signedIn" routerLink="/login" class="nav-item nav-link">Login</a>
             </div>
         </div> 
   </div>

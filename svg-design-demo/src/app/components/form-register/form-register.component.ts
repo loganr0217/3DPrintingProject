@@ -4,6 +4,7 @@ import { ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SharedDataService } from 'src/app/services/shared-data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'form-register',
@@ -20,7 +21,7 @@ export class FormRegisterComponent implements OnInit {
   cpass!: string;
   isCshow!: boolean;
   fakeUrl: string = 'http://localhost:4200/';
-  constructor(private formBuilder:FormBuilder, private http:HttpClient, public sharedDataService:SharedDataService) { }
+  constructor(private formBuilder:FormBuilder, private http:HttpClient, public sharedDataService:SharedDataService, private router:Router) { }
 
   @ViewChild('carousel') carousel: ElementRef;
 
@@ -101,16 +102,23 @@ export class FormRegisterComponent implements OnInit {
 
   // function submit
   onSubmit() {
-    this.http.get("http://34.162.208.24:5000/signup?email="+String(this.emailid?.value)+"&password="+String(this.password?.value)+"&firstname="+String(this.firstName?.value)+"&lastname="+String(this.lastName?.value)).subscribe(result => this.sharedDataService.userInfo = result);
-    if(this.sharedDataService.userInfo = [-1]) {alert("A user with that email already exists.");}
-    console.log(this.sharedDataService.userInfo);
+    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/signup?email='"+String(this.emailid?.value)+"'&password='"+String(this.password?.value)+"'&firstname='"+String(this.firstName?.value)+"'&lastname='"+String(this.lastName?.value+"'")).subscribe(result => {
+      this.sharedDataService.userInfo = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(","); 
+      if(this.sharedDataService.userInfo.length > 1) {
+        this.sharedDataService.signedIn = true;
+        this.router.navigate(['/']);
+      }
+      else if(this.sharedDataService.userInfo.length == 1 && this.sharedDataService.userInfo[0] == -1) {alert("A user with that email already exists.");} 
+      // console.log(this.registerForm.value);
+      // console.log(this.sharedDataService.userInfo);
+    });
     // stop here if form is invalid
     // if (this.registerForm.invalid) {
     //     return;
     // }
 
     // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value))
-    console.log(this.registerForm.value);
+    
   }
 
 }

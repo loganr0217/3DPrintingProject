@@ -179,7 +179,7 @@ export class ColorPageComponent implements OnInit {
 
   // Method to get the autofill text for a panel
   getAutofillText():void {
-    console.log("here: " + this.sharedDataService.panelColoringArray[0]);
+    // console.log("here: " + this.sharedDataService.panelColoringArray[0]);
     let colorArray:string[] = this.sharedDataService.panelColoringArray[0];
     let colorNumberArray:number[] = [];
     for(let i:number = 0; i < colorArray.length; ++i) {

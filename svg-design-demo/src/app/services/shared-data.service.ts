@@ -31,6 +31,7 @@ export class SharedDataService {
   finishedSashes:boolean = false;
   userInfo:any = [];
   selectedTemplateID:number = -1;
+  signedIn:boolean = false;
 
   // Array holding all window shapes offered
   windowShapes:string[] = [

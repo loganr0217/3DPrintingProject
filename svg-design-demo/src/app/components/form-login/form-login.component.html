@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div id="formLoginContainer">
 <!-- main app container -->
-    <div class="container" *ngIf="!(this.sharedDataService.userInfo.length > 0 && this.sharedDataService.userInfo[0] != -1)">
+    <div class="container" *ngIf="!this.sharedDataService.signedIn">
         <div class="container mt-3 mb-3">
             <div class="row" style="text-align: center;">
                 <div style="font-size: x-large;">Welcome</div>

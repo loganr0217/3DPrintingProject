@@ -76,7 +76,6 @@ export class Stage2Component implements OnInit {
     }
 
     this.displayWindowShapes(dividerType);
-    console.log(this.sharedDataService.userInfo);
   }
 
   chooseWindowExample(windowExample:string):void {
