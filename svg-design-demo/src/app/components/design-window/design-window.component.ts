@@ -51,11 +51,11 @@ export class DesignWindowComponent implements OnInit {
 
       let recentChange:string[] = this.recentChanges.pop()!;
       if(recentChange[0] == String(this.sharedDataService.currentTemplateNumber)) {
-        document.getElementById("pane"+recentChange[1])?.setAttribute("style", "fill:#"+recentChange[2]);
+        document.getElementById("pane"+recentChange[1])?.setAttribute("style", recentChange[2]);
       }
       this.sharedDataService.panelColoringArray[Number(recentChange[0])][Number(recentChange[1])] = recentChange[2].substring(6);
-      document.getElementById("windowPane"+recentChange[0]+"_"+recentChange[1])?.setAttribute("style", "fill:#"+recentChange[2]);
-      document.getElementById("windowPaneFinished"+recentChange[0]+"_"+recentChange[1])?.setAttribute("style", "fill:#"+recentChange[2]);
+      document.getElementById("windowPane"+recentChange[0]+"_"+recentChange[1])?.setAttribute("style", recentChange[2]);
+      document.getElementById("windowPaneFinished"+recentChange[0]+"_"+recentChange[1])?.setAttribute("style", recentChange[2]);
 
       
     }

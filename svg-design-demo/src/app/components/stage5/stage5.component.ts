@@ -42,7 +42,7 @@ export class Stage5Component implements OnInit {
     else {
       finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1));
     }
-    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return "Panel Width: " + finalPanelWidth + this.sharedDataService.unitChoice;}
+    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return "Panel Width: " + this.convertBackNumber(finalPanelWidth, this.sharedDataService.unitChoice) + this.sharedDataService.unitChoice;}
     else {return "-1";}
   }
 
@@ -80,7 +80,7 @@ export class Stage5Component implements OnInit {
     else {
       finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1));
     }
-    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return "Panel Height: " + finalPanelHeight + this.sharedDataService.unitChoice;}
+    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return "Panel Height: " + this.convertBackNumber(finalPanelHeight, this.sharedDataService.unitChoice) + this.sharedDataService.unitChoice;}
     else {return "-1";}
   }
 
@@ -90,12 +90,18 @@ export class Stage5Component implements OnInit {
     else {return num*10;};
   }
 
+  convertBackNumber(num:number, unit:string):number {
+    if(unit == "mm") {return num;}
+    else if(unit == "inches") {return num/25.4;}
+    else {return num/10;};
+  }
+
   getWindowWidth():string {
-    return "Window Width: " + this.sharedDataService.windowWidth + this.sharedDataService.unitChoice;
+    return "Window Width: " + this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice)  + this.sharedDataService.unitChoice;
   }
 
   getWindowHeight():string {
-    return "Window Height: " + this.sharedDataService.windowHeight + this.sharedDataService.unitChoice;
+    return "Window Height: " + this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice) + this.sharedDataService.unitChoice;
   }
 
   ngOnInit(): void {
