@@ -60,16 +60,42 @@
                             </span>
                         </button>
                     </div> -->
-                    <div class="col-lg-8">
-                        <div class="row px-2">
+                    <div class="col-lg-4">
+                        <!-- <div class="row px-2">
                             <div class="form-group col-md-6">
                                 <label class="form-control-label">Coupon Code</label>
-                                <input type="text" id="cname" name="cname" placeholder="jncjs88cnsncs8893nn">
+                                <input type="text" id="couponCodeInput" name="couponCode">
+                            </div>
+                        </div> -->
+                        <div class="row px-2">
+                            <div class="form-group col-md-12">
+                                <label class="form-control-label">Street Address</label>
+                                <input type="text" id="streetAddressInput" name="streetAddress">
+                            </div>
+                        </div>
+                        <div class="row px-2">
+                            <div class="form-group col-md-12">
+                                <label class="form-control-label">Zip Code</label>
+                                <input type="text" id="zipcodeInput" name="zipcode">
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 mt-2">
-                        <div class="row d-flex justify-content-between px-4">
+                    <div class="col-lg-4">
+                        <div class="row px-2">
+                            <div class="form-group col-md-12">
+                                <label class="form-control-label">City</label>
+                                <input type="text" id="cityInput" name="city">
+                            </div>
+                        </div>
+                        <div class="row px-2">
+                            <div class="form-group col-md-12">
+                                <label class="form-control-label">State</label>
+                                <input type="text" id="stateInput" name="state">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <!-- <div class="row d-flex justify-content-between px-4">
                             <p class="mb-1 text-left text-white">Subtotal</p>
                             <h6 class="mb-1 text-right">$23.49</h6>
                         </div>
@@ -80,11 +106,17 @@
                         <div class="row d-flex justify-content-between px-4" id="tax">
                             <p class="mb-1 text-left text-white">Total (tax included)</p>
                             <h6 class="mb-1 text-right">$26.48</h6>
+                        </div> -->
+                        <div class="row px-2">
+                            <div class="form-group col-md-12">
+                                <label class="form-control-label">Coupon Code</label>
+                                <input type="text" id="couponCodeInput" name="couponCode">
+                            </div>
                         </div>
-                        <button (click)="getFinalInfo()" class="btn-block btn-light">
+                        <button (click)="getFinalInfo()" class="btn-block btn-primary">
                             <span>
                                 <span id="checkout">Checkout</span>
-                                <span id="check-amt">$26.48</span>
+                                <!-- <span id="check-amt">$26.48</span> -->
                             </span>
                         </button>
                     </div>

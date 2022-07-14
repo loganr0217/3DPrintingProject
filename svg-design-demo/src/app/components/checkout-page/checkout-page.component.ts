@@ -24,7 +24,19 @@ export class CheckoutPageComponent implements OnInit {
     else if(unit == "inches") {return num*25.4;}
     else {return num*10;};
   }
-  
+
+  convertBackNumber(num:number, unit:string):number {
+    if(unit == "mm") {return num;}
+    else if(unit == "inches") {return num/25.4;}
+    else {return num/10;};
+  }
+
+  // Method to check whether selected window shape is a 2xHung
+  isDoubleHung():boolean {
+    if(this.sharedDataService.selectedWindowShape.substring(0, 2) == "2x") {return true;}
+    return false;
+  }
+
   getFinalInfo():void {
     // let finalText:string = 
     // "Divider Type: " + this.sharedDataService.selectedDividerType + "\n" + 
@@ -59,36 +71,43 @@ export class CheckoutPageComponent implements OnInit {
     final += "]\n"
     final += this.sharedDataService.panelColoringArray;
     // console.log(final);
-    
-    // Setting up vars to get final info for order
-    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : null;
-    const selectedDividerType:string = this.sharedDataService.selectedDividerType;
-    const unitChoice:string = this.sharedDataService.unitChoice;
-    const windowWidth:number = this.sharedDataService.windowWidth;
-    const windowHeight:number = this.sharedDataService.windowHeight;
-    const horzDividers:number = this.sharedDataService.dividerNumbers[0];
-    const vertDividers:number = this.sharedDataService.dividerNumbers[1];
-    const dividerWidth:number = this.sharedDataService.dividerWidth;
-    const templateID:number = this.sharedDataService.selectedTemplateID;
-    let panelColoringString:string = "";
-    for(let i:number = 0; i < this.sharedDataService.panelColoringArray.length; ++i) {
-      panelColoringString += this.sharedDataService.panelColoringArray[i].join(",");
-      if(i != this.sharedDataService.panelColoringArray.length - 1) {panelColoringString += ";";}
-    }
-    // console.log(panelColoringString);
-    const streetAddress:string = "test drive";
-    const city:string = "test city";
-    const state:string = "test state";
-    const zipcode:string = "test zipcode";
-    const country:string = "test country";
+    if(document.getElementById("couponCodeInput")?.textContent == "lightscreen.art-beta") {
+      // Setting up vars to get final info for order
+      const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : null;
+      const selectedDividerType:string = this.sharedDataService.selectedDividerType;
+      const unitChoice:string = this.sharedDataService.unitChoice;
+      const windowWidth:number = this.sharedDataService.windowWidth;
+      const windowHeight:number = this.sharedDataService.windowHeight;
+      const horzDividers:number = this.sharedDataService.dividerNumbers[0];
+      const vertDividers:number = this.sharedDataService.dividerNumbers[1];
+      const dividerWidth:number = this.sharedDataService.dividerWidth;
+      const templateID:number = this.sharedDataService.selectedTemplateID;
+      let panelColoringString:string = "";
+      for(let i:number = 0; i < this.sharedDataService.panelColoringArray.length; ++i) {
+        panelColoringString += this.sharedDataService.panelColoringArray[i].join(",");
+        if(i != this.sharedDataService.panelColoringArray.length - 1) {panelColoringString += ";";}
+      }
+      // console.log(panelColoringString);
+      const streetAddress:string = String(document.getElementById("streetAddressInput")?.textContent);
+      const city:string = String(document.getElementById("cityInput")?.textContent);
+      const state:string = String(document.getElementById("stateInput")?.textContent);
+      const zipcode:string = String(document.getElementById("zipcodeInput")?.textContent);
+      const country:string = "US";
+      const bottomWindowWidth:number = this.isDoubleHung() ? this.sharedDataService.bottomSashWidth : 0;
+      const bottomWindowHeight:number = this.isDoubleHung() ? this.sharedDataService.bottomSashHeight : 0;
 
-    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/makeorder?email='"+email
-    +"'&selectedDividerType='"+selectedDividerType+"'&unitChoice='"+unitChoice
-    +"'&windowWidth="+windowWidth+"&windowHeight="+windowHeight+"&horzDividers="+horzDividers
-    +"&vertDividers="+vertDividers+"&dividerWidth="+dividerWidth
-    +"&templateID="+templateID+"&panelColoringString='"+panelColoringString
-    +"'&streetAddress='"+streetAddress+"'&city='"+city+"'&state='"+state
-    +"'&zipcode='"+zipcode+"'&country='"+country+"'").subscribe(result => alert("Success! Your order has been placed."));
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/makeorder?email='"+email
+      +"'&selectedDividerType='"+selectedDividerType+"'&unitChoice='"+unitChoice
+      +"'&windowWidth="+windowWidth+"&windowHeight="+windowHeight+"&horzDividers="+horzDividers
+      +"&vertDividers="+vertDividers+"&dividerWidth="+dividerWidth
+      +"&templateID="+templateID+"&panelColoringString='"+panelColoringString
+      +"'&streetAddress='"+streetAddress+"'&city='"+city+"'&state='"+state
+      +"'&zipcode='"+zipcode+"'&country='"+country+"'&bottomWindowWidth='"+bottomWindowWidth+
+      "'&bottomWindowHeight='"+bottomWindowHeight+"'").subscribe(result => alert("Success! Your order has been placed."));
+    }
+    else {
+      alert("Make sure to enter your coupon code as well as your shipping information.");
+    }
   }
 
 }

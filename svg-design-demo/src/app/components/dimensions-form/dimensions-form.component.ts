@@ -178,8 +178,8 @@ export class DimensionsFormComponent implements OnInit {
 
   //
   updateDimensionsButton():void {
-    let newWidth:number = Number((<HTMLInputElement>document.getElementById("widthInput")).value);
-    let newHeight:number = Number((<HTMLInputElement>document.getElementById("heightInput")).value);
+    let newWidth:number = this.convertNumber(Number((<HTMLInputElement>document.getElementById("widthInput")).value), this.sharedDataService.unitChoice);
+    let newHeight:number = this.convertNumber(Number((<HTMLInputElement>document.getElementById("heightInput")).value), this.sharedDataService.unitChoice);
     this.updateDimensions(newWidth >= 100 ? newWidth : 100, newHeight >= 100 ? newHeight : 100);
   }
   // Method to update dimensions
@@ -260,8 +260,8 @@ export class DimensionsFormComponent implements OnInit {
 
   // Method to get the correct
   sashButtonText():string {
-    if(this.sharedDataService.topSash) {return "Bottom Sash";}
-    return "Top Sash";
+    if(this.sharedDataService.topSash) {return "Switch to Bottom Sash";}
+    return "Switch to Top Sash";
   }
 
   // Method to check whether selected window shape is a 2xHung

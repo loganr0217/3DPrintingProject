@@ -5,3 +5,17 @@
     overflow-y: hidden;  
     white-space: nowrap;
 }
+
+#colorsContainer::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+#colorsContainer::-webkit-scrollbar:horizontal {
+    height: 11px;
+}
+
+#colorsContainer::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, .5);
+}

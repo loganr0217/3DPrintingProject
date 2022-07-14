@@ -16,9 +16,9 @@ export class Stage1Component implements OnInit {
   @ViewChild('carousel') carousel: ElementRef;
 
   ngAfterContentInit(): void {
-    setInterval(() => {
-      this.carousel.nativeElement.click();
-    }, 5000)
+    // setInterval(() => {
+    //   this.carousel.nativeElement.click();
+    // }, 5000)
   }
 
   nextstage2() {
