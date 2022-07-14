@@ -11,4 +11,11 @@ export class AppComponent {
     document.getElementById("footer")?.scrollIntoView({behavior: 'smooth'});
   }
   constructor(public sharedDataService:SharedDataService) { }
+
+  userSignout():void {
+    if (confirm('Are you sure you want to logout of your account?')) {
+      this.sharedDataService.userInfo = [];
+      this.sharedDataService.signedIn = false;
+    }
+  }
 }
