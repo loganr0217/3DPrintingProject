@@ -71,7 +71,7 @@ export class CheckoutPageComponent implements OnInit {
     final += "]\n"
     final += this.sharedDataService.panelColoringArray;
     // console.log(final);
-    if(document.getElementById("couponCodeInput")?.textContent == "lightscreen.art-beta") {
+    if((<HTMLInputElement>document.getElementById("couponCodeInput"))?.value == "lightscreen.art-beta") {
       // Setting up vars to get final info for order
       const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : null;
       const selectedDividerType:string = this.sharedDataService.selectedDividerType;

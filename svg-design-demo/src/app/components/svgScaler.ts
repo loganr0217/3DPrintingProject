@@ -697,6 +697,7 @@ export class SVGTemplate {
     yMin:number;
     yMax:number;
     numberRotations:number;
+    flipped:boolean;
 
     width:number;
     height:number;
@@ -730,6 +731,7 @@ export class SVGTemplate {
         this.width = this.xMax - this.xMin;
         this.height = this.yMax - this.yMin;
         this.numberRotations = 0;
+        this.flipped = false;
 
         this.outerEdgeIndex = 0;
         // Identifying outer edge of template (rest is the panes)
@@ -851,9 +853,10 @@ id="svg567">
 
     getTransform():string {
         const rotationAmount:number = this.numberRotations * 90;
+        const flipNumber:number = this.flipped ? -1 : 1;
         const centerX:number = this.xMin + (this.width/2);
         const centerY:number = this.yMin + (this.height/2);
-        return "rotate(" + rotationAmount + ", " + centerX + ", " + centerY + ")";
+        return "rotate(" + rotationAmount + ", " + centerX + ", " + centerY + ") scale(" + flipNumber + ",1) " + (this.flipped ? " translate(" + (-2*centerX) + ", 0)" : "");
     }
 }
 

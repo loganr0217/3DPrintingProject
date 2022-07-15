@@ -42,7 +42,7 @@ export class Stage5Component implements OnInit {
     else {
       finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1));
     }
-    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return "Panel Width: " + this.convertBackNumber(finalPanelWidth, this.sharedDataService.unitChoice) + this.sharedDataService.unitChoice;}
+    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return "Panel Width: " + this.convertBackNumber(finalPanelWidth, this.sharedDataService.unitChoice).toFixed(2) + this.sharedDataService.unitChoice;}
     else {return "-1";}
   }
 
@@ -80,7 +80,7 @@ export class Stage5Component implements OnInit {
     else {
       finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1));
     }
-    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return "Panel Height: " + this.convertBackNumber(finalPanelHeight, this.sharedDataService.unitChoice) + this.sharedDataService.unitChoice;}
+    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return "Panel Height: " + this.convertBackNumber(finalPanelHeight, this.sharedDataService.unitChoice).toFixed(2) + this.sharedDataService.unitChoice;}
     else {return "-1";}
   }
 
@@ -97,11 +97,11 @@ export class Stage5Component implements OnInit {
   }
 
   getWindowWidth():string {
-    return "Window Width: " + this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice)  + this.sharedDataService.unitChoice;
+    return "Window Width: " + this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice).toFixed(2)  + this.sharedDataService.unitChoice;
   }
 
   getWindowHeight():string {
-    return "Window Height: " + this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice) + this.sharedDataService.unitChoice;
+    return "Window Height: " + this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice).toFixed(2) + this.sharedDataService.unitChoice;
   }
 
   ngOnInit(): void {

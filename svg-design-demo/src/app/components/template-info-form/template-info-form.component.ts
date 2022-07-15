@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { Polygon, SVGTemplate, DividerWindow, WindowPane } from '../svgScaler';
-
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-template-info-form',
   templateUrl: './template-info-form.component.html',
@@ -11,7 +11,7 @@ export class TemplateInfoFormComponent implements OnInit {
 
   // Array containing the svgPath data for displaying icons / generating a template
   svgTemplateData:{id:number, name:string, d:string}[][];
-  constructor(private sharedDataService:SharedDataService) { }
+  constructor(private sharedDataService:SharedDataService, private http:HttpClient) { }
 
   // Method to clear old panes
   clearOldPanes():void {
@@ -106,31 +106,46 @@ export class TemplateInfoFormComponent implements OnInit {
   }
 
   addPanel():void {
-    this.sharedDataService.window.push({"d":String((<HTMLInputElement>document.getElementById("dInput")).value), "priority":String((<HTMLInputElement>document.getElementById("priorityInput")).value)});
-    this.displayTemplate();
-  }
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    const panelSetId:number = Number((<HTMLInputElement>document.getElementById("panelSetIdInput"))?.value);
+    const panelNumber:number = Number((<HTMLInputElement>document.getElementById("panelNumberInput"))?.value);
+    const panelName:string = (<HTMLInputElement>document.getElementById("nameInput"))?.value;
+    const dAttribute:string = (<HTMLInputElement>document.getElementById("dInput"))?.value;
 
-  createWindow():void {
-    document.getElementById("addInput")?.setAttribute("disabled", "true");
-    document.getElementById("panesInput")?.removeAttribute("disabled");
-  }
-
-  getWindowPanes():void {
-    let currentPanel:SVGTemplate;
-    for(let i:number = 0; i < this.sharedDataService.window.length; ++i) {
-      currentPanel = new SVGTemplate(this.sharedDataService.window[i].d);
-      alert("d attribute for panel " + String(i) + "'s panes:\n\n" + currentPanel.getLaserCutPanes()[0]);
+    if (confirm('Are you sure you want to add this panel?')) {
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelSetId + "&panelNumber=" + panelNumber + "&panelName='" + panelName + "'&dAttribute='" + dAttribute + "'").subscribe(result => {
+        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+        alert(test);
+        // console.log(this.loginForm.value);
+        // console.log(this.sharedDataService.userInfo);
+       });
     }
+    
+
   }
 
-  resetWindow():void {
-    this.sharedDataService.window = [];
-    this.clearOldPanes();
-    this.clearWindowPreview();
-    document.getElementById("svgTemplate")?.setAttribute("d", "");
-    document.getElementById("addInput")?.removeAttribute("disabled");
-    document.getElementById("panesInput")?.setAttribute("disabled", "true");
-  }
+  // createWindow():void {
+  //   document.getElementById("addInput")?.setAttribute("disabled", "true");
+  //   document.getElementById("panesInput")?.removeAttribute("disabled");
+  // }
+
+  // getWindowPanes():void {
+  //   let currentPanel:SVGTemplate;
+  //   for(let i:number = 0; i < this.sharedDataService.window.length; ++i) {
+  //     currentPanel = new SVGTemplate(this.sharedDataService.window[i].d);
+  //     alert("d attribute for panel " + String(i) + "'s panes:\n\n" + currentPanel.getLaserCutPanes()[0]);
+  //   }
+  // }
+
+  // resetWindow():void {
+  //   this.sharedDataService.window = [];
+  //   this.clearOldPanes();
+  //   this.clearWindowPreview();
+  //   document.getElementById("svgTemplate")?.setAttribute("d", "");
+  //   document.getElementById("addInput")?.removeAttribute("disabled");
+  //   document.getElementById("panesInput")?.setAttribute("disabled", "true");
+  // }
 
   ngOnInit(): void {
   }
