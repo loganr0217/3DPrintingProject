@@ -6,7 +6,7 @@
             (click)="displayTemplate(window, i)"/> -->
 
             <svg *ngFor="let svgTemplate of row" xmlns="http://www.w3.org/2000/svg" class="svgTemplateIcons"  [attr.viewBox]="getTemplateViewBox(svgTemplate.getOptimizedD())">
-                <path  style="fill:#666666" [attr.d]="svgTemplate.getOptimizedD()"/>
+                <path  style="fill:#666666" [attr.transform]="svgTemplate.getTransform()" [attr.d]="svgTemplate.getOptimizedD()"/>
             </svg>
         </div>
     </div>

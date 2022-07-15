@@ -1,6 +1,5 @@
 <!-- Navbar content -->
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark navbar-custom" style="height: 65px;">
-    <div class="container-fluid">
         <a href="javascript:void(0)" routerLink="" class="navbar-brand">
             <!-- Logo Image -->
             <a href="javascript:void(0)" routerLink="">
@@ -20,7 +19,6 @@
               <a href="javascript:void(0)" *ngIf="this.sharedDataService.signedIn" (click)="userSignout()" class="nav-item nav-link">Logout</a>
             </div>
         </div> 
-  </div>
 </nav>
 <router-outlet></router-outlet>
 <!-- Footer -->

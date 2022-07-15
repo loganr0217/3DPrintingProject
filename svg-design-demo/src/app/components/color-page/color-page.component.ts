@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { SVGTemplate } from '../svgScaler';
@@ -15,7 +16,7 @@ export class ColorPageComponent implements OnInit {
   panelDims:number[];
   currentPanelLocation:number[];
   templateString:string;
-  constructor(private sharedDataService:SharedDataService) { }
+  constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
 
   // Getting optimzed d for template
   getOptimizedTemplateD(d:string):string {
@@ -93,7 +94,7 @@ export class ColorPageComponent implements OnInit {
   }
 
   choosePanel(panelNum:number):void {
-    this.templateString += this.sharedDataService.currentWindowNumber + "," + panelNum + ";";
+    this.templateString += this.sharedDataService.currentWindowNumber + "," + panelNum + ",0,0;";
     if(this.currentPanel != null) {
       document.getElementById("svgTemplateLayoutPanel" + this.currentPanel)?.setAttribute("style", "fill:#666666;")
     }
@@ -168,10 +169,35 @@ export class ColorPageComponent implements OnInit {
     let test:string[] = this.templateString.split(";");
     // Removing empty ending and adding number of rotations to last panel
     test.pop();
-    let lastPanelInfo:string[] = test[test.length-1].split(",");
-    if(lastPanelInfo.length > 2) {lastPanelInfo[2] = String(this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].numberRotations);}
-    else {lastPanelInfo.push(String(this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].numberRotations));}
-    test[test.length-1] = lastPanelInfo.join(",");
+    // console.log(test);
+    let lastPanelString:string[] = test[test.length-1].split(",");
+    // let lastPanelInfo:string[] = test[test.length-1].split(",");
+    // if(lastPanelInfo.length > 2) {lastPanelInfo[2] = String(this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].numberRotations);}
+    // else {lastPanelInfo.push(String(this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].numberRotations));}
+    lastPanelString[2] = String((Number(lastPanelString[2]) + 1) % 4);
+    // console.log(lastPanelString);
+    test[test.length-1] = lastPanelString.join(",");
+    this.templateString = test.join(";") + ";";
+    if(this.templateString == ";") {this.templateString = "";}
+    this.increaseCurrentLocation();
+  }
+
+  // Method to mirror the last placed panel
+  mirrorLastPanel():void {
+    // Decreasing the current location by 1
+    this.decreaseCurrentLocation();
+    this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].flipped = !this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].flipped;
+    let test:string[] = this.templateString.split(";");
+    // Removing empty ending and adding number of rotations to last panel
+    test.pop();
+    // console.log(test);
+    let lastPanelString:string[] = test[test.length-1].split(",");
+    // let lastPanelInfo:string[] = test[test.length-1].split(",");
+    // if(lastPanelInfo.length > 2) {lastPanelInfo[2] = String(this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].numberRotations);}
+    // else {lastPanelInfo.push(String(this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].numberRotations));}
+    lastPanelString[3] = String((Number(lastPanelString[3]) + 1) % 2);
+    // console.log(lastPanelString);
+    test[test.length-1] = lastPanelString.join(",");
     this.templateString = test.join(";") + ";";
     if(this.templateString == ";") {this.templateString = "";}
     this.increaseCurrentLocation();
@@ -189,6 +215,24 @@ export class ColorPageComponent implements OnInit {
       else {colorNumberArray.push(3);}
     }
     alert(colorNumberArray.join(";"));
+  }
+
+  addTemplate():void {
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    const numberPanelsX:number = this.panelDims[0];
+    const numberPanelsY:number = this.panelDims[1];
+    const templateString:string = this.templateString.substring(0, this.templateString.length-1);
+    if (confirm('Are you sure you want to add this template?')) {
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addtemplate?email='"+email+"'&password='"+password+"'&numberPanelsX=" + numberPanelsX + "&numberPanelsY=" + numberPanelsY + "&templateString='" + templateString + "'&access='public'").subscribe(result => {
+        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+        alert(test);
+        // console.log(this.loginForm.value);
+        // console.log(this.sharedDataService.userInfo);
+       });
+    }
+    
+
   }
 
 }

@@ -25,6 +25,14 @@ p {
     flex:2;
 }
 
+.btn-dark {
+    border: none;
+    border-radius: 10px;
+    padding: 8px 15px;
+    margin: 0px 0px;
+    cursor: pointer;
+}
+
 #submitInput {
     width: 30vw;
 }

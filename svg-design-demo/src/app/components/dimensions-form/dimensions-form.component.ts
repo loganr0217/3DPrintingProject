@@ -11,7 +11,7 @@ import { Polygon, DividerWindow, WindowPane, SVGTemplate } from '../svgScaler';
 export class DimensionsFormComponent implements OnInit {
   unitChoice:string;
 
-  constructor(private sharedDataService:SharedDataService) {
+  constructor(public sharedDataService:SharedDataService) {
   }
   
   ngOnInit(): void {
@@ -202,7 +202,7 @@ export class DimensionsFormComponent implements OnInit {
       dividerWidth = Number((<HTMLInputElement>document.getElementById("dividerWidthInput")).value);
     }
     if(dividerWidth == 0) {dividerWidth = 2;}
-
+    dividerWidth = this.convertNumber(dividerWidth, this.sharedDataService.unitChoice);
     let newDividerWindow:DividerWindow;
     if(this.sharedDataService.topSash) {
       this.sharedDataService.windowWidth = newWidth;
@@ -254,8 +254,15 @@ export class DimensionsFormComponent implements OnInit {
 
   nextstage() {
     this.updatePanelLayout();
-    document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;")
-    document.getElementById("templateCategoryStage")?.scrollIntoView({behavior: 'smooth'});
+    if(this.getPanelWidth(this.sharedDataService.windowWidth) != -1 && this.getPanelHeight(this.sharedDataService.windowHeight) != -1) {
+      document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;")
+      document.getElementById("templateCategoryStage")?.scrollIntoView({behavior: 'smooth'});
+    }
+    // Doesn't meet panel width/height requirements
+    else {
+      alert("Something went wrong.");
+    }
+    
   }
 
   // Method to get the correct

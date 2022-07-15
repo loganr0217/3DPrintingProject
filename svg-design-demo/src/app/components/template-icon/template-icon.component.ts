@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { Polygon } from '../svgScaler';
@@ -13,7 +14,7 @@ export class TemplateIconComponent implements OnInit {
   // Array containing the svgPath data for displaying icons / generating a template
   svgTemplateData:{id:number, name:string, d:string}[][];
   templateData:{id:number, numPanels:number, panelDims:number[], tempString:string}[];
-  constructor(private sharedDataService:SharedDataService) { }
+  constructor(private sharedDataService:SharedDataService, private http:HttpClient) { }
 
   // // Getting optimzed d for template
   // getOptimizedTemplateD(d:string):string {
@@ -169,14 +170,29 @@ export class TemplateIconComponent implements OnInit {
   ngOnInit(): void {
     // Getting svgTemplateData
     this.svgTemplateData = this.sharedDataService.svgTemplateData;
-    this.templateData = [
-      {id:0, numPanels:6, panelDims:[2,3], tempString:"0,0;0,1;0,2;0,3;0,4;0,4"},
-      {id:1, numPanels:6, panelDims:[1,6], tempString:"0,0;0,1;0,2;0,3;0,4;0,4"},
-      {id:2, numPanels:6, panelDims:[6,1], tempString:"0,0;0,1;0,2;0,3;0,4;0,4"},
-      {id:3, numPanels:36, panelDims:[6,6], tempString:"0,0;0,1;0,2;0,3;0,4;0,4;0,0;0,1;0,2;0,3;0,4;0,4;0,0;0,1;0,2;0,3;0,4;0,4;0,0;0,1;0,2;0,3;0,4;0,4;0,0;0,1;0,2;0,3;0,4;0,4;0,0;0,1;0,2;0,3;0,4;0,4"},
-      {id:4, numPanels:8, panelDims:[2,4], tempString:"1,0;1,0;1,1;1,1;1,2;1,2;1,4;1,4"}
+    //   {id:0, numPanels:6, panelDims:[2,3], tempString:"0,0;0,1;0,2;0,3;0,4;0,4"},
+    //   {id:1, numPanels:6, panelDims:[1,6], tempString:"0,0;0,1;0,2;0,3;0,4;0,4"},
+    //   {id:2, numPanels:6, panelDims:[6,1], tempString:"0,0;0,1;0,2;0,3;0,4;0,4"},
+    //   {id:3, numPanels:36, panelDims:[6,6], tempString:"0,0;0,1;0,2;0,3;0,4;0,4;0,0;0,1;0,2;0,3;0,4;0,4;0,0;0,1;0,2;0,3;0,4;0,4;0,0;0,1;0,2;0,3;0,4;0,4;0,0;0,1;0,2;0,3;0,4;0,4;0,0;0,1;0,2;0,3;0,4;0,4"},
+    //   {id:4, numPanels:8, panelDims:[2,4], tempString:"1,0;1,0;1,1;1,1;1,2;1,2;1,4;1,4"}
       
-    ];
+    // ];
+    // Getting templates from database
+    this.templateData = []
+    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/templates?numberPanelsX=-1&numberPanelsY=-1").subscribe(result => {
+      let tmp = JSON.parse(JSON.stringify(result));
+      this.templateData = [];
+      if(tmp.length >= 1) {
+        // console.log(templateData);
+        for(let i:number = 0; i < tmp.length; ++i) {
+          let currentTmp:{id:number, numPanels:number, panelDims:number[], tempString:string} = {id:tmp[i][0], numPanels:tmp[i][1]*tmp[i][2], panelDims:[tmp[i][1], tmp[i][2]], tempString:tmp[i][3]};
+          this.templateData.push(currentTmp);
+        }
+      }
+      else {alert("error"); this.templateData = [];}
+      // console.log(this.loginForm.value);
+      // console.log(this.sharedDataService.userInfo);
+    });
   }
 
   range(i:number):number[] {
@@ -187,9 +203,9 @@ export class TemplateIconComponent implements OnInit {
     // Creating panel layout array
     let panelLayout:SVGTemplate[][] = [];
     for(let row:number = 0; row < temp.panelDims[1]; ++row) {panelLayout.push([]);}
-
+    
     // Splitting the tempString info into a 2d array of panel info
-    let tempString:string[] = temp.tempString.split(';'); 
+    let tempString:string[] = temp.tempString.split(';');
     let panelInfoArray:string[][] = [];
     for(let index:number = 0; index < tempString.length; ++index) {
       panelInfoArray.push(tempString[index].split(','));
@@ -197,7 +213,7 @@ export class TemplateIconComponent implements OnInit {
 
     // Adding each panel to the panel layout
     for(let panelID:number = 0; panelID < panelInfoArray.length; ++panelID) {
-      let myTemplate:SVGTemplate = new SVGTemplate(this.svgTemplateData[Number(panelInfoArray[panelID][0])][Number(panelInfoArray[panelID][1])].d);
+      let myTemplate:SVGTemplate = new SVGTemplate(this.sharedDataService.svgTemplateData[Number(panelInfoArray[panelID][0])][Number(panelInfoArray[panelID][1])].d);
       panelLayout[Math.floor(panelID/temp.panelDims[0])].push(myTemplate);
     }
     //console.log(panelLayout);

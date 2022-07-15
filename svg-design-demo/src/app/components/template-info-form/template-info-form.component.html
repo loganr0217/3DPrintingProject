@@ -1,17 +1,32 @@
 <form id="dimensionsFormContainer">
     <div class="form-group form-row">
-        <div class="col">
-            <label class="formLabel" for="dInput">d:</label>
+        <div class="col input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">d:</span>
+            </div>
             <input type="text" class="form-control" id="dInput">
         </div>
-        <div class="col">
-            <label class="formLabel" for="priorityInput">Priority(r, d, m):</label>
-            <input type="text" class="form-control" id="priorityInput">
+        <div class="col input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Name:</span>
+              </div>
+            <input type="text" class="form-control" id="nameInput">
+        </div>
+    </div>
+    <div class="form-group form-row">
+        <div class="col input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Panelset Id:</span>
+            </div>
+            <input type="text" class="form-control" id="panelSetIdInput">
+        </div>
+        <div class="col input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Panel Number:</span>
+              </div>
+            <input type="text" class="form-control" id="panelNumberInput">
         </div>
     </div>
 
     <input type="button" class="btn btn-dark btn-med" id="addInput" (click)="addPanel()" value="Add Panel"/>
-    <input type="button" class="btn btn-dark btn-med" id="createInput" (click)="createWindow()" value="Create Window"/>
-    <input type="button" class="btn btn-dark btn-med" id="panesInput" disabled="true" (click)="getWindowPanes()" value="Get Panes"/>
-    <input type="button" class="btn btn-dark btn-med" id="resetInput" (click)="resetWindow()" value="Reset"/>
 </form>
