@@ -2,7 +2,7 @@
     padding-bottom:20vh;
     padding-top: 2vh;
     background-color: transparent;
-    overflow-y: scroll;
+    overflow-y: auto;
     display: flex;
 }
 
