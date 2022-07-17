@@ -49,7 +49,7 @@ export class SharedDataService {
     {id:3, name:"White", hex:"f0f0f1", paneColor:true},
     {id:4, name:"Green", hex:"054c20", paneColor:true},
     {id:5, name:"Yellow", hex:"f2cc2e", paneColor:true},
-    {id:6, name:"Red", hex:"062657", paneColor:true},
+    {id:6, name:"Dark Blue", hex:"062657", paneColor:true},
     {id:7, name:"Blue", hex:"162e5e", paneColor:true},
     {id:8, name:"Light Blue", hex:"178fdc", paneColor:true},
     {id:9, name:"Orange", hex:"e14931", paneColor:true},
