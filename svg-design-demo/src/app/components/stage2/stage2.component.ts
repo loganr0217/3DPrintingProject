@@ -53,13 +53,13 @@ export class Stage2Component implements OnInit {
     if(this.dividerType != null) {document.getElementById("dividerTypeImage_"+this.dividerType)?.setAttribute("style", "");}
     document.getElementById("dividerTypeImage_"+dividerType)?.setAttribute("style", "filter: invert(25%);");
     if(dividerType == "nodiv") {
-      document.getElementById("dividerDetailsText")!.innerHTML = "";
+      // document.getElementById("dividerDetailsText")!.innerHTML = "";
       document.getElementById("horizontalDividersInput")?.setAttribute("disabled", "true");
       document.getElementById("verticalDividersInput")?.setAttribute("disabled", "true");
       document.getElementById("dividerDetailInputs")?.setAttribute("style", "display:none;");
     }
     else {
-      document.getElementById("dividerDetailsText")!.innerHTML = "Now, tell us the number of window dividers and their width.";
+      // document.getElementById("dividerDetailsText")!.innerHTML = "Now, tell us the number of window dividers and their width.";
       document.getElementById("horizontalDividersInput")?.removeAttribute("disabled");
       document.getElementById("verticalDividersInput")?.removeAttribute("disabled");
       document.getElementById("dividerDetailInputs")?.setAttribute("style", "display:inline;");

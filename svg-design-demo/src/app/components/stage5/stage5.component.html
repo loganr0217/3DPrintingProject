@@ -7,6 +7,11 @@
             <p [textContent]="getWindowHeight()"></p>
             <p [textContent]="getPanelWidth()"></p>
             <p [textContent]="getPanelHeight()"></p>
+            <hr *ngIf="this.isDoubleHung()" />
+            <p *ngIf="this.isDoubleHung()" [textContent]="getBottomSashWidth()"></p>
+            <p *ngIf="this.isDoubleHung()" [textContent]="getBottomSashHeight()"></p>
+            <p *ngIf="this.isDoubleHung()" [textContent]="getPanelWidth(false)"></p>
+            <p *ngIf="this.isDoubleHung()" [textContent]="getPanelHeight(false)"></p>
             <input (click)="nextstageCheckout()" type="button" class="btn-block btn-dark btn-med" id="submitInput" value="Checkout"/>
         </div>
     </div>

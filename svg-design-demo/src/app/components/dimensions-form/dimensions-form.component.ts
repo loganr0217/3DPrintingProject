@@ -51,6 +51,7 @@ export class DimensionsFormComponent implements OnInit {
 
 
   getPanelWidth(width:number):number {
+    if(width <= 0) {return -1;}
     let vertDividers:number = this.sharedDataService.dividerNumbers[1];
     let finalPanelWidth:number = 0; 
     if(this.sharedDataService.selectedDividerType == 'nodiv') {
@@ -88,6 +89,7 @@ export class DimensionsFormComponent implements OnInit {
   }
 
   getPanelHeight(height:number):number {
+    if(height <= 0) {return -1;}
     let horzDividers:number = this.sharedDataService.dividerNumbers[0];
     let finalPanelHeight:number = 0; 
     if(this.sharedDataService.selectedDividerType == 'nodiv') {
@@ -153,16 +155,34 @@ export class DimensionsFormComponent implements OnInit {
 
   // Updating panel layout 2d array
   updatePanelLayout():void {
-    let panelWidth:number = this.getPanelWidth(this.convertNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice));
-    let panelHeight:number = this.getPanelHeight(this.convertNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice));
-    let leftRight:number = Math.floor(this.sharedDataService.windowWidth/panelWidth);
-    let topBottom:number = Math.floor(this.sharedDataService.windowHeight/panelHeight);
-
-    this.sharedDataService.panelLayout = [];
-    for(let i:number = 0; i < topBottom; ++i) {
-      this.sharedDataService.panelLayout.push([]);
+    let topPanelWidth:number = this.getPanelWidth(this.sharedDataService.windowWidth);
+    let topPanelHeight:number = this.getPanelHeight(this.sharedDataService.windowHeight);
+    let bottomPanelWidth:number = this.getPanelWidth(this.sharedDataService.bottomSashWidth);
+    let bottomPanelHeight:number = this.getPanelHeight(this.sharedDataService.bottomSashHeight);
+    let topLeftRight:number = Math.floor(this.sharedDataService.windowWidth/topPanelWidth);
+    let topTopBottom:number = Math.floor(this.sharedDataService.windowHeight/topPanelHeight);
+    let bottomLeftRight:number = Math.floor(this.sharedDataService.bottomSashWidth/bottomPanelWidth);
+    let bottomTopBottom:number = Math.floor(this.sharedDataService.bottomSashHeight/bottomPanelHeight);
+    console.log(bottomPanelWidth + " " + bottomPanelHeight);
+    // let panelWidth:number = this.getPanelWidth(this.sharedDataService.windowWidth);
+    // let panelHeight:number = this.getPanelHeight(this.sharedDataService.windowHeight);
+    // let leftRight:number = Math.floor(this.sharedDataService.windowWidth/panelWidth);
+    
+    if(this.isDoubleHung() && topLeftRight != bottomLeftRight) {this.sharedDataService.panelLayoutDims = [-1, -1];}
+    else {
+      if(topTopBottom == -1 || (this.isDoubleHung() && bottomTopBottom == -1) || topLeftRight == -1) {this.sharedDataService.panelLayoutDims = [-1, -1];}
+      else {
+        let topBottom:number = this.isDoubleHung() ? topTopBottom + bottomTopBottom : topTopBottom;
+        this.sharedDataService.panelLayout = [];
+        for(let i:number = 0; i < topTopBottom + bottomTopBottom; ++i) {
+          this.sharedDataService.panelLayout.push([]);
+        }
+        this.sharedDataService.panelLayoutDims = [topLeftRight, topBottom];
+      }
+      
     }
-    this.sharedDataService.panelLayoutDims = [leftRight, topBottom];
+    
+    //console.log(this.sharedDataService.panelLayoutDims);
     // console.log("Panel width: " + panelWidth + "\nPanel height: " + panelHeight + "\nLayout: " + this.sharedDataService.panelLayoutDims);
   }
 
@@ -180,34 +200,44 @@ export class DimensionsFormComponent implements OnInit {
   updateDimensionsButton():void {
     let newWidth:number = this.convertNumber(Number((<HTMLInputElement>document.getElementById("widthInput")).value), this.sharedDataService.unitChoice);
     let newHeight:number = this.convertNumber(Number((<HTMLInputElement>document.getElementById("heightInput")).value), this.sharedDataService.unitChoice);
-    this.updateDimensions(newWidth >= 100 ? newWidth : 100, newHeight >= 100 ? newHeight : 100);
+    this.updateDimensions(newWidth, newHeight);
   }
   // Method to update dimensions
   updateDimensions(newWidth:number, newHeight:number):void {
     this.clearOldDividerPanes();
+    
     // Getting the user's desired width and height and divider info
     // let newWidth:number = Number((<HTMLInputElement>document.getElementById("widthInput")).value);
     // let newHeight:number = Number((<HTMLInputElement>document.getElementById("heightInput")).value);
     let horzDividers:number;
     let vertDividers:number;
     let dividerWidth:number;
-    if(this.sharedDataService.selectedDividerType == "plain") {
+    
+    if(this.sharedDataService.selectedDividerType == "nodiv") {
       horzDividers = 0;
       vertDividers = 0;
       dividerWidth = 0;
     }
     else {
-      horzDividers = Number((<HTMLInputElement>document.getElementById("horizontalDividersInput")).value);
-      vertDividers = Number((<HTMLInputElement>document.getElementById("verticalDividersInput")).value);
-      dividerWidth = Number((<HTMLInputElement>document.getElementById("dividerWidthInput")).value);
+      if(!this.sharedDataService.topSash) {
+        horzDividers = this.sharedDataService.dividerNumbers[0];
+        vertDividers = this.sharedDataService.dividerNumbers[1];
+        dividerWidth = this.sharedDataService.dividerWidth;
+      }
+      else {
+        horzDividers = Number((<HTMLInputElement>document.getElementById("horizontalDividersInput")).value);
+        vertDividers = Number((<HTMLInputElement>document.getElementById("verticalDividersInput")).value);
+        dividerWidth = this.convertNumber(Number((<HTMLInputElement>document.getElementById("dividerWidthInput")).value), this.sharedDataService.unitChoice); 
+      }
+      
     }
     if(dividerWidth == 0) {dividerWidth = 2;}
-    dividerWidth = this.convertNumber(dividerWidth, this.sharedDataService.unitChoice);
+    // dividerWidth = this.convertNumber(dividerWidth, this.sharedDataService.unitChoice);
     let newDividerWindow:DividerWindow;
     if(this.sharedDataService.topSash) {
       this.sharedDataService.windowWidth = newWidth;
       this.sharedDataService.windowHeight = newHeight;
-      newDividerWindow = new DividerWindow(newWidth, newHeight, horzDividers, vertDividers, dividerWidth, 
+      newDividerWindow = new DividerWindow(newWidth >= 100 ? newWidth : undefined, newHeight >= 100 ? newHeight : undefined, horzDividers, vertDividers, dividerWidth, 
       this.sharedDataService.selectedDividerType, 
       this.sharedDataService.selectedWindowShape.substring(0, 2) == "2x" ? true : false, 
       this.sharedDataService.bottomSashWidth, this.sharedDataService.bottomSashHeight);
@@ -219,21 +249,21 @@ export class DimensionsFormComponent implements OnInit {
         horzDividers, vertDividers, dividerWidth, 
         this.sharedDataService.selectedDividerType, 
         this.sharedDataService.selectedWindowShape.substring(0, 2) == "2x" ? true : false, 
-        this.sharedDataService.bottomSashWidth, this.sharedDataService.bottomSashHeight);
+        newWidth >= 100 ? newWidth : undefined, newHeight >= 100 ? newHeight : undefined);
     }
     
     
     // Updating template dimensions
     document.getElementById("windowPerimeter")?.setAttribute("d", newDividerWindow.dString);
     document.getElementById("windowPerimeter")?.setAttribute("style", "fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:.2;");
-    let viewboxValue:string;
-    if(this.isDoubleHung()) {
-      viewboxValue = ""+ (-7 - (this.sharedDataService.windowWidth >= this.sharedDataService.bottomSashWidth ? 0 : (this.sharedDataService.bottomSashWidth - this.sharedDataService.windowWidth)/2)) +" "+ (-7) +" "+
-      ((this.sharedDataService.windowWidth >= this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth)+14)+
-      " "+(((this.sharedDataService.windowHeight + (this.sharedDataService.bottomSashHeight == -1 ? this.sharedDataService.windowHeight : this.sharedDataService.bottomSashHeight))+28));
+    let viewboxValue:string = newDividerWindow.getViewbox();
+    // if(this.isDoubleHung()) {
+    //   viewboxValue = ""+ (-7 - (this.sharedDataService.windowWidth >= this.sharedDataService.bottomSashWidth ? 0 : (this.sharedDataService.bottomSashWidth - this.sharedDataService.windowWidth)/2)) +" "+ (-7) +" "+
+    //   ((this.sharedDataService.windowWidth >= this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth)+14)+
+    //   " "+(((this.sharedDataService.windowHeight + (this.sharedDataService.bottomSashHeight == -1 ? this.sharedDataService.windowHeight : this.sharedDataService.bottomSashHeight))+28));
       
-    }
-    else {viewboxValue = ""+ (-7) +" "+ (-7) +" "+(newWidth+14)+" "+(newHeight+14);}
+    // }
+    // else {viewboxValue = ""+ (-7) +" "+ (-7) +" "+(newWidth+14)+" "+(newHeight+14);}
     document.getElementById("dividerTemplate")?.setAttribute("viewBox", viewboxValue);
 
     let paneNum:number = 0;
@@ -253,14 +283,24 @@ export class DimensionsFormComponent implements OnInit {
   }
 
   nextstage() {
+    this.updateDimensionsButton();
     this.updatePanelLayout();
-    if(this.getPanelWidth(this.sharedDataService.windowWidth) != -1 && this.getPanelHeight(this.sharedDataService.windowHeight) != -1) {
+    let availableTemplate:boolean = false;
+    for(let i:number = 0; i < this.sharedDataService.templateData.length; ++i) {
+      if(this.sharedDataService.panelLayoutDims[0] == this.sharedDataService.templateData[i].panelDims[0]
+        && this.sharedDataService.panelLayoutDims[1] == this.sharedDataService.templateData[i].panelDims[1]) {
+          availableTemplate = true;
+          break;
+      }
+    }
+    if(availableTemplate && this.sharedDataService.panelLayoutDims != [-1, -1] && this.getPanelWidth(this.sharedDataService.windowWidth) != -1 && this.getPanelHeight(this.sharedDataService.windowHeight) != -1) {
+      // console.log(this.sharedDataService.windowWidth + " " + this.sharedDataService.windowHeight);
       document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;")
       document.getElementById("templateCategoryStage")?.scrollIntoView({behavior: 'smooth'});
     }
     // Doesn't meet panel width/height requirements
     else {
-      alert("Something went wrong.");
+      alert("We currently do not offer a template for that window shape.");
     }
     
   }

@@ -48,7 +48,7 @@ export class DividerWindow {
     bottomSashHeight:number;
 
     // Constructor which takes the width and height of the window
-    constructor(width:number = 200, height:number = 200, numHorzDividers:number = 0, numVertDividers:number = 0, dividerWidth:number = 8, dividerType:string="plain", doubleHung:boolean=false, bottomSashWidth:number=-1, bottomSashHeight:number=-1) {
+    constructor(width:number = 100, height:number = 100, numHorzDividers:number = 0, numVertDividers:number = 0, dividerWidth:number = 8, dividerType:string="plain", doubleHung:boolean=false, bottomSashWidth:number=-1, bottomSashHeight:number=-1) {
         this.dString = "";
         this.numberHorizontalPanes = numVertDividers + 1;
         this.numberVerticalPanes = numHorzDividers + 1;
@@ -149,6 +149,18 @@ export class DividerWindow {
             }
         }
         return result;
+    }
+
+    getViewbox():string {
+        let viewboxValue:string = "";
+        if(this.doubleHung) {
+            viewboxValue = ""+ (-7 - (this.windowWidth >= this.bottomSashWidth ? 0 : (this.bottomSashWidth - this.windowWidth)/2)) +" "+ (-7) +" "+
+            ((this.windowWidth >= this.bottomSashWidth ? this.windowWidth : this.bottomSashWidth)+14)+
+            " "+(((this.windowHeight + (this.bottomSashHeight == -1 ? this.windowHeight : this.bottomSashHeight))+28));
+            
+        }
+        else {viewboxValue = ""+ (-7) +" "+ (-7) +" "+(this.windowWidth+14)+" "+(this.windowHeight+14);}
+        return viewboxValue;
     }
 }
 

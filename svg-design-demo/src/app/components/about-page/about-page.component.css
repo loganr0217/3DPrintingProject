@@ -1,0 +1,21 @@
+#aboutPageContainer {
+    padding-top: 5vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
+}
+
+a {
+    margin-right: 2vw;
+    margin-bottom: 5vh;
+}
+
+
+#releaseNotes {
+    padding-top: 80px;
+}
+#measurementInfo {
+    padding-top: 80px;
+}
+#installationInfo {
+    padding-top: 80px;
+}

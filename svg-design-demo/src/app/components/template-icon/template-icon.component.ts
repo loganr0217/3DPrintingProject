@@ -14,7 +14,8 @@ export class TemplateIconComponent implements OnInit {
   // Array containing the svgPath data for displaying icons / generating a template
   svgTemplateData:{id:number, name:string, d:string}[][];
   templateData:{id:number, numPanels:number, panelDims:number[], tempString:string}[];
-  constructor(private sharedDataService:SharedDataService, private http:HttpClient) { }
+
+  constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
 
   // // Getting optimzed d for template
   // getOptimizedTemplateD(d:string):string {
@@ -190,6 +191,7 @@ export class TemplateIconComponent implements OnInit {
         }
       }
       else {alert("error"); this.templateData = [];}
+      this.sharedDataService.templateData = this.templateData;
       // console.log(this.loginForm.value);
       // console.log(this.sharedDataService.userInfo);
     });
@@ -206,6 +208,7 @@ export class TemplateIconComponent implements OnInit {
     
     // Splitting the tempString info into a 2d array of panel info
     let tempString:string[] = temp.tempString.split(';');
+    //console.log(temp.panelDims);
     let panelInfoArray:string[][] = [];
     for(let index:number = 0; index < tempString.length; ++index) {
       panelInfoArray.push(tempString[index].split(','));
@@ -214,6 +217,7 @@ export class TemplateIconComponent implements OnInit {
     // Adding each panel to the panel layout
     for(let panelID:number = 0; panelID < panelInfoArray.length; ++panelID) {
       let myTemplate:SVGTemplate = new SVGTemplate(this.sharedDataService.svgTemplateData[Number(panelInfoArray[panelID][0])][Number(panelInfoArray[panelID][1])].d);
+      //console.log(panelLayout[Math.floor(panelID/temp.panelDims[0])]);
       panelLayout[Math.floor(panelID/temp.panelDims[0])].push(myTemplate);
     }
     //console.log(panelLayout);
@@ -231,5 +235,6 @@ export class TemplateIconComponent implements OnInit {
         this.sharedDataService.panelColoringArray[i].push("f0f0f1");
       }
     }
+    this.sharedDataService.selectedTemplateID = temp.id;
   }
 }
