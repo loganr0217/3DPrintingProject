@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AboutPageComponent } from './components/about-page/about-page.component';
 import { ColorPageComponent } from './components/color-page/color-page.component';
 import { ForgotPassComponent } from './components/forgot-pass/forgot-pass.component';
 import { FormLoginComponent } from './components/form-login/form-login.component';
@@ -35,6 +36,10 @@ const routes: Routes = [
   {
     path: "reset-pass",
     component: ResetPasswordComponent
+  },
+  {
+    path: "about",
+    component: AboutPageComponent
   },
   {
     path: "forgot-pass",

@@ -116,13 +116,16 @@ def addtemplate():
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
         if email != 'null' and password != 'null' and numberPanelsX != 'null' and numberPanelsY != 'null' and templateString != 'null' and access != 'null':
-            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions = 'admin' or permissions = 'designer');")
-            rows = cur.fetchall()
-            # User has been authenticated as an admin or designer
-            if len(rows) > 0:
-                cur.execute("INSERT INTO templates(number_panels_x, number_panels_y, template_string, access) VALUES({}, {}, {}, {});".format(numberPanelsX, numberPanelsY, templateString, access))
-                conn.commit()
-                rows = (1,)
+            if numberPanelsX * numberPanelsY == len(templateString.split(";")):
+                cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions = 'admin' or permissions = 'designer');")
+                rows = cur.fetchall()
+                # User has been authenticated as an admin or designer
+                if len(rows) > 0:
+                    cur.execute("INSERT INTO templates(number_panels_x, number_panels_y, template_string, access) VALUES({}, {}, {}, {});".format(numberPanelsX, numberPanelsY, templateString, access))
+                    conn.commit()
+                    rows = (1,)
+                else:
+                    rows = (-1,)
             else:
                 rows = (-1,)
         else:
@@ -177,6 +180,66 @@ def getOrders():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
+
+@app.route('/saveorder')
+def saveOrder():
+    global conn
+    email = request.args.get('email', default='null', type=str)
+    password = request.args.get('password', default='null', type=str)
+    selectedDividerType = request.args.get('selectedDividerType', default='null', type=str) 
+    unitChoice = request.args.get('unitChoice', default='null', type=str) 
+
+    # Top sash data 
+    windowWidth = request.args.get('windowWidth', default='null', type=float) 
+    windowHeight = request.args.get('windowHeight', default='null', type=float) 
+    horzDividers = request.args.get('horzDividers', default='null', type=int) 
+    vertDividers = request.args.get('vertDividers', default='null', type=int) 
+    dividerWidth = request.args.get('dividerWidth', default='null', type=float) 
+
+    # Bottom sash data (all null if not a double hung)
+    bottomWindowWidth = request.args.get('bottomWindowWidth', default='null', type=float)
+    bottomWindowHeight = request.args.get('bottomWindowHeight', default='null', type=float) 
+    bottomHorzDividers = request.args.get('bottomHorzDividers', default='null', type=int) 
+    bottomVertDividers = request.args.get('bottomVertDividers', default='null', type=int) 
+    bottomDividerWidth = request.args.get('bottomDividerWidth', default='null', type=float) 
+
+    templateID = request.args.get('templateID', default='null', type=int) 
+    panelColoringString = request.args.get('panelColoringString', default='null', type=str)
+    streetAddress = request.args.get('streetAddress', default='null', type=str)
+    city = request.args.get('city', default='null', type=str)
+    state = request.args.get('state', default='null', type=str) 
+    zipcode = request.args.get('zipcode', default='null', type=str) 
+    country = request.args.get('country', default='null', type=str) 
+
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' or (streetAddress != 'null' and city != 'null' and state != 'null' and country != 'null'):
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions = 'admin' or permissions = 'designer');")
+            rows = cur.fetchall()
+            # User has been authenticated as an admin or designer
+            if len(rows) > 0:
+                cur.execute("""
+                INSERT INTO orders(user_email, selected_divider_type, unit_choice, window_width, 
+                window_height, horizontal_dividers, vertical_dividers, divider_width, template_id, 
+                panel_coloring_string, street_address, city, state, zipcode, country, bottom_sash_width, bottom_sash_height, status) 
+                VALUES({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, 'saved')""".format(
+                email, selectedDividerType, unitChoice, windowWidth, windowHeight,
+                horzDividers, vertDividers, dividerWidth, templateID, panelColoringString, 
+                streetAddress, city, state, zipcode, country, bottomWindowWidth, bottomWindowHeight))
+                rows = (1,)
+                conn.commit()
+            else:
+                rows = (-1,)
+            
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
+
 @app.route('/makeorder')
 def makeOrder():
     global conn
@@ -213,8 +276,8 @@ def makeOrder():
             cur.execute("""
             INSERT INTO orders(user_email, selected_divider_type, unit_choice, window_width, 
             window_height, horizontal_dividers, vertical_dividers, divider_width, template_id, 
-            panel_coloring_string, street_address, city, state, zipcode, country, bottom_sash_width, bottom_sash_height) 
-            VALUES({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {})""".format(
+            panel_coloring_string, street_address, city, state, zipcode, country, bottom_sash_width, bottom_sash_height, status) 
+            VALUES({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, 'placed')""".format(
             email, selectedDividerType, unitChoice, windowWidth, windowHeight,
             horzDividers, vertDividers, dividerWidth, templateID, panelColoringString, 
             streetAddress, city, state, zipcode, country, bottomWindowWidth, bottomWindowHeight))

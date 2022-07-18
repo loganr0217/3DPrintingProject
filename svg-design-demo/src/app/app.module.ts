@@ -28,6 +28,7 @@ import { TemplateInfoFormComponent } from './components/template-info-form/templ
 import { ColorPageComponent } from './components/color-page/color-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CheckoutPageComponent } from './components/checkout-page/checkout-page.component';
+import { AboutPageComponent } from './components/about-page/about-page.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { CheckoutPageComponent } from './components/checkout-page/checkout-page.
     TemplateCategoryStageComponent,
     TemplateInfoFormComponent,
     ColorPageComponent,
-    CheckoutPageComponent
+    CheckoutPageComponent,
+    AboutPageComponent
   ],
   imports: [
     BrowserModule,

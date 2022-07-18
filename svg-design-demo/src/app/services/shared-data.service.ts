@@ -17,15 +17,17 @@ export class SharedDataService {
   maxPanes:number = 100;
   selectedDividerType:string = "plain";
   selectedWindowShape:string = "square2to2";
-  dividerNumbers:number[] = [];
-  dividerWidth:number;
+  dividerNumbers:number[] = [0, 0];
+  dividerWidth:number = 0;
   windowWidth:number = 0;
   windowHeight:number = 0;
   bottomSashWidth:number = -1;
   bottomSashHeight:number = -1;
   unitChoice:string = "mm";
   panelLayout:SVGTemplate[][];
-  panelLayoutDims:number[];
+  panelLayoutDims:number[] = [0, 0];
+  topPanelLayoutDims:number[] = [0, 0];
+  bottomPanelLayoutDims:number[] = [0, 0];
   currentPanelID:number;
   topSash:boolean = true;
   finishedSashes:boolean = false;
@@ -101,7 +103,7 @@ export class SharedDataService {
 
   // Array that holds each panel's color makeup
   panelColoringArray:string[][] = [];
-  
+  templateData:{id:number, numPanels:number, panelDims:number[], tempString:string}[];
   // Array containing the svgPath data for displaying icons / generating a template
   svgTemplateData:{id:number, name:string, d:string}[][];
   //   // FLW02

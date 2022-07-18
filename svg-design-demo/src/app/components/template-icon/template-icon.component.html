@@ -1,13 +1,19 @@
 <div class="fullWin">
-    <div class="windowTemplateContainer" *ngFor="let template of templateData;">
-        <div class="windowTemplate" (click)="nextstage4(); createPreview(template); displayFirstTemplate();" data-toggle="modal" data-target="#exampleModalCenter" *ngFor="let row of getPanelLayout(template);">
-            <!-- <img class="svgTemplateIcons" *ngFor="let svgTemplate of window" 
-            src="{{'assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
-            (click)="displayTemplate(window, i)"/> -->
+    <div *ngFor="let template of templateData;">
+        <div *ngIf="template.panelDims[0] == this.sharedDataService.panelLayoutDims[0] && 
+            template.panelDims[1] == this.sharedDataService.panelLayoutDims[1]">
+            <div class="windowTemplateContainer">
+            
+                <div class="windowTemplate" (click)="nextstage4(); createPreview(template); displayFirstTemplate();" data-toggle="modal" data-target="#exampleModalCenter" *ngFor="let row of getPanelLayout(template);">
+                    <!-- <img class="svgTemplateIcons" *ngFor="let svgTemplate of window" 
+                    src="{{'assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
+                    (click)="displayTemplate(window, i)"/> -->
 
-            <svg *ngFor="let svgTemplate of row" xmlns="http://www.w3.org/2000/svg" class="svgTemplateIcons"  [attr.viewBox]="getTemplateViewBox(svgTemplate.getOptimizedD())">
-                <path  style="fill:#666666" [attr.transform]="svgTemplate.getTransform()" [attr.d]="svgTemplate.getOptimizedD()"/>
-            </svg>
+                    <svg *ngFor="let svgTemplate of row" xmlns="http://www.w3.org/2000/svg" class="svgTemplateIcons"  [attr.viewBox]="getTemplateViewBox(svgTemplate.getOptimizedD())">
+                        <path  style="fill:#666666" [attr.transform]="svgTemplate.getTransform()" [attr.d]="svgTemplate.getOptimizedD()"/>
+                    </svg>
+                </div>
+            </div>
         </div>
     </div>
 </div>
