@@ -116,7 +116,7 @@ def addtemplate():
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
         if email != 'null' and password != 'null' and numberPanelsX != 'null' and numberPanelsY != 'null' and templateString != 'null' and access != 'null':
-            if numberPanelsX * numberPanelsY == len(templateString.split(";")):
+            if numberPanelsX * numberPanelsY == len(templateString.split(";")) and templateString != "":
                 cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions = 'admin' or permissions = 'designer');")
                 rows = cur.fetchall()
                 # User has been authenticated as an admin or designer
