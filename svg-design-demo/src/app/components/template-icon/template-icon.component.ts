@@ -217,6 +217,8 @@ export class TemplateIconComponent implements OnInit {
     // Adding each panel to the panel layout
     for(let panelID:number = 0; panelID < panelInfoArray.length; ++panelID) {
       let myTemplate:SVGTemplate = new SVGTemplate(this.sharedDataService.svgTemplateData[Number(panelInfoArray[panelID][0])][Number(panelInfoArray[panelID][1])].d);
+      myTemplate.numberRotations = Number(panelInfoArray[panelID][2]);
+      myTemplate.flipped = Number(panelInfoArray[panelID][3]) == 1 ? true : false;
       //console.log(panelLayout[Math.floor(panelID/temp.panelDims[0])]);
       panelLayout[Math.floor(panelID/temp.panelDims[0])].push(myTemplate);
     }
