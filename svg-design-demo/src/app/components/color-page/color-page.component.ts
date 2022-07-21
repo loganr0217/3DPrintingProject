@@ -101,7 +101,10 @@ export class ColorPageComponent implements OnInit {
     // }
     // document.getElementById("svgTemplateLayoutPanel" + panelNum)?.setAttribute("style", "fill:#e6e6e6;")
     this.currentPanel = panelNum;
-    this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]] = new SVGTemplate(this.currentWindow[panelNum].d);
+    let panelIndex:number = this.currentWindow.findIndex(function(item, i){
+      return Number(item.panelNumber) == panelNum
+    });
+    this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]] = new SVGTemplate(this.currentWindow[panelIndex].d);
     if(this.currentPanelLocation[1] + 1 >= this.panelDims[0]) {++this.currentPanelLocation[0]; this.currentPanelLocation[1]=0;}
     else {++this.currentPanelLocation[1];}
     document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + this.currentPanelLocation; 
