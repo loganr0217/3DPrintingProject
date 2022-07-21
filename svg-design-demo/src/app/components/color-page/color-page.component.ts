@@ -9,9 +9,9 @@ import { SVGTemplate } from '../svgScaler';
 })
 export class ColorPageComponent implements OnInit {
   // Array containing the svgPath data for displaying icons / generating a template
-  svgTemplateData:{id:number, name:string, d:string}[][];
+  svgTemplateData:{id:number, name:string, panelNumber:number, d:string}[][];
   currentPanel:number;
-  currentWindow:{id:number, name:string, d:string}[];
+  currentWindow:{id:number, name:string, panelNumber:number, d:string}[];
   panelLayout:SVGTemplate[][];
   panelDims:number[];
   currentPanelLocation:number[];
@@ -43,7 +43,7 @@ export class ColorPageComponent implements OnInit {
     return String(myTemplate.height);
   }
 
-  displayTemplate(window:{id:number, name:string, d:string}[], windowNumber:number):void {
+  displayTemplate(window:{id:number, name:string, panelNumber:number, d:string}[], windowNumber:number):void {
     this.currentWindow = window;
     this.sharedDataService.currentWindowNumber = windowNumber;
   }
@@ -94,11 +94,12 @@ export class ColorPageComponent implements OnInit {
   }
 
   choosePanel(panelNum:number):void {
+    // alert(panelNum);
     this.templateString += this.sharedDataService.currentWindowNumber + "," + panelNum + ",0,0;";
-    if(this.currentPanel != null) {
-      document.getElementById("svgTemplateLayoutPanel" + this.currentPanel)?.setAttribute("style", "fill:#666666;")
-    }
-    document.getElementById("svgTemplateLayoutPanel" + panelNum)?.setAttribute("style", "fill:#e6e6e6;")
+    // if(this.currentPanel != null) {
+    //   document.getElementById("svgTemplateLayoutPanel" + this.currentPanel)?.setAttribute("style", "fill:#666666;")
+    // }
+    // document.getElementById("svgTemplateLayoutPanel" + panelNum)?.setAttribute("style", "fill:#e6e6e6;")
     this.currentPanel = panelNum;
     this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]] = new SVGTemplate(this.currentWindow[panelNum].d);
     if(this.currentPanelLocation[1] + 1 >= this.panelDims[0]) {++this.currentPanelLocation[0]; this.currentPanelLocation[1]=0;}

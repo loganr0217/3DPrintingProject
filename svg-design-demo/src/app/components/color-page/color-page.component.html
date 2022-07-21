@@ -54,7 +54,7 @@
             </div>
             <div class="panelWindowTemplate">
                 <div class="panelFullWin">
-                    <svg *ngFor="let svgTemplate of currentWindow; let i = index" xmlns="http://www.w3.org/2000/svg" (click)="displayPanel(svgTemplate.d, 0, 0); choosePanel(i)" class="svgTemplatePanelIcons"  [attr.viewBox]=getTemplateViewBox(getOptimizedTemplateD(svgTemplate.d))>
+                    <svg *ngFor="let svgTemplate of currentWindow; let i = index" xmlns="http://www.w3.org/2000/svg" (click)="displayPanel(svgTemplate.d, 0, 0); choosePanel(svgTemplate.panelNumber)" class="svgTemplatePanelIcons"  [attr.viewBox]=getTemplateViewBox(getOptimizedTemplateD(svgTemplate.d))>
                         <path id="svgTemplateLayoutPanel{{i}}" style="fill:#666666;" [attr.d]=getOptimizedTemplateD(svgTemplate.d)/>
                     </svg>
                 </div>
