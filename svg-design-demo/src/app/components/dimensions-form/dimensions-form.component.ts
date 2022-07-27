@@ -84,6 +84,8 @@ export class DimensionsFormComponent implements OnInit {
     else {
       finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1));
     }
+    // Fixing panel width to be under 500
+    if(finalPanelWidth > 500) {finalPanelWidth = finalPanelWidth / (Math.ceil(finalPanelWidth/500));}
     if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return finalPanelWidth;}
     else {return -1;}
   }
@@ -116,12 +118,14 @@ export class DimensionsFormComponent implements OnInit {
       //   else {finalPanelHeight = height / (Math.ceil(height/500));}
       // }
       finalPanelHeight = height / (horzDividers+1);
-      
     }
     // raised divs
     else {
       finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1));
     }
+    // Fixing panel height to be under 500
+    if(finalPanelHeight >= 500) {finalPanelHeight = finalPanelHeight / (Math.ceil(finalPanelHeight/500));}
+    
     if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return finalPanelHeight;}
     else {return -1;}
   }
@@ -130,6 +134,12 @@ export class DimensionsFormComponent implements OnInit {
     if(unit == "mm") {return num;}
     else if(unit == "inches") {return num*25.4;}
     else {return num*10;};
+  }
+
+  convertBackNumber(num:number, unit:string):number {
+    if(unit == "mm") {return num;}
+    else if(unit == "inches") {return num/25.4;}
+    else {return num/10;};
   }
 
   getFinalInfo():void {
@@ -323,6 +333,12 @@ export class DimensionsFormComponent implements OnInit {
     if(this.sharedDataService.finishedSashes == false) {
       this.sharedDataService.finishedSashes = true;
       document.getElementById("submitInput")?.removeAttribute("disabled");
+      (<HTMLInputElement>document.getElementById("widthInput")).value = String(this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice));
+      (<HTMLInputElement>document.getElementById("heightInput")).value = String(String(this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice)));
+    }
+    else {
+      (<HTMLInputElement>document.getElementById("widthInput")).value = String(this.convertBackNumber(this.sharedDataService.topSash ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice));
+      (<HTMLInputElement>document.getElementById("heightInput")).value = String(String(this.convertBackNumber(this.sharedDataService.topSash ? this.sharedDataService.windowHeight : this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice)));
     }
   }
 
