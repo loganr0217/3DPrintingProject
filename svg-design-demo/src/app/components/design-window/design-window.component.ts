@@ -116,6 +116,10 @@ export class DesignWindowComponent implements OnInit {
       document.getElementById("stage5")?.scrollIntoView({behavior: 'smooth'});
     }
 
+    previousStage() {
+      document.getElementById("templateCategoryStage")?.scrollIntoView({behavior: 'smooth'});
+    }
+
     // Changes color of frame
     changeFrameColor(hexValue:string):void {
       document.getElementById("button_"+this.sharedDataService.currentFilamentColor+"_false")?.setAttribute("style", "");

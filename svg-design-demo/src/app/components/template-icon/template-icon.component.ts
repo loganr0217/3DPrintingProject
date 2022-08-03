@@ -25,9 +25,9 @@ export class TemplateIconComponent implements OnInit {
   // }
 
   // Gets template viewbox
-  getTemplateViewBox(d:string):string {
+  getTemplateViewBox(d:string, scaleX:number=1, scaleY:number=1):string {
     let myTemplate:SVGTemplate = new SVGTemplate(d);
-    let tempViewBox:string = myTemplate.xMin + " " + myTemplate.yMin + " " + myTemplate.width + " " + myTemplate.height;
+    let tempViewBox:string = (scaleX * myTemplate.xMin) + " " + (scaleY * myTemplate.yMin) + " " + (scaleX * myTemplate.width) + " " + (scaleY * myTemplate.height);
     return tempViewBox;
   }
 
@@ -127,13 +127,13 @@ export class TemplateIconComponent implements OnInit {
   }
 
   displayFirstTemplate():void {
-    this.displayTemplate(this.sharedDataService.panelLayout[0][0].getOptimizedD(), 0, 0);
+    this.displayTemplate(0, 0);
   }
 
   // Updates current template in display window with selected version
-  displayTemplate(svgD:string, row:number, col:number):void {
+  displayTemplate(row:number, col:number):void {
     this.clearOldPanes();
-    this.sharedDataService.currentSvgTemplate = new SVGTemplate(svgD);
+    this.sharedDataService.currentSvgTemplate = this.sharedDataService.panelLayout[0][0];
     this.sharedDataService.currentTemplateNumber = row*this.sharedDataService.panelLayoutDims[0] + col;
     let newTemplate:SVGTemplate = this.sharedDataService.currentSvgTemplate;
 
@@ -201,6 +201,7 @@ export class TemplateIconComponent implements OnInit {
     return [...Array(i).keys()];
   }
 
+  
   getPanelLayout(temp:{id:number, numPanels:number, panelDims:number[], tempString:string}):SVGTemplate[][] {
     // Creating panel layout array
     let panelLayout:SVGTemplate[][] = [];
@@ -242,5 +243,95 @@ export class TemplateIconComponent implements OnInit {
       }
     }
     this.sharedDataService.selectedTemplateID = temp.id;
+  }
+
+  getPanelWidth(top:boolean = true):number {
+    let width:number = top ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth;
+    if(width <= 0) {return -1;}
+    let vertDividers:number = this.sharedDataService.dividerNumbers[1];
+    let finalPanelWidth:number = 0; 
+    if(this.sharedDataService.selectedDividerType == 'nodiv') {
+      if(width >= 100 && width <=500) {finalPanelWidth = width;}
+      else {finalPanelWidth = width / (Math.ceil(width/500));}
+    }
+    else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
+      finalPanelWidth = width / (vertDividers+1);
+      
+    }
+    // raised divs
+    else {
+      finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1));
+    }
+    // Fixing panel width to be under 500
+    if(finalPanelWidth > 500) {finalPanelWidth = finalPanelWidth / (Math.ceil(finalPanelWidth/500));}
+    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return finalPanelWidth;}
+    else {return -1;}
+  }
+
+  getPanelHeight(top:boolean = true):number {
+    let height:number = top ? this.sharedDataService.windowHeight : this.sharedDataService.bottomSashHeight;
+    if(height <= 0) {return -1;}
+    let horzDividers:number = this.sharedDataService.dividerNumbers[0];
+    let finalPanelHeight:number = 0; 
+    if(this.sharedDataService.selectedDividerType == 'nodiv') {
+      if(height >= 100 && height <=500) {finalPanelHeight = height;}
+      else {finalPanelHeight = height / (Math.ceil(height/500));}
+    }
+    else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
+      finalPanelHeight = height / (horzDividers+1);
+    }
+    // raised divs
+    else {
+      finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1));
+    }
+    // Fixing panel height to be under 500
+    if(finalPanelHeight >= 500) {finalPanelHeight = finalPanelHeight / (Math.ceil(finalPanelHeight/500));}
+    
+    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return finalPanelHeight;}
+    else {return -1;}
+  }
+
+  isRowInTopSash(rowNum:number):boolean {
+    let numberTopRows:number = Math.floor(this.sharedDataService.windowHeight / this.getPanelHeight());
+    if(rowNum < numberTopRows) {return true;}
+    else {return false;} 
+  }
+
+  getScaleX(svgTemp:SVGTemplate, rowNum:number):number {
+    return Number(svgTemp.getScaledD( ( this.isRowInTopSash(rowNum) ? this.getPanelWidth() : this.getPanelWidth(false) )/300 , ( this.isRowInTopSash(rowNum) ? this.getPanelHeight() : this.getPanelHeight(false) )/300 )[1]);
+  }
+
+  getScaleY(svgTemp:SVGTemplate, rowNum:number):number {
+    return Number(svgTemp.getScaledD( ( this.isRowInTopSash(rowNum) ? this.getPanelWidth() : this.getPanelWidth(false) )/300 , ( this.isRowInTopSash(rowNum) ? this.getPanelHeight() : this.getPanelHeight(false) )/300 )[2]);
+  }
+
+  isTemplateOkay(temp:{id:number, numPanels:number, panelDims:number[], tempString:string}):boolean {
+    let isOkay:boolean = true;
+    
+    // Splitting the tempString info into a 2d array of panel info
+    let tempString:string[] = temp.tempString.split(';');
+    //console.log(temp.panelDims);
+    let panelInfoArray:string[][] = [];
+    for(let index:number = 0; index < tempString.length; ++index) {
+      panelInfoArray.push(tempString[index].split(','));
+    }
+
+    let rowNumber:number = -1;
+    // Adding each panel to the panel layout
+    for(let panelID:number = 0; panelID < panelInfoArray.length; ++panelID) {
+      if(panelID % temp.panelDims[0] == 0) {++rowNumber;}
+      let panelIndex:number = this.sharedDataService.svgTemplateData[Number(panelInfoArray[panelID][0])].findIndex(function(item, i){
+        return Number(item.panelNumber) == Number(panelInfoArray[panelID][1])
+      });
+      
+      let myTemplate:SVGTemplate = new SVGTemplate(this.sharedDataService.svgTemplateData[Number(panelInfoArray[panelID][0])][panelIndex].d);
+      myTemplate.numberRotations = Number(panelInfoArray[panelID][2]);
+      myTemplate.flipped = Number(panelInfoArray[panelID][3]) == 1 ? true : false;
+      if(myTemplate.getScaledD( ( this.isRowInTopSash(rowNumber) ? this.getPanelWidth() : this.getPanelWidth(false) )/300 , ( this.isRowInTopSash(rowNumber) ? this.getPanelHeight() : this.getPanelHeight(false) )/300 )[0].includes("NaN")) {isOkay = false; break;}
+      //console.log(panelLayout[Math.floor(panelID/temp.panelDims[0])]);
+      //panelLayout[Math.floor(panelID/temp.panelDims[0])].push(myTemplate);
+    }
+    //console.log(panelLayout);
+    return isOkay;
   }
 }

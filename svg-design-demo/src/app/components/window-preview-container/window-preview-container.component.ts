@@ -42,7 +42,7 @@ export class WindowPreviewContainerComponent implements OnInit {
   }
 
   // Updates current template in display window with selected version
-  displayTemplate(svgD:string, row:number, col:number):void {
+  displayTemplate(svgD:string, row:number, col:number, transformValue:string):void {
     this.clearOldPanes();
     this.sharedDataService.currentSvgTemplate = new SVGTemplate(svgD);
     this.sharedDataService.currentTemplateNumber = row*this.sharedDataService.panelLayoutDims[0] + col;
@@ -56,8 +56,14 @@ export class WindowPreviewContainerComponent implements OnInit {
         
         // Filling the pane with a saved color or blank
         let savedStyle = document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+numPane)?.getAttribute("style");
-        if(savedStyle != null) {document.getElementById("pane"+numPane)?.setAttribute("style", savedStyle);}
-        else {document.getElementById("pane"+numPane)?.setAttribute("style", "fill:#f0f0f1");}
+        if(savedStyle != null) {
+          document.getElementById("pane"+numPane)?.setAttribute("style", savedStyle);
+          document.getElementById("pane"+numPane)?.setAttribute("transform", transformValue);
+        }
+        else {
+          document.getElementById("pane"+numPane)?.setAttribute("style", "fill:#f0f0f1");
+          document.getElementById("pane"+numPane)?.setAttribute("transform", transformValue);
+        }
         ++numPane;
       }
     }
@@ -69,15 +75,15 @@ export class WindowPreviewContainerComponent implements OnInit {
 
     let viewboxValue:string = ""+newTemplate.xMin+" "+newTemplate.yMin+" "+newTemplate.width+" "+newTemplate.height;
     document.getElementById("currentTemplate")?.setAttribute("viewBox", viewboxValue);
-    document.getElementById("svgTemplate")?.setAttribute("transform", "");
+    document.getElementById("svgTemplate")?.setAttribute("transform", transformValue);
     // document.getElementById("currentTemplate")?.setAttribute("width", ""+newTemplate.width+"mm");
     // document.getElementById("currentTemplate")?.setAttribute("height", ""+newTemplate.height+"mm");
   }
 
   // Gets template viewbox
-  getTemplateViewBox(d:string):string {
+  getTemplateViewBox(d:string, scaleX:number=1, scaleY:number=1):string {
     let myTemplate:SVGTemplate = new SVGTemplate(d);
-    let tempViewBox:string = myTemplate.xMin + " " + myTemplate.yMin + " " + myTemplate.width + " " + myTemplate.height;
+    let tempViewBox:string = (scaleX * myTemplate.xMin) + " " + (scaleY * myTemplate.yMin) + " " + (scaleX * myTemplate.width) + " " + (scaleY * myTemplate.height);
     return tempViewBox;
   }
 
@@ -103,6 +109,71 @@ export class WindowPreviewContainerComponent implements OnInit {
     let midX:number = svgTemp.xMin + svgTemp.width/2;
     let midY:number = svgTemp.yMin + svgTemp.height/2;
     return "rotate(90," + midX + ","  + midY + ")";
+  }
+
+  getPanelWidth(top:boolean = true):number {
+    let width:number = top ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth;
+    if(width <= 0) {return -1;}
+    let vertDividers:number = this.sharedDataService.dividerNumbers[1];
+    let finalPanelWidth:number = 0; 
+    if(this.sharedDataService.selectedDividerType == 'nodiv') {
+      if(width >= 100 && width <=500) {finalPanelWidth = width;}
+      else {finalPanelWidth = width / (Math.ceil(width/500));}
+    }
+    else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
+      finalPanelWidth = width / (vertDividers+1);
+      
+    }
+    // raised divs
+    else {
+      finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1));
+    }
+    // Fixing panel width to be under 500
+    if(finalPanelWidth > 500) {finalPanelWidth = finalPanelWidth / (Math.ceil(finalPanelWidth/500));}
+    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return finalPanelWidth;}
+    else {return -1;}
+  }
+
+  getPanelHeight(top:boolean = true):number {
+    let height:number = top ? this.sharedDataService.windowHeight : this.sharedDataService.bottomSashHeight;
+    if(height <= 0) {return -1;}
+    let horzDividers:number = this.sharedDataService.dividerNumbers[0];
+    let finalPanelHeight:number = 0; 
+    if(this.sharedDataService.selectedDividerType == 'nodiv') {
+      if(height >= 100 && height <=500) {finalPanelHeight = height;}
+      else {finalPanelHeight = height / (Math.ceil(height/500));}
+    }
+    else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
+      finalPanelHeight = height / (horzDividers+1);
+    }
+    // raised divs
+    else {
+      finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1));
+    }
+    // Fixing panel height to be under 500
+    if(finalPanelHeight >= 500) {finalPanelHeight = finalPanelHeight / (Math.ceil(finalPanelHeight/500));}
+    
+    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return finalPanelHeight;}
+    else {return -1;}
+  }
+
+  isRowInTopSash(rowNum:number):boolean {
+    let numberTopRows:number = Math.floor(this.sharedDataService.windowHeight / this.getPanelHeight());
+    if(rowNum < numberTopRows) {return true;}
+    else {return false;} 
+  }
+
+  getScaleX(svgTemp:SVGTemplate, rowNum:number):number {
+    return Number(svgTemp.getScaledD( ( this.isRowInTopSash(rowNum) ? this.getPanelWidth() : this.getPanelWidth(false) )/300 , ( this.isRowInTopSash(rowNum) ? this.getPanelHeight() : this.getPanelHeight(false) )/300 )[1]);
+  }
+
+  getScaleY(svgTemp:SVGTemplate, rowNum:number):number {
+    return Number(svgTemp.getScaledD( ( this.isRowInTopSash(rowNum) ? this.getPanelWidth() : this.getPanelWidth(false) )/300 , ( this.isRowInTopSash(rowNum) ? this.getPanelHeight() : this.getPanelHeight(false) )/300 )[2]);
+  }
+
+  getPaneD(svgD:string, paneNum:number):string {
+    let svgTemplate:SVGTemplate = new SVGTemplate(svgD);
+    return svgTemplate.subShapes[paneNum+1].getScalablePath();
   }
   
 }

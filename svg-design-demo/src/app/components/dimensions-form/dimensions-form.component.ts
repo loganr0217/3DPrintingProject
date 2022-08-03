@@ -292,10 +292,13 @@ export class DimensionsFormComponent implements OnInit {
     this.sharedDataService.dividerNumbers = [horzDividers, vertDividers];
   }
 
-  nextstage() {
-    this.updateDimensionsButton();
-    this.updatePanelLayout();
+  previousStage() {
+    document.getElementById("stage2")?.scrollIntoView({behavior: 'smooth'});
+  }
+
+  isAvailableTemplate():boolean {
     let availableTemplate:boolean = false;
+    if(this.sharedDataService.templateData == undefined) {return false;}
     for(let i:number = 0; i < this.sharedDataService.templateData.length; ++i) {
       if(this.sharedDataService.panelLayoutDims[0] == this.sharedDataService.templateData[i].panelDims[0]
         && this.sharedDataService.panelLayoutDims[1] == this.sharedDataService.templateData[i].panelDims[1]) {
@@ -303,6 +306,13 @@ export class DimensionsFormComponent implements OnInit {
           break;
       }
     }
+    return availableTemplate;
+  }
+  
+  nextstage() {
+    this.updateDimensionsButton();
+    this.updatePanelLayout();
+    let availableTemplate:boolean = this.isAvailableTemplate();
     if(availableTemplate && this.sharedDataService.panelLayoutDims != [-1, -1] && this.getPanelWidth(this.sharedDataService.windowWidth) != -1 && this.getPanelHeight(this.sharedDataService.windowHeight) != -1) {
       // console.log(this.sharedDataService.windowWidth + " " + this.sharedDataService.windowHeight);
       document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;")
@@ -345,6 +355,60 @@ export class DimensionsFormComponent implements OnInit {
   unitText() {
     if(this.sharedDataService.unitChoice == "inches") {return "in";}
     return this.sharedDataService.unitChoice;
+  }
+
+  getWindowWidth():string {
+    return (this.isDoubleHung() ? "Top Sash Width: " : "Window Width: ") + this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice).toFixed(2)  + this.sharedDataService.unitChoice;
+  }
+
+  getWindowHeight():string {
+    return (this.isDoubleHung() ? "Top Sash Height: " : "Window Height: ") + this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice).toFixed(2) + this.sharedDataService.unitChoice;
+  }
+
+  getBottomSashWidth():string {
+    return "Bottom Sash Width: " + this.convertBackNumber(this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice).toFixed(2)  + this.sharedDataService.unitChoice;
+  }
+
+  getBottomSashHeight():string {
+    return "Bottom Sash Height: " + this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice).toFixed(2)  + this.sharedDataService.unitChoice;
+  }
+
+  getWindowPaneWidth(top:boolean = true):string {
+    let width:number = top ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth;
+    let vertDividers:number = this.sharedDataService.dividerNumbers[1] ? this.sharedDataService.dividerNumbers[1] : 0;
+    let finalPanelWidth:number = 0; 
+    if(this.sharedDataService.selectedDividerType == 'nodiv') {
+      if(width >= 100 && width <=500) {finalPanelWidth = width;}
+      else {finalPanelWidth = width / (Math.ceil(width/500));}
+    }
+    // raised or embedded divs
+    else {
+      finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1));
+    }
+    // Fixing panel height to be under 500
+    if(finalPanelWidth >= 500) {finalPanelWidth = finalPanelWidth / (Math.ceil(finalPanelWidth/500));}
+
+    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return (this.isDoubleHung() ? (top ? "Top Pane Width: " : "Bottom Pane Width: ") : "Pane Width: ") + this.convertBackNumber(finalPanelWidth, this.sharedDataService.unitChoice).toFixed(2) + this.sharedDataService.unitChoice;}
+    else {return "-1";}
+  }
+
+  getWindowPaneHeight(top:boolean = true):string {
+    let height:number = top ? this.sharedDataService.windowHeight : this.sharedDataService.bottomSashHeight;
+    let horzDividers:number = this.sharedDataService.dividerNumbers[0];
+    let finalPanelHeight:number = 0; 
+    if(this.sharedDataService.selectedDividerType == 'nodiv') {
+      if(height >= 100 && height <=500) {finalPanelHeight = height;}
+      else {finalPanelHeight = height / (Math.ceil(height/500));}
+    }
+    // raised or embedded divs
+    else {
+      finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1));
+    }
+    // Fixing panel height to be under 500
+    if(finalPanelHeight >= 500) {finalPanelHeight = finalPanelHeight / (Math.ceil(finalPanelHeight/500));}
+
+    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return (this.isDoubleHung() ? (top ? "Top Pane Height: " : "Bottom Pane Height: ") : "Pane Height: ") + this.convertBackNumber(finalPanelHeight, this.sharedDataService.unitChoice).toFixed(2) + this.sharedDataService.unitChoice;}
+    else {return "-1";}
   }
 
 }

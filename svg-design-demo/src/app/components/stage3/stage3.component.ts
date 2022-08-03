@@ -136,13 +136,14 @@ export class Stage3Component implements OnInit {
     document.getElementById("dividerDetailText")?.setAttribute("style", "visibility:visible;")
   }
 
-  prestage2BCon() {
-    document.getElementById("stage2BCon")?.scrollIntoView({behavior: 'smooth'});
+  previousStage() {
+    document.getElementById("stage2")?.scrollIntoView({behavior: 'smooth'});
   }
   nextstage4() {
     this.updatePanelLayout();
     document.getElementById("stage4")?.setAttribute("style", "visibility:visible;")
     document.getElementById("stage4")?.scrollIntoView({behavior: 'smooth'});
   }
+
   
 }
