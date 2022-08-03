@@ -14,4 +14,7 @@ export class TemplateCategoryStageComponent implements OnInit {
 
   showTemplates():void {document.getElementById("templateSelectionContainer")?.setAttribute("style", "visibility:visible;");}
 
+  previousStage() {
+    document.getElementById("stage3")?.scrollIntoView({behavior: 'smooth'});
+  }
 }

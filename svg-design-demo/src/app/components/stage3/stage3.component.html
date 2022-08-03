@@ -1,3 +1,44 @@
+<!-- Modal for measurement info -->
+<div class="modal fade" id="stage3MeasurementTutorialModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Measurement Tutorial</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Here are some tricks to ensure accurate measurements for your Lightscreen!</h3>
+                <ul>
+                    <li><p>
+                        Measurements taken should refer to the actual glass of your window (the part to be covered) and should not include any part of the frame, sill, or encasement
+                    </p></li>
+                    <li><p>
+                        Windows with dividers should be measured as one total window - just make sure to get an accurate divider width
+                    </p></li>
+                    <li><p>
+                        From your window dimensions, the number of dividers and the divider width, we’ll compute the dimensions of each panel to fit inside of the dividers. The computed panel dimensions will be displayed at the confirmation step, we suggest that you check our panel dimensions against your actual measurements of the glass between your dividers.
+                    </p></li>
+                    <li><p>
+                        Using a flexible measuring tape can help get a more precise measurement. If you have a stiff tape measurer, you can get the most accurate measurement by bending the tape at a 90 degree angle and getting as close to the edge of the glass as possible.
+                    </p></li>
+                    <li><p>
+                        If your measurements are more precise than a sixteenth of an inch or whole millimeters, round down. Decimals are welcome if you’ve chosen to measure in inches!
+                    </p></li>
+                    <li><p>
+                        For double hung windows, take measurements for each sash separately
+                    </p></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Back to Your Window</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="stage3Container">
     <div class="sideText">
         <h1><b>About your window</b></h1>
@@ -13,7 +54,7 @@
         </div>
         <div id="dividerDetailText" style="visibility: hidden;">
             <p>Enter your window's dimensions below. If you don't have exact dimensions now, 
-                you can always go back to this step. Be sure to get your dimensions right!
+                you can always go back to this step. Be sure to <a href="javascript:void(0)" data-toggle="modal" data-target="#stage3MeasurementTutorialModal">get your dimensions right!</a>
             </p>
             <app-dimensions-form></app-dimensions-form>
         </div>

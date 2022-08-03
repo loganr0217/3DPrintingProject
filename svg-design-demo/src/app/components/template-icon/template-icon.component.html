@@ -1,16 +1,21 @@
 <div class="fullWin">
     <div *ngFor="let template of templateData;">
-        <div *ngIf="template.panelDims[0] == this.sharedDataService.panelLayoutDims[0] && 
-            template.panelDims[1] == this.sharedDataService.panelLayoutDims[1]">
+        <div *ngIf="template.panelDims[0] == this.sharedDataService.panelLayoutDims[0] 
+            && template.panelDims[1] == this.sharedDataService.panelLayoutDims[1]
+            && isTemplateOkay(template)">
             <div class="windowTemplateContainer">
             
-                <div class="windowTemplate" (click)="nextstage4(); createPreview(template); displayFirstTemplate();" data-toggle="modal" data-target="#exampleModalCenter" *ngFor="let row of getPanelLayout(template);">
+                <div class="windowTemplate" (click)="nextstage4(); createPreview(template); displayFirstTemplate();" data-toggle="modal" data-target="#exampleModalCenter" *ngFor="let row of getPanelLayout(template); let rowNumber = index;">
                     <!-- <img class="svgTemplateIcons" *ngFor="let svgTemplate of window" 
                     src="{{'assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
                     (click)="displayTemplate(window, i)"/> -->
 
+                    <!-- <svg *ngFor="let svgTemplate of row" xmlns="http://www.w3.org/2000/svg" class="svgTemplateIcons"  [attr.viewBox]="getTemplateViewBox(svgTemplate.getScaledD( ( isRowInTopSash(rowNumber) ? getPanelWidth() : getPanelWidth(false) )/300 , ( isRowInTopSash(rowNumber) ? getPanelHeight() : getPanelHeight(false) )/300 )[0], getScaleX(svgTemplate, rowNumber), getScaleY(svgTemplate, rowNumber))">
+                        <path style="fill:#666666" [attr.transform]="'scale(' + getScaleX(svgTemplate, rowNumber) + ',' + getScaleY(svgTemplate, rowNumber) +') ' + svgTemplate.getTransform()" [attr.d]="svgTemplate.getScaledD( ( isRowInTopSash(rowNumber) ? getPanelWidth() : getPanelWidth(false) )/300 , ( isRowInTopSash(rowNumber) ? getPanelHeight() : getPanelHeight(false) )/300 )[0]"/>
+                    </svg> -->
+
                     <svg *ngFor="let svgTemplate of row" xmlns="http://www.w3.org/2000/svg" class="svgTemplateIcons"  [attr.viewBox]="getTemplateViewBox(svgTemplate.getOptimizedD())">
-                        <path  style="fill:#666666" [attr.transform]="svgTemplate.getTransform()" [attr.d]="svgTemplate.getOptimizedD()"/>
+                        <path style="fill:#666666" [attr.transform]="svgTemplate.getTransform()" [attr.d]="svgTemplate.getOptimizedD()"/>
                     </svg>
                 </div>
             </div>
