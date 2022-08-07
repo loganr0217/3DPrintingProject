@@ -41,13 +41,16 @@ export class AppComponent {
           if(panelData.length > 1) {
             // console.log(panelData);
             this.sharedDataService.svgTemplateData = [];
-            for(let i:number = 0; i < 22; ++i) {this.sharedDataService.svgTemplateData.push([]);}
+            for(let i:number = 0; i < 50; ++i) {this.sharedDataService.svgTemplateData.push([]);}
             for(let i:number = 0; i < panelData.length; ++i) {
               let tmp:{id:number, name:string, panelNumber:number, d:string} = {id:panelData[i][1], name:panelData[i][3], panelNumber:panelData[i][2], d:panelData[i][4]};
               this.sharedDataService.svgTemplateData[panelData[i][1]].push(tmp);
             }
           }
           else {alert("error"); this.sharedDataService.svgTemplateData = [];}
+          while(this.sharedDataService.svgTemplateData[this.sharedDataService.svgTemplateData.length-1].length == 0) {
+            this.sharedDataService.svgTemplateData.pop();
+          }
           // console.log(this.loginForm.value);
           // console.log(this.sharedDataService.userInfo);
         });
