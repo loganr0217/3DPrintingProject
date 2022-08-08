@@ -16,6 +16,9 @@ export class ColorPageComponent implements OnInit {
   panelDims:number[];
   currentPanelLocation:number[];
   templateString:string;
+  panelSetId:number;
+  panelNumber:number;
+  onPanels:boolean;
   constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
 
   // Getting optimzed d for template
@@ -72,7 +75,7 @@ export class ColorPageComponent implements OnInit {
     for(let i = 0; i < newTemplate.subShapes.length; ++i) {
       if(i != newTemplate.outerEdgeIndex) {
         document.getElementById("pane"+numPane)?.setAttribute("d", newTemplate.subShapes[i].getScalablePath());
-        this.sharedDataService.panelColoringArray[0][numPane] = "fill:#f0f0f1";
+        this.sharedDataService.panelColoringArray[0].push("f0f0f1");
         // Filling the pane with a saved color or blank
         let savedStyle = document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+numPane)?.getAttribute("style");
         if(savedStyle != null) {document.getElementById("pane"+numPane)?.setAttribute("style", savedStyle);}
@@ -96,6 +99,8 @@ export class ColorPageComponent implements OnInit {
   choosePanel(panelNum:number):void {
     // alert(panelNum);
     this.templateString += this.sharedDataService.currentWindowNumber + "," + panelNum + ",0,0;";
+    this.panelSetId = this.sharedDataService.currentWindowNumber;
+    this.panelNumber = panelNum;
     // if(this.currentPanel != null) {
     //   document.getElementById("svgTemplateLayoutPanel" + this.currentPanel)?.setAttribute("style", "fill:#666666;")
     // }
@@ -123,6 +128,7 @@ export class ColorPageComponent implements OnInit {
       this.currentPanelLocation = [0, 0];
       document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + this.currentPanelLocation; 
       this.panelDims = [leftRight, topBottom];
+      this.sharedDataService.panelLayoutDims = [leftRight, topBottom];
     }
     
   }
@@ -144,6 +150,9 @@ export class ColorPageComponent implements OnInit {
   ngOnInit(): void {
     this.svgTemplateData = this.sharedDataService.svgTemplateData;
     this.templateString = "";
+    this.panelSetId = -1;
+    this.panelNumber = -1;
+    this.onPanels = true;
   }
 
   showTemplateString():void {
@@ -208,17 +217,29 @@ export class ColorPageComponent implements OnInit {
   }
 
   // Method to get the autofill text for a panel
-  getAutofillText():void {
+  getPanelAutofillString():void {
     // console.log("here: " + this.sharedDataService.panelColoringArray[0]);
     let colorArray:string[] = this.sharedDataService.panelColoringArray[0];
+    
     let colorNumberArray:number[] = [];
     for(let i:number = 0; i < colorArray.length; ++i) {
-      colorArray[i] = colorArray[i].substring(6);
       let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.colorsData.filter(function(item) { return item.hex == colorArray[i]; });
       if(foundColor.length > 0) {colorNumberArray.push(foundColor[0].id);}
       else {colorNumberArray.push(3);}
     }
-    alert(colorNumberArray.join(";"));
+    const panelAutofillString:string = colorNumberArray.join(",");
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    const panelsetId:number = this.panelSetId;
+    const panelNumber:number = this.panelNumber;
+    if (confirm('Are you sure you want to add this autofill string: ' + panelAutofillString + " ?")) {
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanelautofillstring?email='"+email+"'&password='"+password+ "'&panelAutofillString='" + panelAutofillString + "'&panelSetId=" + panelsetId + "&panelNumber=" + panelNumber).subscribe(result => {
+        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+        alert(test);
+        // console.log(this.loginForm.value);
+        // console.log(this.sharedDataService.userInfo);
+       });
+    }
   }
 
   addTemplate():void {
@@ -237,6 +258,44 @@ export class ColorPageComponent implements OnInit {
     }
     
 
+  }
+
+  getTemplatePanelSwitchText():string {
+    if(this.onPanels) {return "Switch to Template Autofill";}
+    else {return "Switch to Panel Autofill";}
+  }
+
+  switchTemplatePanel():void {this.onPanels = !this.onPanels;}
+
+  getTemplateAutofillString():void {
+    // console.log("here: " + this.sharedDataService.panelColoringArray[0]);
+    let colorArray:string[][] = this.sharedDataService.panelColoringArray;
+    let colorNumberArray:number[][] = [];
+    let colorNumberArrayTmp:number[];
+    for(let panelNum:number = 0; panelNum < colorArray.length; ++panelNum) {
+      colorNumberArrayTmp = [];
+      for(let i:number = 0; i < colorArray[panelNum].length; ++i) {
+        let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.colorsData.filter(function(item) { return item.hex == colorArray[panelNum][i]; });
+        if(foundColor.length > 0) {colorNumberArrayTmp.push(foundColor[0].id);}
+        else {colorNumberArrayTmp.push(3);}
+      }
+      colorNumberArray.push(colorNumberArrayTmp);
+    }
+    
+    const templateAutofillString:string = colorNumberArray.join(";");
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    const panelsetId:number = this.panelSetId;
+    const panelNumber:number = this.panelNumber;
+    alert(templateAutofillString);
+    // if (confirm('Are you sure you want to add this autofill string: ' + panelAutofillString + " ?")) {
+    //   this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanelautofillstring?email='"+email+"'&password='"+password+ "'&panelAutofillString='" + panelAutofillString + "'&panelSetId=" + panelsetId + "&panelNumber=" + panelNumber).subscribe(result => {
+    //     let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+    //     alert(test);
+    //     // console.log(this.loginForm.value);
+    //     // console.log(this.sharedDataService.userInfo);
+    //    });
+    // }
   }
 
 }

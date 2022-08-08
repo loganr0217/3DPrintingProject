@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { Polygon } from '../svgScaler';
 import { SVGTemplate } from '../svgScaler';
+import { Input } from '@angular/core';
 
 @Component({
   selector: 'app-template-icon',
@@ -10,7 +11,7 @@ import { SVGTemplate } from '../svgScaler';
   styleUrls: ['./template-icon.component.css']
 })
 export class TemplateIconComponent implements OnInit {
-
+  @Input() flexColumn:boolean = true;
   // Array containing the svgPath data for displaying icons / generating a template
   svgTemplateData:{id:number, name:string, d:string}[][];
   templateData:{id:number, numPanels:number, panelDims:number[], tempString:string}[];

@@ -1,4 +1,4 @@
-<div class="fullWin">
+<div class="fullWin" [style]="'flex-direction:'+(this.flexColumn ? 'column' : 'row')">
     <div *ngFor="let template of templateData;">
         <div *ngIf="template.panelDims[0] == this.sharedDataService.panelLayoutDims[0] 
             && template.panelDims[1] == this.sharedDataService.panelLayoutDims[1]

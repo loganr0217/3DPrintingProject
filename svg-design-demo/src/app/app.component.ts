@@ -43,7 +43,7 @@ export class AppComponent {
             this.sharedDataService.svgTemplateData = [];
             for(let i:number = 0; i < 50; ++i) {this.sharedDataService.svgTemplateData.push([]);}
             for(let i:number = 0; i < panelData.length; ++i) {
-              let tmp:{id:number, name:string, panelNumber:number, d:string} = {id:panelData[i][1], name:panelData[i][3], panelNumber:panelData[i][2], d:panelData[i][4]};
+              let tmp:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string} = {id:panelData[i][1], name:panelData[i][3], panelNumber:panelData[i][2], d:panelData[i][4], panelAutofillString:panelData[i][5]};
               this.sharedDataService.svgTemplateData[panelData[i][1]].push(tmp);
             }
           }
