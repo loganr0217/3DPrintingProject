@@ -6,7 +6,7 @@
 
 .fullWin {
     display: flex;
-    overflow-x: hidden;  
+    overflow-x: scroll;  
     overflow-y: scroll;
     white-space: nowrap;
     max-height: 75vh;

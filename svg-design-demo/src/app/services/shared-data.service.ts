@@ -105,7 +105,7 @@ export class SharedDataService {
   panelColoringArray:string[][] = [];
   templateData:{id:number, numPanels:number, panelDims:number[], tempString:string}[];
   // Array containing the svgPath data for displaying icons / generating a template
-  svgTemplateData:{id:number, name:string, panelNumber:number, d:string}[][];
+  svgTemplateData:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string}[][];
   //   // FLW02
   //   [
   //     {id:5, name:"1_7Aframe05_development.svg", d:"M -51.923624,-11.58576 V 288.41428 H 248.07641 V -11.58576 Z m 5.00007,5.0000754 H 8.0761657 V 48.414036 H -46.923554 Z m 60.99969,0 H 182.07664 V 48.414036 H 14.076136 Z m 174.000484,0 h 54.99971 V 48.414036 H 188.07662 Z M -46.923554,54.414026 H 8.0761657 V 222.41398 H -46.923554 Z m 61.00025,0 H 182.07664 v 69.999924 l -84.000254,45.00011 -83.99969,-45.00011 z m 173.999924,0 h 54.99971 V 222.41398 h -54.99971 z m -174.000484,77.761594 80.99889,43.34369 h 5.6e-4 v 0 107.89433 h -80.99943 v -107.89433 0 -43.34369 z m 167.999954,0 v 43.34369 0 107.89433 h -80.99943 v -107.89433 0 h 10e-4 l 80.99833,-43.34369 z M -46.923554,228.41394 H 8.0761657 V 283.4142 H -46.923554 Z m 235.000174,0 h 54.99971 v 55.00026 h -54.99971 z"},

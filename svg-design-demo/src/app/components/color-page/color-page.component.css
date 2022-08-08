@@ -130,3 +130,24 @@ p {
     float:left;
     padding-right: 1vw;
 }
+
+#templateAutofillDesigner {
+    display: flex;
+}
+
+#templateAutofillDesignWindow {
+    flex:5;
+}
+
+#templateAutofillWindowPreview {
+    flex: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#templateAutofillInput {
+    width:fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
