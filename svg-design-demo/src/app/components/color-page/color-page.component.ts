@@ -11,7 +11,7 @@ export class ColorPageComponent implements OnInit {
   // Array containing the svgPath data for displaying icons / generating a template
   svgTemplateData:{id:number, name:string, panelNumber:number, d:string}[][];
   currentPanel:number;
-  currentWindow:{id:number, name:string, panelNumber:number, d:string}[];
+  currentWindow:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string}[];
   panelLayout:SVGTemplate[][];
   panelDims:number[];
   currentPanelLocation:number[];
@@ -46,7 +46,7 @@ export class ColorPageComponent implements OnInit {
     return String(myTemplate.height);
   }
 
-  displayTemplate(window:{id:number, name:string, panelNumber:number, d:string}[], windowNumber:number):void {
+  displayTemplate(window:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string}[], windowNumber:number):void {
     this.currentWindow = window;
     this.sharedDataService.currentWindowNumber = windowNumber;
   }
@@ -239,6 +239,38 @@ export class ColorPageComponent implements OnInit {
         // console.log(this.loginForm.value);
         // console.log(this.sharedDataService.userInfo);
        });
+    }
+  }
+
+  // Fills selected panel if autofill string exists
+  autofillPanel(autofillString:string, panelNumber:number = 0):void {
+    if(autofillString != undefined) {
+      //alert(autofillString);
+      let tmpHex:string = "";
+      let splitAutofillString:string[] = autofillString.split(',');
+      for(let i:number = 0; i < splitAutofillString.length; ++i) {
+        let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.colorsData.filter(function(item) { return item.id == Number(splitAutofillString[i]); });
+        if(foundColor.length > 0) {
+          tmpHex = foundColor[0].hex;
+          if(this.sharedDataService.currentTemplateNumber == 0) {document.getElementById("pane"+i)?.setAttribute("style", "fill:#"+tmpHex);}
+          document.getElementById("windowPane"+panelNumber+"_"+i)?.setAttribute("style", "fill:#"+tmpHex);
+          document.getElementById("windowPaneFinished"+panelNumber+"_"+i)?.setAttribute("style", "fill:#"+tmpHex);
+          this.sharedDataService.panelColoringArray[panelNumber][i] = tmpHex;
+        }
+        //else {tmpHex = foundColor[0].hex;}
+        
+      }
+    }
+  }
+
+  // Fills template with either templateString or individual panelStrings
+  autofillTemplate():void {
+    let row:number = 0;
+    let col:number = 0;
+    for(let i:number = 0; i < this.sharedDataService.panelLayout.length; ++i) {
+      row = Math.floor(i / this.sharedDataService.panelLayoutDims[0]);
+      col = i % this.sharedDataService.panelLayoutDims[1];
+      this.autofillPanel(this.sharedDataService.panelLayout[row][col].autofillString, i);
     }
   }
 

@@ -54,7 +54,7 @@
             </div>
             <div class="panelWindowTemplate">
                 <div class="panelFullWin">
-                    <svg *ngFor="let svgTemplate of currentWindow; let i = index" xmlns="http://www.w3.org/2000/svg" (click)="displayPanel(svgTemplate.d, 0, 0); choosePanel(svgTemplate.panelNumber)" class="svgTemplatePanelIcons"  [attr.viewBox]=getTemplateViewBox(getOptimizedTemplateD(svgTemplate.d))>
+                    <svg *ngFor="let svgTemplate of currentWindow; let i = index" xmlns="http://www.w3.org/2000/svg" (click)="displayPanel(svgTemplate.d, 0, 0); autofillPanel(svgTemplate.panelAutofillString); choosePanel(svgTemplate.panelNumber)" class="svgTemplatePanelIcons"  [attr.viewBox]=getTemplateViewBox(getOptimizedTemplateD(svgTemplate.d))>
                         <path id="svgTemplateLayoutPanel{{i}}" style="fill:#666666;" [attr.d]=getOptimizedTemplateD(svgTemplate.d)/>
                     </svg>
                 </div>
@@ -109,6 +109,7 @@
         <div id="templateAutofillWindowPreview">
             <app-window-preview-container></app-window-preview-container>
             <input type="button" class="btn btn-dark btn-med" (click)="getTemplateAutofillString()" id="templateAutofillInput"  value="Get Template Autofill Text"/>
+            <input type="button" class="btn btn-dark btn-med" (click)="autofillTemplate()" id="templateAutofillToggleInput"  value="Toggle Autofill"/>
         </div>
         
     </div>

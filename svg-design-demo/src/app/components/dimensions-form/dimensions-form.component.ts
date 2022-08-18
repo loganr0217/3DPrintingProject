@@ -3,6 +3,7 @@ import { share } from 'rxjs';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { Polygon, DividerWindow, WindowPane, SVGTemplate } from '../svgScaler';
 
+declare var $:any;
 @Component({
   selector: 'app-dimensions-form',
   templateUrl: './dimensions-form.component.html',
@@ -241,7 +242,7 @@ export class DimensionsFormComponent implements OnInit {
       }
       
     }
-    if(dividerWidth == 0) {dividerWidth = 2;}
+    if(dividerWidth == 0) {dividerWidth = 25.4;}
     // dividerWidth = this.convertNumber(dividerWidth, this.sharedDataService.unitChoice);
     let newDividerWindow:DividerWindow;
     if(this.sharedDataService.topSash) {
@@ -315,7 +316,8 @@ export class DimensionsFormComponent implements OnInit {
     let availableTemplate:boolean = this.isAvailableTemplate();
     if(availableTemplate && this.sharedDataService.panelLayoutDims != [-1, -1] && this.getPanelWidth(this.sharedDataService.windowWidth) != -1 && this.getPanelHeight(this.sharedDataService.windowHeight) != -1) {
       // console.log(this.sharedDataService.windowWidth + " " + this.sharedDataService.windowHeight);
-      document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;")
+      document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;");
+      $('#dimensionsFormModal').modal('hide');
       document.getElementById("templateCategoryStage")?.scrollIntoView({behavior: 'smooth'});
     }
     // Doesn't meet panel width/height requirements

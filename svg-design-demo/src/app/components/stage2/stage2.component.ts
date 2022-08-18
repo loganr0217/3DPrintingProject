@@ -99,8 +99,8 @@ export class Stage2Component implements OnInit {
     let numHorizontalDividers:number = Number(windowDimensions[1])-1;
     let numVerticalDividers:number = Number(windowDimensions[0])-1;
     let defaultWidth:number;
-    if(widthHeightRatio >= 1) {defaultWidth = 100;}
-    else {defaultWidth = 25;}
+    if(widthHeightRatio >= 1) {defaultWidth = 400;}
+    else {defaultWidth = 100;}
     let defaultHeight:number = defaultWidth / widthHeightRatio;
 
     this.sharedDataService.selectedWindowShape = windowShape;
@@ -153,11 +153,7 @@ export class Stage2Component implements OnInit {
     // Updating template dimensions
     document.getElementById("windowPerimeter")?.setAttribute("d", newDividerWindow.dString);
     document.getElementById("windowPerimeter")?.setAttribute("style", "fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:.2;");
-    let viewboxValue:string;
-    if(this.sharedDataService.selectedWindowShape.substring(0, 2) == "2x") {
-      viewboxValue = ""+ (-7) +" "+ (-7) +" "+(newWidth+14)+" "+(2*(newHeight+14));
-    }
-    else {viewboxValue = ""+ (-7) +" "+ (-7) +" "+(newWidth+14)+" "+(newHeight+14);}
+    let viewboxValue:string = newDividerWindow.getViewbox();
     document.getElementById("dividerTemplate")?.setAttribute("viewBox", viewboxValue);
 
     let paneNum:number = 0;
@@ -202,7 +198,7 @@ export class Stage2Component implements OnInit {
     if(windowShape == "square2to2") {return "Square";}
     else if(windowShape == "2xhung2to4") {return "Double Hung";}
     else if(windowShape == "horizontal4to1") {return "Horizontal";}
-    else if(windowShape == "vertical1to4") {return "Vertical";}
+    else if(windowShape == "vertical1to4") {return "Regular";}
     else {return "";}
   }
 
