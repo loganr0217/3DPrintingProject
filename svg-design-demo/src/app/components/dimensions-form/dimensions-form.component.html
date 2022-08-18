@@ -9,7 +9,7 @@
  -->
 
 <!-- Modal for measurement info -->
-<div class="modal" id="dimensionsFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal" id="dimensionsFormModal" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -35,7 +35,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-dark" data-dismiss="modal">Back to Your Window</button>
-                <button *ngIf="this.isAvailableTemplate()" type="button" (click)="nextstage()" class="btn btn-dark" data-dismiss="modal">Next Step</button>
+                <button *ngIf="this.isAvailableTemplate()" id="nextStepModal" type="button" (click)="nextstage()" class="btn btn-dark">Next Step</button>
                 <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
         </div>

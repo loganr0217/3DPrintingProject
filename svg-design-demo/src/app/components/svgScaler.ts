@@ -48,7 +48,7 @@ export class DividerWindow {
     bottomSashHeight:number;
 
     // Constructor which takes the width and height of the window
-    constructor(width:number = 100, height:number = 100, numHorzDividers:number = 0, numVertDividers:number = 0, dividerWidth:number = 8, dividerType:string="plain", doubleHung:boolean=false, bottomSashWidth:number=-1, bottomSashHeight:number=-1) {
+    constructor(width:number = 100, height:number = 100, numHorzDividers:number = 0, numVertDividers:number = 0, dividerWidth:number = 25.4, dividerType:string="plain", doubleHung:boolean=false, bottomSashWidth:number=-1, bottomSashHeight:number=-1) {
         this.dString = "";
         this.numberHorizontalPanes = numVertDividers + 1;
         this.numberVerticalPanes = numHorzDividers + 1;
@@ -72,15 +72,15 @@ export class DividerWindow {
 
     // Method to create window perimeter SVG using width and height
     createWindowPerimeter(width:number, height:number):void {
-        this.dString = this.createSVGBox(width+12, height+12, true, [-6, -6]) + " " +
-        this.createSVGBox(width+4, height+4, true, [-2, -2]);
+        this.dString = this.createSVGBox(width+50.8, height+50.8, true, [-25.4, -25.4]) + " " +
+        this.createSVGBox(width+16.93, height+16.93, true, [-8.465, -8.465]);
         if(this.dividerType != "raiseddiv") {this.dString += this.createSVGBox(width, height, true, [0, 0]);}
 
         // creating bottom of 2xhung if necessary
         if(this.doubleHung) {
-            this.dString += this.createSVGBox(this.bottomSashWidth+12, this.bottomSashHeight+12, true, [-6 - (this.bottomSashWidth-width)/2, height+6]) + " " +
-            this.createSVGBox(this.bottomSashWidth+4, this.bottomSashHeight+4, true, [-2 - (this.bottomSashWidth-width)/2, height+10]);
-            if(this.dividerType != "raiseddiv") {this.dString += this.createSVGBox(this.bottomSashWidth, this.bottomSashHeight, true, [0 - (this.bottomSashWidth-width)/2, height+12]);}
+            this.dString += this.createSVGBox(this.bottomSashWidth+50.8, this.bottomSashHeight+50.8, true, [-25.4 - (this.bottomSashWidth-width)/2, height+25.4]) + " " +
+            this.createSVGBox(this.bottomSashWidth+16.93, this.bottomSashHeight+16.93, true, [-8.465 - (this.bottomSashWidth-width)/2, height+42.93]);
+            if(this.dividerType != "raiseddiv") {this.dString += this.createSVGBox(this.bottomSashWidth, this.bottomSashHeight, true, [0 - (this.bottomSashWidth-width)/2, height+51.395]);}
         }
     }
 
@@ -131,7 +131,7 @@ export class DividerWindow {
             for(let row = this.numberVerticalPanes; row < 2*this.numberVerticalPanes; ++row) {
                 this.windowPanes[row] = [];
                 for(let col = 0; col < this.numberHorizontalPanes; ++col) {
-                    startingPoint = [col*paneWidth + col*this.dividerWidth - (this.bottomSashWidth-this.windowWidth)/2, (this.windowHeight-this.bottomSashHeight) + row*paneHeight + row*this.dividerWidth + 12 - this.dividerWidth];
+                    startingPoint = [col*paneWidth + col*this.dividerWidth - (this.bottomSashWidth-this.windowWidth)/2, (this.windowHeight-this.bottomSashHeight) + row*paneHeight + row*this.dividerWidth + 51.395 - this.dividerWidth];
                     this.windowPanes[row][col] = new WindowPane(paneWidth, paneHeight, startingPoint, 
                         this.createSVGBox(paneWidth, paneHeight, false, startingPoint));
                 }
@@ -154,12 +154,12 @@ export class DividerWindow {
     getViewbox():string {
         let viewboxValue:string = "";
         if(this.doubleHung) {
-            viewboxValue = ""+ (-7 - (this.windowWidth >= this.bottomSashWidth ? 0 : (this.bottomSashWidth - this.windowWidth)/2)) +" "+ (-7) +" "+
-            ((this.windowWidth >= this.bottomSashWidth ? this.windowWidth : this.bottomSashWidth)+14)+
-            " "+(((this.windowHeight + (this.bottomSashHeight == -1 ? this.windowHeight : this.bottomSashHeight))+28));
+            viewboxValue = ""+ (-50.8 - (this.windowWidth >= this.bottomSashWidth ? 0 : (this.bottomSashWidth - this.windowWidth)/2)) +" "+ (-50.8) +" "+
+            ((this.windowWidth >= this.bottomSashWidth ? this.windowWidth : this.bottomSashWidth)+101.6)+
+            " "+(((this.windowHeight + (this.bottomSashHeight == -1 ? this.windowHeight : this.bottomSashHeight))+203.2));
             
         }
-        else {viewboxValue = ""+ (-7) +" "+ (-7) +" "+(this.windowWidth+14)+" "+(this.windowHeight+14);}
+        else {viewboxValue = ""+ (-50.8) +" "+ (-50.8) +" "+(this.windowWidth+101.6)+" "+(this.windowHeight+101.6);}
         return viewboxValue;
     }
 }
@@ -715,6 +715,7 @@ export class SVGTemplate {
     height:number;
 
     outerEdgeIndex:number;
+    autofillString:string;
 
     // Array to hold the polygons making up the template
     subShapes:Polygon[];
