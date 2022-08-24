@@ -242,6 +242,28 @@ export class ColorPageComponent implements OnInit {
     }
   }
 
+  addPanelSymmetricPanes():void {
+    let colorArray:string[] = this.sharedDataService.panelColoringArray[0];
+    let symmetricPaneNumbers:number[] = [];
+    for(let i:number = 0; i < colorArray.length; ++i) {
+      let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.colorsData.filter(function(item) { return item.hex == colorArray[i]; });
+      if(foundColor.length > 0 && foundColor[0].id != 3) {symmetricPaneNumbers.push(i);}
+    }
+    const symmetricPanesString:string = symmetricPaneNumbers.join(",");
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    const panelsetId:number = this.panelSetId;
+    const panelNumber:number = this.panelNumber;
+    if (symmetricPanesString != "" && confirm('Are you sure you want to add these panes as symmetric: ' + symmetricPanesString + " ?")) {
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanelsymmetricpanes?email='"+email+"'&password='"+password+ "'&symmetricPanesString='" + symmetricPanesString + "'&panelSetId=" + panelsetId + "&panelNumber=" + panelNumber).subscribe(result => {
+        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+        alert(test);
+        // console.log(this.loginForm.value);
+        // console.log(this.sharedDataService.userInfo);
+       });
+    }
+  }
+
   // Fills selected panel if autofill string exists
   autofillPanel(autofillString:string, panelNumber:number = 0):void {
     if(autofillString != undefined) {
@@ -329,5 +351,7 @@ export class ColorPageComponent implements OnInit {
     //    });
     // }
   }
+
+  
 
 }
