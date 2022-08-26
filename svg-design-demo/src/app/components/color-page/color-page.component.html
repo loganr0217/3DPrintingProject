@@ -50,7 +50,7 @@
                             <path  style="fill:#666666;" [attr.d]=getOptimizedTemplateD(svgTemplate.d)/>
                         </svg>
                         <br *ngIf="svgTemplate.name.charAt(svgTemplate.name.length-1) == '0' && svgTemplate.name.charAt(svgTemplate.name.length-2) == '_'"/>
-                        <button *ngIf="svgTemplate.name.charAt(svgTemplate.name.length-1) == '0' && svgTemplate.name.charAt(svgTemplate.name.length-2) == '_'" (click)="displayTemplate(window, i)" [textContent]="svgTemplate.name.split('_')[0]"></button>
+                        <button *ngIf="svgTemplate.name.charAt(svgTemplate.name.length-1) == '0' && svgTemplate.name.charAt(svgTemplate.name.length-2) == '_'" (click)="displayTemplate(window, i)" [textContent]="svgTemplate.id"></button>
                     </div>
                     
                 </div>
