@@ -198,7 +198,7 @@ export class Stage2Component implements OnInit {
     if(windowShape == "square2to2") {return "Square";}
     else if(windowShape == "2xhung2to4") {return "Double Hung";}
     else if(windowShape == "horizontal4to1") {return "Horizontal";}
-    else if(windowShape == "vertical1to4") {return "Regular";}
+    else if(windowShape == "vertical2to4") {return "Casement";}
     else {return "";}
   }
 

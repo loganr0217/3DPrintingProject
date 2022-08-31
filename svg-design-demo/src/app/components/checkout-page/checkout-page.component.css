@@ -106,8 +106,7 @@ button:focus {
     padding-top: 10px;
 }
 
-.btn-light {
-    border: none;
+.btn-dark {
     border-radius: 10px;
     padding: 8px 15px;
     margin: 33px 0px;

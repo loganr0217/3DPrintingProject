@@ -73,7 +73,10 @@ img {
 }
 
 .btn {
-    position: absolute;
-    left: 8vw;
+    margin-left: 1vw;
+    flex:1;
 }
 
+.text-center {
+    display: flex;
+}
