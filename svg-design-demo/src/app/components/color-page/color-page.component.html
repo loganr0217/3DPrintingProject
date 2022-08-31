@@ -5,6 +5,17 @@
         <app-template-info-form></app-template-info-form>
         <p></p>
         <h1><b>Autofill and Panel Information</b></h1>
+        <form id="dimensionsFormContainer">
+            <div class="form-group form-row">
+                <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Filament Percentage:</span>
+                    </div>
+                    <input type="number" class="form-control" id="filamentPercentageInput">
+                </div>
+            </div>
+            <input type="button" class="btn btn-dark btn-med" id="filamentPercentageButton" (click)="addFilamentPercentage()" value="Add Filament Percentage"/>
+        </form>
         <input type="button" class="btn btn-dark btn-med" (click)="getPanelAutofillString()" id="panelAutofillInput"  value="Get Autofill Text"/>
         <input type="button" class="btn btn-dark btn-med" (click)="addPanelSymmetricPanes()" id="panelSymmetricPanesInput"  value="Add Symmetric Panes"/>
         <!-- Start of Breadcrumbs -->

@@ -46,7 +46,7 @@ export class Stage5Component implements OnInit {
     // Fixing panel height to be under 500
     if(finalPanelWidth >= 500) {finalPanelWidth = finalPanelWidth / (Math.ceil(finalPanelWidth/500));}
 
-    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return (this.isDoubleHung() ? (top ? "Top Panel Width: " : "Bottom Panel Width: ") : "Panel Width: ") + this.convertBackNumber(finalPanelWidth, this.sharedDataService.unitChoice).toFixed(2) + this.sharedDataService.unitChoice;}
+    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return (this.isDoubleHung() ? (top ? "Top Panel Width: " : "Bottom Panel Width: ") : "Panel Width: ") + this.convertBackNumber(finalPanelWidth, this.sharedDataService.unitChoice).toFixed(2) + " " + this.sharedDataService.unitChoice;}
     else {return "-1";}
   }
 
@@ -87,7 +87,7 @@ export class Stage5Component implements OnInit {
     // Fixing panel height to be under 500
     if(finalPanelHeight >= 500) {finalPanelHeight = finalPanelHeight / (Math.ceil(finalPanelHeight/500));}
 
-    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return (this.isDoubleHung() ? (top ? "Top Panel Height: " : "Bottom Panel Height: ") : "Panel Height: ") + this.convertBackNumber(finalPanelHeight, this.sharedDataService.unitChoice).toFixed(2) + this.sharedDataService.unitChoice;}
+    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return (this.isDoubleHung() ? (top ? "Top Panel Height: " : "Bottom Panel Height: ") : "Panel Height: ") + this.convertBackNumber(finalPanelHeight, this.sharedDataService.unitChoice).toFixed(2) + " " + this.sharedDataService.unitChoice;}
     else {return "-1";}
   }
 
@@ -104,19 +104,19 @@ export class Stage5Component implements OnInit {
   }
 
   getWindowWidth():string {
-    return (this.isDoubleHung() ? "Top Sash Width: " : "Window Width: ") + this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice).toFixed(2)  + this.sharedDataService.unitChoice;
+    return (this.isDoubleHung() ? "Top Sash Width: " : "Window Width: ") + this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice).toFixed(2)  + " " + this.sharedDataService.unitChoice;
   }
 
   getWindowHeight():string {
-    return (this.isDoubleHung() ? "Top Sash Height: " : "Window Height: ") + this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice).toFixed(2) + this.sharedDataService.unitChoice;
+    return (this.isDoubleHung() ? "Top Sash Height: " : "Window Height: ") + this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice).toFixed(2) + " " + this.sharedDataService.unitChoice;
   }
 
   getBottomSashWidth():string {
-    return "Bottom Sash Width: " + this.convertBackNumber(this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice).toFixed(2)  + this.sharedDataService.unitChoice;
+    return "Bottom Sash Width: " + this.convertBackNumber(this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice).toFixed(2)  + " " + this.sharedDataService.unitChoice;
   }
 
   getBottomSashHeight():string {
-    return "Bottom Sash Height: " + this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice).toFixed(2)  + this.sharedDataService.unitChoice;
+    return "Bottom Sash Height: " + this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice).toFixed(2)  + " " + this.sharedDataService.unitChoice;
   }
 
   ngOnInit(): void {
@@ -170,7 +170,7 @@ export class Stage5Component implements OnInit {
     +"&templateID="+templateID+"&panelColoringString='"+panelColoringString
     +"'&streetAddress='"+streetAddress+"'&city='"+city+"'&state='"+state
     +"'&zipcode='"+zipcode+"'&country='"+country+"'&bottomWindowWidth="+bottomWindowWidth+
-    "&bottomWindowHeight="+bottomWindowHeight).subscribe(result => alert("Success! Your order has been placed."));
+    "&bottomWindowHeight="+bottomWindowHeight).subscribe(result => alert("Success! Your order has been saved."));
   }
 
 }

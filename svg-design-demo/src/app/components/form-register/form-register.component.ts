@@ -106,6 +106,7 @@ export class FormRegisterComponent implements OnInit {
       this.sharedDataService.userInfo = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(","); 
       if(this.sharedDataService.userInfo.length > 1) {
         this.sharedDataService.signedIn = true;
+        if((<HTMLInputElement>document.getElementById("rememberMeBox"))?.checked) {localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));}
         this.router.navigate(['/']);
       }
       else if(this.sharedDataService.userInfo.length == 1 && this.sharedDataService.userInfo[0] == -1) {alert("A user with that email already exists.");} 

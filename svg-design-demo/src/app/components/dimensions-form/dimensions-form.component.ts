@@ -341,16 +341,17 @@ export class DimensionsFormComponent implements OnInit {
 
   // Method to switch the current Sash for a 2xHung window
   switchSash():void {
+    this.updateDimensionsButton();
     this.sharedDataService.topSash = !this.sharedDataService.topSash;
     if(this.sharedDataService.finishedSashes == false) {
       this.sharedDataService.finishedSashes = true;
       document.getElementById("submitInput")?.removeAttribute("disabled");
       (<HTMLInputElement>document.getElementById("widthInput")).value = String(this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice));
-      (<HTMLInputElement>document.getElementById("heightInput")).value = String(String(this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice)));
+      (<HTMLInputElement>document.getElementById("heightInput")).value = String(this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice));
     }
     else {
       (<HTMLInputElement>document.getElementById("widthInput")).value = String(this.convertBackNumber(this.sharedDataService.topSash ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice));
-      (<HTMLInputElement>document.getElementById("heightInput")).value = String(String(this.convertBackNumber(this.sharedDataService.topSash ? this.sharedDataService.windowHeight : this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice)));
+      (<HTMLInputElement>document.getElementById("heightInput")).value = String(this.convertBackNumber(this.sharedDataService.topSash ? this.sharedDataService.windowHeight : this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice));
     }
   }
 
@@ -360,19 +361,19 @@ export class DimensionsFormComponent implements OnInit {
   }
 
   getWindowWidth():string {
-    return (this.isDoubleHung() ? "Top Sash Width: " : "Window Width: ") + this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice).toFixed(2)  + this.sharedDataService.unitChoice;
+    return (this.isDoubleHung() ? "Top Sash Width: " : "Window Width: ") + this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice).toFixed(2) + " " + this.sharedDataService.unitChoice;
   }
 
   getWindowHeight():string {
-    return (this.isDoubleHung() ? "Top Sash Height: " : "Window Height: ") + this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice).toFixed(2) + this.sharedDataService.unitChoice;
+    return (this.isDoubleHung() ? "Top Sash Height: " : "Window Height: ") + this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice).toFixed(2) + " " + this.sharedDataService.unitChoice;
   }
 
   getBottomSashWidth():string {
-    return "Bottom Sash Width: " + this.convertBackNumber(this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice).toFixed(2)  + this.sharedDataService.unitChoice;
+    return "Bottom Sash Width: " + this.convertBackNumber(this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice).toFixed(2) + " " + this.sharedDataService.unitChoice;
   }
 
   getBottomSashHeight():string {
-    return "Bottom Sash Height: " + this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice).toFixed(2)  + this.sharedDataService.unitChoice;
+    return "Bottom Sash Height: " + this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice).toFixed(2) + " " + this.sharedDataService.unitChoice;
   }
 
   getWindowPaneWidth(top:boolean = true):string {
@@ -390,7 +391,7 @@ export class DimensionsFormComponent implements OnInit {
     // Fixing panel height to be under 500
     if(finalPanelWidth >= 500) {finalPanelWidth = finalPanelWidth / (Math.ceil(finalPanelWidth/500));}
 
-    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return (this.isDoubleHung() ? (top ? "Top Pane Width: " : "Bottom Pane Width: ") : "Pane Width: ") + this.convertBackNumber(finalPanelWidth, this.sharedDataService.unitChoice).toFixed(2) + this.sharedDataService.unitChoice;}
+    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return (this.isDoubleHung() ? (top ? "Top Pane Width: " : "Bottom Pane Width: ") : "Pane Width: ") + this.convertBackNumber(finalPanelWidth, this.sharedDataService.unitChoice).toFixed(2) + " " + this.sharedDataService.unitChoice;}
     else {return "-1";}
   }
 
@@ -409,7 +410,7 @@ export class DimensionsFormComponent implements OnInit {
     // Fixing panel height to be under 500
     if(finalPanelHeight >= 500) {finalPanelHeight = finalPanelHeight / (Math.ceil(finalPanelHeight/500));}
 
-    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return (this.isDoubleHung() ? (top ? "Top Pane Height: " : "Bottom Pane Height: ") : "Pane Height: ") + this.convertBackNumber(finalPanelHeight, this.sharedDataService.unitChoice).toFixed(2) + this.sharedDataService.unitChoice;}
+    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return (this.isDoubleHung() ? (top ? "Top Pane Height: " : "Bottom Pane Height: ") : "Pane Height: ") + this.convertBackNumber(finalPanelHeight, this.sharedDataService.unitChoice).toFixed(2) + " " + this.sharedDataService.unitChoice;}
     else {return "-1";}
   }
 

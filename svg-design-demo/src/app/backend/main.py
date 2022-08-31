@@ -176,6 +176,42 @@ def addPanelSymmetricPanes():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
+@app.route('/addpanelfilamentpercentage')
+def addPanelFilamentPercentage():
+    global conn
+    email = request.args.get('email', default='null', type=str)
+    password = request.args.get('password', default='null', type=str)
+    panelSetId = request.args.get('panelSetId', default='null', type=int)
+    panelNumber = request.args.get('panelNumber', default='null', type=int)
+    filamentPercentage = request.args.get('filamentPercentage', default='null', type=str)
+    
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' and password != 'null' and panelNumber != -1 and panelSetId != -1:
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions = 'admin' or permissions = 'designer');")
+            rows = cur.fetchall()
+            # User has been authenticated as an admin or a designer
+            if len(rows) > 0:
+                cur.execute("SELECT * FROM panels WHERE panelset_id = {} AND panel_number = {};".format(panelSetId, panelNumber))
+                rows = cur.fetchall()
+                # Panel already exists in that location
+                if len(rows) > 0:
+                    cur.execute("UPDATE panels set filament_percentage = {} where panelset_id = {} and panel_number = {}".format(filamentPercentage, panelSetId, panelNumber))
+                    conn.commit()
+                    row = (1,)
+                # No panel to add string to
+                else:
+                    rows = (-2,)
+            else:
+                rows = (-1,)
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
 @app.route('/addtemplate')
 def addtemplate():
     global conn
