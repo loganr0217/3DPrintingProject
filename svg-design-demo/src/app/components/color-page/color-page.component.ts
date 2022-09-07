@@ -353,13 +353,29 @@ export class ColorPageComponent implements OnInit {
   }
 
   addFilamentPercentage():void {
-    const filamentPercentage:number = Number((<HTMLInputElement>document.getElementById("filamentPercentageInput"))?.value);
+    const filamentSquareMM:number = Number((<HTMLInputElement>document.getElementById("filamentPercentageInput"))?.value);
+    const filamentPercentage:number = filamentSquareMM / 90000;
     const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
     const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
     const panelsetId:number = this.panelSetId;
     const panelNumber:number = this.panelNumber;
     if (filamentPercentage != undefined && confirm('Are you sure you want to add this filament percentage: ' + filamentPercentage + " ?")) {
       this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanelfilamentpercentage?email='"+email+"'&password='"+password+ "'&filamentPercentage=" + filamentPercentage + "&panelSetId=" + panelsetId + "&panelNumber=" + panelNumber).subscribe(result => {
+        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+        alert(test);
+        // console.log(this.loginForm.value);
+        // console.log(this.sharedDataService.userInfo);
+       });
+    }
+  }
+
+  deletePanel():void {
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    const panelsetId:number = this.panelSetId;
+    const panelNumber:number = this.panelNumber;
+    if (confirm('Are you sure you want to delete this panel? \nPanelset ID: '  + panelsetId + "\nPanel Number: " + panelNumber)) {
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/deletepanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelsetId + "&panelNumber=" + panelNumber).subscribe(result => {
         let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
         alert(test);
         // console.log(this.loginForm.value);
