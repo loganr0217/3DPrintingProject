@@ -11,6 +11,7 @@ declare var $:any;
 export class ColorsSelectionButtonComponent implements OnInit {
 
   @Input() paneColors:boolean;
+  @Input() tdiPage:boolean;
 
   // Array holding all colors currently offered with corresponding hex values
   colorsData:{id:number, name:string, hex:string, paneColor:boolean}[];
@@ -41,7 +42,7 @@ export class ColorsSelectionButtonComponent implements OnInit {
     $('[data-toggle="tooltip"]').tooltip();
     // Getting the colors from the shared data service
     if(this.paneColors == true) {this.colorsData = this.sharedDataService.colorsData;}
-    else {this.colorsData = this.sharedDataService.filamentColorsData;}
+    else {this.colorsData = this.sharedDataService.tdiColorsData;}
     
   }
 }

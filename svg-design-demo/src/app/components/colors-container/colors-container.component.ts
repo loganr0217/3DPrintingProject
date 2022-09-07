@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ColorsContainerComponent implements OnInit {
   @Input() paneColors:boolean;
+  @Input() tdiPage:boolean;
   constructor() { }
 
   ngOnInit(): void {
