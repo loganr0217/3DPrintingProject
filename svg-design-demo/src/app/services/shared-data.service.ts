@@ -74,6 +74,16 @@ export class SharedDataService {
     {id:24, name:"Ivory", hex:"dec89f", paneColor:true}
   ];
 
+  tdiColorsData:{id:number, name:string, hex:string, paneColor:boolean}[] = [
+    {id:0, name:"Red", hex:"ff0000", paneColor:true},
+    {id:1, name:"Orange", hex:"e14931", paneColor:true},
+    {id:2, name:"Yellow", hex:"f2cc2e", paneColor:true},
+    {id:3, name:"Green", hex:"054c20", paneColor:true},
+    {id:4, name:"Blue", hex:"178fdc", paneColor:true},
+    {id:5, name:"Purple", hex:"75459a", paneColor:true}
+
+  ];
+
   // Array holding all colors currently offered with corresponding hex values
   filamentColorsData:{id:number, name:string, hex:string, paneColor:boolean}[] = [
     {id:0, name:"silver", hex:"666666", paneColor:false},

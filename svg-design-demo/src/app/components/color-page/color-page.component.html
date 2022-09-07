@@ -9,7 +9,7 @@
             <div class="form-group form-row">
                 <div class="col input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">Filament Percentage:</span>
+                        <span class="input-group-text">Filament mm Squared:</span>
                     </div>
                     <input type="number" class="form-control" id="filamentPercentageInput">
                 </div>
@@ -30,7 +30,7 @@
     </div>
     <div id="section2" class="section">
         <app-design-window *ngIf="this.onPanels"></app-design-window>
-        <app-colors-container *ngIf="this.onPanels" [paneColors]=true></app-colors-container>
+        <app-colors-container *ngIf="this.onPanels" [paneColors]=false></app-colors-container>
 
     </div>
 </div>
@@ -119,7 +119,7 @@
     <div *ngIf="!this.onPanels" id="templateAutofillDesigner">
         <div id="templateAutofillDesignWindow">
             <app-design-window></app-design-window>
-            <app-colors-container [paneColors]=true></app-colors-container>
+            <app-colors-container [paneColors]=false></app-colors-container>
         </div>
         <div id="templateAutofillWindowPreview">
             <app-window-preview-container></app-window-preview-container>
