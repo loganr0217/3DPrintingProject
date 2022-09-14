@@ -106,6 +106,16 @@ export class TemplateInfoFormComponent implements OnInit {
   }
 
   addPanel():void {
+    const headers = { 'content-type': 'application/json'}  
+    const body=JSON.stringify(
+      {
+        'email':this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "",
+        'password':this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "",
+        'panelSetId':Number((<HTMLInputElement>document.getElementById("panelSetIdInput"))?.value),
+        'panelNumber':Number((<HTMLInputElement>document.getElementById("panelNumberInput"))?.value),
+        'panelName':(<HTMLInputElement>document.getElementById("nameInput"))?.value,
+        'dAttribute':(<HTMLInputElement>document.getElementById("dInput"))?.value
+      });
     const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
     const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
     const panelSetId:number = Number((<HTMLInputElement>document.getElementById("panelSetIdInput"))?.value);
@@ -114,12 +124,16 @@ export class TemplateInfoFormComponent implements OnInit {
     const dAttribute:string = (<HTMLInputElement>document.getElementById("dInput"))?.value;
 
     if (confirm('Are you sure you want to add this panel?')) {
-      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelSetId + "&panelNumber=" + panelNumber + "&panelName='" + panelName + "'&dAttribute='" + dAttribute + "'").subscribe(result => {
+      // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelSetId + "&panelNumber=" + panelNumber + "&panelName='" + panelName + "'&dAttribute='" + dAttribute + "'").subscribe(result => {
+      //   let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+      //   alert(test);
+      //   // console.log(this.loginForm.value);
+      //   // console.log(this.sharedDataService.userInfo);
+      //  });
+       this.http.post("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel", body, {'headers':headers}).subscribe(result => {
         let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
-        alert(test);
-        // console.log(this.loginForm.value);
-        // console.log(this.sharedDataService.userInfo);
-       });
+         alert(test);
+       });;
     }
     
 

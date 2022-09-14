@@ -13,7 +13,20 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <div class="navbar-nav ml-auto">
               <a href="javascript:void(0)" (click)="goToFooter()" class="nav-item nav-link">Contact</a>
-              <a href="javascript:void(0)" routerLink="/about" class="nav-item nav-link">About</a>
+              <div class="dropdown">
+                <a href="javascript:void(0)" class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
+                <!-- <button class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Frame Color
+                </button> -->
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAbout">
+                  <a href="javascript:void(0)" routerLink="/about" class="dropdown-item">Overview</a>
+                  <a href="javascript:void(0)" routerLink="/about" class="dropdown-item">Tutorials</a>
+                  <a href="javascript:void(0)" routerLink="/about" class="dropdown-item">FAQs</a>
+                  <a href="javascript:void(0)" routerLink="/about" class="dropdown-item">Release Notes</a>
+                </div>
+              </div>
+              <!-- <a href="javascript:void(0)" routerLink="/about" class="nav-item nav-link">About</a> -->
+              <a href="javascript:void(0)" class="nav-item nav-link">Gallery</a>
               <a href="javascript:void(0)" *ngIf="!this.sharedDataService.signedIn" routerLink="/signup" class="nav-item nav-link">Signup</a>
               <a href="javascript:void(0)" *ngIf="!this.sharedDataService.signedIn" routerLink="/login" class="nav-item nav-link">Login</a>
               <a href="javascript:void(0)" *ngIf="this.sharedDataService.signedIn" (click)="userSignout()" class="nav-item nav-link">Logout</a>

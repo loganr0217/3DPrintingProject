@@ -56,20 +56,21 @@ def signup():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
-@app.route('/addpanel')
+@app.route('/addpanel', methods = ['POST'])
 def addPanel():
     global conn
-    email = request.args.get('email', default='null', type=str)
-    password = request.args.get('password', default='null', type=str)
-    panelSetId = request.args.get('panelSetId', default='null', type=int)
-    panelNumber = request.args.get('panelNumber', default='null', type=int)
-    panelName = request.args.get('panelName', default='null', type=str)
-    dAttribute = request.args.get('dAttribute', default='null', type=str)
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+    panelSetId = data.get('panelSetId')
+    panelNumber = data.get('panelNumber')
+    panelName = data.get('panelName')
+    dAttribute = data.get('dAttribute')
     try:
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
         if email != 'null' and password != 'null' and panelNumber != -1 and panelSetId != -1:
-            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions = 'admin');")
+            cur.execute("SELECT * FROM users WHERE email = '" + email + "' AND password = '" + password + "' AND (permissions = 'admin');")
             rows = cur.fetchall()
             # User has been authenticated as an admin or a designer
             if len(rows) > 0:
@@ -79,13 +80,13 @@ def addPanel():
                 if len(rows) > 0:
                     rows = (-2,)
                 else:
-                    cur.execute("INSERT INTO panels(panelset_id, panel_number, panel_name, d_attribute) VALUES({}, {}, {}, {});".format(panelSetId, panelNumber, panelName, dAttribute))
+                    cur.execute("INSERT INTO panels(panelset_id, panel_number, panel_name, d_attribute) VALUES({}, {}, '{}', '{}');".format(panelSetId, panelNumber, panelName, dAttribute))
                     conn.commit()
                     rows = (1,)
             else:
-                rows = (-1,)
+                rows = (-3,)
         else:
-            rows = (-1,)
+            rows = (-1)
         # Returning the final result
         return jsonify(rows)
     except Exception as e:
