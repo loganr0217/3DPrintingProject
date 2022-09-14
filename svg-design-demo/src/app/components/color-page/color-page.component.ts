@@ -274,7 +274,7 @@ export class ColorPageComponent implements OnInit {
         let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.colorsData.filter(function(item) { return item.id == Number(splitAutofillString[i]); });
         if(foundColor.length > 0) {
           tmpHex = foundColor[0].hex;
-          if(this.sharedDataService.currentTemplateNumber == 0) {document.getElementById("pane"+i)?.setAttribute("style", "fill:#"+tmpHex);}
+          if(this.sharedDataService.currentTemplateNumber == 0 && panelNumber == 0) {document.getElementById("pane"+i)?.setAttribute("style", "fill:#"+tmpHex);}
           document.getElementById("windowPane"+panelNumber+"_"+i)?.setAttribute("style", "fill:#"+tmpHex);
           document.getElementById("windowPaneFinished"+panelNumber+"_"+i)?.setAttribute("style", "fill:#"+tmpHex);
           this.sharedDataService.panelColoringArray[panelNumber][i] = tmpHex;
@@ -289,9 +289,9 @@ export class ColorPageComponent implements OnInit {
   autofillTemplate():void {
     let row:number = 0;
     let col:number = 0;
-    for(let i:number = 0; i < this.sharedDataService.panelLayout.length; ++i) {
+    for(let i:number = 0; i < this.sharedDataService.panelLayoutDims[0]*this.sharedDataService.panelLayoutDims[1]; ++i) {
       row = Math.floor(i / this.sharedDataService.panelLayoutDims[0]);
-      col = i % this.sharedDataService.panelLayoutDims[1];
+      col = i % this.sharedDataService.panelLayoutDims[0];
       this.autofillPanel(this.sharedDataService.panelLayout[row][col].autofillString, i);
     }
   }
