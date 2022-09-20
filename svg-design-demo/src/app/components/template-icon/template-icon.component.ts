@@ -323,13 +323,15 @@ export class TemplateIconComponent implements OnInit {
     for(let panelID:number = 0; panelID < panelInfoArray.length; ++panelID) {
       if(panelID % temp.panelDims[0] == 0) {++rowNumber;}
       let panelIndex:number = this.sharedDataService.svgTemplateData[Number(panelInfoArray[panelID][0])].findIndex(function(item, i){
-        return Number(item.panelNumber) == Number(panelInfoArray[panelID][1])
+        return Number(item.panelNumber) == Number(panelInfoArray[panelID][1]);
       });
       
       let myTemplate:SVGTemplate = new SVGTemplate(this.sharedDataService.svgTemplateData[Number(panelInfoArray[panelID][0])][panelIndex].d);
       myTemplate.numberRotations = Number(panelInfoArray[panelID][2]);
       myTemplate.flipped = Number(panelInfoArray[panelID][3]) == 1 ? true : false;
       if(myTemplate.getScaledD( ( this.isRowInTopSash(rowNumber) ? this.getPanelWidth() : this.getPanelWidth(false) )/300 , ( this.isRowInTopSash(rowNumber) ? this.getPanelHeight() : this.getPanelHeight(false) )/300 )[0].includes("NaN")) {isOkay = false; break;}
+      
+    
       //console.log(panelLayout[Math.floor(panelID/temp.panelDims[0])]);
       //panelLayout[Math.floor(panelID/temp.panelDims[0])].push(myTemplate);
     }
