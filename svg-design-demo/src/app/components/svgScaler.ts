@@ -722,7 +722,7 @@ export class SVGTemplate {
 
     // Basic constructor which takes d attribute (string)
     constructor(svgPath:string) {
-        this.polygonPaths = svgPath.split("z").join("z; ").split("Z").join("Z; ").split("; ");
+        this.polygonPaths = svgPath.trim().split("z").join("z; ").split("Z").join("Z; ").split("; ");
         this.subShapes = [];
         
         // Looping through subshapes to add each subpolygon to the polygon array
