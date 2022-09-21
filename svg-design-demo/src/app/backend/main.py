@@ -92,6 +92,43 @@ def addPanel():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
+@app.route('/updatepanel', methods = ['POST'])
+def updatePanel():
+    global conn
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+    panelSetId = data.get('panelSetId')
+    panelNumber = data.get('panelNumber')
+    panelName = data.get('panelName')
+    dAttribute = data.get('dAttribute')
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' and password != 'null' and panelNumber != -1 and panelSetId != -1:
+            cur.execute("SELECT * FROM users WHERE email = '" + email + "' AND password = '" + password + "' AND (permissions = 'admin');")
+            rows = cur.fetchall()
+            # User has been authenticated as an admin or a designer
+            if len(rows) > 0:
+                cur.execute("SELECT * FROM panels WHERE panelset_id = {} AND panel_number = {};".format(panelSetId, panelNumber))
+                rows = cur.fetchall()
+                # Panel already exists in that location
+                if len(rows) > 0:
+                    cur.execute("UPDATE panels SET panel_name = '{}', d_attribute = '{}' WHERE panelset_id = {} AND panel_number = {};".format(panelName, dAttribute, panelSetId, panelNumber))
+                    conn.commit()
+                    rows = (1,)
+                # Panel doesn't exist yet
+                else:
+                    rows = (-2,)
+            else:
+                rows = (-3,)
+        else:
+            rows = (-1)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
 @app.route('/panels')
 def getPanels():
     global conn
@@ -273,6 +310,42 @@ def addtemplate():
                     rows = (-1,)
             else:
                 rows = (-1,)
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
+# Endpoint to add template categories to existing template
+@app.route('/addtemplatecategories')
+def addTemplateCategories():
+    global conn
+    email = request.args.get('email', default='null', type=str)
+    password = request.args.get('password', default='null', type=str)
+    templateId = request.args.get('templateId', default='null', type=int)
+    templateCategories = request.args.get('templateCategories', default='null', type=str)
+    
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' and password != 'null' and templateId != -1 and templateCategories != 'null':
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions = 'admin' or permissions = 'designer');")
+            rows = cur.fetchall()
+            # User has been authenticated as an admin or a designer
+            if len(rows) > 0:
+                cur.execute("SELECT * FROM templates WHERE id = {}".format(templateId))
+                rows = cur.fetchall()
+                # Panel already exists in that location
+                if len(rows) > 0:
+                    cur.execute("UPDATE templates set category = {} where id = {}".format(templateCategories, templateId))
+                    conn.commit()
+                    row = (1,)
+                # No panel to add string to
+                else:
+                    rows = (-3,)
+            else:
+                rows = (-2,)
         else:
             rows = (-1,)
         # Returning the final result

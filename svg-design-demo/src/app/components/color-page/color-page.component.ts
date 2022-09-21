@@ -109,10 +109,16 @@ export class ColorPageComponent implements OnInit {
     let panelIndex:number = this.currentWindow.findIndex(function(item, i){
       return Number(item.panelNumber) == panelNum
     });
+    (<HTMLInputElement>document.getElementById("dInput")).value = this.currentWindow[panelIndex].d;
+    (<HTMLInputElement>document.getElementById("panelSetIdInput")).value = String(this.panelSetId);
+    (<HTMLInputElement>document.getElementById("nameInput")).value = this.currentWindow[panelIndex].name.split("_")[0];
+    (<HTMLInputElement>document.getElementById("panelNumberInput")).value = String(this.currentWindow[panelIndex].panelNumber);
     this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]] = new SVGTemplate(this.currentWindow[panelIndex].d);
     if(this.currentPanelLocation[1] + 1 >= this.panelDims[0]) {++this.currentPanelLocation[0]; this.currentPanelLocation[1]=0;}
     else {++this.currentPanelLocation[1];}
     document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + this.currentPanelLocation; 
+    
+
   }
 
   updateLayout():void {
@@ -236,6 +242,7 @@ export class ColorPageComponent implements OnInit {
       this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanelautofillstring?email='"+email+"'&password='"+password+ "'&panelAutofillString='" + panelAutofillString + "'&panelSetId=" + panelsetId + "&panelNumber=" + panelNumber).subscribe(result => {
         let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
         alert(test);
+        this.sharedDataService.chosenPanel.panelAutofillString = panelAutofillString;
         // console.log(this.loginForm.value);
         // console.log(this.sharedDataService.userInfo);
        });
@@ -283,6 +290,26 @@ export class ColorPageComponent implements OnInit {
         
       }
     }
+  }
+
+  getPaneAutofillStyle(autofillString:string, paneId:number) {
+    if(autofillString != undefined) {
+      //alert(autofillString);
+      let tmpHex:string = "";
+      let splitAutofillString:string[] = autofillString.split(',');
+      let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.colorsData.filter(function(item) { return item.id == Number(splitAutofillString[paneId]); });
+      if(foundColor.length > 0) {
+        tmpHex = foundColor[0].hex;
+        return "#"+tmpHex;
+      }
+      else {return "none";}
+    }
+    else {return "none";}
+  }
+
+  getPanelPanes(svgD:string):any {
+    let myTemp:SVGTemplate = new SVGTemplate(svgD);
+    return myTemp.subShapes.slice(1, myTemp.subShapes.length);
   }
 
   // Fills template with either templateString or individual panelStrings
@@ -378,6 +405,34 @@ export class ColorPageComponent implements OnInit {
       this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/deletepanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelsetId + "&panelNumber=" + panelNumber).subscribe(result => {
         let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
         alert(test);
+        // console.log(this.loginForm.value);
+        // console.log(this.sharedDataService.userInfo);
+       });
+    }
+  }
+
+  addTemplateCategories():void {
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    const templateId:number = this.sharedDataService.selectedTemplateID;
+    let templateCategories:string = "";
+    let templateCategoriesFormatted:string = "";
+    for(const tempCategory of ["Artist Inspired", "Interests", "Garden", "Classics"]) {
+      if((<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))?.checked) {
+        templateCategories += tempCategory + ";";
+        templateCategoriesFormatted += "\n- " + tempCategory;
+      }
+    }
+    if(templateCategories.length > 0) {templateCategories = templateCategories.substring(0, templateCategories.length-1);} 
+    
+    if (templateCategories != undefined && templateId != -1 && confirm('Are you sure you want to asign this template (' + templateId + ') to the following categories?' + templateCategoriesFormatted)) {
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addtemplatecategories?email='"+email+"'&password='"+password+ "'&templateId=" + templateId + "&templateCategories='" + templateCategories + "'").subscribe(result => {
+        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+        alert(test);
+        let templateIndex:number = this.sharedDataService.templateData.findIndex(function(item, i){
+          return Number(item.id) == templateId
+        });
+        this.sharedDataService.templateData[templateIndex].category = templateCategories;
         // console.log(this.loginForm.value);
         // console.log(this.sharedDataService.userInfo);
        });

@@ -29,6 +29,7 @@ import { ColorPageComponent } from './components/color-page/color-page.component
 import { HttpClientModule } from '@angular/common/http';
 import { CheckoutPageComponent } from './components/checkout-page/checkout-page.component';
 import { AboutPageComponent } from './components/about-page/about-page.component';
+import { GalleryPageComponent } from './components/gallery-page/gallery-page.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { AboutPageComponent } from './components/about-page/about-page.component
     TemplateInfoFormComponent,
     ColorPageComponent,
     CheckoutPageComponent,
-    AboutPageComponent
+    AboutPageComponent,
+    GalleryPageComponent
   ],
   imports: [
     BrowserModule,

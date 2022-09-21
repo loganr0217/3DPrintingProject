@@ -18,6 +18,7 @@
                         <path style="fill:#666666" [attr.transform]="svgTemplate.getTransform()" [attr.d]="svgTemplate.getOptimizedD()"/>
                     </svg>
                 </div>
+                <button *ngIf="isColorPage()" (click)="nextstage4(); createPreview(template); displayFirstTemplate();" [textContent]="template.id"></button>
             </div>
         </div>
     </div>

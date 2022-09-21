@@ -1,0 +1,22 @@
+#galleryPhotosContainer {
+    display: flex;
+    /* flex-direction: column; */
+}
+
+.galleryPhotoContainer {
+    flex: 1;
+    margin: 2vw;
+}
+
+img {
+    width: 10vw;
+    object-fit: contain;
+}
+
+figcaption {
+    text-align: center;
+    margin-top: 2vh;
+    font-size: 1.4vw;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+}

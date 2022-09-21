@@ -3,11 +3,21 @@
         <h1><b>Choose your design</b></h1>
         <p>Browse through our collections of design templates and select the one that’s best for your window.</p>
         <div id="templateCategoryImages">
-            <figure (click)="showTemplates()" class="templateCategoryImageCon" *ngFor="let templateCategory of ['Artist Inspired', 'Garden', 'Interests', 'Classics']">
-            <img class="templateCategoryImage" src="assets/img/editedPhotos/carousel1.jpeg" alt="{{templateCategory}}">
-              <!-- <img id="dividerTypeImage_{{dividerType}}"  src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/> -->
-              <figcaption>{{templateCategory}}</figcaption>
-            </figure>
+            <div>
+                <figure (click)="showTemplates(templateCategory)" class="templateCategoryImageCon" *ngFor="let templateCategory of ['Artist Inspired', 'Garden']">
+                    <img class="templateCategoryImage" src="{{getTemplateCategoryButtonFile(templateCategory)}}" alt="{{templateCategory}}">
+                    <!-- <img id="dividerTypeImage_{{dividerType}}"  src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/> -->
+                    <figcaption>{{templateCategory}}</figcaption>
+                </figure>
+            </div>
+            <div>
+                <figure (click)="showTemplates(templateCategory)" class="templateCategoryImageCon" *ngFor="let templateCategory of ['Interests', 'Classics']">
+                    <img class="templateCategoryImage" src="{{getTemplateCategoryButtonFile(templateCategory)}}" alt="{{templateCategory}}">
+                    <!-- <img id="dividerTypeImage_{{dividerType}}"  src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/> -->
+                    <figcaption>{{templateCategory}}</figcaption>
+                </figure>
+            </div>
+            
         </div>
         <!-- <a class="btn bg-light text-center text-white btn-outline-dark btn-floating m-1" (click)="previousStage()" role="button">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="bi bi-arrow-left" viewBox="0 0 16 16">

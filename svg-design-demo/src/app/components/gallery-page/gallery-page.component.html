@@ -1,0 +1,7 @@
+<div id="galleryPhotosContainer">
+    <figure class="galleryPhotoContainer" *ngFor="let templateCategory of range(7); let i = index">
+        <img class="templateCategoryImage" src="assets/img/galleryPhotos/galleryPhoto{{i}}.jpeg" alt="Gallery Photo {{i}}">
+        <!-- <img id="dividerTypeImage_{{dividerType}}"  src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/> -->
+        <figcaption>Gallery Photo {{i}}</figcaption>
+    </figure>
+</div>

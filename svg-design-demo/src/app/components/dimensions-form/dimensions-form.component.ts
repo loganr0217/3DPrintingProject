@@ -302,7 +302,8 @@ export class DimensionsFormComponent implements OnInit {
     if(this.sharedDataService.templateData == undefined) {return false;}
     for(let i:number = 0; i < this.sharedDataService.templateData.length; ++i) {
       if(this.sharedDataService.panelLayoutDims[0] == this.sharedDataService.templateData[i].panelDims[0]
-        && this.sharedDataService.panelLayoutDims[1] == this.sharedDataService.templateData[i].panelDims[1]) {
+        && this.sharedDataService.panelLayoutDims[1] == this.sharedDataService.templateData[i].panelDims[1] 
+        && this.sharedDataService.templateData[i].category != undefined) {
           availableTemplate = true;
           break;
       }
@@ -314,7 +315,7 @@ export class DimensionsFormComponent implements OnInit {
     this.updateDimensionsButton();
     this.updatePanelLayout();
     let availableTemplate:boolean = this.isAvailableTemplate();
-    if(availableTemplate && this.sharedDataService.panelLayoutDims != [-1, -1] && this.getPanelWidth(this.sharedDataService.windowWidth) != -1 && this.getPanelHeight(this.sharedDataService.windowHeight) != -1) {
+    if(availableTemplate && !(this.sharedDataService.panelLayoutDims[0] == -1 && this.sharedDataService.panelLayoutDims[1] == -1) && this.getPanelWidth(this.sharedDataService.windowWidth) != -1 && this.getPanelHeight(this.sharedDataService.windowHeight) != -1) {
       // console.log(this.sharedDataService.windowWidth + " " + this.sharedDataService.windowHeight);
       document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;");
       $('#dimensionsFormModal').modal('hide');

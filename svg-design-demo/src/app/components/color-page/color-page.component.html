@@ -69,8 +69,9 @@
             </div>
             <div class="panelWindowTemplate">
                 <div class="panelFullWin">
-                    <svg *ngFor="let svgTemplate of currentWindow; let i = index" xmlns="http://www.w3.org/2000/svg" (click)="displayPanel(svgTemplate.d, 0, 0); autofillPanel(svgTemplate.panelAutofillString); choosePanel(svgTemplate.panelNumber)" class="svgTemplatePanelIcons"  [attr.viewBox]=getTemplateViewBox(getOptimizedTemplateD(svgTemplate.d))>
+                    <svg *ngFor="let svgTemplate of currentWindow; let i = index" xmlns="http://www.w3.org/2000/svg" (click)="this.sharedDataService.chosenPanel = svgTemplate; displayPanel(svgTemplate.d, 0, 0); autofillPanel(svgTemplate.panelAutofillString); choosePanel(svgTemplate.panelNumber)" class="svgTemplatePanelIcons"  [attr.viewBox]=getTemplateViewBox(getOptimizedTemplateD(svgTemplate.d))>
                         <path id="svgTemplateLayoutPanel{{i}}" style="fill:#666666;" [attr.d]=getOptimizedTemplateD(svgTemplate.d)/>
+                        <path *ngFor="let pane of getPanelPanes(svgTemplate.d); let paneId = index" [attr.d]="pane.getScalablePath()" id="svgTemplateLayoutPanel{{i}}_pane{{paneId}}" [attr.fill]="getPaneAutofillStyle(svgTemplate.panelAutofillString, paneId)"></path>
                     </svg>
                 </div>
             </div>
@@ -115,7 +116,16 @@
 </div>
 
 <div id="templateSelectionContainer">
-    <app-template-selection-container [flexColumn]="false"></app-template-selection-container>
+    <div id="templateIconsCategoryContainer">
+        <app-template-selection-container [flexColumn]="false"></app-template-selection-container>
+        <div id="templateCategorySliders">
+            <div class="custom-control custom-switch" *ngFor="let templateCategory of ['Artist Inspired', 'Interests', 'Garden', 'Classics']">
+                <input type="checkbox" class="custom-control-input" id="customSwitch_{{templateCategory}}">
+                <label class="custom-control-label" for="customSwitch_{{templateCategory}}">{{templateCategory}}</label>
+            </div>
+            <input type="button" class="btn btn-dark btn-med" (click)="addTemplateCategories()" id="templateCategoryInput"  value="Update Template Categories"/>
+        </div>
+    </div>
     <div *ngIf="!this.onPanels" id="templateAutofillDesigner">
         <div id="templateAutofillDesignWindow">
             <app-design-window></app-design-window>
