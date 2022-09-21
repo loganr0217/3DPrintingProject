@@ -37,14 +37,15 @@ export class DesignWindowComponent implements OnInit {
   }
 
   // Fills selected panel for a pane if autofill string exists
-  autofillPanel(autofillString:string, panelNumber:number = 0, paneId:number):void {
+  autofillPanel(autofillString:string, baseAutofillString:string, panelNumber:number = 0, paneId:number):void {
     if(autofillString != undefined) {
       //alert(autofillString);
       let tmpHex:string = "";
       let splitAutofillString:string[] = autofillString.split(',');
+      let baseSplitAutofillString:string[] = baseAutofillString.split(',');
       for(let i:number = 0; i < splitAutofillString.length; ++i) {
         let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.colorsData.filter(function(item) { return item.id == Number(splitAutofillString[i]); });
-        if(foundColor.length > 0 && Number(splitAutofillString[i]) == Number(splitAutofillString[paneId])) {
+        if(foundColor.length > 0 && Number(splitAutofillString[i]) == Number(baseSplitAutofillString[paneId])) {
           tmpHex = foundColor[0].hex;
           if(this.sharedDataService.currentTemplateNumber == panelNumber) {document.getElementById("pane"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);}
           document.getElementById("windowPane"+panelNumber+"_"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
@@ -66,9 +67,11 @@ export class DesignWindowComponent implements OnInit {
       // Autofill is on
       if((<HTMLInputElement>document.getElementById("customSwitch_autofill"))?.checked) {
         let panelNum:number = 0;
+        let baseAutofillString = "";
         for(let row of this.sharedDataService.panelLayout) {
           for(let svgTemplate of row) {
-            this.autofillPanel(svgTemplate.autofillString, panelNum, paneID);
+            if(panelNum == 0) {baseAutofillString = svgTemplate.autofillString;}
+            this.autofillPanel(svgTemplate.autofillString, baseAutofillString, panelNum, paneID);
             ++panelNum;
           }
         }
