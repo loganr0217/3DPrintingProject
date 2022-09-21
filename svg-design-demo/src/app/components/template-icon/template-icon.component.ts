@@ -246,9 +246,11 @@ export class TemplateIconComponent implements OnInit {
       }
     }
     this.sharedDataService.selectedTemplateID = temp.id;
-    for(const tempCategory of ["Artist Inspired", "Interests", "Garden", "Classics"]) {
-      if(temp.category != undefined && temp.category.includes(tempCategory)) {(<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))!.checked = true;}
-      else {(<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))!.checked = false;}
+    if(this.isColorPage()) {
+      for(const tempCategory of ["Artist Inspired", "Interests", "Garden", "Classics"]) {
+        if(temp.category != undefined && temp.category.includes(tempCategory)) {(<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))!.checked = true;}
+        else {(<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))!.checked = false;}
+      }
     }
   }
 
@@ -314,8 +316,11 @@ export class TemplateIconComponent implements OnInit {
 
   isTemplateOkay(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):boolean {
     let isOkay:boolean = true;
-    if(temp.category != undefined && temp.category.includes(this.sharedDataService.selectedTemplateCategory)) {isOkay = true;}
-    else {isOkay = false; return false;}
+    if(!this.isColorPage()) {
+      if(temp.category != undefined && temp.category.includes(this.sharedDataService.selectedTemplateCategory)) {isOkay = true;}
+      else {isOkay = false; return false;}
+    }
+    
     // Splitting the tempString info into a 2d array of panel info
     let tempString:string[] = temp.tempString.split(';');
     //console.log(temp.panelDims);
