@@ -26,9 +26,35 @@ export class DesignWindowComponent implements OnInit {
     this.recentChanges = [];
   }
 
+  // Checking whether it is the color page (TDI)
+  isColorPage():boolean {
+    return document.URL.includes("windowCreation");
+  }
+
   // Returns 0 to n-1 (mainly used for iterating svg path items)
   range(n:number=this.sharedDataService.maxPanes):number[] {
     return [...Array(n).keys()];
+  }
+
+  // Fills selected panel for a pane if autofill string exists
+  autofillPanel(autofillString:string, panelNumber:number = 0, paneId:number):void {
+    if(autofillString != undefined) {
+      //alert(autofillString);
+      let tmpHex:string = "";
+      let splitAutofillString:string[] = autofillString.split(',');
+      for(let i:number = 0; i < splitAutofillString.length; ++i) {
+        let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.colorsData.filter(function(item) { return item.id == Number(splitAutofillString[i]); });
+        if(foundColor.length > 0 && Number(splitAutofillString[i]) == Number(splitAutofillString[paneId])) {
+          tmpHex = foundColor[0].hex;
+          if(this.sharedDataService.currentTemplateNumber == panelNumber) {document.getElementById("pane"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);}
+          document.getElementById("windowPane"+panelNumber+"_"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
+          document.getElementById("windowPaneFinished"+panelNumber+"_"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
+          this.sharedDataService.panelColoringArray[panelNumber][i] = tmpHex;
+        }
+        //else {tmpHex = foundColor[0].hex;}
+        
+      }
+    }
   }
   
   // Updates the color of the pane selected by the user (also updated the window preview)
@@ -37,10 +63,23 @@ export class DesignWindowComponent implements OnInit {
     if(this.recentChanges.length < this.undoQueueSize) {this.recentChanges.push([String(this.sharedDataService.currentTemplateNumber), String(paneID), previousStyle]);}
     else {this.recentChanges.shift(); this.recentChanges.push([String(this.sharedDataService.currentTemplateNumber), String(paneID), previousStyle]);}
     if(this.sharedDataService.currentPaneColor != "") {
-      document.getElementById("pane"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
-      document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
-      document.getElementById("windowPaneFinished"+this.sharedDataService.currentTemplateNumber+"_"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
-      this.sharedDataService.panelColoringArray[this.sharedDataService.currentTemplateNumber][paneID] = this.sharedDataService.currentPaneColor;
+      // Autofill is on
+      if((<HTMLInputElement>document.getElementById("customSwitch_autofill"))?.checked) {
+        let panelNum:number = 0;
+        for(let row of this.sharedDataService.panelLayout) {
+          for(let svgTemplate of row) {
+            this.autofillPanel(svgTemplate.autofillString, panelNum, paneID);
+            ++panelNum;
+          }
+        }
+      }
+      // Autofill is off
+      else {
+        document.getElementById("pane"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
+        document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
+        document.getElementById("windowPaneFinished"+this.sharedDataService.currentTemplateNumber+"_"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
+        this.sharedDataService.panelColoringArray[this.sharedDataService.currentTemplateNumber][paneID] = this.sharedDataService.currentPaneColor;
+      }
     }
     this.sharedDataService.currentPaneID = "pane"+paneID;
   }

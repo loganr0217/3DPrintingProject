@@ -14,7 +14,7 @@ export class TemplateIconComponent implements OnInit {
   @Input() flexColumn:boolean = true;
   // Array containing the svgPath data for displaying icons / generating a template
   svgTemplateData:{id:number, name:string, d:string}[][];
-  templateData:{id:number, numPanels:number, panelDims:number[], tempString:string}[];
+  templateData:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}[];
 
   constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
 
@@ -187,7 +187,7 @@ export class TemplateIconComponent implements OnInit {
       if(tmp.length >= 1) {
         // console.log(templateData);
         for(let i:number = 0; i < tmp.length; ++i) {
-          let currentTmp:{id:number, numPanels:number, panelDims:number[], tempString:string} = {id:tmp[i][0], numPanels:tmp[i][1]*tmp[i][2], panelDims:[tmp[i][1], tmp[i][2]], tempString:tmp[i][3]};
+          let currentTmp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string} = {id:tmp[i][0], numPanels:tmp[i][1]*tmp[i][2], panelDims:[tmp[i][1], tmp[i][2]], tempString:tmp[i][3], category:tmp[i][5]};
           this.templateData.push(currentTmp);
         }
       }
@@ -203,7 +203,7 @@ export class TemplateIconComponent implements OnInit {
   }
 
   
-  getPanelLayout(temp:{id:number, numPanels:number, panelDims:number[], tempString:string}):SVGTemplate[][] {
+  getPanelLayout(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):SVGTemplate[][] {
     // Creating panel layout array
     let panelLayout:SVGTemplate[][] = [];
     for(let row:number = 0; row < temp.panelDims[1]; ++row) {panelLayout.push([]);}
@@ -234,8 +234,9 @@ export class TemplateIconComponent implements OnInit {
   }
 
   // Creates the window previews
-  createPreview(temp:{id:number, numPanels:number, panelDims:number[], tempString:string}):void {
+  createPreview(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):void {
     this.sharedDataService.panelLayout = this.getPanelLayout(temp);
+    console.log(this.sharedDataService.panelLayout);
     this.sharedDataService.panelLayoutDims = [this.sharedDataService.panelLayout[0].length, this.sharedDataService.panelLayout.length];
     this.sharedDataService.panelColoringArray = [];
     for(let i:number = 0; i < temp.numPanels; ++i) {
@@ -245,6 +246,10 @@ export class TemplateIconComponent implements OnInit {
       }
     }
     this.sharedDataService.selectedTemplateID = temp.id;
+    for(const tempCategory of ["Artist Inspired", "Interests", "Garden", "Classics"]) {
+      if(temp.category != undefined && temp.category.includes(tempCategory)) {(<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))!.checked = true;}
+      else {(<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))!.checked = false;}
+    }
   }
 
   getPanelWidth(top:boolean = true):number {
@@ -307,9 +312,10 @@ export class TemplateIconComponent implements OnInit {
     return Number(svgTemp.getScaledD( ( this.isRowInTopSash(rowNum) ? this.getPanelWidth() : this.getPanelWidth(false) )/300 , ( this.isRowInTopSash(rowNum) ? this.getPanelHeight() : this.getPanelHeight(false) )/300 )[2]);
   }
 
-  isTemplateOkay(temp:{id:number, numPanels:number, panelDims:number[], tempString:string}):boolean {
+  isTemplateOkay(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):boolean {
     let isOkay:boolean = true;
-    
+    if(temp.category != undefined && temp.category.includes(this.sharedDataService.selectedTemplateCategory)) {isOkay = true;}
+    else {isOkay = false; return false;}
     // Splitting the tempString info into a 2d array of panel info
     let tempString:string[] = temp.tempString.split(';');
     //console.log(temp.panelDims);
@@ -326,6 +332,8 @@ export class TemplateIconComponent implements OnInit {
         return Number(item.panelNumber) == Number(panelInfoArray[panelID][1]);
       });
       
+      if(this.sharedDataService.svgTemplateData[Number(panelInfoArray[panelID][0])][panelIndex] == undefined) {isOkay = false; break;}
+      // console.log(this.sharedDataService.svgTemplateData[Number(panelInfoArray[panelID][0])][panelIndex].d);
       let myTemplate:SVGTemplate = new SVGTemplate(this.sharedDataService.svgTemplateData[Number(panelInfoArray[panelID][0])][panelIndex].d);
       myTemplate.numberRotations = Number(panelInfoArray[panelID][2]);
       myTemplate.flipped = Number(panelInfoArray[panelID][3]) == 1 ? true : false;
@@ -337,5 +345,10 @@ export class TemplateIconComponent implements OnInit {
     }
     //console.log(panelLayout);
     return isOkay;
+  }
+
+  // Checking whether it is the color page (TDI)
+  isColorPage():boolean {
+    return document.URL.includes("windowCreation");
   }
 }

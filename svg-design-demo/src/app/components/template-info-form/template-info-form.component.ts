@@ -113,14 +113,14 @@ export class TemplateInfoFormComponent implements OnInit {
         'password':this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "",
         'panelSetId':Number((<HTMLInputElement>document.getElementById("panelSetIdInput"))?.value),
         'panelNumber':Number((<HTMLInputElement>document.getElementById("panelNumberInput"))?.value),
-        'panelName':(<HTMLInputElement>document.getElementById("nameInput"))?.value,
+        'panelName':(<HTMLInputElement>document.getElementById("nameInput"))?.value+"_"+Number((<HTMLInputElement>document.getElementById("panelNumberInput"))?.value),
         'dAttribute':(<HTMLInputElement>document.getElementById("dInput"))?.value
       });
     const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
     const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
     const panelSetId:number = Number((<HTMLInputElement>document.getElementById("panelSetIdInput"))?.value);
     const panelNumber:number = Number((<HTMLInputElement>document.getElementById("panelNumberInput"))?.value);
-    const panelName:string = (<HTMLInputElement>document.getElementById("nameInput"))?.value;
+    const panelName:string = (<HTMLInputElement>document.getElementById("nameInput"))?.value + "_" + panelNumber;
     const dAttribute:string = (<HTMLInputElement>document.getElementById("dInput"))?.value;
 
     if (confirm('Are you sure you want to add this panel?')) {
@@ -133,11 +133,62 @@ export class TemplateInfoFormComponent implements OnInit {
        this.http.post("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel", body, {'headers':headers}).subscribe(result => {
         let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
          alert(test);
+         let newPanel:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string} = {
+          id:Number((<HTMLInputElement>document.getElementById("panelSetIdInput"))?.value),
+          name:(<HTMLInputElement>document.getElementById("nameInput"))?.value+"_"+Number((<HTMLInputElement>document.getElementById("panelNumberInput"))?.value),
+          panelNumber:Number((<HTMLInputElement>document.getElementById("panelNumberInput"))?.value),
+          d:(<HTMLInputElement>document.getElementById("dInput"))?.value,
+          panelAutofillString:""
+        }
        });;
     }
     
 
   }
+
+  updatePanel():void {
+    const headers = { 'content-type': 'application/json'}  
+    const body=JSON.stringify(
+      {
+        'email':this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "",
+        'password':this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "",
+        'panelSetId':this.sharedDataService.currentWindowNumber,
+        'panelNumber':this.sharedDataService.chosenPanel.panelNumber,
+        'panelName':(<HTMLInputElement>document.getElementById("nameInput"))?.value+"_"+this.sharedDataService.chosenPanel.panelNumber,
+        'dAttribute':(<HTMLInputElement>document.getElementById("dInput"))?.value
+      });
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    const panelSetId:number = this.sharedDataService.currentWindowNumber;
+    const panelNumber:number = this.sharedDataService.chosenPanel.panelNumber;
+    const panelName:string = (<HTMLInputElement>document.getElementById("nameInput"))?.value+"_"+Number((<HTMLInputElement>document.getElementById("panelNumberInput"))?.value);
+    const dAttribute:string = (<HTMLInputElement>document.getElementById("dInput"))?.value;
+
+    let confirmText:string = "Previous:\n- Panelset Id: " + panelSetId + "\n- Panel Number: " + panelNumber + 
+    "\n- Panel Name: " + this.sharedDataService.chosenPanel.name + "\n" +
+    "New:\n- Panelset Id: " + panelSetId + "\n- Panel Number: " + panelNumber + 
+    "\n- Panel Name: " + (<HTMLInputElement>document.getElementById("nameInput"))?.value+"_"+this.sharedDataService.chosenPanel.panelNumber + "\n";
+    if (confirm('Are you sure you want to update this panel?\n' + confirmText)) {
+      // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelSetId + "&panelNumber=" + panelNumber + "&panelName='" + panelName + "'&dAttribute='" + dAttribute + "'").subscribe(result => {
+      //   let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+      //   alert(test);
+      //   // console.log(this.loginForm.value);
+      //   // console.log(this.sharedDataService.userInfo);
+      //  });
+       this.http.post("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatepanel", body, {'headers':headers}).subscribe(result => {
+        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+         alert(test);
+         this.sharedDataService.chosenPanel.name = (<HTMLInputElement>document.getElementById("nameInput"))?.value+"_"+this.sharedDataService.chosenPanel.panelNumber;
+         this.sharedDataService.chosenPanel.d = (<HTMLInputElement>document.getElementById("dInput"))?.value;
+       });;
+    }
+
+    
+    
+
+  }
+
+
 
   // createWindow():void {
   //   document.getElementById("addInput")?.setAttribute("disabled", "true");

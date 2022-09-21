@@ -157,3 +157,11 @@ p {
     margin-left: auto;
     margin-right: auto;
 }
+
+#templateIconsCategoryContainer {
+    display: flex;
+}
+
+#templateCategorySliders {
+    margin-left:2vw;
+}

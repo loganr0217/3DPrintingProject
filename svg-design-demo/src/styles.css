@@ -13,3 +13,21 @@ p {
     font-weight: 300;
     font-size: 1.4vw;
 }
+
+@media (max-width: 575.98px) {
+    .HideOnMobile {
+        display: none;
+    }
+    .ShowOnMobile {
+        display: initial;
+    }
+}
+
+@media (min-width: 576px) {
+    .HideOnMobile {
+        display: initial;
+    }
+    .ShowOnMobile {
+        display: none;
+    }
+}

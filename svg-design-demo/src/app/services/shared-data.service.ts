@@ -34,6 +34,8 @@ export class SharedDataService {
   userInfo:any;
   selectedTemplateID:number = -1;
   signedIn:boolean;
+  selectedTemplateCategory:string;
+  chosenPanel:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string};
 
   // Array holding all window shapes offered
   windowShapes:string[] = [
@@ -94,7 +96,7 @@ export class SharedDataService {
 
   // Array that holds each panel's color makeup
   panelColoringArray:string[][] = [];
-  templateData:{id:number, numPanels:number, panelDims:number[], tempString:string}[];
+  templateData:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}[];
   // Array containing the svgPath data for displaying icons / generating a template
   svgTemplateData:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string}[][];
   //   // FLW02
