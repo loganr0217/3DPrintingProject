@@ -126,10 +126,16 @@ export class ColorPageComponent implements OnInit {
     let leftRight:number = Number((<HTMLInputElement>document.getElementById("leftRightInput")).value)
     let topBottom:number = Number((<HTMLInputElement>document.getElementById("topBottomInput")).value)
     if(leftRight != null && topBottom != null && leftRight > 0 && topBottom > 0) {
-      this.panelLayout = [];
-      for(let i:number = 0; i < topBottom; ++i) {
-        this.panelLayout.push([]);
+      if(this.sharedDataService.panelLayoutDims[0] > leftRight || this.sharedDataService.panelLayoutDims[1] > topBottom) {
+        this.panelLayout = [];
+        for(let i:number = 0; i < topBottom; ++i) {
+          this.panelLayout.push([]);
+        }
       }
+      else {
+        while(this.panelLayout.length < topBottom) {this.panelLayout.push([]);}
+      }
+      
       document.getElementById("currentLayoutText")!.textContent = "Current Layout: " + leftRight + "x" + topBottom; 
       this.currentPanelLocation = [0, 0];
       document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + this.currentPanelLocation; 
@@ -159,6 +165,7 @@ export class ColorPageComponent implements OnInit {
     this.panelSetId = -1;
     this.panelNumber = -1;
     this.onPanels = true;
+    this.panelLayout = [];
   }
 
   showTemplateString():void {
@@ -177,6 +184,10 @@ export class ColorPageComponent implements OnInit {
     // Increasing the current location by 1
     if(this.currentPanelLocation[1] + 1 >= this.panelDims[0]) {++this.currentPanelLocation[0]; this.currentPanelLocation[1]=0;}
     else {++this.currentPanelLocation[1];}
+  }
+
+  updateCurrentLocationText():void {
+    document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + this.currentPanelLocation; 
   }
 
   // Method to rotate the last placed panel 90 degrees
