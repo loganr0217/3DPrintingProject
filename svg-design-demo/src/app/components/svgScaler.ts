@@ -708,6 +708,8 @@ export class SVGTemplate {
     xMax:number;
     yMin:number;
     yMax:number;
+    panelsetId:number;
+    panelNumber:number;
     numberRotations:number;
     flipped:boolean;
 
