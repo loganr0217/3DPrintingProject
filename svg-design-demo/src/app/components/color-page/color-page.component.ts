@@ -113,7 +113,11 @@ export class ColorPageComponent implements OnInit {
     (<HTMLInputElement>document.getElementById("panelSetIdInput")).value = String(this.panelSetId);
     (<HTMLInputElement>document.getElementById("nameInput")).value = this.currentWindow[panelIndex].name.split("_")[0];
     (<HTMLInputElement>document.getElementById("panelNumberInput")).value = String(this.currentWindow[panelIndex].panelNumber);
-    this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]] = new SVGTemplate(this.currentWindow[panelIndex].d);
+    let tmp:SVGTemplate = new SVGTemplate(this.currentWindow[panelIndex].d);
+    tmp.panelsetId = this.panelSetId;
+    tmp.panelNumber = this.currentWindow[panelIndex].panelNumber;
+    this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]] = tmp;
+    
     if(this.currentPanelLocation[1] + 1 >= this.panelDims[0]) {++this.currentPanelLocation[0]; this.currentPanelLocation[1]=0;}
     else {++this.currentPanelLocation[1];}
     document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + this.currentPanelLocation; 
@@ -122,10 +126,10 @@ export class ColorPageComponent implements OnInit {
   }
 
   updateLayout():void {
-    this.templateString = "";
     let leftRight:number = Number((<HTMLInputElement>document.getElementById("leftRightInput")).value)
     let topBottom:number = Number((<HTMLInputElement>document.getElementById("topBottomInput")).value)
     if(leftRight != null && topBottom != null && leftRight > 0 && topBottom > 0) {
+      this.templateString = "";
       if(this.sharedDataService.panelLayoutDims[0] > leftRight || this.sharedDataService.panelLayoutDims[1] > topBottom) {
         this.panelLayout = [];
         for(let i:number = 0; i < topBottom; ++i) {
@@ -339,7 +343,19 @@ export class ColorPageComponent implements OnInit {
     const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
     const numberPanelsX:number = this.panelDims[0];
     const numberPanelsY:number = this.panelDims[1];
-    const templateString:string = this.templateString.substring(0, this.templateString.length-1);
+    let templateString:string = "";
+    let panelString:string = "";
+    for(let i:number = 0; i < this.sharedDataService.panelLayoutDims[0]*this.sharedDataService.panelLayoutDims[1]; ++i) {
+      let row = Math.floor(i / this.sharedDataService.panelLayoutDims[0]);
+      let col = i % this.sharedDataService.panelLayoutDims[0];
+      panelString = (this.panelLayout[row][col].panelsetId + "," + this.panelLayout[row][col].panelNumber
+        + "," + this.panelLayout[row][col].numberRotations % 4 + "," + (this.panelLayout[row][col].flipped == true ? 1 : 0));
+      templateString += panelString;
+      if(row != this.sharedDataService.panelLayoutDims[1]-1 || col != this.sharedDataService.panelLayoutDims[0]-1) {
+        templateString += ";";
+      }
+    }
+    //const templateString:string = this.templateString.substring(0, this.templateString.length-1);
     if (confirm('Are you sure you want to add this template?')) {
       this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addtemplate?email='"+email+"'&password='"+password+"'&numberPanelsX=" + numberPanelsX + "&numberPanelsY=" + numberPanelsY + "&templateString='" + templateString + "'&access='public'").subscribe(result => {
         let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
