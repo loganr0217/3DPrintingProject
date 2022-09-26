@@ -374,7 +374,7 @@ export class ColorPageComponent implements OnInit {
     const templateId:number = this.sharedDataService.selectedTemplateID;
 
     if (templateId != undefined && templateId != -1 && confirm('Are you sure you want to delete template ' + templateId + '?')) {
-      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/deletetemplate?email='"+email+"'&password='"+password+ "'&templateId=" + templateId + "'").subscribe(result => {
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/deletetemplate?email='"+email+"'&password='"+password+ "'&templateId=" + templateId).subscribe(result => {
         let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
         alert(test);
         let templateIndex:number = this.sharedDataService.templateData.findIndex(function(item, i){
