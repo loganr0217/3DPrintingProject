@@ -1,0 +1,14 @@
+#tutorialsPageContainer {
+    padding-top: 5vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
+}
+
+.btn {
+    margin-right: 2vw;
+    margin-bottom: 5vh;
+}
+
+#tdiInfo, #measurementInfo, #installationInfo {
+    padding-top: 80px;
+}

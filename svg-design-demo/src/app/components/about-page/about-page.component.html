@@ -1,101 +1,290 @@
 <div id="aboutPageContainer">
-    <h1 id="aboutTitle">About</h1>
-    <a href="javascript:void(0)" (click)="goReleaseNotes()" class="btn btn-dark">Release Notes</a>
-    <a href="javascript:void(0)" (click)="goMeasurementInfo()" class="btn btn-dark">Measurement Tutorial</a>
-    <a href="javascript:void(0)" (click)="goInstallationInfo()" class="btn btn-dark">Installation Instructions</a>
-    <a href="https://www.kickstarter.com/projects/38351242/582738137?ref=svhya6&token=12628802" target="_blank" class="btn btn-dark">Kickstarter</a>
-    <h1 id="releaseNotes">Release Notes</h1>
+    <h1 id="aboutTitle">Overview</h1>
     <p>
-        Thank you for agreeing to be among the first to test out our new website, LightScreen.art! Although we’ve made a lot of progress over the past year, we have lots more to do as we move towards our planned September launch on Kickstarter. Your feedback on our website and our product will help us to make our best possible offering.
-
-        Lightscreens give people the look and the privacy of custom stained glass at a fraction of the cost. Users design their lightscreen to their dimensions and colors on our website from our growing collection of templates. We bring the user’s design to life with laser cut colored acrylic sheets embedded in 3D printed frames. The below is intended to provide a description of the design process, tell you what’s working and what’s yet to be fixed or added. When you’ve completed your design, we’ll ask you to answer a brief survey to help us improve the design experience. When you receive your completed lightscreen, we’ll ask you to install it and take a few pictures for our marketing efforts. We’ll ask you to complete another brief survey to help us improve our product. For all that, you get to keep your lightscreen with our compliments and our sincere gratitude.
-
-        Lightscreen design on LightScreen.art is a seven part process. Here’s what we think you should know going in:
-    </p>
-
-    <h3>Signup</h3>
-    <p>
-        We ask you to signup to LIghtScreen.art and remain logged in when working on your lightscreen so we’ll be able to reach you at the email address that you provide. We'll ask for your feedback on this process. Was it easy? Do you feel as though it’s safe and secure? How can we make it better?
+        Creating your custom lightscreen with LightScreen.art is a fun and easy process completed in just a 
+        few steps. In this overview, we'll outline the steps providing detail and background to help you make 
+        your absolute best lightscreen.
     </p>
     <h3>Step One</h3>
     <p>
-        This introductory step is very brief. The text is intended to provide the user with enough information to convince them to start the actual design process. There’s an embedded slide show with pictures of the lightscreens we’ve produced and installed thus far. We really want to know if the text does its job— if it convinces the user to click the start button. The slide show is functional but our collection of pictures is far from complete and not as compelling as it needs to be. Pictures of your installed lightscreen will help us to make the images more compelling than they are now.
+        After clicking on the “Let's Start” button on our introductory page, we'll ask you a couple of quick 
+        questions about the window you plan to cover with your custom lightscreen. We need to know what type 
+        of window you plan to cover because lightscreens are constructed from multiple panels and we size 
+        those panels depending upon type to result in a lightscreen that completely covers the window glass.
     </p>
+    <p>First, we'll ask you about window dividers. In this case, windows come in three main types:</p>
+    <p>
+        <b>No Dividers:</b> Those that are a single glass pane with nothing but glass between the sides of 
+        the window frame.
+    </p>
+    <p>
+        <b>Raised Dividers:</b> Those that have panes of glass that are physically separated by thin 
+        strips (usually wood). These windows are divided into multiple square or rectangular panes. 
+        Windows of this type are usually older or designed to look traditional. Until the 20th century 
+        making large plates of glass was difficult and expensive so most windows used dividers to make 
+        multiple small panes into a single large window.
+    </p>
+    <p>
+        <b>Embedded Dividers:</b> Those that have a single glass pane between the sides of the window frame 
+        but have dividers embedded between the two glass sheets in a double pane window. This type of window 
+        was a way of making a modern window look more traditional at a lesser cost than raised dividers. 
+        They were popular in the last half of the 20th century and less so today.
+    </p>
+    <p>
+        When there are no dividers, we size the panels based upon the window dimensions themselves and the 
+        dimensions of our 3D printers that build the lightscreen frame. Our algorithm is designed to cover 
+        your window with the fewest number of panels possible.
+    </p>
+    <p>
+        When there are raised dividers, we consider your window to be a number of relatively small panels, 
+        each covering the panes between the dividers. In this case, it's the dimensions of these panes, not 
+        the dimensions of the entire window that determine how we size panels to result in a complete 
+        lightscreen.
+    </p>
+    <p>
+        Finally, when there are embedded dividers we again consider the window to be a collection of panes 
+        but instead of having the lightscreen panels reside between the dividers, we size them such that the 
+        panels meet over the embedded dividers so that the two adjoining panel frames cover the embedded 
+        divider below. So whatever type of window you have, no dividers, raised dividers or embedded 
+        dividers, your lightscreen will both cover the glass and look great.
+    </p>
+    <p>
+        <i><b>Pro Tip:</b> Note that if your window has no dividers, we will select the number of panels 
+            required to cover your window, always going with the fewest number of panels possible. If you 
+            would prefer to set the panelization yourself, that may be achieved through a workaround: 
+            Although the window has no dividers, instead select the embedded divider option. Then select 
+            a number of dividers one less than your desired number of panels for that row or column, set 
+            the divider width to 0.0625 inches (1 mm) and then decrease the overall size of the window sides 
+            by the number of dividers on that side multiplied by the divider width. For example, if your 
+            window is 18 inches (457 mm) wide by 36 inches (914 mm) high, we will panelize it into one panel 
+            across and two  panels down, each measuring 18 inches wide by 18 inches  high. If you would 
+            prefer to have two panels across and four panels down, indicate one vertical divider and three 
+            horizontal dividers, 0.0625 inch (1 mm) divider width and decrease the overall window size to 
+            be 17.938 (456 mm) wide by 35.8125 inches (911 mm) high. Note that panels may be no smaller than 
+            4 inches (100 mm) and no larger than 19 inches (480 mm) on any side.
+        </i>
+    </p>
+    <p>
+        After you select your window type by clicking one of the three window buttons, two types of windows 
+        will be displayed: Casement and Double Hung.
+    </p>
+    <p>
+        A casement window is a single window with a single window frame. Sometimes they don't open at all 
+        and in the cases where they do, it's usually done by turning a crank at the bottom of the window.
+    </p>
+    <p>
+        Double hung windows consist of two separate window frames that are opened by pulling the lower 
+        window (the lower sash) up to be in front of the upper sash. Double hung windows often have a two 
+        piece lock or locks on top of the lower sash frame and the bottom of the top sash frame. This lock 
+        complicates the design and installation of your lightscreen.
+    </p>
+    <p><i>If your double hung window has a lock, you have a few options:</i></p>
+    <p>
+        <i><b>Remove the lock:</b> If your window is in an area where you have no concerns about it being 
+            opened (from the inside or the outside) you can simply remove the lock. If you don't plan to 
+            open the window often, you can secure the window closed by means other than the lock such as 
+            screws or other fasteners.
+        </i>
+    </p>
+    <p>
+        <i><b>Work around the lock:</b> Our lightscreens are 3/8 inch (10 mm) thick. If the back portion of 
+            the lock on the bottom of the top sash frame is more than 3/8 inch from the window glass, the 
+            lightscreen will fit behind the lock.
+        </i>
+    </p>
+    <p>
+        <i><b>Contact LightScreen.art:</b> If neither of those options are viable, contact us at 
+            <a href="mailto: info@lightscreen.art">info@lightscreen.art</a> and we'll do what we can to find a solution that works for you. We plan to 
+            enhance our web application to accommodate locks on double hung windows in the future.
+        </i>
+    </p>
+    <p>
+        When you click on either the Casement or the Double Hung window, you'll be advanced to the next step. 
+        Note that if you'd like to go back to a previous step, click the back button displayed on each step of 
+        our website and not the back button on your browser. Clicking the back button on your browser will 
+        return you not to an earlier step in the process but rather a previously visited web page.
+    </p>
+    <br/>
+    <br/>
+    <br/>
     <h3>Step Two</h3>
     <p>
-        This step asks two questions necessary for us to start the design process. This step is fully functional but we believe that improvements can be made to its look and feel. Your feedback on the usability of this page will be really helpful as we move towards our launch.
-    </p>
-    <h3>Step Three</h3>
-    <p>
-        This step is probably the hardest part of the whole process because it requires the user to provide us with detailed and accurate measurements of the window they intend to cover. We believe that this step provides the greatest risk to us both in terms of losing a customer and delivering a product that doesn’t fit their window. To that end, we’ve worked to make this as easy as possible and have provided a brief tutorial on how to accurately measure a window. This step is nearly complete, the last major thing we need to implement is a means of accommodating double hung windows that have a lock or locks on the top of the bottom sash— they get in the way of the lightscreen affixed to the window pane in the upper sash. If your window has a lock that may obstruct the installation of your lightscreen, please reach out so we can get measurements to manually account for this. Your feedback on the step and the accompanying tutorial will be really helpful.
-    </p>
-    <h3>Step Four</h3>
-    <p>
-        In this step the user is to select a template from which to design their custom lightscreen. There’s still a fair bit of work to be done on this step both in terms of functionality and content. Today, when the user clicks any of the three collection buttons, a gallery appears that contains all the templates that fit their window shape regardless of the template collection they selected. As we move towards launch, we’ll implement a feature that will filter fitting templates to the collection that the user selected. The buttons, which are today identical, will be replaced with buttons that have on them a picture that represents the genre. Right now, our content is very limited. Our templates are made from panels so, for instance, if the user has a window like a transom that’s three feet long and one foot high, the template would be built from four related panels each of which is one foot square. We call these related panels a panel group. At present, we have only around twenty panel groups, none of which were designed by actual professional artists. As we move towards launch, we plan to at least double the number of panel groups and have them designed by professionals. Your feedback on the functionality of this step and the quality of the designs will be really helpful. Your feedback on what sorts of other genres we should support with panel groups will be just as helpful.
-    </p>
-    <h3>Step Five</h3>
-    <p>
-        This step is the heart of the whole process and is intended to be the most fun for the user. In this step, the user is to color in the panes of their design by selecting from our color palette. The experience is intended to be a lot like a coloring book or a paint by numbers kit. Right now we’re at the coloring book stage: the user must individually color in every pane in their design. A single design can easily have dozens of panes making the process sometimes a little tedious— all those panes can be kind of a pain. To address this, we plan to implement an autofill feature such that when a user colors in a single pane, all other similar panes in the design are automatically made that same color. Our designers will decide which panes are similar making it a lot like a paint by numbers set. When using autofill, the user will still have the option to color in panes individually. The color palette corresponds to the colors of acrylic sheets we have available and is likely to change as we move towards launch. We’ll have lots of questions on this step: Was it fun? Was it intuitive? Are we missing any colors? What would make it better?
-    </p>
-    <h3>Step Six</h3>
-    <p>
-        This is the confirmation step similar to a shopping cart on an e-commerce site. We display the user’s complete custom lightscreen with their dimensions and their color selection so they can double check their design. Even more, the intent of this step is to cause the user to love their design to the point that they’ll pay money to see it in real life on their chosen window.
-    </p>
-    <h3>Step Seven</h3>
-    <p>
-        This is the checkout step. Today, we only support a coupon code and don’t support credit cards. The coupon code for this phase of our testing is “lightscreen.art-beta” (don’t type the quotes). Like the sign up step, we'll ask for your feedback on this process, was it easy? Do you feel as though it’s safe and secure? How can we make it better?
+        In this step, we'll ask you for details on the size of your window. First, we'll ask for your 
+        preferred unit of measure— we support both inches and millimeters. Note that currently we do not 
+        support fractional inches meaning that in the likely event that your measurements are not in whole 
+        inches, you'll need to enter decimal inches. For example, if your measurement is 12 3/8 inches, it 
+        must be entered as 12.375 inches. A conversion table may be found 
+        <a href="https://www.engineeringtoolbox.com/inches-decimal-equivalents-d_471.html" target="_blank">here</a>. 
+        If you have no preference, millimeters is the best option as the internal workings of our site are 
+        based on that unit of measure. From there, the details we require are dependent upon your selections 
+        in the previous step. Specifically:
     </p>
     <p>
-        Again, your lightscreen is yours to keep, it’s our way of saying thanks for your effort and your feedback. We’ll do all we can to get your lightscreen produced and delivered quickly but may be delayed— our inventory of acrylic sheets is very limited as is our number of 3D printers— it’s more of a printer garden than a printer farm. There’ll be more questions from us when you receive your lightscreen mostly centered on “Would you put this in your home?” and “If so, what would you pay for it?” If, after all this feedback, we think we have a viable commercial offering, we’ll take the huge step of launching on Kickstarter. You’re an indispensable part of this process and we appreciate your help!
+        <b>Casement windows with no dividers:</b> We need only the width and height of the window glass from 
+        the inner side of one frame to the inner side of the opposite frame.
     </p>
-    <a href="https://forms.gle/DCbVRdSJ5p4WVhdcA" target="_blank"><p>Link to Survey</p></a>
-
-
-    <h1 id="measurementInfo">Measurement Tutorial</h1>
-    <h3>Here are some tricks to ensure accurate measurements for your Lightscreen!</h3>
+    <p>
+        <b>Casement windows with raised or embedded dividers:</b> We need the width and height of the 
+        complete window glass, i.e. from one frame side of the other including the dividers. To work out 
+        the correct panelization for your lightscreen, we'll need a few other data points:
+    </p>
     <ul>
         <li><p>
-            Measurements taken should refer to the actual glass of your window (the part to be covered) and should not include any part of the frame, sill, or encasement
+            The number of horizontal dividers, i.e. the number of dividers that go from the left side of 
+            the window to the right side.
         </p></li>
         <li><p>
-            Windows with dividers should be measured as one total window - just make sure to get an accurate divider width
+            The number of vertical dividers, i.e. the number of dividers that go from the top of the window 
+            to the bottom.
         </p></li>
         <li><p>
-            From your window dimensions, the number of dividers and the divider width, we’ll compute the dimensions of each panel to fit inside of the dividers. The computed panel dimensions will be displayed at the confirmation step, we suggest that you check our panel dimensions against your actual measurements of the glass between your dividers.
-        </p></li>
-        <li><p>
-            Using a flexible measuring tape can help get a more precise measurement. If you have a stiff tape measurer, you can get the most accurate measurement by bending the tape at a 90 degree angle and getting as close to the edge of the glass as possible.
-        </p></li>
-        <li><p>
-            If your measurements are more precise than a sixteenth of an inch or whole millimeters, round down. Decimals are welcome if you’ve chosen to measure in inches!
-        </p></li>
-        <li><p>
-            For double hung windows, take measurements for each sash separately
+            The width of the dividers, i.e. the distance between one edge of the divider to the other edge. 
+            For raised dividers, measure at the bottom closest to the window glass.
         </p></li>
     </ul>
-    <h1 id="installationInfo">Installation Instructions</h1>
-    <h3>Installing your lightscreen is easier than most other window coverings - no need for permanent holes or messy water.</h3>
-    <ol>
-        <li><p>
-            Begin by unpacking all of your panels and laying them out in the order you designed. 
-        </p></li>
-        <li><p>
-            Use this time to make sure everything looks right.
-        </p></li>
-        <li><p>
-            Starting with one of the lower corners of your lightscreen, remove the tape backing and line up your panel with the corresponding corner of your window. Take your time and ensure this panel is level and flush with the frame of your window, as any error at this step will accumulate as more panels are added
-        </p></li>
-        <li><p>
-            Push firmly for 10 seconds. If your lightscreen shifts during this process, you may gently remove it and restart.
-        </p></li>
-        <li><p>
-            Repeat this process with the next panel in the row, ensuring it is flush with both the frame and adjacent panels. 
-        </p></li>
-        <li><p>
-            When starting a new row, make sure the corners of your panels line up square with those below them. Avoid leaving gaps that are large enough to let in light!
-        </p></li>
-        <li><p>
-            Repeat this process until your entire Lightscreen is installed.
-        </p></li>
-    </ol>
+    <p>
+        With this information we'll calculate the size of the window panes between the dividers. For windows 
+        with raised dividers, the size of the calculated panes will be the size of the panels that 
+        collectively make up your lightscreen. For windows with embedded dividers the panels that make up 
+        the lightscreen will be larger by half the width of the divider on all sides where there is a divider 
+        so that the adjoining panel frames meet up over the embedded divider.
+    </p>
+    <p>
+        <b>Double hung windows with no dividers:</b> This is similar to measuring for casement windows with 
+        no dividers done twice. First, we'll ask you for the dimensions of the top sash, i.e. the window 
+        glass in the top frame. When complete, click the Switch to Bottom Sash button and provide the 
+        dimensions of the bottom sash, i.e. the window glass in the bottom frame. The dimensions for the 
+        two sashes are often identical but can differ for height and even width so measure them both 
+        individually.
+    </p>
+    <p>
+        <b>Double hung windows with raised or embedded dividers:</b> This is the most involved type of window 
+        to measure. We'll ask you for the width and height of the top sash, the number of horizontal and 
+        vertical dividers and the divider width. Then we'll repeat the same questions for the bottom sash 
+        after you've clicked the Switch to Bottom Sash button.
+    </p>
+    <p>
+        When you've entered all the window dimension information requested, click the next button. This will 
+        bring up a summary of your measurements for the overall window and, for windows with raised or 
+        embedded dividers, the calculated dimensions of the panes between the dividers. We urge you to double 
+        and even triple check all of the dimensions and correct them as necessary. If the calculated pane 
+        dimensions are inconsistent with your observed pane measurements, adjust the overall window 
+        measurement and/or the divider width until the dimensions in our system are consistent with your 
+        measured dimensions.
+    </p>
+    <p>
+        It cannot be stressed enough that providing us with accurate measurements is key to getting a 
+        lightscreen that you'll love. Lightscreen panels that are too small will let in noticeable rays of 
+        light, those that are too large will be difficult if not impossible to install. LightScreen.art will 
+        produce your panels to the exact sizes that correspond to the dimensions you provide and cannot be 
+        responsible for inaccurate measurements provided by our customers. Please (please) review our 
+        <a href="javscript:void(0)" routerLink="/tutorials">measurement tutorial</a> for more information.
+    </p>
+    <br/>
+    <br/>
+    <br/>
+    <h3>Step Three</h3>
+    <p>
+        In this step you'll be selecting a template for your custom lightscreen. These templates consist of 
+        a number of panels that are consistent with the measurements provided in the previous step. The 
+        templates are arranged by genre such as Artist Inspired, Garden, Interests and Classics. When you've 
+        clicked on a genre button all the templates available within that genre that match your window's 
+        dimensions will be displayed. We urge you to browse through all the genres to find the template you 
+        believe to be the best suited for the window you plan to cover. When you click on a template you'll 
+        be advanced to the next step.
+    </p>
+    <p>
+        Note that not all possible combinations of available panels are represented in templates. If you 
+        find that none of the available templates meet with your approval, it's possible to create custom 
+        templates from our complete set of available panels. To access LightScreen.art's Template Design 
+        Interface (TDI or “Teddy”) you must be a registered user. You may register by clicking the Signup 
+        button on the upper right of our website and following the prompts. Please review our 
+        <a href="javscript:void(0)" routerLink="/tutorials">TDI tutorial</a> for more information.
+    </p>
+    <br/>
+    <br/>
+    <br/>
+    <h3>Step Four</h3>
+    <p>
+        Having provided your window dimensions and selected a template, you're now ready to begin 
+        customizing your lightscreen by choosing colors for the individual panes from our extensive 
+        color palette. Our palette consists of two main types of finishes: smooth and frosted. The type 
+        of finish is indicated when you hover your mouse over a particular color swatch in our palette. 
+        Smooth finishes provide a glossy appearance and frosted finishes provide a more matte finish. You 
+        can mix and match smooth and frosted finishes on a single lightscreen or just go with one or the 
+        other. Regardless of finish, all our panes are translucent meaning that they'll let in light but not 
+        images: an important consideration when installing your lightscreen in places like a bath or 
+        entryway.
+    </p>
+    <p>
+        Pane color selection may be done on a manual, pane by pane basis, on an automatic basis or with a 
+        combination of the two. In any case, coloring in your lightscreen is more fun and easier than a 
+        coloring book or paint by numbers kit because we provide an undo button.
+    </p>
+    <p>
+        <b>Manual Color Selection:</b> After selecting your template by clicking on it, you'll be advanced to 
+        the coloring step. This section consists of three major areas: the active panel in the upper left, 
+        the color palette below the active panel and the complete template view on the right. Note that the 
+        template view is based upon default panel sizes and are not in the proportions associated with your 
+        specific window dimensions. The active panel may be changed to another panel by clicking on the 
+        desired panel in the complete template view. Only one panel, the active panel, may be colored at a 
+        time. To begin coloring the active panel, click on a swatch within the color palette. Then click on 
+        the panes in the active panel that you'd like to make that color. Selecting a different color and 
+        clicking on a previously colored pane will change the pane to the new color so you may experiment 
+        with multiple color selections. Note that as you move through this process, the pane colors will be 
+        reflected both in the active panel and in the template view.
+    </p>
+    <p>
+        <b>Autofill Color Selection:</b> For those who would like to expedite the color selection process 
+        and/or those who would like a bit of guidance from professional designers, LightScreen.art provides 
+        an autofill feature. Autofill is enabled by clicking the button in the upper left corner of the 
+        active panel area. When autofill is enabled, selecting a color from the palette and then clicking on 
+        a single pane will fill in not only that pane with that color but also every other pane on every 
+        other panel that our designers consider similar enough to be of the same color for the entire 
+        lightscreen. For example, if the chosen template depicts a rose, selecting red and then clicking on 
+        a single petal will make all other rose petals on all panels the same red. Note that autofill doesn't 
+        specify colors, rather it groups panes into various color groups so you may still customize your 
+        lightscreen to your desired color scheme. Using the same example, selecting yellow and then clicking 
+        on a single rose petal will color all other rose petals yellow.
+    </p>
+    <p>
+        <b>Hybrid Color Selection:</b> You may toggle between manual and autofill modes by clicking the 
+        autofill button on and off. It's typically better to start your design in autofill mode. Toggling 
+        modes will not erase previously selected colors whether they were applied using the manual mode or 
+        the autofill mode. However, when autofill mode is on and a single previously colored pane is changed 
+        to a new color, all other panes that are considered to be similar by our designers will change to the 
+        new color: click the undo button if you make a mistake. Using this hybrid approach, you can gain the 
+        benefits of both modes: the speed and guidance of autofill and the granular detail of manual mode. 
+        Continuing with the rose example above, you may start with autofill to color all rose petals red and 
+        all rose stems green. Then you may toggle autofill off and color manually selected rose petals yellow 
+        on a pane by pane basis.
+    </p>
+    <p>
+        Continue this process or processes until all the panes in all the panels are of your desired colors 
+        then click Next Step to advance to a summary of your order.
+    </p>
+    <br/>
+    <br/>
+    <br/>
+    <h3>Step Five</h3>
+    <p>
+        In this step the details of your design are provided to you. At this stage we urge you to check your 
+        provided measurements and our calculated dimensions yet again. Note that your panel dimensions are 
+        provided, not the dimensions of the window panes between dividers on applicable windows. As in the 
+        previous step, the lightscreen displayed will be based upon default panel sizes and not the specific 
+        dimension you provided. If any corrections are necessary or if you'd just like to review the process, 
+        click the back button in this step and the back button on previous steps and not your browser's back 
+        button. When you're satisfied with all the details of your design, dimensions, template, colors, 
+        etc., click the checkout button.
+    </p>
+    <br/>
+    <br/>
+    <br/>
+    <h3>Step Six</h3>
+    <p>
+        Checkout is the final step in the process. Please provide the requested shipping information and the 
+        required coupon code. If you don't have a coupon code, please email us at <a href="mailto: info@lightscreen.art">info@lightscreen.art</a>. 
+        Your order will be processed, produced and delivered at soon as possible.
+    </p>
+    <p>Thank you for covering your windows in color and light with LightScreen.art!</p>
 </div>

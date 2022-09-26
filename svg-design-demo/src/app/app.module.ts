@@ -30,6 +30,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { CheckoutPageComponent } from './components/checkout-page/checkout-page.component';
 import { AboutPageComponent } from './components/about-page/about-page.component';
 import { GalleryPageComponent } from './components/gallery-page/gallery-page.component';
+import { MissionPageComponent } from './components/mission-page/mission-page.component';
+import { TutorialsPageComponent } from './components/tutorials-page/tutorials-page.component';
+import { FaqPageComponent } from './components/faq-page/faq-page.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +61,10 @@ import { GalleryPageComponent } from './components/gallery-page/gallery-page.com
     ColorPageComponent,
     CheckoutPageComponent,
     AboutPageComponent,
-    GalleryPageComponent
+    GalleryPageComponent,
+    MissionPageComponent,
+    TutorialsPageComponent,
+    FaqPageComponent
   ],
   imports: [
     BrowserModule,

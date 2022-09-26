@@ -22,13 +22,13 @@
                 <h3>Make sure these dimensions are correct. Any changes to the dimensions after this step can result in lost progress.</h3>
                 <p [textContent]="getWindowWidth()"></p>
                 <p [textContent]="getWindowHeight()"></p>
-                <p [textContent]="getWindowPaneWidth()"></p>
-                <p [textContent]="getWindowPaneHeight()"></p>
+                <p *ngIf="this.sharedDataService.selectedDividerType != 'nodiv'" [textContent]="getWindowPaneWidth()"></p>
+                <p *ngIf="this.sharedDataService.selectedDividerType != 'nodiv'" [textContent]="getWindowPaneHeight()"></p>
                 <hr *ngIf="this.isDoubleHung()" />
                 <p *ngIf="this.isDoubleHung()" [textContent]="getBottomSashWidth()"></p>
                 <p *ngIf="this.isDoubleHung()" [textContent]="getBottomSashHeight()"></p>
-                <p *ngIf="this.isDoubleHung()" [textContent]="getWindowPaneWidth(false)"></p>
-                <p *ngIf="this.isDoubleHung()" [textContent]="getWindowPaneHeight(false)"></p>
+                <p *ngIf="this.isDoubleHung() && this.sharedDataService.selectedDividerType != 'nodiv'" [textContent]="getWindowPaneWidth(false)"></p>
+                <p *ngIf="this.isDoubleHung() && this.sharedDataService.selectedDividerType != 'nodiv'" [textContent]="getWindowPaneHeight(false)"></p>
             </div>
             <div *ngIf="!this.isAvailableTemplate()" class="modal-body">
                 <p>We currently offer no templates for the given window.</p>

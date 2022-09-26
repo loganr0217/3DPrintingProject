@@ -353,6 +353,42 @@ def addTemplateCategories():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
+
+# Endpoint to delete template 
+@app.route('/deletetemplate')
+def addTemplateCategories():
+    global conn
+    email = request.args.get('email', default='null', type=str)
+    password = request.args.get('password', default='null', type=str)
+    templateId = request.args.get('templateId', default='null', type=int)
+    
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' and password != 'null' and templateId != -1:
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions = 'admin' or permissions = 'designer');")
+            rows = cur.fetchall()
+            # User has been authenticated as an admin or a designer
+            if len(rows) > 0:
+                cur.execute("SELECT * FROM templates WHERE id = {}".format(templateId))
+                rows = cur.fetchall()
+                # Panel already exists in that location
+                if len(rows) > 0:
+                    cur.execute("DELETE FROM templates where id = {}".format(templateId))
+                    conn.commit()
+                    row = (1,)
+                # No panel to delete
+                else:
+                    rows = (-3,)
+            else:
+                rows = (-2,)
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
 # Endpoint to get the full list of templates
 @app.route('/templates')
 def getTemplates():

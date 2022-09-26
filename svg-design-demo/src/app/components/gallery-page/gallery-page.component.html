@@ -1,7 +1,13 @@
+<h1>Gallery</h1>
 <div id="galleryPhotosContainer">
-    <figure class="galleryPhotoContainer" *ngFor="let templateCategory of range(7); let i = index">
+    <figure class="galleryPhotoContainer" id="galleryPhoto{{i}}" *ngFor="let templateCategory of range(5); let i = index">
+        <div class="captions">
+            <figcaption [textContent]="getGalleryCaption(i, 0)"></figcaption>
+            <figcaption [textContent]="getGalleryCaption(i, 1)"></figcaption>
+            <figcaption [textContent]="getGalleryCaption(i, 2)"></figcaption>
+            <figcaption [textContent]="getGalleryCaption(i, 3)"></figcaption>
+        </div>
         <img class="templateCategoryImage" src="assets/img/galleryPhotos/galleryPhoto{{i}}.jpeg" alt="Gallery Photo {{i}}">
         <!-- <img id="dividerTypeImage_{{dividerType}}"  src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/> -->
-        <figcaption>Gallery Photo {{i}}</figcaption>
     </figure>
 </div>

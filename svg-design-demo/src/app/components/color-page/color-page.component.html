@@ -130,6 +130,7 @@
                 <label class="custom-control-label" for="customSwitch_{{templateCategory}}">{{templateCategory}}</label>
             </div>
             <input type="button" class="btn btn-dark btn-med" (click)="addTemplateCategories()" id="templateCategoryInput"  value="Update Template Categories"/>
+            <input type="button" class="btn btn-dark btn-med" (click)="deleteTemplate()" id="templateDeleteInput"  value="Delete Template"/>
         </div>
     </div>
     <div *ngIf="!this.onPanels" id="templateAutofillDesigner">
