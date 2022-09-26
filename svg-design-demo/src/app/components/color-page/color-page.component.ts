@@ -368,6 +368,25 @@ export class ColorPageComponent implements OnInit {
 
   }
 
+  deleteTemplate():void {
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    const templateId:number = this.sharedDataService.selectedTemplateID;
+
+    if (templateId != undefined && templateId != -1 && confirm('Are you sure you want to delete template ' + templateId + '?')) {
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/deletetemplate?email='"+email+"'&password='"+password+ "'&templateId=" + templateId + "'").subscribe(result => {
+        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+        alert(test);
+        let templateIndex:number = this.sharedDataService.templateData.findIndex(function(item, i){
+          return Number(item.id) == templateId
+        });
+        this.sharedDataService.templateData[templateIndex].tempString = "-1";
+        // console.log(this.loginForm.value);
+        // console.log(this.sharedDataService.userInfo);
+       });
+    }
+  }
+
   getTemplatePanelSwitchText():string {
     if(this.onPanels) {return "Switch to Template Autofill";}
     else {return "Switch to Panel Autofill";}

@@ -11,16 +11,4 @@ export class AboutPageComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  goReleaseNotes():void {
-    document.getElementById("releaseNotes")?.scrollIntoView({behavior: 'smooth'});
-  }
-
-  goMeasurementInfo():void {
-    document.getElementById("measurementInfo")?.scrollIntoView({behavior: 'smooth'});
-  }
-
-  goInstallationInfo():void {
-    document.getElementById("installationInfo")?.scrollIntoView({behavior: 'smooth'});
-  }
 }

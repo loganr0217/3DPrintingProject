@@ -1,22 +1,35 @@
 #galleryPhotosContainer {
     display: flex;
-    /* flex-direction: column; */
+    flex-direction: column;
 }
 
 .galleryPhotoContainer {
     flex: 1;
     margin: 2vw;
+    margin-bottom: 10vh;
+    display: flex;
 }
 
 img {
-    width: 10vw;
+    height: 80vh;
     object-fit: contain;
+    flex: 2;
 }
 
+.captions {
+    flex: 1;
+    height: fit-content;
+    margin-top: 20vh;
+}
 figcaption {
     text-align: center;
     margin-top: 2vh;
     font-size: 1.4vw;
     font-family: 'Lato', sans-serif;
     font-weight: 300;
+}
+
+h1 {
+    margin-top: 5vh;
+    text-align: center;
 }
