@@ -356,7 +356,7 @@ def addTemplateCategories():
 
 # Endpoint to delete template 
 @app.route('/deletetemplate')
-def addTemplateCategories():
+def deleteTemplate():
     global conn
     email = request.args.get('email', default='null', type=str)
     password = request.args.get('password', default='null', type=str)
