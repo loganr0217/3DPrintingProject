@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { DividerWindow } from '../svgScaler';
@@ -11,7 +10,7 @@ import { DividerWindow } from '../svgScaler';
 })
 export class Stage2Component implements OnInit {
 
-  constructor(private sharedDataService:SharedDataService, private location: Location) { }
+  constructor(private sharedDataService:SharedDataService) { }
   
   // Stage 2 attributes
   dividerType:string;

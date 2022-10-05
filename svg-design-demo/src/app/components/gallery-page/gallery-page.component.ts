@@ -21,27 +21,47 @@ export class GalleryPageComponent implements OnInit {
     let captions:string[] = [];
     switch(n) {
       case 0: {
-        captions = "Living Room installation to reduce sun glare\nCasement transom with raised dividers\nTemplate from the Artist Inspired collection\nColors used: Purple, Frosted Lavender and Pink".split("\n");
+        captions = "Bath installation for privacy\nCasement window with no dividers\nTemplate from the Artist Inspired Collection\nColors used: Frosted Orange, Frosted Gold and Frosted Yellow".split("\n");
         finalCaption = captions[captionNum];
         break;
       }
       case 1: {
-        captions = "Bath installation for privacy\nCasement window with no dividers\nTemplate from the Artist Inspired Collection\nColored with Frosted Aqua, Frosted Ice Blue and Frosted Clear".split("\n");
+        captions = "Living Room installation to reduce sun glare\nCasement transom with raised dividers\nTemplate from the Artist Inspired collection\nColors used: Purple, Frosted Lavender and Pink".split("\n");
         finalCaption = captions[captionNum];
         break;
       }
       case 2: {
-        captions = "Conference Room installation for sun glare\nCasement window with no dividers\nTemplate from the Artist Inspired Collection\nColored with Frosted Ice Blue, Frosted Blue, Frosted Yellow and Frosted Clear".split("\n");
+        captions = "Bath installation for privacy\nCasement window with no dividers\nTemplate from the Artist Inspired Collection\nColored with Frosted Aqua, Frosted Ice Blue and Frosted Clear".split("\n");
         finalCaption = captions[captionNum];
         break;
       }
       case 3: {
-        captions = "Bath installation for privacy\nCasement window with no dividers\nTemplate from the Artist Inspired collection\nColored with Red, Green, Blue and White".split("\n");
+        captions = "Conference Room installation for sun glare\nCasement window with no dividers\nTemplate from the Artist Inspired Collection\nColored with Frosted Ice Blue, Frosted Blue, Frosted Yellow and Frosted Clear".split("\n");
         finalCaption = captions[captionNum];
         break;
       }
       case 4: {
+        captions = "Bath installation, exterior view\nCasement window with no dividers\nTemplate from the Artist Inspired Collection\nColors used: Frosted Orange, Frosted Gold and Frosted Yellow".split("\n");
+        finalCaption = captions[captionNum];
+        break;
+      }
+      case 5: {
+        captions = "Bath installation for privacy\nCasement window with no dividers\nTemplate from the Artist Inspired collection\nColored with Red, Green, Blue and White".split("\n");
+        finalCaption = captions[captionNum];
+        break;
+      }
+      case 6: {
+        captions = "Bedroom installation for privacy\nDouble hung window with embedded dividers\nTemplate from the artist inspired collection\nColored with Frosted pink, Frosted lavender, and Frosted blue".split("\n");
+        finalCaption = captions[captionNum];
+        break;
+      }
+      case 7: {
         captions = "Living Room installation for privacy\nDoor window with raised dividers\nTemplate from the Artist Inspired collection\nColored with Blue, Yellow and Gray".split("\n");
+        finalCaption = captions[captionNum];
+        break;
+      }
+      case 8: {
+        captions = "Bathroom installation for privacy\nDouble hung window with embedded dividers\nTemplate from the artist inspired collection\nColored with Frosted clear, Ivory, and Green".split("\n");
         finalCaption = captions[captionNum];
         break;
       }

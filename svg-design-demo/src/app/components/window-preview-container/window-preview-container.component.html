@@ -8,9 +8,9 @@
             src="{{'assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
             (click)="displayTemplate(window, i)"/> -->
     
-            <svg *ngFor="let svgTemplate of row; let colNum = index" xmlns="http://www.w3.org/2000/svg" (click)="displayTemplate(svgTemplate.getOptimizedD(), rowNum, colNum, svgTemplate.getTransform())" class="svgTemplateIcons" [attr.viewBox]=getTemplateViewBox(svgTemplate.getOptimizedD())>
-                <path id="{{getPanelID(rowNum, colNum)}}" [attr.transform]="svgTemplate.getTransform()" style="fill:#666666;" [attr.d]=svgTemplate.getOptimizedD()/>
-                <path style="fill:#f0f0f1;" [attr.transform]="svgTemplate.getTransform()" id="{{getPaneID(rowNum, colNum, paneNum)}}" *ngFor="let paneNum of range(svgTemplate.subShapes.length-1)" [attr.d]="svgTemplate.subShapes[paneNum+1].getScalablePath()"/>
+            <svg *ngFor="let svgTemplate of row; let colNum = index" xmlns="http://www.w3.org/2000/svg" (click)="displayTemplate(svgTemplate.scaledD[0].trim(), rowNum, colNum, svgTemplate.scaledTransform)" class="svgTemplateIcons" [attr.width]="this.getIconWidth(rowNum, colNum)" [attr.height]="this.getIconHeight(rowNum, colNum)" [attr.viewBox]="getTemplateViewBox(rowNum, colNum)">
+                <path id="{{getPanelID(rowNum, colNum)}}" [attr.transform]="svgTemplate.scaledTransform" style="fill:#666666;" [attr.d]="svgTemplate.scaledD[0].trim()"/>
+                <path [attr.style]="this.getPaneStyle(rowNum, colNum, paneNum)" [attr.transform]="svgTemplate.scaledTransform" id="{{getPaneID(rowNum, colNum, paneNum)}}" *ngFor="let paneNum of range(svgTemplate.subShapes.length-1)" [attr.d]="svgTemplate.scaledD[paneNum+1]"/>
             </svg>
 
             <!-- <svg *ngFor="let svgTemplate of row; let colNum = index" xmlns="http://www.w3.org/2000/svg" (click)="displayTemplate(svgTemplate.getOptimizedD(), rowNum, colNum, svgTemplate.getTransform())" class="svgTemplateIcons" [attr.viewBox]="getTemplateViewBox(svgTemplate.getScaledD( ( isRowInTopSash(rowNum) ? getPanelWidth() : getPanelWidth(false) )/300 , ( isRowInTopSash(rowNum) ? getPanelHeight() : getPanelHeight(false) )/300 )[0], getScaleX(svgTemplate, rowNum), getScaleY(svgTemplate, rowNum))">

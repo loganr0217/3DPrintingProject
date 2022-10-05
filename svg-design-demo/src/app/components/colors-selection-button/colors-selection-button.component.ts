@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { DesignWindowComponent } from '../design-window/design-window.component';
-declare var $:any;
 
 @Component({
   selector: 'app-colors-selection-button',
@@ -39,7 +38,6 @@ export class ColorsSelectionButtonComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    $('[data-toggle="tooltip"]').tooltip();
     // Getting the colors from the shared data service
     if(this.paneColors == true) {this.colorsData = this.sharedDataService.colorsData;}
     else {this.colorsData = this.sharedDataService.tdiColorsData;}

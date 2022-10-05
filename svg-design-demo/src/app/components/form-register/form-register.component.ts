@@ -23,13 +23,6 @@ export class FormRegisterComponent implements OnInit {
   fakeUrl: string = 'http://localhost:4200/';
   constructor(private formBuilder:FormBuilder, private http:HttpClient, public sharedDataService:SharedDataService, private router:Router) { }
 
-  @ViewChild('carousel') carousel: ElementRef;
-
-  ngAfterContentInit(): void {
-    setInterval(() => {
-      this.carousel.nativeElement.click();
-    }, 5000)
-  }
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({

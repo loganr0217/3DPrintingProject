@@ -434,7 +434,29 @@ def getOrders():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
-
+@app.route('/userorders')
+def getUserOrders():
+    global conn
+    email = request.args.get('email', default='null', type=str)
+    password = request.args.get('password', default='null', type=str)
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' and password != 'null':
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + ";")
+            rows = cur.fetchall()
+            if len(rows) > 0:
+                cur.execute("SELECT * FROM orders WHERE user_email = " + email + ";")
+                rows = cur.fetchall()
+            else:
+                rows = (-2,)
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+        
 @app.route('/saveorder')
 def saveOrder():
     global conn

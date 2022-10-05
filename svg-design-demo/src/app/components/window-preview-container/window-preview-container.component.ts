@@ -10,6 +10,7 @@ import { Input } from '@angular/core';
 })
 export class WindowPreviewContainerComponent implements OnInit {
   @Input() finished:boolean;
+  
   // Array containing the svgPath data for displaying icons / generating a template
   svgTemplateData:{id:number, name:string, d:string}[][];
   currentPanel:number;
@@ -44,9 +45,12 @@ export class WindowPreviewContainerComponent implements OnInit {
   // Updates current template in display window with selected version
   displayTemplate(svgD:string, row:number, col:number, transformValue:string):void {
     this.clearOldPanes();
-    this.sharedDataService.currentSvgTemplate = new SVGTemplate(svgD);
+    let panelNum = row*this.sharedDataService.panelLayoutDims[0]+col;
+    this.sharedDataService.currentSvgTemplate = this.sharedDataService.panelLayout[row][col];
     this.sharedDataService.currentTemplateNumber = row*this.sharedDataService.panelLayoutDims[0] + col;
-    let newTemplate:SVGTemplate = this.sharedDataService.currentSvgTemplate;
+
+    let newTemplate:SVGTemplate = new SVGTemplate(this.sharedDataService.currentSvgTemplate.getOptimizedD());
+    transformValue = newTemplate.getTransform();
 
     let numPane:number = 0; // <-- In case the outer edge is not the first element
     // Adding each individual pane
@@ -80,10 +84,75 @@ export class WindowPreviewContainerComponent implements OnInit {
     // document.getElementById("currentTemplate")?.setAttribute("height", ""+newTemplate.height+"mm");
   }
 
+  // Gets the icon width in vw
+  getIconWidth(row:number, col:number):string {
+    // Height > width --> use height instead
+    if((this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight) >= (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth)) {
+      return "";
+    }
+    let panelNum = row*this.sharedDataService.panelLayoutDims[0]+col;
+    let normWidth:number, tmp:number;
+    if(panelNum < this.sharedDataService.numberTopPanels) {
+      normWidth = (this.sharedDataService.topPanelWidth - 100) / (500 - 100);
+      tmp = this.sharedDataService.topPanelWidth / (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth);
+    }
+    else {
+      normWidth = (this.sharedDataService.bottomPanelWidth - 100) / (500 - 100);
+      tmp = this.sharedDataService.bottomPanelWidth / (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth);
+    }
+    let adjustedWidth:number = normWidth*(7-5)+5;
+    return 40*tmp + "vw";
+  }
+
+  // Gets the icon width in vw
+  getIconHeight(row:number, col:number):string {
+    // Width >= height --> use width instead
+    if((this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight) < (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth)) {
+      return "";
+    }
+    let panelNum = row*this.sharedDataService.panelLayoutDims[0]+col;
+    let normHeight:number, tmp:number;
+
+    if(panelNum < this.sharedDataService.numberTopPanels) {
+      normHeight = (this.sharedDataService.topPanelHeight - 100) / (500 - 100);
+      tmp = this.sharedDataService.topPanelHeight / (this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight);
+    }
+    else {
+      normHeight = (this.sharedDataService.bottomPanelHeight - 100) / (500 - 100);
+      tmp = this.sharedDataService.bottomPanelHeight / (this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight);
+    }
+    let adjustedHeight:number = normHeight*(7-5)+5;
+
+    return 80*tmp + "vh";
+  }
+
   // Gets template viewbox
-  getTemplateViewBox(d:string, scaleX:number=1, scaleY:number=1):string {
-    let myTemplate:SVGTemplate = new SVGTemplate(d);
-    let tempViewBox:string = (scaleX * myTemplate.xMin) + " " + (scaleY * myTemplate.yMin) + " " + (scaleX * myTemplate.width) + " " + (scaleY * myTemplate.height);
+  getTemplateViewBox(row:number, col:number):string {
+    let myTemplate:SVGTemplate = this.sharedDataService.panelLayout[row][col];
+    let panelNum = row*this.sharedDataService.panelLayoutDims[0]+col;
+    
+    let scaleX:number;
+    let scaleY:number;
+    let result:string[];
+    let d:string;
+    if(panelNum < this.sharedDataService.numberTopPanels) {
+      result = myTemplate.getScaledD(this.sharedDataService.topPanelWidth/300, this.sharedDataService.topPanelHeight/300);
+      // scaleX = this.sharedDataService.topPanelWidth/300;
+      // scaleY = this.sharedDataService.topPanelHeight/300;
+    }
+    else {
+      result = myTemplate.getScaledD(this.sharedDataService.bottomPanelWidth/300, this.sharedDataService.bottomPanelHeight/300);
+      // scaleX = this.sharedDataService.bottomPanelWidth/300;
+      // scaleY = this.sharedDataService.bottomPanelHeight/300;
+    }
+    d = result[0];
+    scaleX = Number(result[1]);
+    scaleY = Number(result[2]);
+    let tmp:SVGTemplate = new SVGTemplate(d);
+
+    
+    console.log(panelNum + ", " + myTemplate.width + ", " + myTemplate.height);
+    let tempViewBox:string = (scaleX * tmp.xMin) + " " + (scaleY * tmp.yMin) + " " + (scaleX * tmp.width) + " " + (scaleY * tmp.height);
     return tempViewBox;
   }
 
@@ -98,6 +167,10 @@ export class WindowPreviewContainerComponent implements OnInit {
   getPaneID(row:number, col:number, paneNum:number):string {
     if(!this.finished) {return "windowPane" + (row*this.sharedDataService.panelLayoutDims[0] + col) + "_" + paneNum;}
     else {return "windowPaneFinished" + (row*this.sharedDataService.panelLayoutDims[0] + col) + "_" + paneNum;}
+  }
+
+  getPaneStyle(row:number, col:number, paneNum:number):string {
+    return "fill:#"+this.sharedDataService.panelColoringArray[(row*this.sharedDataService.panelLayoutDims[0] + col)][paneNum];
   }
 
   getPanelID(row:number, col:number):string {

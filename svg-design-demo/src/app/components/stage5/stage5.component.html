@@ -1,7 +1,7 @@
 <div id="stage5Container">
     <div id="sideText">
         <h1><b>Your complete design!</b></h1>
-        <p>Click Checkout to purchase, save your design for later or go back if things don’t look right</p>
+        <p>Click Checkout to purchase, save your design for later or go back if things don't look right</p>
         <div id="windowCartDetails">
             <p [textContent]="getWindowWidth()"></p>
             <p [textContent]="getWindowHeight()"></p>
@@ -14,7 +14,7 @@
             <p *ngIf="this.isDoubleHung()" [textContent]="getPanelHeight(false)"></p>
             <!-- <input (click)="nextstageCheckout()" type="button" class="btn btn-dark btn-med" value="Back"/> -->
             <input (click)="goToStage4()" type="button" class="btn btn-light btn-med" id="submitInput" value="Back"/>
-            <!-- <input (click)="saveDesign()" type="button" class="btn btn-light btn-med" id="submitInput" value="Save Design"/> -->
+            <input (click)="saveDesign()" type="button" class="btn btn-light btn-med" id="submitInput" value="Save Design"/>
             <input (click)="nextstageCheckout()" type="button" class="btn btn-dark btn-med" id="submitInput" value="Checkout"/>
         </div>
     </div>
