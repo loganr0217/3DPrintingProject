@@ -718,6 +718,8 @@ export class SVGTemplate {
 
     outerEdgeIndex:number;
     autofillString:string;
+    scaledD:string[];
+    scaledTransform:string;
 
     // Array to hold the polygons making up the template
     subShapes:Polygon[];
@@ -747,11 +749,18 @@ export class SVGTemplate {
         this.height = this.yMax - this.yMin;
         this.numberRotations = 0;
         this.flipped = false;
-
+        this.scaledD = [];
         this.outerEdgeIndex = 0;
         // Identifying outer edge of template (rest is the panes)
         for(let i:number = 0; i < this.subShapes.length; ++i) {
-            if(this.subShapes[i].polygonWidth == this.width && this.subShapes[i].polygonHeight == this.height) {this.outerEdgeIndex = i;}
+            if(this.subShapes[i].polygonWidth == this.width && this.subShapes[i].polygonHeight == this.height) {
+                this.outerEdgeIndex = i;
+                this.scaledD.push(this.getOptimizedD());
+            }
+            else {
+                this.scaledD.push(this.subShapes[i].getScalablePath());
+            }
+
         }
     }
 
@@ -769,7 +778,6 @@ export class SVGTemplate {
     */
     // Method to get a scaled version of the template --> returns [scaledD, newScaleX, newScaleY]
     getScaledD(scaleX:number, scaleY:number):string[] {
-        let scaledD:string = "";
         // Getting outset values for reducing wallwidth in x/y
         let xOutset:number = (3*this.width*(scaleX-1)) / (scaleX*this.width - 6);
         let yOutset:number = (3*this.height*(scaleY-1)) / (scaleY*this.height - 6);
@@ -781,10 +789,20 @@ export class SVGTemplate {
         
         // Looping through and outsetting each polygon by a certain value
         for(let i:number = 0; i < this.subShapes.length; ++i) {
-            if(i == this.outerEdgeIndex) {scaledD += this.subShapes[i].outset(-xOutset, -yOutset) + " ";}
-            else {scaledD += this.subShapes[i].outset(xOutset, yOutset) + " ";}
+            if(i == this.outerEdgeIndex) {this.scaledD[0] = (this.subShapes[i].outset(-xOutset, -yOutset) + " ");}
+            else {
+                this.scaledD[0] += this.subShapes[i].outset(xOutset, yOutset) + " ";
+                this.scaledD[i] = (this.subShapes[i].outset(xOutset, yOutset));
+            }
         }
-        return [scaledD.trim(), newScaleX.toString(), newScaleY.toString()];
+        //console.log(this.scaledD);
+        return [this.scaledD[0].trim(), newScaleX.toString(), newScaleY.toString()];
+    }
+
+    // Scales template and updates the scaled d's and transform value
+    scaleTemplate(scaleX:number, scaleY:number) {
+        this.getScaledD(scaleX, scaleY);
+        this.getTransform(scaleX, scaleY);
     }
 
     /*
@@ -866,12 +884,22 @@ id="svg567">
         return fullFileText;
     }
 
-    getTransform():string {
+    getTransform(scaleX:number = 1, scaleY:number = 1):string {
+        let xOutset:number = (3.5*this.width - 6*(scaleX*this.width-2.5)) / (7 - 2*(scaleX*this.width-2.5));
+        let yOutset:number = (3.5*this.height - 6*(scaleY*this.height-2.5)) / (7 - 2*(scaleY*this.height-2.5));
+
+        // Getting new scale values
+        let newScaleX:number = 3.5 / (6 - (2 * xOutset));
+        let newScaleY:number = 3.5 / (6 - (2 * yOutset));
+
         const rotationAmount:number = this.numberRotations * 90;
         const flipNumber:number = this.flipped ? -1 : 1;
         const centerX:number = this.xMin + (this.width/2);
         const centerY:number = this.yMin + (this.height/2);
-        return "rotate(" + rotationAmount + ", " + centerX + ", " + centerY + ") scale(" + flipNumber + ",1) " + (this.flipped ? " translate(" + (-2*centerX) + ", 0)" : "");
+
+        let finalTransform:string = "scale(" + newScaleX + "," + newScaleY + ") " + "rotate(" + rotationAmount + ", " + centerX + ", " + centerY + ") scale(" + flipNumber + ",1) " + (this.flipped ? " translate(" + (-2*centerX) + ", 0)" : "");
+        this.scaledTransform = finalTransform;
+        return finalTransform;
     }
 }
 

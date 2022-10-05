@@ -21,14 +21,6 @@ export class FormLoginComponent implements OnInit {
   fakeUrl: string = 'http://localhost:4200/';
   constructor(private formBuilder:FormBuilder, private http:HttpClient, public sharedDataService:SharedDataService, private router:Router) { }
 
-  @ViewChild('carousel') carousel: ElementRef;
-
-  ngAfterContentInit(): void {
-    setInterval(() => {
-      this.carousel.nativeElement.click();
-    }, 5000)
-  }
-
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       emailId: ['', [Validators.required, Validators.email]],

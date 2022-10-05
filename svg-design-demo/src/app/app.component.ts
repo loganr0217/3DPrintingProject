@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { SharedDataService } from './services/shared-data.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -22,6 +23,7 @@ export class AppComponent {
   }
 
   ngOnInit() {
+    
         // Getting data and populating user info
         const data = JSON.parse(localStorage.getItem('userInfo') || '{}');
         this.sharedDataService.userInfo = [];
@@ -51,6 +53,23 @@ export class AppComponent {
           while(this.sharedDataService.svgTemplateData[this.sharedDataService.svgTemplateData.length-1].length == 0) {
             this.sharedDataService.svgTemplateData.pop();
           }
+          // console.log(this.loginForm.value);
+          // console.log(this.sharedDataService.userInfo);
+        });
+
+        // Getting templates from database
+        this.sharedDataService.templateData = []
+        this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/templates?numberPanelsX=-1&numberPanelsY=-1").subscribe(result => {
+          let tmp = JSON.parse(JSON.stringify(result));
+          this.sharedDataService.templateData = []
+          if(tmp.length >= 1) {
+            // console.log(templateData);
+            for(let i:number = 0; i < tmp.length; ++i) {
+              let currentTmp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string} = {id:tmp[i][0], numPanels:tmp[i][1]*tmp[i][2], panelDims:[tmp[i][1], tmp[i][2]], tempString:tmp[i][3], category:tmp[i][5]};
+              this.sharedDataService.templateData.push(currentTmp);
+            }
+          }
+          else {alert("error"); this.sharedDataService.templateData = [];}
           // console.log(this.loginForm.value);
           // console.log(this.sharedDataService.userInfo);
         });

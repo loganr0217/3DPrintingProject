@@ -192,7 +192,7 @@ export class TemplateIconComponent implements OnInit {
         }
       }
       else {alert("error"); this.templateData = [];}
-      this.sharedDataService.templateData = this.templateData;
+      // this.sharedDataService.templateData = this.templateData;
       // console.log(this.loginForm.value);
       // console.log(this.sharedDataService.userInfo);
     });
@@ -216,6 +216,9 @@ export class TemplateIconComponent implements OnInit {
       panelInfoArray.push(tempString[index].split(','));
     }
 
+    // Getting the panel information for the design
+    this.sharedDataService.getPanelInfo(temp);
+
     // Adding each panel to the panel layout
     for(let panelID:number = 0; panelID < panelInfoArray.length; ++panelID) {
       let panelIndex:number = this.sharedDataService.svgTemplateData[Number(panelInfoArray[panelID][0])].findIndex(function(item, i){
@@ -226,6 +229,14 @@ export class TemplateIconComponent implements OnInit {
       myTemplate.numberRotations = Number(panelInfoArray[panelID][2]);
       myTemplate.flipped = Number(panelInfoArray[panelID][3]) == 1 ? true : false;
       myTemplate.autofillString = this.sharedDataService.svgTemplateData[Number(panelInfoArray[panelID][0])][panelIndex].panelAutofillString;
+      
+      if(panelID < this.sharedDataService.numberTopPanels) {
+        myTemplate.scaleTemplate(this.sharedDataService.topPanelWidth/300, this.sharedDataService.topPanelHeight/300);
+      } 
+      else {
+        myTemplate.scaleTemplate(this.sharedDataService.bottomPanelWidth/300, this.sharedDataService.bottomPanelHeight/300);
+      }
+
       //console.log(panelLayout[Math.floor(panelID/temp.panelDims[0])]);
       panelLayout[Math.floor(panelID/temp.panelDims[0])].push(myTemplate);
     }

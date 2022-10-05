@@ -11,7 +11,7 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
-          <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <div class="collapse navbar-collapse navbar-custom" id="collapsibleNavbar">
               <div class="navbar-nav ml-auto">
                 <a href="javascript:void(0)" (click)="goToFooter()" class="nav-item nav-link">Contact</a>
                 <div class="dropdown">
@@ -19,7 +19,7 @@
                   <!-- <button class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Frame Color
                   </button> -->
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAbout">
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButtonAbout">
                     <a href="javascript:void(0)" routerLink="/mission" class="dropdown-item">Mission</a>
                     <a href="javascript:void(0)" routerLink="/about" class="dropdown-item">Overview</a>
                     <a href="javascript:void(0)" routerLink="/tutorials" class="dropdown-item">Tutorials</a>
@@ -30,7 +30,17 @@
                 <a href="javascript:void(0)" routerLink="/gallery" class="nav-item nav-link">Gallery</a>
                 <a href="javascript:void(0)" *ngIf="!this.sharedDataService.signedIn" routerLink="/signup" class="nav-item nav-link">Signup</a>
                 <a href="javascript:void(0)" *ngIf="!this.sharedDataService.signedIn" routerLink="/login" class="nav-item nav-link">Login</a>
-                <a href="javascript:void(0)" *ngIf="this.sharedDataService.signedIn" (click)="userSignout()" class="nav-item nav-link">Logout</a>
+                <!-- <a href="javascript:void(0)" *ngIf="this.sharedDataService.signedIn" (click)="userSignout()" class="nav-item nav-link">Logout</a> -->
+                <div class="dropdown" *ngIf="this.sharedDataService.signedIn">
+                  <a href="javascript:void(0)" class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{this.sharedDataService.userInfo[1] + " " + this.sharedDataService.userInfo[2]}}</a>
+                  <!-- <button class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Frame Color
+                  </button> -->
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButtonProfile">
+                    <a href="javascript:void(0)" routerLink="/profile" class="dropdown-item">Profile</a>
+                    <a href="javascript:void(0)" *ngIf="this.sharedDataService.signedIn" (click)="userSignout()" class="dropdown-item">Logout</a>
+                  </div>
+                </div>
               </div>
           </div> 
   </nav>
