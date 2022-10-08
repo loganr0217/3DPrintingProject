@@ -58,21 +58,24 @@
                     (click)="displayTemplate(window, i)"/> -->
                     <!-- <button *ngFor="let svgTemplate of window" (click)="displayTemplate(window, i)" [textContent]="svgTemplate.name"></button> -->
                     <div *ngFor="let svgTemplate of window">
-                        <svg *ngIf="svgTemplate.name.charAt(svgTemplate.name.length-1) == '0' && svgTemplate.name.charAt(svgTemplate.name.length-2) == '_'" xmlns="http://www.w3.org/2000/svg" (click)="displayTemplate(window, i)" class="svgTemplateIcons"  [attr.viewBox]=getTemplateViewBox(getOptimizedTemplateD(svgTemplate.d))>
+                        <svg *ngIf="svgTemplate.panelNumber == window[0].panelNumber" xmlns="http://www.w3.org/2000/svg" (click)="displayTemplate(window, i)" class="svgTemplateIcons"  [attr.viewBox]=getTemplateViewBox(getOptimizedTemplateD(svgTemplate.d))>
                             <path  style="fill:#666666;" [attr.d]=getOptimizedTemplateD(svgTemplate.d)/>
                         </svg>
-                        <br *ngIf="svgTemplate.name.charAt(svgTemplate.name.length-1) == '0' && svgTemplate.name.charAt(svgTemplate.name.length-2) == '_'"/>
-                        <button *ngIf="svgTemplate.name.charAt(svgTemplate.name.length-1) == '0' && svgTemplate.name.charAt(svgTemplate.name.length-2) == '_'" (click)="displayTemplate(window, i)" [textContent]="svgTemplate.id"></button>
+                        <br *ngIf="svgTemplate.panelNumber == window[0].panelNumber"/>
+                        <button *ngIf="svgTemplate.panelNumber == window[0].panelNumber" (click)="displayTemplate(window, i)" [textContent]="svgTemplate.id"></button>
                     </div>
                     
                 </div>
             </div>
             <div class="panelWindowTemplate">
                 <div class="panelFullWin">
-                    <svg *ngFor="let svgTemplate of currentWindow; let i = index" xmlns="http://www.w3.org/2000/svg" (click)="this.sharedDataService.chosenPanel = svgTemplate; displayPanel(svgTemplate.d, 0, 0); autofillPanel(svgTemplate.panelAutofillString); choosePanel(svgTemplate.panelNumber)" class="svgTemplatePanelIcons"  [attr.viewBox]=getTemplateViewBox(getOptimizedTemplateD(svgTemplate.d))>
-                        <path id="svgTemplateLayoutPanel{{i}}" style="fill:#666666;" [attr.d]=getOptimizedTemplateD(svgTemplate.d)/>
-                        <path *ngFor="let pane of getPanelPanes(svgTemplate.d); let paneId = index" [attr.d]="pane.getScalablePath()" id="svgTemplateLayoutPanel{{i}}_pane{{paneId}}" [attr.fill]="getPaneAutofillStyle(svgTemplate.panelAutofillString, paneId)"></path>
-                    </svg>
+                    <div class="svgPanelIcons" *ngFor="let svgTemplate of currentWindow; let i = index">
+                        <svg class="svgPanelIconPic" xmlns="http://www.w3.org/2000/svg" (click)="this.sharedDataService.chosenPanel = svgTemplate; displayPanel(svgTemplate.d, 0, 0); autofillPanel(svgTemplate.panelAutofillString); choosePanel(svgTemplate.panelNumber)"  [attr.viewBox]=getTemplateViewBox(getOptimizedTemplateD(svgTemplate.d))>
+                            <path id="svgTemplateLayoutPanel{{i}}" style="fill:#666666;" [attr.d]=getOptimizedTemplateD(svgTemplate.d)/>
+                            <path *ngFor="let pane of getPanelPanes(svgTemplate.d); let paneId = index" [attr.d]="pane.getScalablePath()" id="svgTemplateLayoutPanel{{i}}_pane{{paneId}}" [attr.fill]="getPaneAutofillStyle(svgTemplate.panelAutofillString, paneId)"></path>
+                        </svg>
+                        <button [textContent]="svgTemplate.panelNumber" (click)="this.sharedDataService.chosenPanel = svgTemplate; displayPanel(svgTemplate.d, 0, 0); autofillPanel(svgTemplate.panelAutofillString); choosePanel(svgTemplate.panelNumber)"></button>
+                    </div>
                 </div>
             </div>
             <form id="dimensionsFormContainer">

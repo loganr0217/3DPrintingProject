@@ -135,7 +135,7 @@ def getPanels():
     try:
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
-        cur.execute("SELECT * FROM panels;")
+        cur.execute("SELECT * FROM panels order by panelset_id, panel_number;")
         rows = cur.fetchall()
         return jsonify(rows)
     except Exception as e:
@@ -399,7 +399,7 @@ def getTemplates():
         if (numberPanelsX == -1 and numberPanelsY == -1) or (numberPanelsX == 'null' and numberPanelsY == 'null'):
             conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
             cur = conn.cursor()
-            cur.execute("SELECT * FROM templates;")
+            cur.execute("SELECT * FROM templates order by id;")
             rows = cur.fetchall()
         else:
             conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
@@ -456,7 +456,7 @@ def getUserOrders():
         return jsonify(rows)
     except Exception as e:
         return "Error connecting to the database " + str(e)
-        
+
 @app.route('/saveorder')
 def saveOrder():
     global conn
