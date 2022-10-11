@@ -33,11 +33,3 @@ p {
         display: none;
     } */
 }
-
-@media only screen and (max-width: 768px) {
-    .left,
-    .right {
-        float: none;
-        width: 100%;
-    }
-}
