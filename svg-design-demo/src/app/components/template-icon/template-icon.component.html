@@ -3,7 +3,7 @@
         <div *ngIf="(template.panelDims[0] == this.sharedDataService.panelLayoutDims[0] 
             && template.panelDims[1] == this.sharedDataService.panelLayoutDims[1]
             && isTemplateOkay(template))">
-            <div class="windowTemplateContainer" [style]="!this.isColorPage && this.sharedDataService.selectedTemplateID == template.id ? 'filter: invert(7%) sepia(100%) saturate(7423%) hue-rotate(248deg) brightness(104%) contrast(143%);' : ''">
+            <div class="windowTemplateContainer" [style]="this.isColorPage() && this.sharedDataService.selectedTemplateID == template.id ? 'filter: invert(7%) sepia(100%) saturate(7423%) hue-rotate(248deg) brightness(104%) contrast(143%);' : ''">
             
                 <div class="windowTemplate" (click)="nextstage4(); createPreview(template); displayFirstTemplate();" data-toggle="modal" data-target="#exampleModalCenter" *ngFor="let row of getPanelLayout(template); let rowNumber = index;">
                     <!-- <img class="svgTemplateIcons" *ngFor="let svgTemplate of window" 
