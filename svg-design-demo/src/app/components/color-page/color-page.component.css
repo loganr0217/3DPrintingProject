@@ -122,6 +122,7 @@ p {
 
 #dimensionsFormContainer {
     width: 80%;
+    padding-top: 2vh;
 }
 
 .rightSide {
@@ -131,7 +132,7 @@ p {
 
 .btn {
     margin-right: 1vw;
-    margin-top: 1vh;
+    margin-bottom: 1vh;
 }
 
 #currentLayoutText {
@@ -172,4 +173,12 @@ p {
 
 #templateCategorySliders {
     margin-left:2vw;
+}
+
+/* Keeps input arrows visible for Chrome */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+
+   opacity: 1;
+
 }

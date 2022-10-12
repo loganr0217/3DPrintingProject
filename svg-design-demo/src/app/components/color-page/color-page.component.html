@@ -1,24 +1,25 @@
 <div id="bigContainer">
     <div id="section1" class="section">
-        <h1><b>Panel Insertion</b></h1>
+        <h1><b>Panel Management</b></h1>
         <p></p>
         <app-template-info-form></app-template-info-form>
         <p></p>
-        <h1><b>Autofill and Panel Information</b></h1>
+        <h1><b>Panel Details</b></h1>
         <form id="dimensionsFormContainer">
             <div class="form-group form-row">
                 <div class="col input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">Filament mm Squared:</span>
+                        <span class="input-group-text">Filament Area (mm<sup>2</sup>):</span>
                     </div>
                     <input type="number" class="form-control" id="filamentPercentageInput">
                 </div>
             </div>
-            <input type="button" class="btn btn-dark btn-med" id="filamentPercentageButton" (click)="addFilamentPercentage()" value="Add Filament Percentage"/>
+            <input type="button" class="btn btn-dark btn-med" id="filamentPercentageButton" (click)="addFilamentPercentage()" value="Save Filament Area"/>
         </form>
-        <input type="button" class="btn btn-dark btn-med" (click)="getPanelAutofillString()" id="panelAutofillInput"  value="Get Autofill Text"/>
-        <input type="button" class="btn btn-dark btn-med" (click)="addPanelSymmetricPanes()" id="panelSymmetricPanesInput"  value="Add Symmetric Panes"/>
-        <input type="button" class="btn btn-dark btn-med" (click)="deletePanel()" id="deletePanelInput"  value="Delete Panel"/>
+        <input type="button" class="btn btn-dark btn-med" (click)="getPanelAutofillString()" id="panelAutofillInput"  value="Save Autofill Assignments"/>
+        <input type="button" class="btn btn-dark btn-med" (click)="addPanelSymmetricPanes()" id="panelSymmetricPanesInput"  value="Save Symmetric Panes"/>
+        <!-- <input type="button" class="btn btn-dark btn-med" (click)="deletePanel()" id="deletePanelInput"  value="Delete Panel"/> -->
+        
         <!-- Start of Breadcrumbs -->
         <!-- <div class="breadCrumbs" id="step2BBreadCrumbs">
             <div class="text-center">
@@ -38,9 +39,8 @@
 <div id="bottomBigContainer">
     <div class="leftSide">
         <div id="bottomSection1" class="section">
-            <h1><b>Template Layout Interface</b></h1>
-            <p>Choose a template and enter your template's panel layout (e.g. 2x4)
-            </p>
+            <h1><b>Template Builder</b></h1>
+            <p><b>Select a Panelset</b></p>
             <!-- Start of Breadcrumbs -->
             <!-- <div class="breadCrumbs" id="step2BBreadCrumbs">
                 <div class="text-center">
@@ -79,24 +79,30 @@
                 </div>
             </div>
             <form id="dimensionsFormContainer">
-                <p>Number of Panels (e.g. 2x4):</p>
+                <p><b>Define Template Dimensions:</b></p>
                 <div class="form-group form-row">
                     <div class="col">
-                        <label class="formLabel" for="leftRightInput">Left to Right</label>
+                        <label class="formLabel" for="leftRightInput">Number of Panels Left to Right</label>
                         <input type="number" class="form-control" id="leftRightInput">
                     </div>
                     <div class="col">
-                        <label class="formLabel" for="topBottomInput">Top to Bottom</label>
+                        <label class="formLabel" for="topBottomInput">Number of Panels Top to Bottom</label>
                         <input type="number" class="form-control" id="topBottomInput">
                     </div>
                 </div>
-            
-                <input type="button" class="btn btn-dark btn-med" (click)="updateLayout()" id="updateLayoutInput"  value="Update dims (2x6)"/>
-                <input type="button" class="btn btn-dark btn-med" (click)="addTemplate()" id="createLayoutInput"  value="Create Layout"/>
-                <input type="button" class="btn btn-dark btn-med" (click)="undoPanelChoice()" id="undoLayoutInput" value="Undo"/>
-                <input type="button" class="btn btn-dark btn-med" (click)="rotateLastPanel()" id="rotatePanelInput" value="Rotate Last Panel"/>
+
+                <input type="button" class="btn btn-dark btn-med" (click)="updateLayout()" id="updateLayoutInput"  value="Update Template Dimensions"/>
+                
+                <br/><p>Click Panels to Add to Template</p>
                 <input type="button" class="btn btn-dark btn-med" (click)="mirrorLastPanel()" id="mirrorPanelInput" value="Mirror Last Panel"/>
+                <input type="button" class="btn btn-dark btn-med" (click)="rotateLastPanel()" id="rotatePanelInput" value="Rotate Last Panel"/>
+                <input type="button" class="btn btn-dark btn-med" (click)="undoPanelChoice()" id="undoLayoutInput" value="Undo"/>
+                
+                <br/>
+                <input type="button" class="btn btn-dark btn-med" (click)="addTemplate()" id="createLayoutInput"  value="Save Template"/>
+                <input type="button" class="btn btn-dark btn-med" (click)="deleteTemplate()" id="templateDeleteInput"  value="Delete Template"/>
                 <input type="button" class="btn btn-dark btn-med" (click)="switchTemplatePanel()" id="templatePanelSwitchInput" [value]="getTemplatePanelSwitchText()"/>
+                
             </form>
         </div>
         
@@ -133,7 +139,6 @@
                 <label class="custom-control-label" for="customSwitch_{{templateCategory}}">{{templateCategory}}</label>
             </div>
             <input type="button" class="btn btn-dark btn-med" (click)="addTemplateCategories()" id="templateCategoryInput"  value="Update Template Categories"/>
-            <input type="button" class="btn btn-dark btn-med" (click)="deleteTemplate()" id="templateDeleteInput"  value="Delete Template"/>
         </div>
     </div>
     <div *ngIf="!this.onPanels" id="templateAutofillDesigner">

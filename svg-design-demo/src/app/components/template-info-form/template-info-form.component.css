@@ -6,8 +6,7 @@
     max-height: 100%;
 }
 
-#addInput, #createInput, #panesInput, #resetInput {
-    margin-left: 2vw;
+#addInput, #updateInput, #createInput, #deletePanelInput, #panesInput, #resetInput {
     margin-right: 2vw;
-    margin-top: 1vh;
+    margin-bottom: 1vh;
 }

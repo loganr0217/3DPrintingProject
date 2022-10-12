@@ -51,8 +51,8 @@ export class DimensionsFormComponent implements OnInit {
 */
 
 
-  getPanelWidth(width:number):number {
-    if(width <= 0) {return -1;}
+  getPanelWidths(width:number):number[] {
+    if(width <= 0) {return [-1];}
     let vertDividers:number = this.sharedDataService.dividerNumbers[1];
     let finalPanelWidth:number = 0; 
     if(this.sharedDataService.selectedDividerType == 'nodiv') {
@@ -87,12 +87,20 @@ export class DimensionsFormComponent implements OnInit {
     }
     // Fixing panel width to be under 500
     if(finalPanelWidth > 500) {finalPanelWidth = finalPanelWidth / (Math.ceil(finalPanelWidth/500));}
-    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return finalPanelWidth;}
-    else {return -1;}
+    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {
+      let finalWidths:number[] = [];
+      let reductionFactor:number = 1;
+      while(finalPanelWidth/reductionFactor >= 100 && finalPanelWidth/reductionFactor <= 500) {
+        finalWidths.push(finalPanelWidth/reductionFactor);
+        ++reductionFactor;
+      }
+      return finalWidths;
+    }
+    else {return [-1];}
   }
 
-  getPanelHeight(height:number):number {
-    if(height <= 0) {return -1;}
+  getPanelHeights(height:number):number[] {
+    if(height <= 0) {return [-1];}
     let horzDividers:number = this.sharedDataService.dividerNumbers[0];
     let finalPanelHeight:number = 0; 
     if(this.sharedDataService.selectedDividerType == 'nodiv') {
@@ -127,8 +135,17 @@ export class DimensionsFormComponent implements OnInit {
     // Fixing panel height to be under 500
     if(finalPanelHeight >= 500) {finalPanelHeight = finalPanelHeight / (Math.ceil(finalPanelHeight/500));}
     
-    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return finalPanelHeight;}
-    else {return -1;}
+    //if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return finalPanelHeight;}
+    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {
+      let finalHeights:number[] = [];
+      let reductionFactor:number = 1;
+      while(finalPanelHeight/reductionFactor >= 100 && finalPanelHeight/reductionFactor <= 500) {
+        finalHeights.push(finalPanelHeight/reductionFactor);
+        ++reductionFactor;
+      }
+      return finalHeights;
+    }
+    else {return [-1];}
   }
 
   convertNumber(num:number, unit:string):number {
@@ -166,10 +183,40 @@ export class DimensionsFormComponent implements OnInit {
 
   // Updating panel layout 2d array
   updatePanelLayout():void {
-    let topPanelWidth:number = this.getPanelWidth(this.sharedDataService.windowWidth);
-    let topPanelHeight:number = this.getPanelHeight(this.sharedDataService.windowHeight);
-    let bottomPanelWidth:number = this.getPanelWidth(this.sharedDataService.bottomSashWidth);
-    let bottomPanelHeight:number = this.getPanelHeight(this.sharedDataService.bottomSashHeight);
+    // Getting possible widths and heights
+    let topPanelWidths:number[] = this.getPanelWidths(this.sharedDataService.windowWidth);
+    let topPanelHeights:number[] = this.getPanelHeights(this.sharedDataService.windowHeight);
+    let bottomPanelWidths:number[] = this.getPanelWidths(this.sharedDataService.bottomSashWidth);
+    let bottomPanelHeights:number[] = this.getPanelHeights(this.sharedDataService.bottomSashHeight);
+
+    // Getting optimal widths and heights by checking every combination for top panels
+    let bestCombo:number[] = [0, 0];
+    let widthHeightRatio = topPanelWidths[0] / topPanelHeights[0];
+    for(let widthIndex:number = 0; widthIndex < topPanelWidths.length; ++widthIndex) {
+      for(let heightIndex:number = 0; heightIndex < topPanelHeights.length; ++heightIndex) {
+        if(Math.abs(1 - topPanelWidths[widthIndex] / topPanelHeights[heightIndex]) < Math.abs(1 - widthHeightRatio)) {
+          bestCombo = [widthIndex, heightIndex];
+          widthHeightRatio = topPanelWidths[widthIndex] / topPanelHeights[heightIndex];
+        }
+      }
+    }
+    let topPanelWidth:number = topPanelWidths[bestCombo[0]];
+    let topPanelHeight:number = topPanelHeights[bestCombo[1]];
+
+    // Getting optimal bottom widths and heights by checking every combination for bottom panels
+    bestCombo = [0, 0];
+    widthHeightRatio = bottomPanelWidths[0] / bottomPanelHeights[0];
+    for(let widthIndex:number = 0; widthIndex < bottomPanelWidths.length; ++widthIndex) {
+      for(let heightIndex:number = 0; heightIndex < bottomPanelHeights.length; ++heightIndex) {
+        if(Math.abs(1 - bottomPanelWidths[widthIndex] / bottomPanelHeights[heightIndex]) < Math.abs(1 - widthHeightRatio)) {
+          bestCombo = [widthIndex, heightIndex];
+          widthHeightRatio = bottomPanelWidths[widthIndex] / bottomPanelHeights[heightIndex];
+        }
+      }
+    }
+    let bottomPanelWidth:number = bottomPanelWidths[bestCombo[0]];
+    let bottomPanelHeight:number = bottomPanelHeights[bestCombo[1]];
+
     let topLeftRight:number = Math.floor(this.sharedDataService.windowWidth/topPanelWidth);
     let topTopBottom:number = Math.floor(this.sharedDataService.windowHeight/topPanelHeight);
     let bottomLeftRight:number = Math.floor(this.sharedDataService.bottomSashWidth/bottomPanelWidth);
@@ -185,10 +232,16 @@ export class DimensionsFormComponent implements OnInit {
       else {
         let topBottom:number = this.isDoubleHung() ? topTopBottom + bottomTopBottom : topTopBottom;
         this.sharedDataService.panelLayout = [];
-        for(let i:number = 0; i < topTopBottom + bottomTopBottom; ++i) {
+        for(let i:number = 0; i < topTopBottom; ++i) {
           this.sharedDataService.panelLayout.push([]);
         }
         this.sharedDataService.panelLayoutDims = [topLeftRight, topBottom];
+        this.sharedDataService.topPanelWidth = topPanelWidth;
+        this.sharedDataService.topPanelHeight = topPanelHeight;
+        this.sharedDataService.bottomPanelWidth = bottomPanelWidth;
+        this.sharedDataService.bottomPanelHeight = bottomPanelHeight;
+        this.sharedDataService.numberTopPanels = topLeftRight * topTopBottom;
+        console.log("Here: "  + this.sharedDataService.numberTopPanels);
       }
       
     }
@@ -315,7 +368,7 @@ export class DimensionsFormComponent implements OnInit {
     this.updateDimensionsButton();
     this.updatePanelLayout();
     let availableTemplate:boolean = this.isAvailableTemplate();
-    if(availableTemplate && !(this.sharedDataService.panelLayoutDims[0] == -1 && this.sharedDataService.panelLayoutDims[1] == -1) && this.getPanelWidth(this.sharedDataService.windowWidth) != -1 && this.getPanelHeight(this.sharedDataService.windowHeight) != -1) {
+    if(availableTemplate && !(this.sharedDataService.panelLayoutDims[0] == -1 && this.sharedDataService.panelLayoutDims[1] == -1) && this.getPanelWidths(this.sharedDataService.windowWidth)[0] != -1 && this.getPanelHeights(this.sharedDataService.windowHeight)[0] != -1) {
       // console.log(this.sharedDataService.windowWidth + " " + this.sharedDataService.windowHeight);
       document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;");
       $('#dimensionsFormModal').modal('hide');
