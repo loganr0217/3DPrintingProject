@@ -101,7 +101,7 @@
                 <br/>
                 <input type="button" class="btn btn-dark btn-med" (click)="addTemplate()" id="createLayoutInput"  value="Save Template"/>
                 <input type="button" class="btn btn-dark btn-med" (click)="deleteTemplate()" id="templateDeleteInput"  value="Delete Template"/>
-                <input type="button" class="btn btn-dark btn-med" (click)="switchTemplatePanel()" id="templatePanelSwitchInput" [value]="getTemplatePanelSwitchText()"/>
+                <!-- <input type="button" class="btn btn-dark btn-med" (click)="switchTemplatePanel()" id="templatePanelSwitchInput" [value]="getTemplatePanelSwitchText()"/> -->
                 
             </form>
         </div>
@@ -141,7 +141,7 @@
             <input type="button" class="btn btn-dark btn-med" (click)="addTemplateCategories()" id="templateCategoryInput"  value="Update Template Categories"/>
         </div>
     </div>
-    <div *ngIf="!this.onPanels" id="templateAutofillDesigner">
+    <!-- <div *ngIf="!this.onPanels" id="templateAutofillDesigner">
         <div id="templateAutofillDesignWindow">
             <app-design-window></app-design-window>
             <app-colors-container [paneColors]=false></app-colors-container>
@@ -152,6 +152,6 @@
             <input type="button" class="btn btn-dark btn-med" (click)="autofillTemplate()" id="templateAutofillToggleInput"  value="Toggle Autofill"/>
         </div>
         
-    </div>
+    </div> -->
     
 </div>
