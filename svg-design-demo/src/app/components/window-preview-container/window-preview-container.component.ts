@@ -50,6 +50,8 @@ export class WindowPreviewContainerComponent implements OnInit {
     this.sharedDataService.currentTemplateNumber = row*this.sharedDataService.panelLayoutDims[0] + col;
 
     let newTemplate:SVGTemplate = new SVGTemplate(this.sharedDataService.currentSvgTemplate.getOptimizedD());
+    newTemplate.numberRotations = this.sharedDataService.currentSvgTemplate.numberRotations;
+    newTemplate.flipped = this.sharedDataService.currentSvgTemplate.flipped;
     transformValue = newTemplate.getTransform();
 
     let numPane:number = 0; // <-- In case the outer edge is not the first element
@@ -120,9 +122,9 @@ export class WindowPreviewContainerComponent implements OnInit {
     else {
       normHeight = (this.sharedDataService.bottomPanelHeight - 100) / (500 - 100);
       tmp = this.sharedDataService.bottomPanelHeight / (this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight);
+      
     }
     let adjustedHeight:number = normHeight*(7-5)+5;
-
     return 80*tmp + "vh";
   }
 
@@ -185,49 +187,51 @@ export class WindowPreviewContainerComponent implements OnInit {
   }
 
   getPanelWidth(top:boolean = true):number {
-    let width:number = top ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth;
-    if(width <= 0) {return -1;}
-    let vertDividers:number = this.sharedDataService.dividerNumbers[1];
-    let finalPanelWidth:number = 0; 
-    if(this.sharedDataService.selectedDividerType == 'nodiv') {
-      if(width >= 100 && width <=500) {finalPanelWidth = width;}
-      else {finalPanelWidth = width / (Math.ceil(width/500));}
-    }
-    else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
-      finalPanelWidth = width / (vertDividers+1);
+    // let width:number = top ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth;
+    // if(width <= 0) {return -1;}
+    // let vertDividers:number = this.sharedDataService.dividerNumbers[1];
+    // let finalPanelWidth:number = 0; 
+    // if(this.sharedDataService.selectedDividerType == 'nodiv') {
+    //   if(width >= 100 && width <=500) {finalPanelWidth = width;}
+    //   else {finalPanelWidth = width / (Math.ceil(width/500));}
+    // }
+    // else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
+    //   finalPanelWidth = width / (vertDividers+1);
       
-    }
-    // raised divs
-    else {
-      finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1));
-    }
-    // Fixing panel width to be under 500
-    if(finalPanelWidth > 500) {finalPanelWidth = finalPanelWidth / (Math.ceil(finalPanelWidth/500));}
-    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return finalPanelWidth;}
-    else {return -1;}
+    // }
+    // // raised divs
+    // else {
+    //   finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1));
+    // }
+    // // Fixing panel width to be under 500
+    // if(finalPanelWidth > 500) {finalPanelWidth = finalPanelWidth / (Math.ceil(finalPanelWidth/500));}
+    // if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return finalPanelWidth;}
+    // else {return -1;}
+    return top ? this.sharedDataService.topPanelWidth : this.sharedDataService.bottomPanelWidth;
   }
 
   getPanelHeight(top:boolean = true):number {
-    let height:number = top ? this.sharedDataService.windowHeight : this.sharedDataService.bottomSashHeight;
-    if(height <= 0) {return -1;}
-    let horzDividers:number = this.sharedDataService.dividerNumbers[0];
-    let finalPanelHeight:number = 0; 
-    if(this.sharedDataService.selectedDividerType == 'nodiv') {
-      if(height >= 100 && height <=500) {finalPanelHeight = height;}
-      else {finalPanelHeight = height / (Math.ceil(height/500));}
-    }
-    else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
-      finalPanelHeight = height / (horzDividers+1);
-    }
-    // raised divs
-    else {
-      finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1));
-    }
-    // Fixing panel height to be under 500
-    if(finalPanelHeight >= 500) {finalPanelHeight = finalPanelHeight / (Math.ceil(finalPanelHeight/500));}
+    // let height:number = top ? this.sharedDataService.windowHeight : this.sharedDataService.bottomSashHeight;
+    // if(height <= 0) {return -1;}
+    // let horzDividers:number = this.sharedDataService.dividerNumbers[0];
+    // let finalPanelHeight:number = 0; 
+    // if(this.sharedDataService.selectedDividerType == 'nodiv') {
+    //   if(height >= 100 && height <=500) {finalPanelHeight = height;}
+    //   else {finalPanelHeight = height / (Math.ceil(height/500));}
+    // }
+    // else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
+    //   finalPanelHeight = height / (horzDividers+1);
+    // }
+    // // raised divs
+    // else {
+    //   finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1));
+    // }
+    // // Fixing panel height to be under 500
+    // if(finalPanelHeight >= 500) {finalPanelHeight = finalPanelHeight / (Math.ceil(finalPanelHeight/500));}
     
-    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return finalPanelHeight;}
-    else {return -1;}
+    // if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return finalPanelHeight;}
+    // else {return -1;}
+    return top ? this.sharedDataService.topPanelHeight : this.sharedDataService.bottomPanelHeight;
   }
 
   isRowInTopSash(rowNum:number):boolean {

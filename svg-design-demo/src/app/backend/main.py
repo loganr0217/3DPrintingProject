@@ -446,7 +446,10 @@ def getUserOrders():
             cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + ";")
             rows = cur.fetchall()
             if len(rows) > 0:
-                cur.execute("SELECT * FROM orders WHERE user_email = " + email + ";")
+                if rows[0][5] == "admin":
+                    cur.execute("SELECT * FROM orders;")
+                else:
+                    cur.execute("SELECT * FROM orders WHERE user_email = " + email + ";")
                 rows = cur.fetchall()
             else:
                 rows = (-2,)

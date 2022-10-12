@@ -101,6 +101,7 @@ export class ColorPageComponent implements OnInit {
     this.templateString += this.sharedDataService.currentWindowNumber + "," + panelNum + ",0,0;";
     this.panelSetId = this.sharedDataService.currentWindowNumber;
     this.panelNumber = panelNum;
+    
     // if(this.currentPanel != null) {
     //   document.getElementById("svgTemplateLayoutPanel" + this.currentPanel)?.setAttribute("style", "fill:#666666;")
     // }
@@ -114,6 +115,7 @@ export class ColorPageComponent implements OnInit {
     (<HTMLInputElement>document.getElementById("nameInput")).value = this.currentWindow[panelIndex].name.split("_")[0];
     (<HTMLInputElement>document.getElementById("panelNumberInput")).value = String(this.currentWindow[panelIndex].panelNumber);
     let tmp:SVGTemplate = new SVGTemplate(this.currentWindow[panelIndex].d);
+    this.sharedDataService.chosenPanel = this.currentWindow[panelIndex];
     tmp.panelsetId = this.panelSetId;
     tmp.panelNumber = this.currentWindow[panelIndex].panelNumber;
     this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]] = tmp;
@@ -432,6 +434,7 @@ export class ColorPageComponent implements OnInit {
     const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
     const panelsetId:number = this.panelSetId;
     const panelNumber:number = this.panelNumber;
+    console.log(this.sharedDataService.svgTemplateData[21]);
     if (filamentPercentage != undefined && confirm('Are you sure you want to add this filament percentage: ' + filamentPercentage + " ?")) {
       this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanelfilamentpercentage?email='"+email+"'&password='"+password+ "'&filamentPercentage=" + filamentPercentage + "&panelSetId=" + panelsetId + "&panelNumber=" + panelNumber).subscribe(result => {
         let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
@@ -442,20 +445,20 @@ export class ColorPageComponent implements OnInit {
     }
   }
 
-  deletePanel():void {
-    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
-    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
-    const panelsetId:number = this.panelSetId;
-    const panelNumber:number = this.panelNumber;
-    if (confirm('Are you sure you want to delete this panel? \nPanelset ID: '  + panelsetId + "\nPanel Number: " + panelNumber)) {
-      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/deletepanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelsetId + "&panelNumber=" + panelNumber).subscribe(result => {
-        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
-        alert(test);
-        // console.log(this.loginForm.value);
-        // console.log(this.sharedDataService.userInfo);
-       });
-    }
-  }
+  // deletePanel():void {
+  //   const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+  //   const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+  //   const panelsetId:number = this.panelSetId;
+  //   const panelNumber:number = this.panelNumber;
+  //   if (confirm('Are you sure you want to delete this panel? \nPanelset ID: '  + panelsetId + "\nPanel Number: " + panelNumber)) {
+  //     this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/deletepanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelsetId + "&panelNumber=" + panelNumber).subscribe(result => {
+  //       let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+  //       alert(test);
+  //       // console.log(this.loginForm.value);
+  //       // console.log(this.sharedDataService.userInfo);
+  //      });
+  //   }
+  // }
 
   addTemplateCategories():void {
     const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
