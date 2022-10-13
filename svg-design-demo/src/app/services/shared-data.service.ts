@@ -85,7 +85,7 @@ export class SharedDataService {
             this.topPanelWidth = ((this.windowWidth - (verticalDividers*this.dividerWidth)) / (verticalDividers+1));
             this.topPanelHeight = ((this.windowHeight - (horizontalDividers*this.dividerWidth)) / (horizontalDividers+1));
         }
-
+        this.numberTopPanels = temp.tempString.split(";").length;
         // this.topPanelWidth = topPanelWidths[bestCombo[0]];
         // this.topPanelHeight = topPanelHeights[bestCombo[1]];
         // this.numberTopPanels = temp.tempString.split(";").length;
@@ -110,53 +110,10 @@ export class SharedDataService {
             this.bottomPanelWidth = ((this.bottomSashWidth - (verticalDividers*this.dividerWidth)) / (verticalDividers+1));
             this.bottomPanelHeight = ((this.bottomSashHeight - (horizontalDividers*this.dividerWidth)) / (horizontalDividers+1));
         }
+        let numberPanelsX:number = Math.floor(this.windowWidth / this.topPanelWidth);
+         let numberPanelsY:number = Math.floor(this.windowHeight / this.topPanelHeight);
+         this.numberTopPanels = numberPanelsX * numberPanelsY;
     }
-
-    // Getting all possible widths for top
-    let topPanelWidths:number[] = [];
-    let reductionFactor:number = 1;
-    while(this.topPanelWidth / reductionFactor >= 100 && this.topPanelWidth / reductionFactor <= 500) {
-        topPanelWidths.push(this.topPanelWidth / reductionFactor);
-        ++reductionFactor;
-    }
-
-    // Getting all possible heights for top
-    let topPanelHeights:number[] = [];
-    reductionFactor = 1;
-    while(this.topPanelHeight / reductionFactor >= 100 && this.topPanelHeight / reductionFactor <= 500) {
-        topPanelHeights.push(this.topPanelHeight / reductionFactor);
-        ++reductionFactor;
-    }
-   
-    // Getting the best top width and height
-    [this.topPanelWidth, this.topPanelHeight] = this.getOptimalWidthHeight(topPanelWidths, topPanelHeights);
-    
-    if(!(this.bottomSashWidth == 0 && this.bottomSashHeight == 0)) {
-        // Getting all possible widths for bottom
-        let bottomPanelWidths:number[] = [];
-        reductionFactor = 1;
-        while(this.bottomPanelWidth / reductionFactor >= 100 && this.bottomPanelWidth / reductionFactor <= 500) {
-            bottomPanelWidths.push(this.bottomPanelWidth / reductionFactor);
-            ++reductionFactor;
-        }
-
-        // Getting all possible heights for bottom
-        let bottomPanelHeights:number[] = [];
-        reductionFactor = 1;
-        while(this.bottomPanelHeight / reductionFactor >= 100 && this.bottomPanelHeight / reductionFactor <= 500) {
-            bottomPanelHeights.push(this.bottomPanelHeight / reductionFactor);
-            ++reductionFactor;
-        }
-
-        [this.bottomPanelWidth, this.bottomPanelHeight] = this.getOptimalWidthHeight(bottomPanelWidths, bottomPanelHeights);
-
-
-        //console.log("top panel width: " + this.topPanelWidth);
-    }
-    let numberPanelsX:number = Math.floor(this.windowWidth / this.topPanelWidth);
-
-    let numberPanelsY:number = Math.floor(this.windowHeight / this.topPanelHeight);
-    this.numberTopPanels = numberPanelsX * numberPanelsY;
 }
 
   // Gets the number of top panels for the window
