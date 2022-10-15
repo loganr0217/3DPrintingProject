@@ -172,24 +172,41 @@ export class TemplateInfoFormComponent implements OnInit {
     "\n- Panel Name: " + this.sharedDataService.chosenPanel.name + "\n" +
     "New:\n- Panelset Id: " + panelSetId + "\n- Panel Number: " + panelNumber + 
     "\n- Panel Name: " + (<HTMLInputElement>document.getElementById("nameInput"))?.value+"_"+this.sharedDataService.chosenPanel.panelNumber + "\n";
-    if (confirm('Are you sure you want to update this panel?\n' + confirmText)) {
-      // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelSetId + "&panelNumber=" + panelNumber + "&panelName='" + panelName + "'&dAttribute='" + dAttribute + "'").subscribe(result => {
-      //   let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
-      //   alert(test);
-      //   // console.log(this.loginForm.value);
-      //   // console.log(this.sharedDataService.userInfo);
-      //  });
-       this.http.post("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatepanel", body, {'headers':headers}).subscribe(result => {
-        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
-         alert(test);
-         this.sharedDataService.chosenPanel.name = (<HTMLInputElement>document.getElementById("nameInput"))?.value+"_"+this.sharedDataService.chosenPanel.panelNumber;
-         this.sharedDataService.chosenPanel.d = (<HTMLInputElement>document.getElementById("dInput"))?.value;
-       });;
+
+    let temp300Check:SVGTemplate = new SVGTemplate(dAttribute);
+    if(Math.abs(temp300Check.width - 300) < .05 || Math.abs(temp300Check.height - 300) < .05) {
+      if (confirm('Are you sure you want to update this panel?\n' + confirmText)) {
+        // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelSetId + "&panelNumber=" + panelNumber + "&panelName='" + panelName + "'&dAttribute='" + dAttribute + "'").subscribe(result => {
+        //   let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+        //   alert(test);
+        //   // console.log(this.loginForm.value);
+        //   // console.log(this.sharedDataService.userInfo);
+        //  });
+         this.http.post("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatepanel", body, {'headers':headers}).subscribe(result => {
+          let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+           alert(test);
+           this.sharedDataService.chosenPanel.name = (<HTMLInputElement>document.getElementById("nameInput"))?.value+"_"+this.sharedDataService.chosenPanel.panelNumber;
+           this.sharedDataService.chosenPanel.d = (<HTMLInputElement>document.getElementById("dInput"))?.value;
+         });;
+      }
     }
+    else {alert("This panel does not meet the 300mmx300mm requirement.");}
+  }
 
+  deletePanel():void {
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    const panelsetId:number = this.sharedDataService.chosenPanel.id;
+    const panelNumber:number = this.sharedDataService.chosenPanel.panelNumber;
+    if (confirm('Are you sure you want to delete this panel? \nPanelset ID: '  + panelsetId + "\nPanel Number: " + panelNumber)) {
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/deletepanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelsetId + "&panelNumber=" + panelNumber).subscribe(result => {
+        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+        alert(test);
+        // console.log(this.loginForm.value);
+        // console.log(this.sharedDataService.userInfo);
+       });
+    }
     
-    
-
   }
 
 

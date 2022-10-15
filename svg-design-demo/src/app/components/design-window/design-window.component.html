@@ -1,9 +1,9 @@
 <div id="designWindow">
     <div class="dropdown">
-        <button class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1 dropdown-toggle" type="button" id="dropdownMenuButton" *ngIf="!isColorPage()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Frame Color
         </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <div *ngIf="!isColorPage()" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <a href="javascript:void(0)" style="background-color: #666666;color:#ffffff;" (click)="changeFrameColor('666666')" class="dropdown-item">Silver</a>
           <a href="javascript:void(0)" style="background-color: #FFD700;color:#ffffff;" (click)="changeFrameColor('FFD700')" class="dropdown-item">Gold</a>
           <a href="javascript:void(0)" style="background-color: #CD7F32;color:#ffffff;" (click)="changeFrameColor('CD7F32')" class="dropdown-item">Bronze</a>
@@ -11,7 +11,7 @@
         </div>
     </div>
     <!-- <input type="button" (click)="toggleAutofill()" class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1" id="autofillInput" value="Autofill"/> -->
-    <div class="custom-control custom-switch">
+    <div *ngIf="!isColorPage()" class="custom-control custom-switch">
         <input type="checkbox" class="custom-control-input" id="customSwitch_autofill">
         <label class="custom-control-label btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1" for="customSwitch_autofill">Autofill</label>
         <a class="btn text-center text-white btn-outline-light btn-floating m-1" data-toggle="modal" data-target="#exampleModalCenter" role="button">
@@ -62,7 +62,7 @@
     
 
     
-    <input type="button" class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1 float-right" id="button_nextPane" value="Next Step" (click)="nextstage5();"
+    <input type="button" class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1 float-right" *ngIf="!isColorPage()" id="button_nextPane" value="Next Step" (click)="nextstage5();"
     />
-    <input type="button" class="btn btn-med bg-light text-center btn-floating m-1 float-right" value="Previous Step" (click)="previousStage();"/>
+    <input type="button" class="btn btn-med bg-light text-center btn-floating m-1 float-right" *ngIf="!isColorPage()" value="Previous Step" (click)="previousStage();"/>
 </div>

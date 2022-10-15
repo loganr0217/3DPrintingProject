@@ -14,6 +14,10 @@ p {
     font-size: 1.4vw;
 }
 
+html, body {
+    overscroll-behavior-x: none;
+}
+
 @media (max-width: 575.98px) {
     .HideOnMobile {
         /* display: none; */

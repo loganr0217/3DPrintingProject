@@ -136,7 +136,10 @@ export class TemplateIconComponent implements OnInit {
     this.clearOldPanes();
     this.sharedDataService.currentSvgTemplate = this.sharedDataService.panelLayout[0][0];
     this.sharedDataService.currentTemplateNumber = row*this.sharedDataService.panelLayoutDims[0] + col;
-    let newTemplate:SVGTemplate = this.sharedDataService.currentSvgTemplate;
+    let newTemplate:SVGTemplate = new SVGTemplate(this.sharedDataService.currentSvgTemplate.getOptimizedD());
+    newTemplate.numberRotations = this.sharedDataService.currentSvgTemplate.numberRotations;
+    newTemplate.flipped = this.sharedDataService.currentSvgTemplate.flipped;
+    let transformValue = newTemplate.getTransform();
 
     let numPane:number = 0; // <-- In case the outer edge is not the first element
     // Adding each individual pane
@@ -148,6 +151,7 @@ export class TemplateIconComponent implements OnInit {
         let savedStyle = document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+numPane)?.getAttribute("style");
         if(savedStyle != null) {document.getElementById("pane"+numPane)?.setAttribute("style", savedStyle);}
         else {document.getElementById("pane"+numPane)?.setAttribute("style", "fill:#f0f0f1");}
+        document.getElementById("pane"+numPane)?.setAttribute("transform", transformValue);
         ++numPane;
       }
     }
@@ -159,7 +163,7 @@ export class TemplateIconComponent implements OnInit {
 
     let viewboxValue:string = ""+newTemplate.xMin+" "+newTemplate.yMin+" "+newTemplate.width+" "+newTemplate.height;
     document.getElementById("currentTemplate")?.setAttribute("viewBox", viewboxValue);
-    document.getElementById("svgTemplate")?.setAttribute("transform", "");
+    document.getElementById("svgTemplate")?.setAttribute("transform", transformValue);
     // document.getElementById("currentTemplate")?.setAttribute("width", ""+newTemplate.width+"mm");
     // document.getElementById("currentTemplate")?.setAttribute("height", ""+newTemplate.height+"mm");
   }

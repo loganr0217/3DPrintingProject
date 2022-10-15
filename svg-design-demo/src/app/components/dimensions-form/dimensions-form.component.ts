@@ -51,85 +51,85 @@ export class DimensionsFormComponent implements OnInit {
 */
 
 
-  getPanelWidth(width:number):number {
-    if(width <= 0) {return -1;}
-    let vertDividers:number = this.sharedDataService.dividerNumbers[1];
-    let finalPanelWidth:number = 0; 
-    if(this.sharedDataService.selectedDividerType == 'nodiv') {
-      if(width >= 100 && width <=500) {finalPanelWidth = width;}
-      else {finalPanelWidth = width / (Math.ceil(width/500));}
-    }
-    else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
-      // // Spacing using user's dividers is bigger than 500
-      // if(((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
-      // ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth) > 500) {
-      //     finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
-      //     ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth) / Math.ceil((((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
-      //       ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth)) / 500);
-      // }
-      // // Spacing using user's dividers is >= 100 and <= 500 (perfect)
-      // else if(((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
-      // ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth) >= 100) {
-      //     finalPanelWidth = (((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
-      //       ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth));
-      // }
-      // // Spacing is too small (have to ignore dividers)
-      // else {
-      //   if(width >= 100 && width <=500) {finalPanelWidth = width;}
-      //   else {finalPanelWidth = width / (Math.ceil(width/500));}
-      // }
-      finalPanelWidth = width / (vertDividers+1);
-      
-    }
-    // raised divs
-    else {
-      finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1));
-    }
-    // Fixing panel width to be under 500
-    if(finalPanelWidth > 500) {finalPanelWidth = finalPanelWidth / (Math.ceil(finalPanelWidth/500));}
-    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return finalPanelWidth;}
-    else {return -1;}
+getPanelWidth(width:number):number {
+  if(width <= 0) {return -1;}
+  let vertDividers:number = this.sharedDataService.dividerNumbers[1];
+  let finalPanelWidth:number = 0; 
+  if(this.sharedDataService.selectedDividerType == 'nodiv') {
+   if(width >= 100 && width <=500) {finalPanelWidth = width;}
+   else {finalPanelWidth = width / (Math.ceil(width/500));}
+ }
+ else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
+   // // Spacing using user's dividers is bigger than 500
+   // if(((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
+   // ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth) > 500) {
+   //     finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
+   //     ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth) / Math.ceil((((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
+   //       ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth)) / 500);
+   // }
+   // // Spacing using user's dividers is >= 100 and <= 500 (perfect)
+   // else if(((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
+   // ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth) >= 100) {
+   //     finalPanelWidth = (((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
+   //       ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth));
+   // }
+   // // Spacing is too small (have to ignore dividers)
+   // else {
+   //   if(width >= 100 && width <=500) {finalPanelWidth = width;}
+   //   else {finalPanelWidth = width / (Math.ceil(width/500));}
+   // }
+   finalPanelWidth = width / (vertDividers+1);
+   
+ }
+ // raised divs
+ else {
+   finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1));
   }
+  // Fixing panel width to be under 500
+  if(finalPanelWidth > 500) {finalPanelWidth = finalPanelWidth / (Math.ceil(finalPanelWidth/500));}
+  if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return finalPanelWidth;}
+  else {return -1;}
+}
 
-  getPanelHeight(height:number):number {
-    if(height <= 0) {return -1;}
-    let horzDividers:number = this.sharedDataService.dividerNumbers[0];
-    let finalPanelHeight:number = 0; 
-    if(this.sharedDataService.selectedDividerType == 'nodiv') {
-      if(height >= 100 && height <=500) {finalPanelHeight = height;}
-      else {finalPanelHeight = height / (Math.ceil(height/500));}
-    }
-    else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
-      // // Spacing using user's dividers is bigger than 500
-      // if(((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
-      // ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth) > 500) {
-      //     finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
-      //     ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth) / Math.ceil((((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
-      //       ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth)) / 500);
-      // }
-      // // Spacing using user's dividers is >= 100 and <= 500 (perfect)
-      // else if(((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
-      // ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth) >= 100) {
-      //     finalPanelHeight = (((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
-      //       ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth));
-      // }
-      // // Spacing is too small (have to ignore dividers)
-      // else {
-      //   if(height >= 100 && height <=500) {finalPanelHeight = height;}
-      //   else {finalPanelHeight = height / (Math.ceil(height/500));}
-      // }
-      finalPanelHeight = height / (horzDividers+1);
-    }
-    // raised divs
-    else {
-      finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1));
-    }
-    // Fixing panel height to be under 500
-    if(finalPanelHeight >= 500) {finalPanelHeight = finalPanelHeight / (Math.ceil(finalPanelHeight/500));}
-    
-    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return finalPanelHeight;}
-    else {return -1;}
-  }
+getPanelHeight(height:number):number {
+  if(height <= 0) {return -1;}
+  let horzDividers:number = this.sharedDataService.dividerNumbers[0];
+  let finalPanelHeight:number = 0; 
+  if(this.sharedDataService.selectedDividerType == 'nodiv') {
+   if(height >= 100 && height <=500) {finalPanelHeight = height;}
+   else {finalPanelHeight = height / (Math.ceil(height/500));}
+ }
+ else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
+   // // Spacing using user's dividers is bigger than 500
+   // if(((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
+   // ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth) > 500) {
+   //     finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
+   //     ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth) / Math.ceil((((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
+   //       ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth)) / 500);
+   // }
+   // // Spacing using user's dividers is >= 100 and <= 500 (perfect)
+   // else if(((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
+   // ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth) >= 100) {
+   //     finalPanelHeight = (((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
+   //       ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth));
+   // }
+   // // Spacing is too small (have to ignore dividers)
+   // else {
+   //   if(height >= 100 && height <=500) {finalPanelHeight = height;}
+   //   else {finalPanelHeight = height / (Math.ceil(height/500));}
+   // }
+   finalPanelHeight = height / (horzDividers+1);
+ }
+ // raised divs
+ else {
+   finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1));
+ }
+  // Fixing panel height to be under 500
+  if(finalPanelHeight >= 500) {finalPanelHeight = finalPanelHeight / (Math.ceil(finalPanelHeight/500));}
+
+  if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return finalPanelHeight;}
+  else {return -1;}
+}
 
   convertNumber(num:number, unit:string):number {
     if(unit == "mm") {return num;}
@@ -170,6 +170,7 @@ export class DimensionsFormComponent implements OnInit {
     let topPanelHeight:number = this.getPanelHeight(this.sharedDataService.windowHeight);
     let bottomPanelWidth:number = this.getPanelWidth(this.sharedDataService.bottomSashWidth);
     let bottomPanelHeight:number = this.getPanelHeight(this.sharedDataService.bottomSashHeight);
+    
     let topLeftRight:number = Math.floor(this.sharedDataService.windowWidth/topPanelWidth);
     let topTopBottom:number = Math.floor(this.sharedDataService.windowHeight/topPanelHeight);
     let bottomLeftRight:number = Math.floor(this.sharedDataService.bottomSashWidth/bottomPanelWidth);

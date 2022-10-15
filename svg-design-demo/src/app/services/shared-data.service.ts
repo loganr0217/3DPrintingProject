@@ -50,6 +50,23 @@ export class SharedDataService {
   'square1to1', 'square2to2', 'square4to4'
   ];
 
+  getOptimalWidthHeight(widths:number[], heights:number[]) {
+    // Getting optimal widths and heights by checking every combination for top panels
+    let bestCombo:number[] = [0, 0];
+    let widthHeightRatio = widths[0] / heights[0];
+    for(let widthIndex:number = 0; widthIndex < widths.length; ++widthIndex) {
+        for(let heightIndex:number = 0; heightIndex < heights.length; ++heightIndex) {
+            if(Math.abs(1 - widths[widthIndex] / heights[heightIndex]) < Math.abs(1 - widthHeightRatio)) {
+            bestCombo = [widthIndex, heightIndex];
+            widthHeightRatio = widths[widthIndex] / heights[heightIndex];
+            }
+        }
+    }
+    let width = widths[bestCombo[0]];
+    let height = heights[bestCombo[1]];
+    return [width, height];
+  }
+
 
   getPanelInfo(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):void {
     let verticalDividers:number = this.dividerNumbers[1];
@@ -69,6 +86,9 @@ export class SharedDataService {
             this.topPanelHeight = ((this.windowHeight - (horizontalDividers*this.dividerWidth)) / (horizontalDividers+1));
         }
         this.numberTopPanels = temp.tempString.split(";").length;
+        // this.topPanelWidth = topPanelWidths[bestCombo[0]];
+        // this.topPanelHeight = topPanelHeights[bestCombo[1]];
+        // this.numberTopPanels = temp.tempString.split(";").length;
         
     }
     else {
@@ -91,11 +111,9 @@ export class SharedDataService {
             this.bottomPanelHeight = ((this.bottomSashHeight - (horizontalDividers*this.dividerWidth)) / (horizontalDividers+1));
         }
         let numberPanelsX:number = Math.floor(this.windowWidth / this.topPanelWidth);
-        let numberPanelsY:number = Math.floor(this.windowHeight / this.topPanelHeight);
-        this.numberTopPanels = numberPanelsX * numberPanelsY;
+         let numberPanelsY:number = Math.floor(this.windowHeight / this.topPanelHeight);
+         this.numberTopPanels = numberPanelsX * numberPanelsY;
     }
-    //console.log("top panel width: " + this.topPanelWidth);
-    
 }
 
   // Gets the number of top panels for the window

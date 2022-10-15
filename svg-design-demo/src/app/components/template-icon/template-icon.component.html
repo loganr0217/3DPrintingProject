@@ -1,9 +1,9 @@
 <div class="fullWin" [style]="'flex-direction:'+(this.flexColumn ? 'column' : 'row')">
     <div *ngFor="let template of templateData;">
-        <div *ngIf="template.panelDims[0] == this.sharedDataService.panelLayoutDims[0] 
+        <div *ngIf="(template.panelDims[0] == this.sharedDataService.panelLayoutDims[0] 
             && template.panelDims[1] == this.sharedDataService.panelLayoutDims[1]
-            && isTemplateOkay(template)">
-            <div class="windowTemplateContainer">
+            && isTemplateOkay(template))">
+            <div class="windowTemplateContainer" [style]="this.isColorPage() && this.sharedDataService.selectedTemplateID == template.id ? 'filter: invert(7%) sepia(100%) saturate(7423%) hue-rotate(248deg) brightness(104%) contrast(143%);' : ''">
             
                 <div class="windowTemplate" (click)="nextstage4(); createPreview(template); displayFirstTemplate();" data-toggle="modal" data-target="#exampleModalCenter" *ngFor="let row of getPanelLayout(template); let rowNumber = index;">
                     <!-- <img class="svgTemplateIcons" *ngFor="let svgTemplate of window" 
@@ -14,7 +14,7 @@
                         <path style="fill:#666666" [attr.transform]="'scale(' + getScaleX(svgTemplate, rowNumber) + ',' + getScaleY(svgTemplate, rowNumber) +') ' + svgTemplate.getTransform()" [attr.d]="svgTemplate.getScaledD( ( isRowInTopSash(rowNumber) ? getPanelWidth() : getPanelWidth(false) )/300 , ( isRowInTopSash(rowNumber) ? getPanelHeight() : getPanelHeight(false) )/300 )[0]"/>
                     </svg> -->
 
-                    <svg *ngFor="let svgTemplate of row" xmlns="http://www.w3.org/2000/svg" class="svgTemplateIcons"  [attr.viewBox]="getTemplateViewBox(svgTemplate.getOptimizedD())">
+                    <svg *ngFor="let svgTemplate of row" xmlns="http://www.w3.org/2000/svg" class="svgTemplateIcons" [attr.viewBox]="getTemplateViewBox(svgTemplate.getOptimizedD())">
                         <path style="fill:#666666" [attr.transform]="svgTemplate.getTransform()" [attr.d]="svgTemplate.getOptimizedD()"/>
                     </svg>
                 </div>
