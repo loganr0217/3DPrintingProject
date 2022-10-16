@@ -20,20 +20,20 @@ html, body {
 
 @media (max-width: 575.98px) {
     .HideOnMobile {
-        /* display: none; */
+        display: initial;
     }
 
-    /* .ShowOnMobile {
+    .ShowOnMobile {
         display: initial;
-    } */
+    }
 }
 
 @media (min-width: 576px) {
     .HideOnMobile {
-        /* display: initial; */
+        display: initial;
     }
 
-    /* .ShowOnMobile {
+    .ShowOnMobile {
         display: none;
-    } */
+    }
 }

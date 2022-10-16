@@ -135,4 +135,7 @@ img {
         display: block;
         padding-bottom: 100px;
     }
+    #let-start {
+        display: none;
+    }
 }
