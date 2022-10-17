@@ -22,7 +22,7 @@ def login():
             cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = MD5(" + password + ");")
             rows = cur.fetchall()
         else:
-            rows = tuple()
+            rows = (-1,)
         # Returning the final result
         return jsonify(rows)
     except Exception as e:
@@ -38,7 +38,7 @@ def signup():
     try:
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
-        if firstname != 'null' and lastname != 'null' and email != 'null' and password != 'null':
+        if firstname != 'null' and lastname != 'null' and email != 'null' and len(password) >= 8 and password != "'undefined'" and email != '':
             cur.execute("SELECT * FROM users WHERE email = " + email + ";")
             rows = cur.fetchall()
             # User already has an account with that email
@@ -50,7 +50,7 @@ def signup():
                 rows = cur.fetchall()
                 conn.commit()
         else:
-            rows = tuple()
+            rows = (-1,)
         # Returning the final result
         return jsonify(rows)
     except Exception as e:
