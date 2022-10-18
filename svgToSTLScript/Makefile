@@ -1,0 +1,23 @@
+ORDERID = 0
+ACTUALINDEX = 0
+
+FILES: STLS PANES
+
+STLS: 
+	-@mkdir order_$(ORDERID)
+	-@tsc svgScaler.ts
+	-@node svgScaler.js -STLS $(ACTUALINDEX)
+	-@for file in *.scad; do \
+	/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD $${file} -o $${file}.stl; \
+	done
+	-@mkdir order_$(ORDERID)/STLS
+	-@mv *.stl order_$(ORDERID)/STLS
+	-@rm *.svg *.scad svgScaler.js
+
+PANES:
+	-@mkdir order_$(ORDERID)
+	-@tsc svgScaler.ts
+	-@node svgScaler.js -PANES $(ACTUALINDEX)
+	-@mkdir order_$(ORDERID)/PANES
+	-@mv *.svg order_$(ORDERID)/PANES
+	-@rm svgScaler.js
