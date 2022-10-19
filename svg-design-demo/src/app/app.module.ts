@@ -34,6 +34,7 @@ import { MissionPageComponent } from './components/mission-page/mission-page.com
 import { TutorialsPageComponent } from './components/tutorials-page/tutorials-page.component';
 import { FaqPageComponent } from './components/faq-page/faq-page.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
+import { OrderPageComponent } from './components/order-page/order-page.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { ProfilePageComponent } from './components/profile-page/profile-page.com
     MissionPageComponent,
     TutorialsPageComponent,
     FaqPageComponent,
-    ProfilePageComponent
+    ProfilePageComponent,
+    OrderPageComponent
   ],
   imports: [
     BrowserModule,

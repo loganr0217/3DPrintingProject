@@ -9,6 +9,7 @@ import { FormRegisterComponent } from './components/form-register/form-register.
 import { GalleryPageComponent } from './components/gallery-page/gallery-page.component';
 import { MainPageComponent } from './components/main-page/main-page.component';
 import { MissionPageComponent } from './components/mission-page/mission-page.component';
+import { OrderPageComponent } from './components/order-page/order-page.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { TutorialsPageComponent } from './components/tutorials-page/tutorials-page.component';
@@ -45,6 +46,10 @@ const routes: Routes = [
   {
     path: "profile",
     component: ProfilePageComponent
+  },
+  {
+    path: "orders",
+    component: OrderPageComponent
   },
   {
     path: "about",
