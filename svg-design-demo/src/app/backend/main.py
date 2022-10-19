@@ -428,7 +428,7 @@ def getOrders():
     try:
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
-        cur.execute("SELECT * FROM orders;")
+        cur.execute("SELECT * FROM orders order by id;")
         rows = cur.fetchall()
         return jsonify(rows)
     except Exception as e:
