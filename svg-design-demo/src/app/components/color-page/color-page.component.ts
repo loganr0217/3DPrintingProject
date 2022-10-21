@@ -182,14 +182,30 @@ export class ColorPageComponent implements OnInit {
   decreaseCurrentLocation():void {
     // Decreasing the current location by 1
     if(this.currentPanelLocation[1] - 1 < 0 && this.currentPanelLocation[0] - 1 >= 0) {--this.currentPanelLocation[0]; this.currentPanelLocation[1]=this.panelDims[0]-1;}
+    else if(this.currentPanelLocation[1] - 1 < 0) {this.currentPanelLocation[0] = this.panelDims[1]-1; this.currentPanelLocation[1] = this.panelDims[0]-1;}
     else {--this.currentPanelLocation[1];}
   }
 
   // Method to increase current panel location
   increaseCurrentLocation():void {
     // Increasing the current location by 1
-    if(this.currentPanelLocation[1] + 1 >= this.panelDims[0]) {++this.currentPanelLocation[0]; this.currentPanelLocation[1]=0;}
+    if(this.currentPanelLocation[1] + 1 >= this.panelDims[0] && this.currentPanelLocation[0] + 1 < this.panelDims[0]) {++this.currentPanelLocation[0]; this.currentPanelLocation[1]=0;}
+    else if(this.currentPanelLocation[1] + 1 >= this.panelDims[0]) {this.currentPanelLocation[0] = 0; this.currentPanelLocation[1] = 0;}
     else {++this.currentPanelLocation[1];}
+  }
+
+  // Method to move up one location for the current template
+  moveUpLocation():void {
+    // Decreasing the current location by 1
+    if(this.currentPanelLocation[0] - 1 < 0) {this.currentPanelLocation[0] = this.panelDims[1]-1;}
+    else {--this.currentPanelLocation[0];}
+  }
+
+  // Method to move down one location for the current template
+  moveDownLocation():void {
+    // Increasing the current location by 1
+    if(this.currentPanelLocation[0] + 1 >= this.panelDims[1]) {this.currentPanelLocation[0] = 0;}
+    else {++this.currentPanelLocation[0];}
   }
 
   updateCurrentLocationText():void {

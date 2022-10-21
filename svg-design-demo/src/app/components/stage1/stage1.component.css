@@ -81,7 +81,7 @@ img {
     display: flex;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 576px) {
     .HideOnMobile {
         width: 100%;
     }
@@ -109,7 +109,7 @@ img {
     }
 
     #sideTextContainer {
-        background-image: url("../../../assets/img/galleryPhotos/galleryPhoto2.jpeg");
+        /* background-image: url("../../../assets/img/galleryPhotos/galleryPhoto2.jpeg"); */
         background-repeat: no-repeat;
         background-size: cover;
     }
@@ -120,7 +120,7 @@ img {
 
     #header_title > h1 > b  {
         font-size: 30px;
-        color: antiquewhite;
+        /* color: antiquewhite; */
     }
 
     #side_text > span > p{

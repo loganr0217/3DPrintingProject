@@ -1,42 +1,8 @@
-.col-sm-3, #orderHeading, #orderListAndPreview {
+.col-sm-3 {
     display: flex;
 }
 
-#orderList {
-    display: flex;
-    flex-direction: column;
-    flex:1;
-    height:70vh;
-    overflow-y: scroll;
-    padding: 2px;
-    margin-bottom: 4vh;
-    border:1px solid black;
-}
-
-#pastOrderPreview {
-    flex:2;
-}
 p {
     margin:5px;
-}
-
-.pastOrderLabel {
-    margin-right: 1vw;
-}
-
-#orders {
-    padding-left: 2vw;
-}
-/* .userOrder {
-    padding: 2px;
-    margin-bottom: 4vh;
-    border:1px solid black;
-} */
-
-
-#adminFilterInput {
-    margin-top:1vh;
-    margin-bottom:1vh;
-    margin-left: 1vw;
 }
 
