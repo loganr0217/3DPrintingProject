@@ -149,8 +149,4 @@ img {
     #let-start {
         display: none;
     }
-
-    .carousel-indicators {
-        bottom: 50px;
-    }
 }

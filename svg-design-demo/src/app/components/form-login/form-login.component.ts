@@ -52,17 +52,17 @@ export class FormLoginComponent implements OnInit {
    // function submit
    onSubmit() {
     this.submitted = true;
-
-    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/login?email='"+String(this.emailid?.value)+"'&password='"+String(this.password?.value)+"'").subscribe(result => {
-      this.sharedDataService.userInfo = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
-      if(this.sharedDataService.userInfo.length > 1) {
-        this.sharedDataService.signedIn = true;
-        if((<HTMLInputElement>document.getElementById("rememberMeBox"))?.checked) {localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));}
-        this.router.navigate(['/']);
-      }
-      // console.log(this.loginForm.value);
-      // console.log(this.sharedDataService.userInfo);
-    });
+    this.router.navigate(['/profile']);
+    // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/login?email='"+String(this.emailid?.value)+"'&password='"+String(this.password?.value)+"'").subscribe(result => {
+    //   this.sharedDataService.userInfo = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+    //   if(this.sharedDataService.userInfo.length > 1) {
+    //     this.sharedDataService.signedIn = true;
+    //     if((<HTMLInputElement>document.getElementById("rememberMeBox"))?.checked) {localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));}
+    //     this.router.navigate(['/']);
+    //   }
+    //   // console.log(this.loginForm.value);
+    //   // console.log(this.sharedDataService.userInfo);
+    // });
     // stop here if form is invalid
     // if (this.registerForm.invalid) {
     //     return;
