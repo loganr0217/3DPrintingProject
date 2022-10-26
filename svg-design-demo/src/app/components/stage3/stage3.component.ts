@@ -130,10 +130,10 @@ export class Stage3Component implements OnInit {
   changeUnits(unitChoice:string):void {
     this.sharedDataService.unitChoice = unitChoice;
     // Updating the placeholders for each input
-    document.getElementById("widthUnits")!.textContent = unitChoice;
-    document.getElementById("heightUnits")!.textContent = unitChoice;
+    // document.getElementById("widthUnits")!.textContent = unitChoice;
+    // document.getElementById("heightUnits")!.textContent = unitChoice;
     document.getElementById("dropdownMenuButton")!.innerHTML = "Your selected unit of measure is " + this.sharedDataService.unitChoice;
-    document.getElementById("dividerWidthUnits")!.textContent = unitChoice;
+    // document.getElementById("dividerWidthUnits")!.textContent = unitChoice;
     document.getElementById("dividerDetailText")?.setAttribute("style", "visibility:visible;")
   }
 

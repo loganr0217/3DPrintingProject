@@ -19,6 +19,11 @@ export class DimensionsFormComponent implements OnInit {
     this.unitChoice = this.sharedDataService.unitChoice;
   }
 
+  // Returns 0 to n-1 (mainly used for iterating svg path items)
+  range(n:number):number[] {
+    return [...Array(n).keys()];
+  }
+
 /* SAVING FOR LATER USE IN STEP 4
   // Method to update dimensions 
   updateDimensions():void {
@@ -49,8 +54,42 @@ export class DimensionsFormComponent implements OnInit {
     }
   }
 */
+// Function for optimized algorithm
+getPanelWidths(width:number):number[] {
+  if(width <= 0) {return [-1];}
+  let vertDividers:number = this.sharedDataService.dividerNumbers[1];
+  let finalPanelWidth:number = 0; 
+  let totalDividerWidth:number = 0;
+  if(this.sharedDataService.selectedDividerType == 'nodiv') {
+    finalPanelWidth = width;
+    totalDividerWidth = 0;
+  }
+  else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
+    finalPanelWidth = width / (vertDividers+1);
+    totalDividerWidth = 0;
+  }
+  // raised divs
+  else {
+    finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1));
+    totalDividerWidth = vertDividers*this.sharedDataService.dividerWidth;
+  }
+  if(finalPanelWidth >= 100) {
+    let finalWidths:number[] = [];
+    let reductionFactor:number = 1;
+    while(finalPanelWidth/reductionFactor >= 100) {
+      if(finalPanelWidth/reductionFactor >= 100 && finalPanelWidth/reductionFactor <= 500) {
+        if((width-totalDividerWidth)/(finalPanelWidth/reductionFactor) <= 6) {
+          finalWidths.push(finalPanelWidth/reductionFactor);
+        }
+      }
+      ++reductionFactor;
+    }
+    return finalWidths;
+  }
+  else {return [-1];}
+}
 
-
+// Original width function
 getPanelWidth(width:number):number {
   if(width <= 0) {return -1;}
   let vertDividers:number = this.sharedDataService.dividerNumbers[1];
@@ -60,26 +99,7 @@ getPanelWidth(width:number):number {
    else {finalPanelWidth = width / (Math.ceil(width/500));}
  }
  else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
-   // // Spacing using user's dividers is bigger than 500
-   // if(((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
-   // ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth) > 500) {
-   //     finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
-   //     ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth) / Math.ceil((((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
-   //       ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth)) / 500);
-   // }
-   // // Spacing using user's dividers is >= 100 and <= 500 (perfect)
-   // else if(((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
-   // ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth) >= 100) {
-   //     finalPanelWidth = (((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1)) + 
-   //       ((vertDividers/(vertDividers+1)) * this.sharedDataService.dividerWidth));
-   // }
-   // // Spacing is too small (have to ignore dividers)
-   // else {
-   //   if(width >= 100 && width <=500) {finalPanelWidth = width;}
-   //   else {finalPanelWidth = width / (Math.ceil(width/500));}
-   // }
    finalPanelWidth = width / (vertDividers+1);
-   
  }
  // raised divs
  else {
@@ -91,6 +111,43 @@ getPanelWidth(width:number):number {
   else {return -1;}
 }
 
+// Optimized height function
+getPanelHeights(height:number):number[] {
+  if(height <= 0) {return [-1];}
+  let horzDividers:number = this.sharedDataService.dividerNumbers[0];
+  let finalPanelHeight:number = 0; 
+  let totalDividerHeight:number = 0;
+  if(this.sharedDataService.selectedDividerType == 'nodiv') {
+    finalPanelHeight = height;
+    totalDividerHeight = 0;
+  }
+  else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
+    finalPanelHeight = height / (horzDividers+1);
+    totalDividerHeight = 0;
+  }
+  // raised divs
+  else {
+    finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1));
+    totalDividerHeight = (horzDividers*this.sharedDataService.dividerWidth);
+  }
+
+  //if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return finalPanelHeight;}
+  if(finalPanelHeight >= 100) {
+    let finalHeights:number[] = [];
+    let reductionFactor:number = 1;
+    while(finalPanelHeight/reductionFactor >= 100) {
+      if(finalPanelHeight/reductionFactor >= 100 && finalPanelHeight/reductionFactor <= 500) {
+        if((height-totalDividerHeight)/(finalPanelHeight/reductionFactor) <= 6) {
+          finalHeights.push(finalPanelHeight/reductionFactor);
+        }
+      }
+      ++reductionFactor;
+    }
+    return finalHeights;
+  }
+  else {return [-1];}
+}
+
 getPanelHeight(height:number):number {
   if(height <= 0) {return -1;}
   let horzDividers:number = this.sharedDataService.dividerNumbers[0];
@@ -100,24 +157,6 @@ getPanelHeight(height:number):number {
    else {finalPanelHeight = height / (Math.ceil(height/500));}
  }
  else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
-   // // Spacing using user's dividers is bigger than 500
-   // if(((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
-   // ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth) > 500) {
-   //     finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
-   //     ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth) / Math.ceil((((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
-   //       ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth)) / 500);
-   // }
-   // // Spacing using user's dividers is >= 100 and <= 500 (perfect)
-   // else if(((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
-   // ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth) >= 100) {
-   //     finalPanelHeight = (((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1)) + 
-   //       ((horzDividers/(horzDividers+1))*this.sharedDataService.dividerWidth));
-   // }
-   // // Spacing is too small (have to ignore dividers)
-   // else {
-   //   if(height >= 100 && height <=500) {finalPanelHeight = height;}
-   //   else {finalPanelHeight = height / (Math.ceil(height/500));}
-   // }
    finalPanelHeight = height / (horzDividers+1);
  }
  // raised divs
@@ -166,16 +205,60 @@ getPanelHeight(height:number):number {
 
   // Updating panel layout 2d array
   updatePanelLayout():void {
-    let topPanelWidth:number = this.getPanelWidth(this.sharedDataService.windowWidth);
-    let topPanelHeight:number = this.getPanelHeight(this.sharedDataService.windowHeight);
-    let bottomPanelWidth:number = this.getPanelWidth(this.sharedDataService.bottomSashWidth);
-    let bottomPanelHeight:number = this.getPanelHeight(this.sharedDataService.bottomSashHeight);
+    // let topPanelWidth:number = this.getPanelWidth(this.sharedDataService.windowWidth);
+    // let topPanelHeight:number = this.getPanelHeight(this.sharedDataService.windowHeight);
+    // let bottomPanelWidth:number = this.getPanelWidth(this.sharedDataService.bottomSashWidth);
+    // let bottomPanelHeight:number = this.getPanelHeight(this.sharedDataService.bottomSashHeight);
+    // Getting possible widths and heights
+    let topPanelWidths:number[] = this.getPanelWidths(this.sharedDataService.windowWidth);
+    let topPanelHeights:number[] = this.getPanelHeights(this.sharedDataService.windowHeight);
+    let bottomPanelWidths:number[] = this.getPanelWidths(this.sharedDataService.bottomSashWidth);
+    let bottomPanelHeights:number[] = this.getPanelHeights(this.sharedDataService.bottomSashHeight);
+
+    // Getting optimal widths and heights by checking every combination for top panels
+    let bestCombo:number[] = [0, 0];
+    let widthHeightRatio = topPanelWidths[0] / topPanelHeights[0];
+    let acceptableCombos:number[][] = [];
+    for(let widthIndex:number = 0; widthIndex < topPanelWidths.length; ++widthIndex) {
+      for(let heightIndex:number = 0; heightIndex < topPanelHeights.length; ++heightIndex) {
+        if(Math.abs(1 - topPanelWidths[widthIndex] / topPanelHeights[heightIndex]) <= Math.abs(1 - widthHeightRatio)) {
+          // Met the requirements within a 6x6 template of ratio .75-1.33
+          if((topPanelWidths[widthIndex] / topPanelHeights[heightIndex]) <= 1.33 && (topPanelWidths[widthIndex] / topPanelHeights[heightIndex]) >= .75) {
+            acceptableCombos.push([widthIndex, heightIndex]);
+          }
+          bestCombo = [widthIndex, heightIndex];
+          widthHeightRatio = topPanelWidths[widthIndex] / topPanelHeights[heightIndex];
+        }
+      }
+    }
+    // Getting the best width and height
+    let topPanelWidth:number = acceptableCombos.length > 0 ? topPanelWidths[acceptableCombos[0][0]] : topPanelWidths[bestCombo[0]];
+    let topPanelHeight:number = acceptableCombos.length > 0 ? topPanelHeights[acceptableCombos[0][1]] : topPanelHeights[bestCombo[1]];
+
+    // Getting optimal bottom widths and heights by checking every combination for bottom panels
+    bestCombo = [0, 0];
+    widthHeightRatio = bottomPanelWidths[0] / bottomPanelHeights[0];
+    acceptableCombos = [];
+    for(let widthIndex:number = 0; widthIndex < bottomPanelWidths.length; ++widthIndex) {
+      for(let heightIndex:number = 0; heightIndex < bottomPanelHeights.length; ++heightIndex) {
+        if(Math.abs(1 - bottomPanelWidths[widthIndex] / bottomPanelHeights[heightIndex]) < Math.abs(1 - widthHeightRatio)) {
+          // Met the requirements within a 6x6 template of ratio .75-1.33
+          if((bottomPanelWidths[widthIndex] / bottomPanelHeights[heightIndex]) <= 1.33 && (bottomPanelWidths[widthIndex] / bottomPanelHeights[heightIndex]) >= .75) {
+            acceptableCombos.push([widthIndex, heightIndex]);
+          }
+          bestCombo = [widthIndex, heightIndex];
+          widthHeightRatio = bottomPanelWidths[widthIndex] / bottomPanelHeights[heightIndex];
+        }
+      }
+    }
+    let bottomPanelWidth:number = acceptableCombos.length > 0 ? bottomPanelWidths[acceptableCombos[0][0]] : bottomPanelWidths[bestCombo[0]];
+    let bottomPanelHeight:number = acceptableCombos.length > 0 ? bottomPanelHeights[acceptableCombos[0][0]] : bottomPanelHeights[bestCombo[1]];
+
     
     let topLeftRight:number = Math.floor(this.sharedDataService.windowWidth/topPanelWidth);
     let topTopBottom:number = Math.floor(this.sharedDataService.windowHeight/topPanelHeight);
     let bottomLeftRight:number = Math.floor(this.sharedDataService.bottomSashWidth/bottomPanelWidth);
     let bottomTopBottom:number = Math.floor(this.sharedDataService.bottomSashHeight/bottomPanelHeight);
-    console.log(bottomPanelWidth + " " + bottomPanelHeight);
     // let panelWidth:number = this.getPanelWidth(this.sharedDataService.windowWidth);
     // let panelHeight:number = this.getPanelHeight(this.sharedDataService.windowHeight);
     // let leftRight:number = Math.floor(this.sharedDataService.windowWidth/panelWidth);
@@ -316,7 +399,7 @@ getPanelHeight(height:number):number {
     this.updateDimensionsButton();
     this.updatePanelLayout();
     let availableTemplate:boolean = this.isAvailableTemplate();
-    if(availableTemplate && !(this.sharedDataService.panelLayoutDims[0] == -1 && this.sharedDataService.panelLayoutDims[1] == -1) && this.getPanelWidth(this.sharedDataService.windowWidth) != -1 && this.getPanelHeight(this.sharedDataService.windowHeight) != -1) {
+    if(availableTemplate && !(this.sharedDataService.panelLayoutDims[0] == -1 && this.sharedDataService.panelLayoutDims[1] == -1) && this.getPanelWidths(this.sharedDataService.windowWidth)[0] != -1 && this.getPanelHeights(this.sharedDataService.windowHeight)[0] != -1) {
       // console.log(this.sharedDataService.windowWidth + " " + this.sharedDataService.windowHeight);
       document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;");
       $('#dimensionsFormModal').modal('hide');
