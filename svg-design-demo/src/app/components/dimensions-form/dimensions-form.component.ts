@@ -214,6 +214,8 @@ getPanelHeight(height:number):number {
     let topPanelHeights:number[] = this.getPanelHeights(this.sharedDataService.windowHeight);
     let bottomPanelWidths:number[] = this.getPanelWidths(this.sharedDataService.bottomSashWidth);
     let bottomPanelHeights:number[] = this.getPanelHeights(this.sharedDataService.bottomSashHeight);
+    console.log(topPanelHeights);
+    console.log(bottomPanelHeights);
 
     // Getting optimal widths and heights by checking every combination for top panels
     let bestCombo:number[] = [0, 0];
@@ -241,7 +243,7 @@ getPanelHeight(height:number):number {
     acceptableCombos = [];
     for(let widthIndex:number = 0; widthIndex < bottomPanelWidths.length; ++widthIndex) {
       for(let heightIndex:number = 0; heightIndex < bottomPanelHeights.length; ++heightIndex) {
-        if(Math.abs(1 - bottomPanelWidths[widthIndex] / bottomPanelHeights[heightIndex]) < Math.abs(1 - widthHeightRatio)) {
+        if(Math.abs(1 - bottomPanelWidths[widthIndex] / bottomPanelHeights[heightIndex]) <= Math.abs(1 - widthHeightRatio)) {
           // Met the requirements within a 6x6 template of ratio .75-1.33
           if((bottomPanelWidths[widthIndex] / bottomPanelHeights[heightIndex]) <= 1.33 && (bottomPanelWidths[widthIndex] / bottomPanelHeights[heightIndex]) >= .75) {
             acceptableCombos.push([widthIndex, heightIndex]);
@@ -252,13 +254,14 @@ getPanelHeight(height:number):number {
       }
     }
     let bottomPanelWidth:number = acceptableCombos.length > 0 ? bottomPanelWidths[acceptableCombos[0][0]] : bottomPanelWidths[bestCombo[0]];
-    let bottomPanelHeight:number = acceptableCombos.length > 0 ? bottomPanelHeights[acceptableCombos[0][0]] : bottomPanelHeights[bestCombo[1]];
+    let bottomPanelHeight:number = acceptableCombos.length > 0 ? bottomPanelHeights[acceptableCombos[0][1]] : bottomPanelHeights[bestCombo[1]];
 
     
     let topLeftRight:number = Math.floor(this.sharedDataService.windowWidth/topPanelWidth);
     let topTopBottom:number = Math.floor(this.sharedDataService.windowHeight/topPanelHeight);
     let bottomLeftRight:number = Math.floor(this.sharedDataService.bottomSashWidth/bottomPanelWidth);
     let bottomTopBottom:number = Math.floor(this.sharedDataService.bottomSashHeight/bottomPanelHeight);
+    
     // let panelWidth:number = this.getPanelWidth(this.sharedDataService.windowWidth);
     // let panelHeight:number = this.getPanelHeight(this.sharedDataService.windowHeight);
     // let leftRight:number = Math.floor(this.sharedDataService.windowWidth/panelWidth);
@@ -269,10 +272,11 @@ getPanelHeight(height:number):number {
       else {
         let topBottom:number = this.isDoubleHung() ? topTopBottom + bottomTopBottom : topTopBottom;
         this.sharedDataService.panelLayout = [];
-        for(let i:number = 0; i < topTopBottom + bottomTopBottom; ++i) {
+        for(let i:number = 0; i < topTopBottom; ++i) {
           this.sharedDataService.panelLayout.push([]);
         }
         this.sharedDataService.panelLayoutDims = [topLeftRight, topBottom];
+        
       }
       
     }

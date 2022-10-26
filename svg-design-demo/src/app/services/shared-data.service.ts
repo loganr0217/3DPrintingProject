@@ -57,7 +57,7 @@ export class SharedDataService {
     let acceptableCombos:number[][] = [];
     for(let widthIndex:number = 0; widthIndex < widths.length; ++widthIndex) {
         for(let heightIndex:number = 0; heightIndex < heights.length; ++heightIndex) {
-            if(Math.abs(1 - widths[widthIndex] / heights[heightIndex]) < Math.abs(1 - widthHeightRatio)) {
+            if(Math.abs(1 - widths[widthIndex] / heights[heightIndex]) <= Math.abs(1 - widthHeightRatio)) {
                 // Met the requirements within a 6x6 template of ratio .75-1.33
                 if((widths[widthIndex] / heights[heightIndex]) <= 1.33 && (widths[widthIndex] / heights[heightIndex]) >= .75) {
                     acceptableCombos.push([widthIndex, heightIndex]);
@@ -69,6 +69,7 @@ export class SharedDataService {
     }
     let width = acceptableCombos.length > 0 ? widths[acceptableCombos[0][0]] : widths[bestCombo[0]];
     let height = acceptableCombos.length > 0 ? heights[acceptableCombos[0][1]] : heights[bestCombo[1]];
+    
     return [width, height];
   }
 
@@ -77,7 +78,7 @@ export class SharedDataService {
     let verticalDividers:number = this.dividerNumbers[1];
     let horizontalDividers:number = this.dividerNumbers[0];
     // Not a double hung
-    if(this.bottomSashWidth == 0 && this.bottomSashHeight == 0) {
+    if(this.bottomSashWidth <= 0 && this.bottomSashHeight <= 0) {
         if(this.selectedDividerType == "nodiv") {
             this.topPanelWidth = this.windowWidth / (Math.ceil(this.windowWidth/500));
             this.topPanelHeight = this.windowHeight / (Math.ceil(this.windowHeight/500));
@@ -126,9 +127,11 @@ export class SharedDataService {
     let verticalDividers:number = this.dividerNumbers[1];
     let horizontalDividers:number = this.dividerNumbers[0];
     // Not a double hung
-    if(this.bottomSashWidth == 0 && this.bottomSashHeight == 0) {
+    //alert(this.bottomSashWidth + ", " + this.bottomSashHeight);
+    if(this.bottomSashWidth <= 0 && this.bottomSashHeight <= 0) {
         if(this.selectedDividerType == "nodiv") {
             this.topPanelWidth = this.windowWidth;
+            this.topPanelHeight = this.windowHeight;
         }
         else if(this.selectedDividerType == "embeddeddiv") {
             this.topPanelWidth = this.windowWidth / (verticalDividers+1);
@@ -147,7 +150,9 @@ export class SharedDataService {
     else {
         if(this.selectedDividerType == "nodiv") {
             this.topPanelWidth = this.windowWidth;
+            this.topPanelHeight = this.windowHeight;
             this.bottomPanelWidth = this.bottomSashWidth;
+            this.bottomPanelHeight = this.bottomSashHeight;
         }
         else if(this.selectedDividerType == "embeddeddiv" || this.selectedDividerType == "'embeddeddiv'") {
             this.topPanelWidth = this.windowWidth / (verticalDividers+1);
@@ -193,8 +198,8 @@ export class SharedDataService {
 
     // Getting the best top width and height
     [this.topPanelWidth, this.topPanelHeight] = this.getOptimalWidthHeight(topPanelWidths, topPanelHeights);
-
-    if(!(this.bottomSashWidth == 0 && this.bottomSashHeight == 0)) {
+    
+    if(!(this.bottomSashWidth <= 0 && this.bottomSashHeight <= 0)) {
         // Getting all possible widths for bottom
         let bottomPanelWidths:number[] = [];
         reductionFactor = 1;
@@ -222,18 +227,17 @@ export class SharedDataService {
 
         [this.bottomPanelWidth, this.bottomPanelHeight] = this.getOptimalWidthHeight(bottomPanelWidths, bottomPanelHeights);
 
-
         //console.log("top panel width: " + this.topPanelWidth);
     }
-    let numberPanelsX:number = Math.floor((this.windowWidth - (this.dividerWidth*this.dividerNumbers[1])) / this.topPanelWidth);
-    let numberPanelsY:number = Math.floor((this.windowHeight - (this.dividerWidth*this.dividerNumbers[0])) / this.topPanelHeight);
+    let numberPanelsX:number = Math.floor((this.windowWidth) / this.topPanelWidth);
+    let numberPanelsY:number = Math.floor((this.windowHeight) / this.topPanelHeight);
     let numberBottomPanelsX:number = 0;
     let numberBottomPanelsY:number = 0;
-    if(!(this.bottomSashWidth == 0 && this.bottomSashHeight == 0)) {
-        numberBottomPanelsX = Math.floor((this.bottomSashWidth - (this.dividerWidth*this.dividerNumbers[1])) / this.bottomPanelWidth);
-        numberBottomPanelsY = Math.floor((this.bottomSashHeight - (this.dividerWidth*this.dividerNumbers[0])) / this.bottomPanelHeight);
+    if(!(this.bottomSashWidth <= 0 && this.bottomSashHeight <= 0)) {
+        numberBottomPanelsX = Math.floor((this.bottomSashWidth) / this.bottomPanelWidth);
+        numberBottomPanelsY = Math.floor((this.bottomSashHeight) / this.bottomPanelHeight);
+        this.numberTopPanels = numberPanelsX * numberPanelsY;
     }
-    this.numberTopPanels = numberPanelsX * numberPanelsY;
     if(this.numberTopPanels + (numberBottomPanelsX*numberBottomPanelsY) != temp.tempString.split(";").length) {this.getPanelInfoOld(temp);}
 }
 
@@ -244,7 +248,7 @@ export class SharedDataService {
     let topPanelHeight:number = 0;
     let bottomPanelWidth:number = 0;
     let bottomPanelHeight:number = 0;
-    if(this.bottomSashWidth == 0 && this.bottomSashHeight == 0) {
+    if(this.bottomSashWidth <= 0 && this.bottomSashHeight <= 0) {
         if(this.selectedDividerType == "nodiv") {
             topPanelWidth = this.windowWidth / (Math.ceil(this.windowWidth/500));
             topPanelHeight = this.windowHeight / (Math.ceil(this.windowHeight/500));
