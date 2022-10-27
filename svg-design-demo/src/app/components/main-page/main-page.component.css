@@ -1,0 +1,20 @@
+@media only screen and (max-width: 576px) {
+    #stage2 {
+        display: none;
+    }
+    #stage3 {
+        display: none;
+    }
+    #stage4 {
+        display: none;
+    }
+    #stage5 {
+        display: none;
+    }
+    #checkoutStage {
+        display: none;
+    }
+    #templateCategoryStage {
+        display: none;
+    }
+}

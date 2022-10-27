@@ -3,3 +3,9 @@
     padding-left: 2vw;
     padding-right: 2vw;
 }
+
+@media only screen and (max-width: 576px) {
+    #missionPageContainer > p {
+        font-size: 14px;
+    }
+}
