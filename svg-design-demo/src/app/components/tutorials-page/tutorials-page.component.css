@@ -12,3 +12,17 @@
 #tdiInfo, #measurementInfo, #installationInfo {
     padding-top: 80px;
 }
+
+@media only screen and (max-width: 576px) {
+    #tutorialsPageContainer > p {
+        font-size: 16px;
+    }
+
+    #tutorialsPageContainer > ul > li > p {
+        font-size: 16px;
+    }
+
+    #tutorialsPageContainer > ol > li > p {
+        font-size: 16px;
+    }
+}

@@ -45,8 +45,12 @@ h1 {
         margin-top: 0;
     }
 
+    .gallery-photo {
+        text-align: center;
+    }
+
     .captions > figcaption {
-        text-align: initial;
+        text-align: center;
         margin-top: 1vh;
         font-size: 16px;
     }

@@ -1,10 +1,7 @@
 <h1>Gallery</h1>
 <div id="galleryPhotosContainer">
-    <figure class="galleryPhotoContainer row" id="galleryPhoto{{i}}" *ngFor="let templateCategory of range(9); let i = index">
-        <div class=" col-sm-8">
-            <img class="templateCategoryImage" src="assets/img/galleryPhotos/galleryPhoto{{i}}.jpeg" alt="Gallery Photo {{i}}">
-        </div>
-        <div class="captions col-sm-4">
+    <figure class="galleryPhotoContainer" id="galleryPhoto{{i}}" *ngFor="let templateCategory of range(9); let i = index">
+        <div class="captions" *ngIf="i%2==0">
             <figcaption [textContent]="getGalleryCaption(i, 0)"></figcaption>
             <figcaption [textContent]="getGalleryCaption(i, 1)"></figcaption>
             <figcaption [textContent]="getGalleryCaption(i, 2)"></figcaption>
@@ -14,10 +11,8 @@
             <figcaption [textContent]="getGalleryCaption(i, 6)"></figcaption>
             <figcaption [textContent]="getGalleryCaption(i, 7)"></figcaption>
         </div>
-        <!-- <div class="col-sm-8">
-            <img class="templateCategoryImage" *ngIf="i%2!=0" src="assets/img/galleryPhotos/galleryPhoto{{i}}.jpeg" alt="Gallery Photo {{i}}">
-        </div>
-        <div class="captions col-sm-4" *ngIf="i%2!=0">
+        <img class="templateCategoryImage" src="assets/img/galleryPhotos/galleryPhoto{{i}}.jpeg" alt="Gallery Photo {{i}}">
+        <div class="captions" *ngIf="i%2!=0">
             <figcaption [textContent]="getGalleryCaption(i, 0)"></figcaption>
             <figcaption [textContent]="getGalleryCaption(i, 1)"></figcaption>
             <figcaption [textContent]="getGalleryCaption(i, 2)"></figcaption>
@@ -26,7 +21,7 @@
             <figcaption [textContent]="getGalleryCaption(i, 5)"></figcaption>
             <figcaption [textContent]="getGalleryCaption(i, 6)"></figcaption>
             <figcaption [textContent]="getGalleryCaption(i, 7)"></figcaption>
-        </div> -->
+        </div>
         <!-- <img id="dividerTypeImage_{{dividerType}}"  src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/> -->
     </figure>
 </div>
