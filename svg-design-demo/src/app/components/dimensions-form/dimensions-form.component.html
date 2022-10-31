@@ -59,11 +59,11 @@
             </div>
             <input (change)="updateDimensionsButton()" type="number" min="0" class="form-control" id="widthInput" placeholder=0/>
             <div class="input-group-append">
-                <!-- <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sup>0</sup>&frasl;<sub>16</sub>"</button>
+                <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sup>0</sup>&frasl;<sub>16</sub>"</button>
                 <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
                     <a *ngFor="let num of range(16)" class="dropdown-item" href="javascript:void(0)"><sup>{{num}}</sup>&frasl;<sub>16</sub>"</a>
-                </div> -->
-              <span class="input-group-text textarea-addon" id="widthUnits" [textContent]="unitText()"></span>
+                </div>
+              <span *ngIf="this.sharedDataService.unitChoice != 'inches'" class="input-group-text textarea-addon" id="widthUnits" [textContent]="unitText()"></span>
             </div>
         </div>
         <!-- height input -->
@@ -73,13 +73,13 @@
             </div>
             <input (change)="updateDimensionsButton()" type="number" min="0" class="form-control" id="heightInput" placeholder=0/>
             <div class="input-group-append">
-                <!-- <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">0/16</button>
+                <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">0/16</button>
                 <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
                     <a class="dropdown-item" href="#">1/16</a>
                     <a class="dropdown-item" href="#">2/16</a>
                     <a class="dropdown-item" href="#">3/16</a>
-                </div> -->
-              <span class="input-group-text textarea-addon" id="heightUnits" [textContent]="unitText()"></span>
+                </div>
+              <span *ngIf="this.sharedDataService.unitChoice != 'inches'"  class="input-group-text textarea-addon" id="heightUnits" [textContent]="unitText()"></span>
             </div>
         </div>
         
