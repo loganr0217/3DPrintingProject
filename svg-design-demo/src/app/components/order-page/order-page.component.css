@@ -36,3 +36,9 @@
     margin-bottom:1vh;
     margin-left: 1vw;
 }
+
+@media only screen and (max-width: 576px) {
+    #orderList {
+        height: 30vh;
+    }
+}

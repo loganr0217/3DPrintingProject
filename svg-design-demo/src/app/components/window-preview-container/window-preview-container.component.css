@@ -49,3 +49,13 @@
     display: flex;
     justify-content: center;
 }
+
+@media only screen and (max-width: 576px) {
+    .fullWin {
+        max-width: 100vw;
+    }
+    .svgTemplateIcons {
+        width: 6vh;
+        height: 6vh;
+    }
+}
