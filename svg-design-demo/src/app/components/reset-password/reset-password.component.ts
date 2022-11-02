@@ -58,7 +58,6 @@ export class ResetPasswordComponent implements OnInit {
 
   onSubmit() {
     if(this.confirmPw === this.newPw) {
-      console.log('ngon rồi');
       window.location.href = this.fakeUrl + 'login';;
     }else {
       this.resetForm.setErrors({'invalid': true});

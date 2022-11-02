@@ -16,6 +16,7 @@
     }
     
     img {
+        max-width: 64vw;
         height: 80vh;
         object-fit: contain;
         flex: 2;

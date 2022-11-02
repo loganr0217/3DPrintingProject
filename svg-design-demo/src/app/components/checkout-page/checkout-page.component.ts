@@ -53,7 +53,6 @@ export class CheckoutPageComponent implements OnInit {
     // var xmlString = serializer.serializeToString(document.getElementById("windowPreviewContainertrue")!);
     // let svgText:string[] = xmlString.split("<svg");
     // for(let i:number = 0; i < svgText.length; ++i) {svgText[i] = "<svg" + svgText[i]; finalText += svgText[i] + "\n\n";}
-    // console.log(finalText);
 
     if (confirm('Are you sure you want to make this order?')) {
       let finalText:string[] = [String(this.convertNumber(this.sharedDataService.windowWidth / this.sharedDataService.panelLayoutDims[0], this.sharedDataService.unitChoice)),
@@ -71,7 +70,6 @@ export class CheckoutPageComponent implements OnInit {
       }
       final += "]\n"
       final += this.sharedDataService.panelColoringArray;
-      // console.log(final);
       if((<HTMLInputElement>document.getElementById("couponCodeInput"))?.value == "lightscreen.art-beta") {
         // Setting up vars to get final info for order
         const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : null;
@@ -88,7 +86,7 @@ export class CheckoutPageComponent implements OnInit {
           panelColoringString += this.sharedDataService.panelColoringArray[i].join(",");
           if(i != this.sharedDataService.panelColoringArray.length - 1) {panelColoringString += ";";}
         }
-        // console.log(panelColoringString);
+
         const streetAddress:string = (<HTMLInputElement>document.getElementById("streetAddressInput")).value;
         const city:string = (<HTMLInputElement>document.getElementById("cityInput")).value;
         const state:string = (<HTMLInputElement>document.getElementById("stateInput")).value;
@@ -96,7 +94,7 @@ export class CheckoutPageComponent implements OnInit {
         const country:string = "US";
         const bottomWindowWidth:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice) : 0;
         const bottomWindowHeight:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice) : 0;
-        // console.log(streetAddress + " " + city + " " + state);
+        
         this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/makeorder?email='"+email
         +"'&selectedDividerType='"+selectedDividerType+"'&unitChoice='"+unitChoice
         +"'&windowWidth="+windowWidth+"&windowHeight="+windowHeight+"&horzDividers="+horzDividers

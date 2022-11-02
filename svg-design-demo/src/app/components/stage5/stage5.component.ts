@@ -163,7 +163,7 @@ export class Stage5Component implements OnInit {
         panelColoringString += this.sharedDataService.panelColoringArray[i].join(",");
         if(i != this.sharedDataService.panelColoringArray.length - 1) {panelColoringString += ";";}
       }
-      // console.log(panelColoringString);
+
       const streetAddress:string = (<HTMLInputElement>document.getElementById("streetAddressInput")).value;
       const city:string = (<HTMLInputElement>document.getElementById("cityInput")).value;
       const state:string = (<HTMLInputElement>document.getElementById("stateInput")).value;
@@ -171,7 +171,7 @@ export class Stage5Component implements OnInit {
       const country:string = "US";
       const bottomWindowWidth:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice) : 0;
       const bottomWindowHeight:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice) : 0;
-      // console.log(streetAddress + " " + city + " " + state);
+      
       this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/saveorder?email='"+email
       +"'&password='"+password+"'&selectedDividerType='"+selectedDividerType+"'&unitChoice='"+unitChoice
       +"'&windowWidth="+windowWidth+"&windowHeight="+windowHeight+"&horzDividers="+horzDividers

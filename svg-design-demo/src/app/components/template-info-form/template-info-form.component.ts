@@ -128,8 +128,6 @@ export class TemplateInfoFormComponent implements OnInit {
         // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelSetId + "&panelNumber=" + panelNumber + "&panelName='" + panelName + "'&dAttribute='" + dAttribute + "'").subscribe(result => {
         //   let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
         //   alert(test);
-        //   // console.log(this.loginForm.value);
-        //   // console.log(this.sharedDataService.userInfo);
         //  });
          this.http.post("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel", body, {'headers':headers}).subscribe(result => {
           let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
@@ -179,8 +177,6 @@ export class TemplateInfoFormComponent implements OnInit {
         // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelSetId + "&panelNumber=" + panelNumber + "&panelName='" + panelName + "'&dAttribute='" + dAttribute + "'").subscribe(result => {
         //   let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
         //   alert(test);
-        //   // console.log(this.loginForm.value);
-        //   // console.log(this.sharedDataService.userInfo);
         //  });
          this.http.post("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatepanel", body, {'headers':headers}).subscribe(result => {
           let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
@@ -202,8 +198,6 @@ export class TemplateInfoFormComponent implements OnInit {
       this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/deletepanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelsetId + "&panelNumber=" + panelNumber).subscribe(result => {
         let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
         alert(test);
-        // console.log(this.loginForm.value);
-        // console.log(this.sharedDataService.userInfo);
        });
     }
     

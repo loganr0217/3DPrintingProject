@@ -42,6 +42,12 @@ export class SharedDataService {
   selectedTemplateCategory:string;
   chosenPanel:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string};
 
+  windowWidthFractionNum:number;
+  windowHeightFractionNum:number;
+  bottomSashWidthFractionNum:number;
+  bottomSashHeightFractionNum:number;
+  dividerWidthFractionNum:number;
+
   // Array holding all window shapes offered
   windowShapes:string[] = [
   'vertical2to6', 'vertical2to4', 'vertical1to6', 'vertical1to4', 'vertical1to2',
@@ -177,7 +183,7 @@ export class SharedDataService {
     let reductionFactor:number = 1;
     while(this.topPanelWidth / reductionFactor >= 100) {
         if(this.topPanelWidth/reductionFactor >= 100 && this.topPanelWidth/reductionFactor <= 500) {
-          if((this.windowWidth-(this.dividerWidth*this.dividerNumbers[1]))/(this.topPanelWidth/reductionFactor) <= 6) {
+          if((this.windowWidth-(this.dividerWidth*this.dividerNumbers[1]))/(this.topPanelWidth/reductionFactor) <= (this.isDoubleHung() ? 3 : 6)) {
             topPanelWidths.push(this.topPanelWidth/reductionFactor);
           }
         }
@@ -189,7 +195,7 @@ export class SharedDataService {
     reductionFactor = 1;
     while(this.topPanelHeight / reductionFactor >= 100) {
         if(this.topPanelHeight/reductionFactor >= 100 && this.topPanelHeight/reductionFactor <= 500) {
-          if((this.windowHeight-(this.dividerWidth*this.dividerNumbers[0]))/(this.topPanelHeight/reductionFactor) <= 6) {
+          if((this.windowHeight-(this.dividerWidth*this.dividerNumbers[0]))/(this.topPanelHeight/reductionFactor) <= (this.isDoubleHung() ? 3 : 6)) {
             topPanelHeights.push(this.topPanelHeight/reductionFactor);
           }
         }
@@ -205,7 +211,7 @@ export class SharedDataService {
         reductionFactor = 1;
         while(this.bottomPanelWidth / reductionFactor >= 100) {
             if(this.bottomPanelWidth/reductionFactor >= 100 && this.bottomPanelWidth/reductionFactor <= 500) {
-              if((this.bottomSashWidth-(this.dividerWidth*this.dividerNumbers[1]))/(this.bottomPanelWidth/reductionFactor) <= 6) {
+              if((this.bottomSashWidth-(this.dividerWidth*this.dividerNumbers[1]))/(this.bottomPanelWidth/reductionFactor) <= (this.isDoubleHung() ? 3 : 6)) {
                 bottomPanelWidths.push(this.bottomPanelWidth/reductionFactor);
               }
             }
@@ -218,7 +224,7 @@ export class SharedDataService {
         reductionFactor = 1;
         while(this.bottomPanelHeight / reductionFactor >= 100) {
             if(this.bottomPanelHeight/reductionFactor >= 100 && this.bottomPanelHeight/reductionFactor <= 500) {
-              if((this.bottomSashHeight-(this.dividerWidth*this.dividerNumbers[0]))/(this.bottomPanelHeight/reductionFactor) <= 6) {
+              if((this.bottomSashHeight-(this.dividerWidth*this.dividerNumbers[0]))/(this.bottomPanelHeight/reductionFactor) <= (this.isDoubleHung() ? 3 : 6)) {
                 bottomPanelHeights.push(this.bottomPanelHeight/reductionFactor);
               }
             }
@@ -226,8 +232,6 @@ export class SharedDataService {
         }
 
         [this.bottomPanelWidth, this.bottomPanelHeight] = this.getOptimalWidthHeight(bottomPanelWidths, bottomPanelHeights);
-
-        //console.log("top panel width: " + this.topPanelWidth);
     }
     let numberPanelsX:number = Math.floor((this.windowWidth) / this.topPanelWidth);
     let numberPanelsY:number = Math.floor((this.windowHeight) / this.topPanelHeight);
@@ -340,6 +344,14 @@ export class SharedDataService {
     {id:3, name:"black", hex:"000000ff", paneColor:false}
   ];
 
+  resetFractionNums():void {
+    this.windowWidthFractionNum = 0;
+    this.windowHeightFractionNum = 0;
+    this.bottomSashWidthFractionNum = 0;
+    this.bottomSashHeightFractionNum = 0;
+    this.dividerWidthFractionNum = 0;
+  }
+
   // Array that holds each panel's color makeup
   panelColoringArray:string[][] = [];
   templateData:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}[];
@@ -428,6 +440,12 @@ export class SharedDataService {
   // ];
 
   window:{d:string, priority:string}[] = [];
+
+  // Method to check whether selected window shape is a 2xHung
+  isDoubleHung():boolean {
+    if(this.selectedWindowShape.substring(0, 2) == "2x") {return true;}
+    return false;
+  }
   
   
     
@@ -450,7 +468,6 @@ export class SharedDataService {
     //   let panelData = JSON.parse(JSON.stringify(result));
       
     //   if(panelData.length > 1) {
-    //     console.log(panelData);
     //     this.svgTemplateData = [];
     //     for(let i:number = 0; i < 50; ++i) {this.svgTemplateData.push([]);}
     //     for(let i:number = 0; i < panelData.length; ++i) {
@@ -459,15 +476,12 @@ export class SharedDataService {
     //     }
     //     // for(let i:number = 0; i < 50; ++i) {
     //     //   if(this.svgTemplateData[i] == []) {
-    //     //     console.log(this.svgTemplateData);
     //     //     this.svgTemplateData = this.svgTemplateData.splice(i, 1);
     //     //     --i;
     //     //   }
     //     // }
     //   }
     //   else {alert("error");}
-    //   // console.log(this.loginForm.value);
-    //   // console.log(this.userInfo);
     // });
   }
 }

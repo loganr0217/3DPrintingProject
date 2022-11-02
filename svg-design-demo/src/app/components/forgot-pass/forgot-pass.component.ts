@@ -24,7 +24,6 @@ export class ForgotPassComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.email);
     window.location.href = this.fakeUrl + 'reset-pass';
   }
 

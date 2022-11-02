@@ -17,6 +17,7 @@ export class DimensionsFormComponent implements OnInit {
   
   ngOnInit(): void {
     this.unitChoice = this.sharedDataService.unitChoice;
+    this.sharedDataService.resetFractionNums();
   }
 
   // Returns 0 to n-1 (mainly used for iterating svg path items)
@@ -78,7 +79,7 @@ getPanelWidths(width:number):number[] {
     let reductionFactor:number = 1;
     while(finalPanelWidth/reductionFactor >= 100) {
       if(finalPanelWidth/reductionFactor >= 100 && finalPanelWidth/reductionFactor <= 500) {
-        if((width-totalDividerWidth)/(finalPanelWidth/reductionFactor) <= 6) {
+        if((width-totalDividerWidth)/(finalPanelWidth/reductionFactor) <= (this.isDoubleHung() ? 3 : 6)) {
           finalWidths.push(finalPanelWidth/reductionFactor);
         }
       }
@@ -137,7 +138,7 @@ getPanelHeights(height:number):number[] {
     let reductionFactor:number = 1;
     while(finalPanelHeight/reductionFactor >= 100) {
       if(finalPanelHeight/reductionFactor >= 100 && finalPanelHeight/reductionFactor <= 500) {
-        if((height-totalDividerHeight)/(finalPanelHeight/reductionFactor) <= 6) {
+        if((height-totalDividerHeight)/(finalPanelHeight/reductionFactor) <= (this.isDoubleHung() ? 3 : 6)) {
           finalHeights.push(finalPanelHeight/reductionFactor);
         }
       }
@@ -198,7 +199,6 @@ getPanelHeight(height:number):number {
     var xmlString = serializer.serializeToString(document.getElementById("windowPreviewContainertrue")!);
     let svgText:string[] = xmlString.split("<svg");
     for(let i:number = 0; i < svgText.length; ++i) {svgText[i] = "<svg" + svgText[i]; finalText += svgText[i] + "\n\n";}
-    // console.log(finalText);
     
 
   }
@@ -214,8 +214,6 @@ getPanelHeight(height:number):number {
     let topPanelHeights:number[] = this.getPanelHeights(this.sharedDataService.windowHeight);
     let bottomPanelWidths:number[] = this.getPanelWidths(this.sharedDataService.bottomSashWidth);
     let bottomPanelHeights:number[] = this.getPanelHeights(this.sharedDataService.bottomSashHeight);
-    console.log(topPanelHeights);
-    console.log(bottomPanelHeights);
 
     // Getting optimal widths and heights by checking every combination for top panels
     let bestCombo:number[] = [0, 0];
@@ -280,9 +278,6 @@ getPanelHeight(height:number):number {
       }
       
     }
-    
-    //console.log(this.sharedDataService.panelLayoutDims);
-    // console.log("Panel width: " + panelWidth + "\nPanel height: " + panelHeight + "\nLayout: " + this.sharedDataService.panelLayoutDims);
   }
 
   // Method to clear old panes
@@ -297,8 +292,8 @@ getPanelHeight(height:number):number {
 
   //
   updateDimensionsButton():void {
-    let newWidth:number = this.convertNumber(Number((<HTMLInputElement>document.getElementById("widthInput")).value), this.sharedDataService.unitChoice);
-    let newHeight:number = this.convertNumber(Number((<HTMLInputElement>document.getElementById("heightInput")).value), this.sharedDataService.unitChoice);
+    let newWidth:number = this.convertNumber(Math.floor(Number((<HTMLInputElement>document.getElementById("widthInput")).value)) + (this.sharedDataService.topSash ? this.sharedDataService.windowWidthFractionNum/16 : this.sharedDataService.bottomSashWidthFractionNum/16), this.sharedDataService.unitChoice);
+    let newHeight:number = this.convertNumber(Math.floor(Number((<HTMLInputElement>document.getElementById("heightInput")).value)) + (this.sharedDataService.topSash ? this.sharedDataService.windowHeightFractionNum/16 : this.sharedDataService.bottomSashHeightFractionNum/16), this.sharedDataService.unitChoice);
     this.updateDimensions(newWidth, newHeight);
   }
   // Method to update dimensions
@@ -326,7 +321,7 @@ getPanelHeight(height:number):number {
       else {
         horzDividers = Number((<HTMLInputElement>document.getElementById("horizontalDividersInput")).value);
         vertDividers = Number((<HTMLInputElement>document.getElementById("verticalDividersInput")).value);
-        dividerWidth = this.convertNumber(Number((<HTMLInputElement>document.getElementById("dividerWidthInput")).value), this.sharedDataService.unitChoice); 
+        dividerWidth = this.convertNumber(Math.floor(Number((<HTMLInputElement>document.getElementById("dividerWidthInput")).value)) + (this.sharedDataService.dividerWidthFractionNum/16), this.sharedDataService.unitChoice); 
       }
       
     }
@@ -404,7 +399,6 @@ getPanelHeight(height:number):number {
     this.updatePanelLayout();
     let availableTemplate:boolean = this.isAvailableTemplate();
     if(availableTemplate && !(this.sharedDataService.panelLayoutDims[0] == -1 && this.sharedDataService.panelLayoutDims[1] == -1) && this.getPanelWidths(this.sharedDataService.windowWidth)[0] != -1 && this.getPanelHeights(this.sharedDataService.windowHeight)[0] != -1) {
-      // console.log(this.sharedDataService.windowWidth + " " + this.sharedDataService.windowHeight);
       document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;");
       $('#dimensionsFormModal').modal('hide');
       document.getElementById("templateCategoryStage")?.scrollIntoView({behavior: 'smooth'});
@@ -435,13 +429,27 @@ getPanelHeight(height:number):number {
     if(this.sharedDataService.finishedSashes == false) {
       this.sharedDataService.finishedSashes = true;
       document.getElementById("submitInput")?.removeAttribute("disabled");
-      (<HTMLInputElement>document.getElementById("widthInput")).value = String(this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice));
-      (<HTMLInputElement>document.getElementById("heightInput")).value = String(this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice));
+      (<HTMLInputElement>document.getElementById("widthInput")).value = String(Math.round(this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice) - (this.sharedDataService.windowWidthFractionNum/16)));
+      (<HTMLInputElement>document.getElementById("heightInput")).value = String(Math.round(this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice) - (this.sharedDataService.windowHeightFractionNum/16)));
     }
     else {
-      (<HTMLInputElement>document.getElementById("widthInput")).value = String(this.convertBackNumber(this.sharedDataService.topSash ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice));
-      (<HTMLInputElement>document.getElementById("heightInput")).value = String(this.convertBackNumber(this.sharedDataService.topSash ? this.sharedDataService.windowHeight : this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice));
+      (<HTMLInputElement>document.getElementById("widthInput")).value = String(Math.round(this.convertBackNumber(this.sharedDataService.topSash ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice) - (this.sharedDataService.topSash ? this.sharedDataService.windowWidthFractionNum/16 : this.sharedDataService.bottomSashWidthFractionNum/16)));
+      (<HTMLInputElement>document.getElementById("heightInput")).value = String(Math.round(this.convertBackNumber(this.sharedDataService.topSash ? this.sharedDataService.windowHeight : this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice) - (this.sharedDataService.topSash ? this.sharedDataService.windowHeightFractionNum/16 : this.sharedDataService.bottomSashHeightFractionNum/16)));
     }
+  }
+
+  updateWidthFraction(n:number):void {
+    if(this.sharedDataService.topSash) {this.sharedDataService.windowWidthFractionNum = n;}
+    else {this.sharedDataService.bottomSashWidthFractionNum = n;}
+  }
+
+  updateHeightFraction(n:number):void {
+    if(this.sharedDataService.topSash) {this.sharedDataService.windowHeightFractionNum = n;}
+    else {this.sharedDataService.bottomSashHeightFractionNum = n;}
+  }
+
+  updateDividerWidthFraction(n:number):void {
+    this.sharedDataService.dividerWidthFractionNum = n;
   }
 
   unitText() {
@@ -501,6 +509,11 @@ getPanelHeight(height:number):number {
 
     if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return (this.isDoubleHung() ? (top ? "Top Pane Height: " : "Bottom Pane Height: ") : "Pane Height: ") + this.convertBackNumber(finalPanelHeight, this.sharedDataService.unitChoice).toFixed(2) + " " + this.sharedDataService.unitChoice;}
     else {return "-1";}
+  }
+
+  // Gets the divider width number to show 
+  getDividerWidthValue():number {
+    return Math.round(this.convertBackNumber(this.sharedDataService.dividerWidth, this.sharedDataService.unitChoice) - (this.sharedDataService.dividerWidthFractionNum/16));
   }
 
 }

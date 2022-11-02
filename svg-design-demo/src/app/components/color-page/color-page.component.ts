@@ -221,13 +221,13 @@ export class ColorPageComponent implements OnInit {
     let test:string[] = this.templateString.split(";");
     // Removing empty ending and adding number of rotations to last panel
     test.pop();
-    // console.log(test);
+    
     let lastPanelString:string[] = test[test.length-1].split(",");
     // let lastPanelInfo:string[] = test[test.length-1].split(",");
     // if(lastPanelInfo.length > 2) {lastPanelInfo[2] = String(this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].numberRotations);}
     // else {lastPanelInfo.push(String(this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].numberRotations));}
     lastPanelString[2] = String((Number(lastPanelString[2]) + 1) % 4);
-    // console.log(lastPanelString);
+    
     test[test.length-1] = lastPanelString.join(",");
     this.templateString = test.join(";") + ";";
     if(this.templateString == ";") {this.templateString = "";}
@@ -242,13 +242,13 @@ export class ColorPageComponent implements OnInit {
     let test:string[] = this.templateString.split(";");
     // Removing empty ending and adding number of rotations to last panel
     test.pop();
-    // console.log(test);
+    
     let lastPanelString:string[] = test[test.length-1].split(",");
     // let lastPanelInfo:string[] = test[test.length-1].split(",");
     // if(lastPanelInfo.length > 2) {lastPanelInfo[2] = String(this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].numberRotations);}
     // else {lastPanelInfo.push(String(this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]].numberRotations));}
     lastPanelString[3] = String((Number(lastPanelString[3]) + 1) % 2);
-    // console.log(lastPanelString);
+    
     test[test.length-1] = lastPanelString.join(",");
     this.templateString = test.join(";") + ";";
     if(this.templateString == ";") {this.templateString = "";}
@@ -257,7 +257,6 @@ export class ColorPageComponent implements OnInit {
 
   // Method to get the autofill text for a panel
   getPanelAutofillString():void {
-    // console.log("here: " + this.sharedDataService.panelColoringArray[0]);
     let colorArray:string[] = this.sharedDataService.panelColoringArray[0];
     
     let colorNumberArray:number[] = [];
@@ -276,8 +275,6 @@ export class ColorPageComponent implements OnInit {
         let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
         alert(test);
         this.sharedDataService.chosenPanel.panelAutofillString = panelAutofillString;
-        // console.log(this.loginForm.value);
-        // console.log(this.sharedDataService.userInfo);
        });
     }
   }
@@ -298,8 +295,6 @@ export class ColorPageComponent implements OnInit {
       this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanelsymmetricpanes?email='"+email+"'&password='"+password+ "'&symmetricPanesString='" + symmetricPanesString + "'&panelSetId=" + panelsetId + "&panelNumber=" + panelNumber).subscribe(result => {
         let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
         alert(test);
-        // console.log(this.loginForm.value);
-        // console.log(this.sharedDataService.userInfo);
        });
     }
   }
@@ -378,8 +373,6 @@ export class ColorPageComponent implements OnInit {
       this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addtemplate?email='"+email+"'&password='"+password+"'&numberPanelsX=" + numberPanelsX + "&numberPanelsY=" + numberPanelsY + "&templateString='" + templateString + "'&access='public'").subscribe(result => {
         let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
         alert(test);
-        // console.log(this.loginForm.value);
-        // console.log(this.sharedDataService.userInfo);
        });
     }
     
@@ -399,8 +392,6 @@ export class ColorPageComponent implements OnInit {
           return Number(item.id) == templateId
         });
         this.sharedDataService.templateData[templateIndex].tempString = "-1";
-        // console.log(this.loginForm.value);
-        // console.log(this.sharedDataService.userInfo);
        });
     }
   }
@@ -413,7 +404,6 @@ export class ColorPageComponent implements OnInit {
   switchTemplatePanel():void {this.onPanels = !this.onPanels;}
 
   getTemplateAutofillString():void {
-    // console.log("here: " + this.sharedDataService.panelColoringArray[0]);
     let colorArray:string[][] = this.sharedDataService.panelColoringArray;
     let colorNumberArray:number[][] = [];
     let colorNumberArrayTmp:number[];
@@ -437,8 +427,6 @@ export class ColorPageComponent implements OnInit {
     //   this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanelautofillstring?email='"+email+"'&password='"+password+ "'&panelAutofillString='" + panelAutofillString + "'&panelSetId=" + panelsetId + "&panelNumber=" + panelNumber).subscribe(result => {
     //     let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
     //     alert(test);
-    //     // console.log(this.loginForm.value);
-    //     // console.log(this.sharedDataService.userInfo);
     //    });
     // }
   }
@@ -450,13 +438,10 @@ export class ColorPageComponent implements OnInit {
     const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
     const panelsetId:number = this.panelSetId;
     const panelNumber:number = this.panelNumber;
-    console.log(this.sharedDataService.svgTemplateData[21]);
     if (filamentPercentage != undefined && confirm('Are you sure you want to add this filament percentage: ' + filamentPercentage + " ?")) {
       this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanelfilamentpercentage?email='"+email+"'&password='"+password+ "'&filamentPercentage=" + filamentPercentage + "&panelSetId=" + panelsetId + "&panelNumber=" + panelNumber).subscribe(result => {
         let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
         alert(test);
-        // console.log(this.loginForm.value);
-        // console.log(this.sharedDataService.userInfo);
        });
     }
   }
@@ -470,8 +455,6 @@ export class ColorPageComponent implements OnInit {
   //     this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/deletepanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelsetId + "&panelNumber=" + panelNumber).subscribe(result => {
   //       let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
   //       alert(test);
-  //       // console.log(this.loginForm.value);
-  //       // console.log(this.sharedDataService.userInfo);
   //      });
   //   }
   // }
@@ -498,8 +481,6 @@ export class ColorPageComponent implements OnInit {
           return Number(item.id) == templateId
         });
         this.sharedDataService.templateData[templateIndex].category = templateCategories;
-        // console.log(this.loginForm.value);
-        // console.log(this.sharedDataService.userInfo);
        });
     }
   }

@@ -7,6 +7,7 @@
     flex-direction: column;
     flex:1;
     height:70vh;
+    width: 40vw;
     overflow-y: scroll;
     padding: 2px;
     margin-bottom: 4vh;
@@ -17,11 +18,7 @@
     flex:2;
 }
 
-.pastOrderLabel {
-    margin-right: 1vw;
-}
-
-#orders {
+#orderHeading, #orderListAndButton {
     padding-left: 2vw;
 }
 /* .userOrder {
@@ -35,4 +32,27 @@
     margin-top:1vh;
     margin-bottom:1vh;
     margin-left: 1vw;
+}
+
+@media only screen and (max-width: 576px) {
+    #orderListAndPreview {
+        flex-direction: column;
+    }
+    #orderList {
+        width: 90vw;
+    }
+    #pastOrderPreview {
+        padding-top:75px;
+    }
+    .pastOrderLabel {
+        margin-right: 0;
+    }
+    
+    .userOrder {
+        margin-bottom: 3vh;
+    }
+    #adminFilterInput {
+        width:30vw;
+        font-size: 11px;
+    }
 }
