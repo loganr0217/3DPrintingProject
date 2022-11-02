@@ -42,6 +42,12 @@ export class SharedDataService {
   selectedTemplateCategory:string;
   chosenPanel:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string};
 
+  windowWidthFractionNum:number;
+  windowHeightFractionNum:number;
+  bottomSashWidthFractionNum:number;
+  bottomSashHeightFractionNum:number;
+  dividerWidthFractionNum:number;
+
   // Array holding all window shapes offered
   windowShapes:string[] = [
   'vertical2to6', 'vertical2to4', 'vertical1to6', 'vertical1to4', 'vertical1to2',
@@ -54,25 +60,31 @@ export class SharedDataService {
     // Getting optimal widths and heights by checking every combination for top panels
     let bestCombo:number[] = [0, 0];
     let widthHeightRatio = widths[0] / heights[0];
+    let acceptableCombos:number[][] = [];
     for(let widthIndex:number = 0; widthIndex < widths.length; ++widthIndex) {
         for(let heightIndex:number = 0; heightIndex < heights.length; ++heightIndex) {
-            if(Math.abs(1 - widths[widthIndex] / heights[heightIndex]) < Math.abs(1 - widthHeightRatio)) {
-            bestCombo = [widthIndex, heightIndex];
-            widthHeightRatio = widths[widthIndex] / heights[heightIndex];
+            if(Math.abs(1 - widths[widthIndex] / heights[heightIndex]) <= Math.abs(1 - widthHeightRatio)) {
+                // Met the requirements within a 6x6 template of ratio .75-1.33
+                if((widths[widthIndex] / heights[heightIndex]) <= 1.33 && (widths[widthIndex] / heights[heightIndex]) >= .75) {
+                    acceptableCombos.push([widthIndex, heightIndex]);
+                }
+                bestCombo = [widthIndex, heightIndex];
+                widthHeightRatio = widths[widthIndex] / heights[heightIndex];
             }
         }
     }
-    let width = widths[bestCombo[0]];
-    let height = heights[bestCombo[1]];
+    let width = acceptableCombos.length > 0 ? widths[acceptableCombos[0][0]] : widths[bestCombo[0]];
+    let height = acceptableCombos.length > 0 ? heights[acceptableCombos[0][1]] : heights[bestCombo[1]];
+    
     return [width, height];
   }
 
 
-  getPanelInfo(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):void {
+  getPanelInfoOld(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):void {
     let verticalDividers:number = this.dividerNumbers[1];
     let horizontalDividers:number = this.dividerNumbers[0];
     // Not a double hung
-    if(this.bottomSashWidth == 0 && this.bottomSashHeight == 0) {
+    if(this.bottomSashWidth <= 0 && this.bottomSashHeight <= 0) {
         if(this.selectedDividerType == "nodiv") {
             this.topPanelWidth = this.windowWidth / (Math.ceil(this.windowWidth/500));
             this.topPanelHeight = this.windowHeight / (Math.ceil(this.windowHeight/500));
@@ -82,13 +94,14 @@ export class SharedDataService {
             this.topPanelHeight = this.windowHeight / (horizontalDividers+1);
         }
         else if(this.selectedDividerType == "raiseddiv") {
-            this.topPanelWidth = ((this.windowWidth - (verticalDividers*this.dividerWidth)) / (verticalDividers+1));
-            this.topPanelHeight = ((this.windowHeight - (horizontalDividers*this.dividerWidth)) / (horizontalDividers+1));
-        }
-        this.numberTopPanels = temp.tempString.split(";").length;
-        // this.topPanelWidth = topPanelWidths[bestCombo[0]];
-        // this.topPanelHeight = topPanelHeights[bestCombo[1]];
-        // this.numberTopPanels = temp.tempString.split(";").length;
+             this.topPanelWidth = ((this.windowWidth - (verticalDividers*this.dividerWidth)) / (verticalDividers+1));
+             this.topPanelHeight = ((this.windowHeight - (horizontalDividers*this.dividerWidth)) / (horizontalDividers+1));
+         }
+
+         this.numberTopPanels = temp.tempString.split(";").length;
+         // this.topPanelWidth = topPanelWidths[bestCombo[0]];
+         // this.topPanelHeight = topPanelHeights[bestCombo[1]];
+         // this.numberTopPanels = temp.tempString.split(";").length;
         
     }
     else {
@@ -107,6 +120,55 @@ export class SharedDataService {
         else if(this.selectedDividerType == "raiseddiv") {
             this.topPanelWidth = ((this.windowWidth - (verticalDividers*this.dividerWidth)) / (verticalDividers+1));
             this.topPanelHeight = ((this.windowHeight - (horizontalDividers*this.dividerWidth)) / (horizontalDividers+1));
+             this.bottomPanelWidth = ((this.bottomSashWidth - (verticalDividers*this.dividerWidth)) / (verticalDividers+1));
+             this.bottomPanelHeight = ((this.bottomSashHeight - (horizontalDividers*this.dividerWidth)) / (horizontalDividers+1));
+         }
+         let numberPanelsX:number = Math.floor(this.windowWidth / this.topPanelWidth);
+          let numberPanelsY:number = Math.floor(this.windowHeight / this.topPanelHeight);
+          this.numberTopPanels = numberPanelsX * numberPanelsY;
+     }
+  }
+
+  getPanelInfo(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):void {
+    let verticalDividers:number = this.dividerNumbers[1];
+    let horizontalDividers:number = this.dividerNumbers[0];
+    // Not a double hung
+    //alert(this.bottomSashWidth + ", " + this.bottomSashHeight);
+    if(this.bottomSashWidth <= 0 && this.bottomSashHeight <= 0) {
+        if(this.selectedDividerType == "nodiv") {
+            this.topPanelWidth = this.windowWidth;
+            this.topPanelHeight = this.windowHeight;
+        }
+        else if(this.selectedDividerType == "embeddeddiv") {
+            this.topPanelWidth = this.windowWidth / (verticalDividers+1);
+            this.topPanelHeight = this.windowHeight / (horizontalDividers+1);
+        }
+        else if(this.selectedDividerType == "raiseddiv") {
+            this.topPanelWidth = ((this.windowWidth - (verticalDividers*this.dividerWidth)) / (verticalDividers+1));
+            this.topPanelHeight = ((this.windowHeight - (horizontalDividers*this.dividerWidth)) / (horizontalDividers+1));
+        }
+        this.numberTopPanels = temp.tempString.split(";").length;
+        // this.topPanelWidth = topPanelWidths[bestCombo[0]];
+        // this.topPanelHeight = topPanelHeights[bestCombo[1]];
+        // this.numberTopPanels = temp.tempString.split(";").length;
+        
+    }
+    else {
+        if(this.selectedDividerType == "nodiv") {
+            this.topPanelWidth = this.windowWidth;
+            this.topPanelHeight = this.windowHeight;
+            this.bottomPanelWidth = this.bottomSashWidth;
+            this.bottomPanelHeight = this.bottomSashHeight;
+        }
+        else if(this.selectedDividerType == "embeddeddiv" || this.selectedDividerType == "'embeddeddiv'") {
+            this.topPanelWidth = this.windowWidth / (verticalDividers+1);
+            this.topPanelHeight = this.windowHeight / (horizontalDividers+1);
+            this.bottomPanelWidth = this.bottomSashWidth / (verticalDividers+1);
+            this.bottomPanelHeight = this.bottomSashHeight / (horizontalDividers+1);
+        }
+        else if(this.selectedDividerType == "raiseddiv") {
+            this.topPanelWidth = ((this.windowWidth - (verticalDividers*this.dividerWidth)) / (verticalDividers+1));
+            this.topPanelHeight = ((this.windowHeight - (horizontalDividers*this.dividerWidth)) / (horizontalDividers+1));
             this.bottomPanelWidth = ((this.bottomSashWidth - (verticalDividers*this.dividerWidth)) / (verticalDividers+1));
             this.bottomPanelHeight = ((this.bottomSashHeight - (horizontalDividers*this.dividerWidth)) / (horizontalDividers+1));
         }
@@ -114,6 +176,73 @@ export class SharedDataService {
          let numberPanelsY:number = Math.floor(this.windowHeight / this.topPanelHeight);
          this.numberTopPanels = numberPanelsX * numberPanelsY;
     }
+
+
+    // Getting all possible widths for top
+    let topPanelWidths:number[] = [];
+    let reductionFactor:number = 1;
+    while(this.topPanelWidth / reductionFactor >= 100) {
+        if(this.topPanelWidth/reductionFactor >= 100 && this.topPanelWidth/reductionFactor <= 500) {
+          if((this.windowWidth-(this.dividerWidth*this.dividerNumbers[1]))/(this.topPanelWidth/reductionFactor) <= (this.isDoubleHung() ? 3 : 6)) {
+            topPanelWidths.push(this.topPanelWidth/reductionFactor);
+          }
+        }
+        ++reductionFactor;
+    }
+
+    // Getting all possible heights for top
+    let topPanelHeights:number[] = [];
+    reductionFactor = 1;
+    while(this.topPanelHeight / reductionFactor >= 100) {
+        if(this.topPanelHeight/reductionFactor >= 100 && this.topPanelHeight/reductionFactor <= 500) {
+          if((this.windowHeight-(this.dividerWidth*this.dividerNumbers[0]))/(this.topPanelHeight/reductionFactor) <= (this.isDoubleHung() ? 3 : 6)) {
+            topPanelHeights.push(this.topPanelHeight/reductionFactor);
+          }
+        }
+        ++reductionFactor;
+    }
+
+    // Getting the best top width and height
+    [this.topPanelWidth, this.topPanelHeight] = this.getOptimalWidthHeight(topPanelWidths, topPanelHeights);
+    
+    if(!(this.bottomSashWidth <= 0 && this.bottomSashHeight <= 0)) {
+        // Getting all possible widths for bottom
+        let bottomPanelWidths:number[] = [];
+        reductionFactor = 1;
+        while(this.bottomPanelWidth / reductionFactor >= 100) {
+            if(this.bottomPanelWidth/reductionFactor >= 100 && this.bottomPanelWidth/reductionFactor <= 500) {
+              if((this.bottomSashWidth-(this.dividerWidth*this.dividerNumbers[1]))/(this.bottomPanelWidth/reductionFactor) <= (this.isDoubleHung() ? 3 : 6)) {
+                bottomPanelWidths.push(this.bottomPanelWidth/reductionFactor);
+              }
+            }
+            ++reductionFactor;
+        }
+        
+
+        // Getting all possible heights for bottom
+        let bottomPanelHeights:number[] = [];
+        reductionFactor = 1;
+        while(this.bottomPanelHeight / reductionFactor >= 100) {
+            if(this.bottomPanelHeight/reductionFactor >= 100 && this.bottomPanelHeight/reductionFactor <= 500) {
+              if((this.bottomSashHeight-(this.dividerWidth*this.dividerNumbers[0]))/(this.bottomPanelHeight/reductionFactor) <= (this.isDoubleHung() ? 3 : 6)) {
+                bottomPanelHeights.push(this.bottomPanelHeight/reductionFactor);
+              }
+            }
+            ++reductionFactor;
+        }
+
+        [this.bottomPanelWidth, this.bottomPanelHeight] = this.getOptimalWidthHeight(bottomPanelWidths, bottomPanelHeights);
+    }
+    let numberPanelsX:number = Math.floor((this.windowWidth) / this.topPanelWidth);
+    let numberPanelsY:number = Math.floor((this.windowHeight) / this.topPanelHeight);
+    let numberBottomPanelsX:number = 0;
+    let numberBottomPanelsY:number = 0;
+    if(!(this.bottomSashWidth <= 0 && this.bottomSashHeight <= 0)) {
+        numberBottomPanelsX = Math.floor((this.bottomSashWidth) / this.bottomPanelWidth);
+        numberBottomPanelsY = Math.floor((this.bottomSashHeight) / this.bottomPanelHeight);
+        this.numberTopPanels = numberPanelsX * numberPanelsY;
+    }
+    if(this.numberTopPanels + (numberBottomPanelsX*numberBottomPanelsY) != temp.tempString.split(";").length) {this.getPanelInfoOld(temp);}
 }
 
   // Gets the number of top panels for the window
@@ -123,7 +252,7 @@ export class SharedDataService {
     let topPanelHeight:number = 0;
     let bottomPanelWidth:number = 0;
     let bottomPanelHeight:number = 0;
-    if(this.bottomSashWidth == 0 && this.bottomSashHeight == 0) {
+    if(this.bottomSashWidth <= 0 && this.bottomSashHeight <= 0) {
         if(this.selectedDividerType == "nodiv") {
             topPanelWidth = this.windowWidth / (Math.ceil(this.windowWidth/500));
             topPanelHeight = this.windowHeight / (Math.ceil(this.windowHeight/500));
@@ -215,6 +344,14 @@ export class SharedDataService {
     {id:3, name:"black", hex:"000000ff", paneColor:false}
   ];
 
+  resetFractionNums():void {
+    this.windowWidthFractionNum = 0;
+    this.windowHeightFractionNum = 0;
+    this.bottomSashWidthFractionNum = 0;
+    this.bottomSashHeightFractionNum = 0;
+    this.dividerWidthFractionNum = 0;
+  }
+
   // Array that holds each panel's color makeup
   panelColoringArray:string[][] = [];
   templateData:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}[];
@@ -303,6 +440,12 @@ export class SharedDataService {
   // ];
 
   window:{d:string, priority:string}[] = [];
+
+  // Method to check whether selected window shape is a 2xHung
+  isDoubleHung():boolean {
+    if(this.selectedWindowShape.substring(0, 2) == "2x") {return true;}
+    return false;
+  }
   
   
     
@@ -325,7 +468,6 @@ export class SharedDataService {
     //   let panelData = JSON.parse(JSON.stringify(result));
       
     //   if(panelData.length > 1) {
-    //     console.log(panelData);
     //     this.svgTemplateData = [];
     //     for(let i:number = 0; i < 50; ++i) {this.svgTemplateData.push([]);}
     //     for(let i:number = 0; i < panelData.length; ++i) {
@@ -334,15 +476,12 @@ export class SharedDataService {
     //     }
     //     // for(let i:number = 0; i < 50; ++i) {
     //     //   if(this.svgTemplateData[i] == []) {
-    //     //     console.log(this.svgTemplateData);
     //     //     this.svgTemplateData = this.svgTemplateData.splice(i, 1);
     //     //     --i;
     //     //   }
     //     // }
     //   }
     //   else {alert("error");}
-    //   // console.log(this.loginForm.value);
-    //   // console.log(this.userInfo);
     // });
   }
 }

@@ -54,8 +54,12 @@ img {
 }
 
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 576px) {
     .carousel_div {
         display: none;
+    }
+    .container {
+        padding-left: 1vw;
+        padding-right: 1vw;
     }
 }

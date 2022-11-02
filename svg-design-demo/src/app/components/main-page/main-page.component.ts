@@ -12,7 +12,6 @@ export class MainPageComponent implements OnInit {
   constructor() {
     // this.apiService.readUsers().subscribe((users: User[])=>{
     //   this.users = users;
-    //   console.log(this.users);
     // }) 
   }
 

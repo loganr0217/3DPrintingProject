@@ -17,7 +17,8 @@
 .fullWin {
     display: flex;
     white-space: nowrap;
-    max-width: 55vw;
+    margin-left: 1vw;
+    margin-right: 1vw;
     flex-direction: column;
 }
 
@@ -35,14 +36,6 @@
     background-color: rgba(0, 0, 0, .5);
 }
 
-.windowTemplateContainer {
-    display: flex;
-    padding-left: 1vw;
-    padding-right: 1vw;
-    padding-top: 1vw;
-    padding-bottom: 1vw;
-    flex-direction: column;
-}
 
 .windowTemplate {
     flex:1;

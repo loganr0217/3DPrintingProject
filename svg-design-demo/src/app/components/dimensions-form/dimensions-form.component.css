@@ -6,6 +6,10 @@
     max-height: 100%;
 }
 
+.fractionDropdown {
+    overflow-y: scroll;
+    height: 40vh;
+}
 /* p {
     font-size: 1.7vw;
 } */

@@ -70,7 +70,6 @@ export class DesignWindowComponent implements OnInit {
     if(this.sharedDataService.currentPaneColor != "") {
       // Autofill is on
       if((<HTMLInputElement>document.getElementById("customSwitch_autofill"))?.checked) {
-        console.log(this.sharedDataService.panelColoringArray);
         let panelNum:number = 0;
         let baseAutofillString = this.sharedDataService.panelLayout[Math.floor(this.sharedDataService.currentTemplateNumber/this.sharedDataService.panelLayoutDims[0])][this.sharedDataService.currentTemplateNumber%this.sharedDataService.panelLayoutDims[0]].autofillString;
 
@@ -106,7 +105,6 @@ export class DesignWindowComponent implements OnInit {
     if(this.recentChanges.length > 0) {
 
       let recentChangeArray:string[][] = this.recentChanges.pop()!;
-      console.log(recentChangeArray);
       while(recentChangeArray.length > 0) {
         
         let recentChange:string[] = recentChangeArray.pop()!;;

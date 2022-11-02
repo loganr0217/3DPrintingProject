@@ -59,7 +59,11 @@
             </div>
             <input (change)="updateDimensionsButton()" type="number" min="0" class="form-control" id="widthInput" placeholder=0/>
             <div class="input-group-append">
-              <span class="input-group-text textarea-addon" id="widthUnits" [textContent]="unitText()"></span>
+                <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sup>{{this.sharedDataService.topSash ? this.sharedDataService.windowWidthFractionNum : this.sharedDataService.bottomSashWidthFractionNum}}</sup>&frasl;<sub>16</sub>"</button>
+                <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
+                    <a *ngFor="let num of range(16)" (click)="this.updateWidthFraction(num)" class="dropdown-item" href="javascript:void(0)"><sup>{{num}}</sup>&frasl;<sub>16</sub>"</a>
+                </div>
+              <span *ngIf="this.sharedDataService.unitChoice != 'inches'" class="input-group-text textarea-addon" id="widthUnits" [textContent]="unitText()"></span>
             </div>
         </div>
         <!-- height input -->
@@ -69,7 +73,11 @@
             </div>
             <input (change)="updateDimensionsButton()" type="number" min="0" class="form-control" id="heightInput" placeholder=0/>
             <div class="input-group-append">
-              <span class="input-group-text textarea-addon" id="heightUnits" [textContent]="unitText()"></span>
+                <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sup>{{this.sharedDataService.topSash ? this.sharedDataService.windowHeightFractionNum : this.sharedDataService.bottomSashHeightFractionNum}}</sup>&frasl;<sub>16</sub>"</button>
+                <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
+                    <a *ngFor="let num of range(16)" (click)="this.updateHeightFraction(num)" class="dropdown-item" href="javascript:void(0)"><sup>{{num}}</sup>&frasl;<sub>16</sub>"</a>
+                </div>
+              <span *ngIf="this.sharedDataService.unitChoice != 'inches'"  class="input-group-text textarea-addon" id="heightUnits" [textContent]="unitText()"></span>
             </div>
         </div>
         
@@ -108,10 +116,14 @@
                 <div class="input-group-prepend">
                 <span class="input-group-text">Divider Width:</span>
                 </div>
-                <input (change)="updateDimensionsButton()" type="number" min="0" class="form-control" id="dividerWidthInput" placeholder="0" [value]="this.convertBackNumber(this.sharedDataService.dividerWidth, this.sharedDataService.unitChoice)"/>
+                <input (change)="updateDimensionsButton()" type="number" min="0" class="form-control" id="dividerWidthInput" placeholder="0" [value]="this.getDividerWidthValue()"/>
                 <div class="input-group-append">
-                    <span class="input-group-text textarea-addon" id="dividerWidthUnits" [textContent]="unitText()"></span>
-                  </div>
+                    <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sup>{{this.sharedDataService.dividerWidthFractionNum}}</sup>&frasl;<sub>16</sub>"</button>
+                    <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
+                        <a *ngFor="let num of range(16)" (click)="this.updateDividerWidthFraction(num); updateDimensionsButton();" class="dropdown-item" href="javascript:void(0)"><sup>{{num}}</sup>&frasl;<sub>16</sub>"</a>
+                    </div>
+                    <span *ngIf="this.sharedDataService.unitChoice != 'inches'" class="input-group-text textarea-addon" id="widthUnits" [textContent]="unitText()"></span>
+                </div>
             </div>
         </div>
     </div>

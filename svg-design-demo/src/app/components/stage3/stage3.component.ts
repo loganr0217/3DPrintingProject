@@ -107,9 +107,6 @@ export class Stage3Component implements OnInit {
     var xmlString = serializer.serializeToString(document.getElementById("windowPreviewContainertrue")!);
     let svgText:string[] = xmlString.split("<svg");
     for(let i:number = 0; i < svgText.length; ++i) {svgText[i] = "<svg" + svgText[i]; finalText += svgText[i] + "\n\n";}
-    //console.log(finalText);
-    
-  
   }
 
   // Updating panel layout 2d array
@@ -124,16 +121,16 @@ export class Stage3Component implements OnInit {
       this.sharedDataService.panelLayout.push([]);
     }
     this.sharedDataService.panelLayoutDims = [leftRight, topBottom];
-    //console.log("Panel width: " + panelWidth + "\nPanel height: " + panelHeight + "\nLayout: " + this.sharedDataService.panelLayoutDims);
   }
 
   changeUnits(unitChoice:string):void {
+    if(unitChoice != this.sharedDataService.unitChoice) {this.sharedDataService.resetFractionNums();}
     this.sharedDataService.unitChoice = unitChoice;
     // Updating the placeholders for each input
-    document.getElementById("widthUnits")!.textContent = unitChoice;
-    document.getElementById("heightUnits")!.textContent = unitChoice;
+    // document.getElementById("widthUnits")!.textContent = unitChoice;
+    // document.getElementById("heightUnits")!.textContent = unitChoice;
     document.getElementById("dropdownMenuButton")!.innerHTML = "Your selected unit of measure is " + this.sharedDataService.unitChoice;
-    document.getElementById("dividerWidthUnits")!.textContent = unitChoice;
+    // document.getElementById("dividerWidthUnits")!.textContent = unitChoice;
     document.getElementById("dividerDetailText")?.setAttribute("style", "visibility:visible;")
   }
 

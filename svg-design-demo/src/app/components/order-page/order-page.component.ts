@@ -59,7 +59,6 @@ export class OrderPageComponent implements OnInit {
     try {
       this.createPreview(this.sharedDataService.templateData[templateIndex]);
 
-      //console.log(this.sharedDataService.panelColoringArray);
       let panelColorStrings:string[] = order[10].split(";");
       for(let i:number = 0; i < panelColorStrings.length; ++i) {
         let tmp:string[] = panelColorStrings[i].split(",");
@@ -70,6 +69,8 @@ export class OrderPageComponent implements OnInit {
           this.sharedDataService.panelColoringArray[i][j] = this.sharedDataService.currentPaneColor;
         }
       }
+      if(window.innerWidth < 576) {document.getElementById("pastOrderPreview")?.scrollIntoView({behavior: 'smooth'});}
+      
     }
     catch {
       alert("Something went wrong while creating your order's preview.");
@@ -81,7 +82,7 @@ export class OrderPageComponent implements OnInit {
   // Creates the window previews
   createPreview(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):void {
     this.sharedDataService.panelLayout = this.getPanelLayout(temp);
-    //console.log(this.sharedDataService.panelLayout);
+
     this.sharedDataService.panelLayoutDims = [this.sharedDataService.panelLayout[0].length, this.sharedDataService.panelLayout.length];
     this.sharedDataService.panelColoringArray = [];
     for(let i:number = 0; i < temp.numPanels; ++i) {
@@ -106,7 +107,7 @@ export class OrderPageComponent implements OnInit {
     
     // Splitting the tempString info into a 2d array of panel info
     let tempString:string[] = temp.tempString.split(';');
-    //console.log(temp.panelDims);
+
     let panelInfoArray:string[][] = [];
     for(let index:number = 0; index < tempString.length; ++index) {
       panelInfoArray.push(tempString[index].split(','));
@@ -134,10 +135,8 @@ export class OrderPageComponent implements OnInit {
         myTemplate.scaleTemplate(this.sharedDataService.bottomPanelWidth/300, this.sharedDataService.bottomPanelHeight/300);
       }
 
-      //console.log(panelLayout[Math.floor(panelID/temp.panelDims[0])]);
       panelLayout[Math.floor(panelID/temp.panelDims[0])].push(myTemplate);
     }
-    //console.log(panelLayout);
     return panelLayout;
   }
 

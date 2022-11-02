@@ -89,7 +89,7 @@ export class WindowPreviewContainerComponent implements OnInit {
   // Gets the icon width in vw
   getIconWidth(row:number, col:number):string {
     // Height > width --> use height instead
-    if((this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight) >= (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth)) {
+    if((this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight) > (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth)) {
       return "";
     }
     let panelNum = row*this.sharedDataService.panelLayoutDims[0]+col;
@@ -103,13 +103,13 @@ export class WindowPreviewContainerComponent implements OnInit {
       tmp = this.sharedDataService.bottomPanelWidth / (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth);
     }
     let adjustedWidth:number = normWidth*(7-5)+5;
-    return 40*tmp + "vw";
+    return (window.innerWidth < 576 ? 80 : 40)*tmp + "vw";
   }
 
   // Gets the icon width in vw
   getIconHeight(row:number, col:number):string {
     // Width >= height --> use width instead
-    if((this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight) < (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth)) {
+    if((this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight) <= (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth)) {
       return "";
     }
     let panelNum = row*this.sharedDataService.panelLayoutDims[0]+col;
@@ -152,8 +152,6 @@ export class WindowPreviewContainerComponent implements OnInit {
     scaleY = Number(result[2]);
     let tmp:SVGTemplate = new SVGTemplate(d);
 
-    
-    console.log(panelNum + ", " + myTemplate.width + ", " + myTemplate.height);
     let tempViewBox:string = (scaleX * tmp.xMin) + " " + (scaleY * tmp.yMin) + " " + (scaleX * tmp.width) + " " + (scaleY * tmp.height);
     return tempViewBox;
   }

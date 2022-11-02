@@ -103,8 +103,6 @@ export class FormRegisterComponent implements OnInit {
         this.router.navigate(['/']);
       }
       else if(this.sharedDataService.userInfo.length == 1 && this.sharedDataService.userInfo[0] == -1) {alert("A user with that email already exists.");} 
-      // console.log(this.registerForm.value);
-      // console.log(this.sharedDataService.userInfo);
     });
     // stop here if form is invalid
     // if (this.registerForm.invalid) {
