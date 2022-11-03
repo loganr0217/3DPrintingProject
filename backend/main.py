@@ -70,7 +70,7 @@ def addPanel():
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
         if email != 'null' and password != 'null' and panelNumber != -1 and panelSetId != -1:
-            cur.execute("SELECT * FROM users WHERE email = '" + email + "' AND password = '" + password + "' AND (permissions = 'admin');")
+            cur.execute("SELECT * FROM users WHERE email = '" + email + "' AND password = '" + password + "' AND (permissions = 'admin' OR permissions = 'designer');")
             rows = cur.fetchall()
             # User has been authenticated as an admin or a designer
             if len(rows) > 0:
@@ -106,7 +106,7 @@ def updatePanel():
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
         if email != 'null' and password != 'null' and panelNumber != -1 and panelSetId != -1:
-            cur.execute("SELECT * FROM users WHERE email = '" + email + "' AND password = '" + password + "' AND (permissions = 'admin');")
+            cur.execute("SELECT * FROM users WHERE email = '" + email + "' AND password = '" + password + "' AND (permissions = 'admin' OR permissions = 'designer');")
             rows = cur.fetchall()
             # User has been authenticated as an admin or a designer
             if len(rows) > 0:
@@ -366,7 +366,7 @@ def deleteTemplate():
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
         if email != 'null' and password != 'null' and templateId != -1:
-            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions = 'admin' or permissions = 'designer');")
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions = 'admin');")
             rows = cur.fetchall()
             # User has been authenticated as an admin or a designer
             if len(rows) > 0:
@@ -494,9 +494,9 @@ def saveOrder():
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
         if email != 'null' or (streetAddress != 'null' and city != 'null' and state != 'null' and country != 'null'):
-            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions = 'admin' or permissions = 'designer');")
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + ";")
             rows = cur.fetchall()
-            # User has been authenticated as an admin or designer
+            # User has been authenticated as a registered user
             if len(rows) > 0:
                 cur.execute("""
                 INSERT INTO orders(user_email, selected_divider_type, unit_choice, window_width, 
