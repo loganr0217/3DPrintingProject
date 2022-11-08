@@ -88,15 +88,16 @@ img {
     }
     #stage1Con {
         flex-direction: column;
+        padding-bottom:0;
     }
 
     #carouselExampleControls {
-        height: 76vh;
+        height: 59vh;
         max-width: 100%;
     }
 
     #slide-img {
-        height: 62vh
+        height: 50vh
     }
 
     #sideTextContainer > #header_title {
@@ -126,16 +127,33 @@ img {
     }
 
     #side_text > span > p{
-        font-size: 15px;
+        font-size: 16px;
         color: black;
         font-family: emoji;
         font-weight: bold;
     }
     
-    .text-center {
-        display: block;
+    .text-center > a > .btn {
+        margin-left: 30vw;
     }
     #let-start {
         display: none;
+    }
+
+    .carousel-item {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .carousel-item > img {
+        object-fit: fill;
+    }
+    .text-center {
+        padding-bottom: 20px;
+    }
+
+    .carousel-inner {
+        height: inherit;
+        width: 92%;
     }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stage1',
@@ -8,7 +9,7 @@ import { ElementRef } from '@angular/core';
   styleUrls: ['./stage1.component.css']
 })
 export class Stage1Component implements OnInit {
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -28,5 +29,10 @@ export class Stage1Component implements OnInit {
 
   learnMore():void {
     //
+  }
+
+
+  goToPage(){
+    this.router.navigate([`/gallery`]);
   }
 }
