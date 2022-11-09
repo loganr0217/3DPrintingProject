@@ -1,0 +1,62 @@
+#colorOfferings {
+    display: flex;
+    margin-top: 2vh;
+}
+
+#colorOfferingsHeader {
+    display: flex;
+}
+.colorOffering {
+    display: flex;
+    padding-bottom: 2vh;
+}
+
+#currentOfferingsList {
+    flex:1;
+    margin-left: 1vw;
+}
+
+#newColorFormContainer {
+    max-width: 30vw;
+}
+
+#newColorForm {
+    flex:1;
+    margin-top: 20vh;
+}
+
+.colorIcons {
+    flex:2;
+    height:5vw;
+    width:5vw;
+    max-width: 50px;
+    max-height: 50px;
+    margin-left: 1vw;
+}
+
+#colorOfferingsHeading {
+    display: flex;
+}
+
+#colorsList {
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    max-height:70vh;
+    width: 45vw;
+    overflow-y: scroll;
+    padding: 2px;
+    margin-bottom: 2vh;
+    border:1px solid black;
+}
+
+
+/* .userOrder {
+    padding: 2px;
+    margin-bottom: 4vh;
+    border:1px solid black;
+} */
+
+.btn {
+    margin-right: 1vw;
+}

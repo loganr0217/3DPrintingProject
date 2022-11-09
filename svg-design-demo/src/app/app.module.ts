@@ -35,6 +35,7 @@ import { TutorialsPageComponent } from './components/tutorials-page/tutorials-pa
 import { FaqPageComponent } from './components/faq-page/faq-page.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 import { OrderPageComponent } from './components/order-page/order-page.component';
+import { ColorOfferingsPageComponent } from './components/color-offerings-page/color-offerings-page.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { OrderPageComponent } from './components/order-page/order-page.component
     TutorialsPageComponent,
     FaqPageComponent,
     ProfilePageComponent,
-    OrderPageComponent
+    OrderPageComponent,
+    ColorOfferingsPageComponent
   ],
   imports: [
     BrowserModule,

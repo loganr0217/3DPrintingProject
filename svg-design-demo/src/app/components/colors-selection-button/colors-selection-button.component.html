@@ -1,4 +1,7 @@
-<input class="colorButtons" type="button" title="{{color.name}}" *ngFor="let color of colorsData" id="button_{{color.hex}}_{{color.paneColor}}"
-(click)="changePanesColor(color.hex, color.paneColor)"/>
 
-
+<div id="colorIconContainer">
+    <div *ngFor="let color of this.sharedDataService.colorsData">
+        <input class="colorButtons" *ngIf="color.isAvailable == true" [attr.style]="'background-color: #' + color.hex+';'" type="button" title="{{color.name}}"  id="button_{{color.hex}}_{{color.paneColor}}"
+        (click)="changePanesColor(color.hex, color.paneColor)"/>
+    </div>
+</div>

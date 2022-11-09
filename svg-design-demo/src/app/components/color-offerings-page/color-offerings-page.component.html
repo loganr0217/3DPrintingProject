@@ -1,0 +1,65 @@
+<div id="colorOfferings">
+    <div id="currentOfferingsList">
+        <div id="colorOfferingsHeader">
+            <h1 class="colorOfferingsLabel">Color Offerings</h1>
+            <!-- <a href="javascript:void(0)" class="refreshIcon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                </svg>
+            </a>
+            <input type="button" *ngIf="this.sharedDataService.userInfo[5] == 'admin'" class="btn btn-dark btn-med"  id="adminFilterInput" [value]="true ? 'Turn Off Admin View' : 'Turn On Admin View'"/> -->
+        </div>
+        <div id="colorsList">
+            <div class="colorOffering" *ngFor="let color of this.sharedDataService.colorsData">
+                <!-- <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitches{{color.id}}">
+                    <label class="custom-control-label" for="customSwitches{{color.id}}"><b>Name:</b> {{color.name}} <b>Hex:</b> {{color.hex}}</label>
+                </div> -->
+                <div class="form-check-inline" (click)="this.selectColor(color)">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="{{'flexRadioDefault'+color.id}}">
+                    <!-- <label class="form-check-label pastOrderLabel" *ngFor="let orderField of userOrder; let j = index" for="{{'flexRadioDefault'+i}}">{{this.getOrderFieldHeading(j) + orderField}}</label> -->
+                    <label class="form-check-label pastOrderLabel" for="{{'flexRadioDefault'+color.id}}"><b>ID:</b>{{color.id}} <b>Name:</b> {{color.name}} <b>Hex:</b> #{{color.hex}} <b>Availability:</b> {{color.isAvailable ? 'Available' : 'Unavailable'}}</label>
+                    <label class="form-check-input colorIcons" for="{{'flexRadioDefault'+color.id}}" [attr.style]="'background-color: #' + color.hex+';'" type="button" title="{{color.name}}" id="button_{{color.hex}}_{{color.paneColor}}"></label>
+                </div>
+                
+            </div> 
+        </div>
+        <input type="button" class="btn btn-dark btn-med" (click)="this.changeColorAvailability();" id="updateAvailabilityButton" value="Change Availability"/>
+        <input type="button" class="btn btn-dark btn-med" (click)="this.deleteColor();" id="deleteColorButton" value="Delete Color"/>
+    </div>
+    <div id="newColorForm">
+        <h1 class="colorOfferingsLabel">New Color</h1>
+        <form id="newColorFormContainer">
+            <div class="form-group form-row">
+                <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Name:</span>
+                    </div>
+                    <input type="text" class="form-control" id="nameInput"/>
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Hex:</span>
+                      </div>
+                    <input type="text" class="form-control" id="hexInput"/>
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <div class="col">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" checked="true" class="custom-control-input" id="customSwitchAvailable">
+                        <label class="custom-control-label" for="customSwitchAvailable">Available</label>
+                    </div>
+                </div>
+            </div>
+
+        
+            <input type="button" class="btn btn-dark btn-med" id="addInput" (click)="addColor()" value="Add Color"/>
+            <!--<input type="button" class="btn btn-dark btn-med" id="updateInput" (click)="updatePanel()" value="Update Panel"/>
+            <input type="button" class="btn btn-dark btn-med" (click)="deletePanel()" id="deletePanelInput"  value="Delete Panel"/> -->
+        </form>
+    </div>
+</div>
