@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AboutPageComponent } from './components/about-page/about-page.component';
+import { ColorOfferingsPageComponent } from './components/color-offerings-page/color-offerings-page.component';
 import { ColorPageComponent } from './components/color-page/color-page.component';
 import { FaqPageComponent } from './components/faq-page/faq-page.component';
 import { ForgotPassComponent } from './components/forgot-pass/forgot-pass.component';
@@ -50,6 +51,10 @@ const routes: Routes = [
   {
     path: "orders",
     component: OrderPageComponent
+  },
+  {
+    path: "colorOfferings",
+    component: ColorOfferingsPageComponent
   },
   {
     path: "about",

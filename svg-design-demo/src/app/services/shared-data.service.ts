@@ -296,34 +296,34 @@ export class SharedDataService {
 }
 
   // Array holding all colors currently offered with corresponding hex values
-  colorsData:{id:number, name:string, hex:string, paneColor:boolean}[] = [
-    {id:0, name:"Black", hex:"141315", paneColor:true},
-    {id:1, name:"Gray", hex:"d6d2ce", paneColor:true},
-    {id:2, name:"Frosted Clear", hex:"e8e7ea", paneColor:true},
-    {id:3, name:"White", hex:"f0f0f1", paneColor:true},
-    {id:4, name:"Red", hex:"ff0000", paneColor:true},
-    {id:5, name:"Frosted Red", hex:"bb2118", paneColor:true},
-    {id:6, name:"Pink", hex:"eb5b78", paneColor:true},
-    {id:7, name:"Frosted Pink", hex:"b98ea8", paneColor:true},
-    {id:8, name:"Orange", hex:"e14931", paneColor:true},
-    {id:9, name:"Goldenrod", hex:"f7af33", paneColor:true},
+  colorsData:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean}[] = [
+    {id:0, name:"Black", hex:"141315", paneColor:true, isAvailable:true},
+    {id:1, name:"Gray", hex:"d6d2ce", paneColor:true, isAvailable:true},
+    {id:2, name:"Frosted Clear", hex:"e8e7ea", paneColor:true, isAvailable:true},
+    {id:3, name:"White", hex:"f0f0f1", paneColor:true, isAvailable:true},
+    {id:4, name:"Red", hex:"ff0000", paneColor:true, isAvailable:true},
+    {id:5, name:"Frosted Red", hex:"bb2118", paneColor:true, isAvailable:true},
+    {id:6, name:"Pink", hex:"eb5b78", paneColor:true, isAvailable:true},
+    {id:7, name:"Frosted Pink", hex:"b98ea8", paneColor:true, isAvailable:true},
+    {id:8, name:"Orange", hex:"e14931", paneColor:true, isAvailable:true},
+    {id:9, name:"Goldenrod", hex:"f7af33", paneColor:true, isAvailable:true},
 
-    {id:10, name:"Frosted Orange", hex:"e45323", paneColor:true},
-    {id:11, name:"Frosted Gold", hex:"dba22d", paneColor:true},
-    {id:12, name:"Yellow", hex:"f2cc2e", paneColor:true},
-    {id:13, name:"Frosted Yellow", hex:"c7c26b", paneColor:true},
-    {id:14, name:"Green", hex:"054c20", paneColor:true},
-    {id:15, name:"Aqua", hex:"0f7285", paneColor:true},
-    {id:16, name:"Frosted Aqua", hex:"66bebd", paneColor:true},
-    {id:17, name:"Blue", hex:"178fdc", paneColor:true},
-    {id:18, name:"Light Blue", hex:"5fbefd", paneColor:true},
-    {id:19, name:"Frosted Blue", hex:"89aecc", paneColor:true},
+    {id:10, name:"Frosted Orange", hex:"e45323", paneColor:true, isAvailable:true},
+    {id:11, name:"Frosted Gold", hex:"dba22d", paneColor:true, isAvailable:true},
+    {id:12, name:"Yellow", hex:"f2cc2e", paneColor:true, isAvailable:true},
+    {id:13, name:"Frosted Yellow", hex:"c7c26b", paneColor:true, isAvailable:true},
+    {id:14, name:"Green", hex:"054c20", paneColor:true, isAvailable:true},
+    {id:15, name:"Aqua", hex:"0f7285", paneColor:true, isAvailable:true},
+    {id:16, name:"Frosted Aqua", hex:"66bebd", paneColor:true, isAvailable:true},
+    {id:17, name:"Blue", hex:"178fdc", paneColor:true, isAvailable:true},
+    {id:18, name:"Light Blue", hex:"5fbefd", paneColor:true, isAvailable:true},
+    {id:19, name:"Frosted Blue", hex:"89aecc", paneColor:true, isAvailable:true},
 
-    {id:20, name:"Frosted Ice Blue", hex:"b0c0c7", paneColor:true},
-    {id:21, name:"Purple", hex:"75459a", paneColor:true},
-    {id:22, name:"Frosted Lavendar", hex:"bd96b8", paneColor:true},
-    {id:23, name:"Brown", hex:"2c1406", paneColor:true},
-    {id:24, name:"Ivory", hex:"dec89f", paneColor:true}
+    {id:20, name:"Frosted Ice Blue", hex:"b0c0c7", paneColor:true, isAvailable:true},
+    {id:21, name:"Purple", hex:"75459a", paneColor:true, isAvailable:true},
+    {id:22, name:"Frosted Lavendar", hex:"bd96b8", paneColor:true, isAvailable:true},
+    {id:23, name:"Brown", hex:"2c1406", paneColor:true, isAvailable:true},
+    {id:24, name:"Ivory", hex:"dec89f", paneColor:true, isAvailable:true}
   ];
 
   tdiColorsData:{id:number, name:string, hex:string, paneColor:boolean}[] = [

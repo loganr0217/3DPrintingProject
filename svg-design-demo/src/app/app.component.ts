@@ -73,6 +73,24 @@ export class AppComponent {
           // console.log(this.loginForm.value);
           // console.log(this.sharedDataService.userInfo);
         });
+
+
+        // Getting pane colors from database
+        this.sharedDataService.colorsData = []
+        this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/panecolors").subscribe(result => {
+          let tmp = JSON.parse(JSON.stringify(result));
+          this.sharedDataService.colorsData = []
+          if(tmp.length >= 1) {
+            // console.log(templateData);
+            for(let i:number = 0; i < tmp.length; ++i) {
+              let currentTmp:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean} = {id:tmp[i][0], name:tmp[i][1], hex:tmp[i][2], paneColor:true, isAvailable:tmp[i][3]};
+              this.sharedDataService.colorsData.push(currentTmp);
+            }
+          }
+          else {alert("error"); this.sharedDataService.templateData = [];}
+          // console.log(this.loginForm.value);
+          // console.log(this.sharedDataService.userInfo);
+        });
         
   }
   

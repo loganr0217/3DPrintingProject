@@ -92,6 +92,7 @@ def addPanel():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
+
 @app.route('/updatepanel', methods = ['POST'])
 def updatePanel():
     global conn
@@ -274,6 +275,114 @@ def deletePanel():
                     conn.commit()
                     row = (1,)
                 # No panel to delete
+                else:
+                    rows = (-2,)
+            else:
+                rows = (-1,)
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
+
+@app.route('/panecolors')
+def getPaneColors():
+    global conn
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM pane_colors order by hex;")
+        rows = cur.fetchall()
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+        
+@app.route('/addpanecolor')
+def addPaneColor():
+    global conn
+    email = request.args.get('email', default='null', type=str)
+    password = request.args.get('password', default='null', type=str)
+    colorName = request.args.get('name', default='null', type=str)
+    colorHex = request.args.get('hex', default='null', type=str)
+    isAvailable = request.args.get('isAvailable', default=False, type=bool)
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' and password != 'null' and colorHex != 'null' and len(str(colorHex).replace("'", "")) == 6:
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions = 'admin');")
+            rows = cur.fetchall()
+            # User has been authenticated as an admin
+            if len(rows) > 0:
+                cur.execute("INSERT INTO pane_colors(name, hex, is_available) VALUES({}, {}, {});".format(colorName, colorHex, isAvailable))
+                conn.commit()
+                rows = (1,)
+            else:
+                rows = (-1,)
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
+@app.route('/deletepanecolor')
+def deletePaneColor():
+    global conn
+    email = request.args.get('email', default='null', type=str)
+    password = request.args.get('password', default='null', type=str)
+    colorId = request.args.get('colorId', default=-1, type=int)
+    
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' and password != 'null' and colorId != -1:
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions = 'admin');")
+            rows = cur.fetchall()
+            # User has been authenticated as an admin
+            if len(rows) > 0:
+                cur.execute("SELECT * FROM pane_colors WHERE id = {};".format(colorId))
+                rows = cur.fetchall()
+                # Color exists
+                if len(rows) > 0:
+                    cur.execute("DELETE FROM pane_colors WHERE id = {}".format(colorId))
+                    conn.commit()
+                    row = (1,)
+                # No color to delete
+                else:
+                    rows = (-2,)
+            else:
+                rows = (-1,)
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
+@app.route('/changepanecoloravailability')
+def changePaneColorAvailability():
+    global conn
+    email = request.args.get('email', default='null', type=str)
+    password = request.args.get('password', default='null', type=str)
+    colorId = request.args.get('colorId', default='null', type=int)
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' and password != 'null' and panelNumber != -1 and panelSetId != -1:
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions = 'admin');")
+            rows = cur.fetchall()
+            # User has been authenticated as an admin
+            if len(rows) > 0:
+                cur.execute("SELECT * FROM pane_colors WHERE id = {};".format(colorId))
+                rows = cur.fetchall()
+                # Color exists
+                if len(rows) > 0:
+                    cur.execute("UPDATE pane_colors SET is_available = NOT is_available WHERE id = {}".format(colorId))
+                    conn.commit()
+                    row = (1,)
+                # No color to delete
                 else:
                     rows = (-2,)
             else:
@@ -568,6 +677,8 @@ def makeOrder():
         return jsonify(rows)
     except Exception as e:
         return "Error connecting to the database " + str(e)
+
+        
 
 if __name__ == '__main__':
     from waitress import serve

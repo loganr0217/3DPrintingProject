@@ -14,20 +14,20 @@ export class ColorsSelectionButtonComponent implements OnInit {
 
   // Array holding all colors currently offered with corresponding hex values
   colorsData:{id:number, name:string, hex:string, paneColor:boolean}[];
-  constructor(private sharedDataService:SharedDataService) { }
+  constructor(public sharedDataService:SharedDataService) { }
 
   // Method to change color of currently selected panes
   changePanesColor(hexValue:string, paneColor:boolean):void {
     //let currentPaneID:string = this.sharedDataService.currentPaneID;
     //document.getElementById(currentPaneID)?.setAttribute("style", "fill:#"+hexValue+";opacity:.9");
     if(paneColor) {
-      document.getElementById("button_"+this.sharedDataService.currentPaneColor+"_true")?.setAttribute("style", "");
-      document.getElementById("button_"+hexValue+"_true")?.setAttribute("style", "border:1px solid #0000ff");
+      document.getElementById("button_"+this.sharedDataService.currentPaneColor+"_true")?.setAttribute("style", "background-color:#"+this.sharedDataService.currentPaneColor);
+      document.getElementById("button_"+hexValue+"_true")?.setAttribute("style", "border:1px solid #0000ff; background-color:#"+hexValue);
       this.sharedDataService.currentPaneColor = hexValue;
     }
     else {
-      document.getElementById("button_"+this.sharedDataService.currentFilamentColor+"_false")?.setAttribute("style", "");
-      document.getElementById("button_"+hexValue+"_false")?.setAttribute("style", "border:1px solid #0000ff");
+      document.getElementById("button_"+this.sharedDataService.currentFilamentColor+"_false")?.setAttribute("style", "background-color:#"+this.sharedDataService.currentPaneColor);
+      document.getElementById("button_"+hexValue+"_false")?.setAttribute("style", "border:1px solid #0000ff; background-color:#"+hexValue);
       this.sharedDataService.currentFilamentColor = hexValue;
       document.getElementById("svgTemplate")?.setAttribute("style", "fill:#"+this.sharedDataService.currentFilamentColor);
       for(let i = 0; i < this.sharedDataService.panelLayoutDims[0]*this.sharedDataService.panelLayoutDims[1]; ++i) {
