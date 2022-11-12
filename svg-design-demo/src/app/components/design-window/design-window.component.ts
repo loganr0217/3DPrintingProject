@@ -45,7 +45,7 @@ export class DesignWindowComponent implements OnInit {
       let baseSplitAutofillString:string[] = baseAutofillString.split(',');
 
       for(let i:number = 0; i < splitAutofillString.length; ++i) {
-        let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.colorsData.filter(function(item) { return item.id == Number(splitAutofillString[i]); });
+        let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.oldColorsData.filter(function(item) { return item.id == Number(splitAutofillString[i]); });
         if(foundColor.length > 0 && Number(splitAutofillString[i]) == Number(baseSplitAutofillString[paneId])) {
           tmpHex = foundColor[0].hex;
 

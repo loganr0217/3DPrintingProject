@@ -295,8 +295,10 @@ export class SharedDataService {
     
 }
 
+colorsData:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean}[] = [];
+
   // Array holding all colors currently offered with corresponding hex values
-  colorsData:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean}[] = [
+  oldColorsData:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean}[] = [
     {id:0, name:"Black", hex:"141315", paneColor:true, isAvailable:true},
     {id:1, name:"Gray", hex:"d6d2ce", paneColor:true, isAvailable:true},
     {id:2, name:"Frosted Clear", hex:"e8e7ea", paneColor:true, isAvailable:true},
@@ -326,13 +328,13 @@ export class SharedDataService {
     {id:24, name:"Ivory", hex:"dec89f", paneColor:true, isAvailable:true}
   ];
 
-  tdiColorsData:{id:number, name:string, hex:string, paneColor:boolean}[] = [
-    {id:0, name:"Red", hex:"ff0000", paneColor:true},
-    {id:1, name:"Orange", hex:"e14931", paneColor:true},
-    {id:2, name:"Yellow", hex:"f2cc2e", paneColor:true},
-    {id:3, name:"Green", hex:"054c20", paneColor:true},
-    {id:4, name:"Blue", hex:"178fdc", paneColor:true},
-    {id:5, name:"Purple", hex:"75459a", paneColor:true}
+  tdiColorsData:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean}[] = [
+    {id:0, name:"Red", hex:"ff0000", paneColor:true, isAvailable:true},
+    {id:1, name:"Orange", hex:"e14931", paneColor:true, isAvailable:true},
+    {id:2, name:"Yellow", hex:"f2cc2e", paneColor:true, isAvailable:true},
+    {id:3, name:"Green", hex:"054c20", paneColor:true, isAvailable:true},
+    {id:4, name:"Blue", hex:"178fdc", paneColor:true, isAvailable:true},
+    {id:5, name:"Purple", hex:"75459a", paneColor:true, isAvailable:true}
 
   ];
 
