@@ -83,7 +83,7 @@ export class AppComponent {
           if(tmp.length >= 1) {
             // console.log(templateData);
             for(let i:number = 0; i < tmp.length; ++i) {
-              let currentTmp:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean} = {id:tmp[i][0], name:tmp[i][1], hex:tmp[i][2], paneColor:true, isAvailable:tmp[i][3]};
+              let currentTmp:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number} = {id:tmp[i][0], name:tmp[i][1], hex:tmp[i][2], paneColor:true, isAvailable:tmp[i][3], placementID:tmp[i][4], opacity:tmp[i][5]};
               this.sharedDataService.colorsData.push(currentTmp);
             }
           }

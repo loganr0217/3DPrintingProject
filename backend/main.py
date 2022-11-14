@@ -293,7 +293,7 @@ def getPaneColors():
     try:
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
-        cur.execute("SELECT * FROM pane_colors order by hex;")
+        cur.execute("SELECT * FROM pane_colors order by placement_id;")
         rows = cur.fetchall()
         return jsonify(rows)
     except Exception as e:
@@ -307,6 +307,9 @@ def addPaneColor():
     colorName = request.args.get('name', default='null', type=str)
     colorHex = request.args.get('hex', default='null', type=str)
     isAvailable = request.args.get('isAvailable', default=False, type=bool)
+    placementID = request.args.get('placementID', default=-1, type=int)
+    colorOpacity = request.args.get('opacity', default=1, type=int)
+
     try:
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
@@ -315,9 +318,49 @@ def addPaneColor():
             rows = cur.fetchall()
             # User has been authenticated as an admin
             if len(rows) > 0:
-                cur.execute("INSERT INTO pane_colors(name, hex, is_available) VALUES({}, {}, {});".format(colorName, colorHex, isAvailable))
+                cur.execute("INSERT INTO pane_colors(name, hex, is_available, placement_id, opacity) VALUES({}, {}, {}, {}, {});".format(colorName, colorHex, isAvailable, placementID, colorOpacity))
                 conn.commit()
                 rows = (1,)
+            else:
+                rows = (-1,)
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
+@app.route('/updatepanecolor')
+def updatePaneColor():
+    global conn
+    email = request.args.get('email', default='null', type=str)
+    password = request.args.get('password', default='null', type=str)
+    colorName = request.args.get('name', default='null', type=str)
+    colorHex = request.args.get('hex', default='null', type=str)
+    isAvailable = request.args.get('isAvailable', default=False, type=bool)
+    realID = request.args.get('id', default=-1, type=int)
+    placementID = request.args.get('placementID', default=-1, type=int)
+    colorOpacity = request.args.get('opacity', default=1, type=int)
+
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' and password != 'null' and colorHex != 'null' and len(str(colorHex).replace("'", "")) == 6:
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions = 'admin');")
+            rows = cur.fetchall()
+            # User has been authenticated as an admin
+            if len(rows) > 0:
+                cur.execute("SELECT * FROM pane_colors WHERE id = {};".format(realID))
+                rows = cur.fetchall()
+                # Panel already exists in that location
+                if len(rows) > 0:
+                    cur.execute("UPDATE pane_colors set name = {}, hex = {}, is_available = {}, placement_id = {}, opacity = {} where id = {};".format(colorName, colorHex, isAvailable, placementID, colorOpacity, realID))
+                    conn.commit()
+                    rows = (1,)
+                # No pane color to update
+                else:
+                    rows = (-3,)
+                
             else:
                 rows = (-1,)
         else:
@@ -346,7 +389,7 @@ def deletePaneColor():
                 rows = cur.fetchall()
                 # Color exists
                 if len(rows) > 0:
-                    cur.execute("DELETE FROM pane_colors WHERE id = {}".format(colorId))
+                    cur.execute("DELETE FROM pane_colors WHERE id = {};".format(colorId))
                     conn.commit()
                     row = (1,)
                 # No color to delete
@@ -443,11 +486,11 @@ def addTemplateCategories():
             rows = cur.fetchall()
             # User has been authenticated as an admin or a designer
             if len(rows) > 0:
-                cur.execute("SELECT * FROM templates WHERE id = {}".format(templateId))
+                cur.execute("SELECT * FROM templates WHERE id = {};".format(templateId))
                 rows = cur.fetchall()
                 # Panel already exists in that location
                 if len(rows) > 0:
-                    cur.execute("UPDATE templates set category = {} where id = {}".format(templateCategories, templateId))
+                    cur.execute("UPDATE templates set category = {} where id = {};".format(templateCategories, templateId))
                     conn.commit()
                     row = (1,)
                 # No panel to add string to

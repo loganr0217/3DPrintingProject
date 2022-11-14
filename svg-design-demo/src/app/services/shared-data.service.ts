@@ -295,7 +295,7 @@ export class SharedDataService {
     
 }
 
-colorsData:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean}[] = [];
+colorsData:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number}[] = [];
 
   // Array holding all colors currently offered with corresponding hex values
   oldColorsData:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean}[] = [
@@ -328,13 +328,13 @@ colorsData:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:b
     {id:24, name:"Ivory", hex:"dec89f", paneColor:true, isAvailable:true}
   ];
 
-  tdiColorsData:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean}[] = [
-    {id:0, name:"Red", hex:"ff0000", paneColor:true, isAvailable:true},
-    {id:1, name:"Orange", hex:"e14931", paneColor:true, isAvailable:true},
-    {id:2, name:"Yellow", hex:"f2cc2e", paneColor:true, isAvailable:true},
-    {id:3, name:"Green", hex:"054c20", paneColor:true, isAvailable:true},
-    {id:4, name:"Blue", hex:"178fdc", paneColor:true, isAvailable:true},
-    {id:5, name:"Purple", hex:"75459a", paneColor:true, isAvailable:true}
+  tdiColorsData:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number}[] = [
+    {id:0, name:"Red", hex:"ff0000", paneColor:true, isAvailable:true, placementID:0, opacity:1},
+    {id:1, name:"Orange", hex:"e14931", paneColor:true, isAvailable:true, placementID:1, opacity:1},
+    {id:2, name:"Yellow", hex:"f2cc2e", paneColor:true, isAvailable:true, placementID:2, opacity:1},
+    {id:3, name:"Green", hex:"054c20", paneColor:true, isAvailable:true, placementID:3, opacity:1},
+    {id:4, name:"Blue", hex:"178fdc", paneColor:true, isAvailable:true, placementID:4, opacity:1},
+    {id:5, name:"Purple", hex:"75459a", paneColor:true, isAvailable:true, placementID:5, opacity:1}
 
   ];
 

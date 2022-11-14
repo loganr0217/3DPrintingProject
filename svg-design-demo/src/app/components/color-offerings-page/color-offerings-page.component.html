@@ -19,8 +19,8 @@
                 <div class="form-check-inline" (click)="this.selectColor(color)">
                     <input class="form-check-input" type="radio" name="flexRadioDefault" id="{{'flexRadioDefault'+color.id}}">
                     <!-- <label class="form-check-label pastOrderLabel" *ngFor="let orderField of userOrder; let j = index" for="{{'flexRadioDefault'+i}}">{{this.getOrderFieldHeading(j) + orderField}}</label> -->
-                    <label class="form-check-label pastOrderLabel" for="{{'flexRadioDefault'+color.id}}"><b>ID:</b>{{color.id}} <b>Name:</b> {{color.name}} <b>Hex:</b> #{{color.hex}} <b>Availability:</b> {{color.isAvailable ? 'Available' : 'Unavailable'}}</label>
-                    <label class="form-check-input colorIcons" for="{{'flexRadioDefault'+color.id}}" [attr.style]="'background-color: #' + color.hex+'; opacity:.4;'" type="button" title="{{color.name}}" id="button_{{color.hex}}_{{color.paneColor}}"></label>
+                    <label class="form-check-label pastOrderLabel" for="{{'flexRadioDefault'+color.id}}"><b>Placement ID:</b>{{color.placementID}} <b>Name:</b> {{color.name}} <b>Hex:</b> #{{color.hex}} <b>Availability:</b> {{color.isAvailable ? 'Available' : 'Unavailable'}}</label>
+                    <label class="form-check-input colorIcons" for="{{'flexRadioDefault'+color.id}}" [attr.style]="'background-color: #' + color.hex+'; opacity:' + color.opacity + ';'" type="button" title="{{color.name}}" id="button_{{color.hex}}_{{color.paneColor}}"></label>
                 </div>
                 
             </div> 
@@ -29,7 +29,7 @@
         <input type="button" class="btn btn-dark btn-med" (click)="this.deleteColor();" id="deleteColorButton" value="Delete Color"/>
     </div>
     <div id="newColorForm">
-        <h1 class="colorOfferingsLabel">New Color</h1>
+        <h1 class="colorOfferingsLabel">Add/Update Color</h1>
         <form id="newColorFormContainer">
             <div class="form-group form-row">
                 <div class="col input-group">
@@ -48,6 +48,22 @@
                 </div>
             </div>
             <div class="form-group form-row">
+                <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Placement ID:</span>
+                    </div>
+                    <input type="number" class="form-control" id="placementIDInput"/>
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Opacity:</span>
+                      </div>
+                    <input type="number" class="form-control" id="opacityInput"/>
+                </div>
+            </div>
+            <div class="form-group form-row">
                 <div class="col">
                     <div class="custom-control custom-switch">
                         <input type="checkbox" checked="true" class="custom-control-input" id="customSwitchAvailable">
@@ -58,6 +74,7 @@
 
         
             <input type="button" class="btn btn-dark btn-med" id="addInput" (click)="addColor()" value="Add Color"/>
+            <input type="button" class="btn btn-dark btn-med" id="updateInput" (click)="updateColor()" value="Update Color"/>
             <!--<input type="button" class="btn btn-dark btn-med" id="updateInput" (click)="updatePanel()" value="Update Panel"/>
             <input type="button" class="btn btn-dark btn-med" (click)="deletePanel()" id="deletePanelInput"  value="Delete Panel"/> -->
         </form>

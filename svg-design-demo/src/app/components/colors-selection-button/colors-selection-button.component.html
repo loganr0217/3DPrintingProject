@@ -1,7 +1,7 @@
 
 <div id="colorIconContainer">
     <div *ngFor="let color of (this.paneColors ? this.sharedDataService.colorsData : this.sharedDataService.tdiColorsData)">
-        <input class="colorButtons" *ngIf="color.isAvailable == true" [attr.style]="'background-color: #' + color.hex+';'" type="button" title="{{color.name}}"  id="button_{{color.hex}}_{{color.paneColor}}"
+        <input class="colorButtons" *ngIf="color.isAvailable == true && color.placementID >= 0" [attr.style]="'background-color: #' + color.hex+';'" type="button" title="{{color.name}}"  id="button_{{color.hex}}_{{color.paneColor}}"
         (click)="changePanesColor(color.hex, color.paneColor)"/>
     </div>
 </div>
