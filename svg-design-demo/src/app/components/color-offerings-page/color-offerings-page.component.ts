@@ -7,14 +7,20 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./color-offerings-page.component.css']
 })
 export class ColorOfferingsPageComponent implements OnInit {
-  selectedColor:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean};
+  selectedColor:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number};
   constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
 
   ngOnInit(): void {
   }
 
-  selectColor(chosenColor:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean}):void {
+  selectColor(chosenColor:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number}):void {
     this.selectedColor = chosenColor;
+    (<HTMLInputElement>document.getElementById("nameInput"))!.value = this.selectedColor.name;
+    (<HTMLInputElement>document.getElementById("hexInput"))!.value = this.selectedColor.hex;
+    (<HTMLInputElement>document.getElementById("placementIDInput"))!.value = String(this.selectedColor.placementID);
+    (<HTMLInputElement>document.getElementById("opacityInput"))!.value = String(this.selectedColor.opacity);
+    (<HTMLInputElement>document.getElementById("customSwitchAvailable"))!.checked = this.selectedColor.isAvailable;
+
   }
 
   addColor():void {
@@ -22,11 +28,13 @@ export class ColorOfferingsPageComponent implements OnInit {
     const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
     const colorName:string = (<HTMLInputElement>document.getElementById("nameInput"))?.value;
     const colorHex:string = (<HTMLInputElement>document.getElementById("hexInput"))?.value;
+    const placementID:number = Number((<HTMLInputElement>document.getElementById("placementIDInput"))?.value);
+    const colorOpacity:number = Number((<HTMLInputElement>document.getElementById("opacityInput"))?.value);
     const isAvailable:boolean = (<HTMLInputElement>document.getElementById("customSwitchAvailable"))?.checked;
-    const colorString:string = "Name: " + colorName + ", Hex: #" + colorHex + ", Availability: " + (isAvailable ? 'available' : 'unavailable');
+    const colorString:string = "Name: " + colorName + ", Hex: #" + colorHex + ", Placement ID: " + placementID + ", Opacity: " + colorOpacity + ", Availability: " + (isAvailable ? 'available' : 'unavailable');
     //const templateString:string = this.templateString.substring(0, this.templateString.length-1);
     if(confirm('Are you sure you want to add this color?\n' + colorString)) {
-      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanecolor?email='"+email+"'&password='"+password+"'&name='" + colorName + "'&hex='" + colorHex + "'&isAvailable='" + isAvailable + "'").subscribe(result => {
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanecolor?email='"+email+"'&password='"+password+"'&name='" + colorName + "'&hex='" + colorHex + "'&isAvailable='" + isAvailable + "'&placementID="+placementID+"&opacity="+colorOpacity).subscribe(result => {
         let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
         alert(test);
         if(test[0] != '-1') {this.refreshColorsList();}
@@ -68,7 +76,7 @@ export class ColorOfferingsPageComponent implements OnInit {
       if(tmp.length >= 1) {
         // console.log(templateData);
         for(let i:number = 0; i < tmp.length; ++i) {
-          let currentTmp:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean} = {id:tmp[i][0], name:tmp[i][1], hex:tmp[i][2], paneColor:true, isAvailable:tmp[i][3]};
+          let currentTmp:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number} = {id:tmp[i][0], name:tmp[i][1], hex:tmp[i][2], paneColor:true, isAvailable:tmp[i][3], placementID:tmp[i][4], opacity:tmp[i][5]};
           this.sharedDataService.colorsData.push(currentTmp);
         }
       }
@@ -76,6 +84,24 @@ export class ColorOfferingsPageComponent implements OnInit {
       // console.log(this.loginForm.value);
       // console.log(this.sharedDataService.userInfo);
     });
+  }
+
+  updateColor():void {
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    const colorName:string = (<HTMLInputElement>document.getElementById("nameInput"))?.value;
+    const colorHex:string = (<HTMLInputElement>document.getElementById("hexInput"))?.value;
+    const placementID:number = Number((<HTMLInputElement>document.getElementById("placementIDInput"))?.value);
+    const colorOpacity:number = Number((<HTMLInputElement>document.getElementById("opacityInput"))?.value);
+    const isAvailable:boolean = (<HTMLInputElement>document.getElementById("customSwitchAvailable"))?.checked;
+    const colorString:string = "Name: " + colorName + ", Hex: #" + colorHex + ", Placement ID: " + placementID + ", Opacity: " + colorOpacity + ", Availability: " + (isAvailable ? 'available' : 'unavailable');
+    if(confirm('Are you sure you want to update this color?\n' + colorString)) {
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatepanecolor?email='"+email+"'&password='"+password+"'&name='" + colorName + "'&hex='" + colorHex + "'&isAvailable='" + isAvailable + "'&placementID="+placementID+"&opacity="+colorOpacity+"&id="+this.selectedColor.id).subscribe(result => {
+        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+        alert(test);
+        if(test[0] != '-1') {this.refreshColorsList();}
+       });
+    }
   }
 
 }
