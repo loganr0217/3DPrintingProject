@@ -19,7 +19,7 @@
                 <div class="form-check-inline" (click)="this.selectColor(color)">
                     <input class="form-check-input" type="radio" name="flexRadioDefault" id="{{'flexRadioDefault'+color.id}}">
                     <!-- <label class="form-check-label pastOrderLabel" *ngFor="let orderField of userOrder; let j = index" for="{{'flexRadioDefault'+i}}">{{this.getOrderFieldHeading(j) + orderField}}</label> -->
-                    <label class="form-check-label pastOrderLabel" for="{{'flexRadioDefault'+color.id}}"><b>Placement ID:</b>{{color.placementID}} <b>Name:</b> {{color.name}} <b>Hex:</b> #{{color.hex}} <b>Availability:</b> {{color.isAvailable ? 'Available' : 'Unavailable'}}</label>
+                    <label class="form-check-label pastOrderLabel" for="{{'flexRadioDefault'+color.id}}"><b>ID:</b> {{color.id}} <b>Placement ID:</b> {{color.placementID}} <b>Name:</b> {{color.name}} <b>Hex:</b> #{{color.hex}} <b>Availability:</b> {{color.isAvailable ? 'Available' : 'Unavailable'}}</label>
                     <label class="form-check-input colorIcons" for="{{'flexRadioDefault'+color.id}}" [attr.style]="'background-color: #' + color.hex+'; opacity:' + color.opacity + ';'" type="button" title="{{color.name}}" id="button_{{color.hex}}_{{color.paneColor}}"></label>
                 </div>
                 
