@@ -7,17 +7,14 @@ STLS:
 	-@mkdir order_$(ORDERID)
 	-@tsc svgScaler.ts
 	-@node svgScaler.js -STLS $(ACTUALINDEX)
-	-@for file in *.scad; do \
-	/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD $${file} -o $${file}.stl; \
-	done
-	-@mkdir order_$(ORDERID)/STLS
-	-@mv *.stl order_$(ORDERID)/STLS
-	-@rm *.svg *.scad svgScaler.js
+	-@for %%f in (*.scad) do "C:\Program Files\OpenSCAD\openscad.exe" -o "%%f.stl" "%%f"
+	-@mkdir order_$(ORDERID)\STLS
+	-@move *.stl "order_$(ORDERID)\STLS"
+	-@del *.svg *.scad svgScaler.js
 
 PANES:
-	-@mkdir order_$(ORDERID)
 	-@tsc svgScaler.ts
 	-@node svgScaler.js -PANES $(ACTUALINDEX)
-	-@mkdir order_$(ORDERID)/PANES
-	-@mv *.svg order_$(ORDERID)/PANES
-	-@rm svgScaler.js
+	-@mkdir order_$(ORDERID)\PANES
+	-@move *.svg "order_$(ORDERID)\PANES"
+	-@del svgScaler.js
