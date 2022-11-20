@@ -61,3 +61,30 @@
 .btn {
     margin-right: 1vw;
 }
+
+@media only screen and (max-width: 576px) {
+    #colorOfferings {
+        flex: 1;
+        margin-top: 5vw;
+        display: block;
+    }
+    
+    #currentOfferingsList {
+        width: 100vw;
+        object-fit: contain;
+    }
+
+    #newColorForm {
+        flex: 1;
+        height: fit-content;
+        margin-top: 5vh;
+    }
+
+    #colorsList {
+        width: 98vw;
+    }
+
+    #newColorFormContainer {
+        max-width: 100vh;
+    }
+}
