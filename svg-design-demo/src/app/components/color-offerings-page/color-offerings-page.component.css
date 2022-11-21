@@ -87,4 +87,10 @@
     #newColorFormContainer {
         max-width: 100vh;
     }
+
+    .colorIcons {
+        flex:none;
+        height:7vw;
+        width:7vw;
+    }
 }
