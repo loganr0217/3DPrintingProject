@@ -1,6 +1,92 @@
 import { Options, PythonShell } from "python-shell";
 import fetch from "node-fetch";
 
+export class Vector {
+    // Vector = [dx, dy]t + [bx, by] where timeDependentValues = [dx, dy] and basePoint = [bx, by]
+    startX:number;
+    endX:number;
+    startY:number;
+    endY:number;
+    basePoint:number[];
+    timeDependentValues:number[];
+
+    constructor(startX:number, endX:number, startY:number, endY:number) {
+        this.startX = startX;
+        this.endX = endX;
+        this.startY = startY;
+        this.endY = endY;
+        this.basePoint = [startX, startY];
+        this.timeDependentValues = [endX-startX, endY-startY];
+    }
+
+    // Returns 90 degree rotated vector -> [my, -mx]
+    rotate90Degrees():Vector {
+        return new Vector(this.startX, this.startX+this.timeDependentValues[1], this.startY, this.startY-this.timeDependentValues[0]);
+
+    }
+
+    // Returns 270 degree rotated vector -> [-my, mx]
+    rotate270Degrees():Vector {
+        return new Vector(this.startX, this.startX-this.timeDependentValues[1], this.startY, this.startY+this.timeDependentValues[0]);
+    }
+
+    // Returns magnitude
+    getMagnitude():number {
+        return Math.sqrt( this.timeDependentValues[0]*this.timeDependentValues[0] + this.timeDependentValues[1]*this.timeDependentValues[1] );
+    }
+
+    // Multiplies vector by a certain value
+    multiply(n:number):Vector {
+        let result:Vector = this.getUnitVector();
+        result.timeDependentValues[0] *= n;
+        result.timeDependentValues[1] *= n;
+        return result;
+    }
+
+    // Returns dot product of two vectors
+    dotProduct(otherVector:Vector):number {
+        return this.timeDependentValues[0]*otherVector.timeDependentValues[0] + this.timeDependentValues[1]*otherVector.timeDependentValues[1];
+    }
+
+    // Returns this vector's unit vector
+    getUnitVector():Vector {
+        return new Vector(this.startX, this.startX + this.timeDependentValues[0]/this.getMagnitude(), this.startY, this.startY + this.timeDependentValues[1]/this.getMagnitude());
+    }
+
+    // Returns resultant vector of addition
+    addVector(otherVector:Vector):Vector {
+        return new Vector(this.startX, this.endX + otherVector.timeDependentValues[0], this.startY, this.endY + otherVector.timeDependentValues[1]);
+    }
+
+    // Returns resultant vector of addition
+    addVectorAtBase(otherVector:Vector):Vector {
+        return new Vector(this.startX + otherVector.timeDependentValues[0], this.endX + otherVector.timeDependentValues[0], 
+            this.startY + otherVector.timeDependentValues[1], this.endY + otherVector.timeDependentValues[1]);
+    }
+
+    // Returns point at which this vector intersects with the another vector
+    findPointOfIntersection(otherVector:Vector):number[] {
+        // Using the following starting conditions: 
+        // dx1*t + bx1 = dx2 + bx2
+        // dy1*s + by1 = dy2*s + by2
+        let dx1:number = this.timeDependentValues[0];
+        let dy1:number = this.timeDependentValues[1];
+        let bx1:number = this.startX;
+        let by1:number = this.startY;
+        let dx2:number = otherVector.timeDependentValues[0];
+        let dy2:number = otherVector.timeDependentValues[1];
+        let bx2:number = otherVector.startX;
+        let by2:number = otherVector.startY;
+
+        // Getting s for when the lines intersect
+        let s:number = ( (dx1*by2) - (dx1*by1) - dy1*(bx2-bx1) ) / ( (dy1*dx2) - (dy1*dy2) );
+
+        // Using s to find the actual point and return it
+        return [bx2 + s*dx2, by2 + s*dy2]; 
+    }
+
+}
+
 // Basic class for a window pane
 export class WindowPane {
     dString:string;
@@ -597,6 +683,7 @@ export class Polygon {
         scaledPath[1] = (centerPoint[0] + (differenceFromCenter[0]*(scaleX))).toString();
         scaledPath[2] = (centerPoint[1] + (differenceFromCenter[1]*scaleY)).toString();
         this.currentPoint = [Number(scaledPath[1]), Number(scaledPath[2])];
+        
         let nextPoint:number[];
         let diffPoints:number[];
         let nextChars:string[];
@@ -648,6 +735,330 @@ export class Polygon {
                     break;
                 case "a":
                     nextPoint = [this.currentPoint[0] + (Number(nextChars[5])*scaleX), this.currentPoint[1] + (Number(nextChars[6])*scaleY)];
+                    for(let k:number = 0; k < nextChars.length; ++k) {
+                        // Keep same angle, sweep flag, etc.
+                        if(k >= 2 && k <= 4) {diffPoints.push(Number(nextChars[k]));}
+                        else if(k % 2 == 0) {diffPoints.push(Number(nextChars[k])*scaleX);}
+                        else {diffPoints.push(Number(nextChars[k])*scaleY);}
+                        scaledPath[i+(k+1)] = diffPoints[k].toString();
+                    }
+                    break;
+                default:
+                    continue;
+            }
+            // Updating current point
+            this.currentPoint = nextPoint;
+        }
+        return scaledPath.join(" ").trim();
+    }
+
+
+    // Method to return good outset polygon -- testing for line art --
+    goodOutset(outset:number):string {
+        
+        // let scaleX:number = (this.polygonWidth+(xOutset*2))/this.polygonWidth;
+        // let scaleY:number = (this.polygonHeight+(yOutset*2))/this.polygonHeight;
+        // let centerPoint:number[] = [this.polygonWidth/2 + this.xMin, this.polygonHeight/2 + this.yMin];
+        let scaledPath:string[] = this.scalablePath.slice();
+        // let differenceFromCenter:number[] = [Number(scaledPath[1])-centerPoint[0], Number(scaledPath[2])-centerPoint[1]];
+
+        // Array to hold every polygon point
+        let polygonPoints:number[][] = [];
+
+        // Changing starting point to be scaled now
+        // scaledPath[1] = (centerPoint[0] + (differenceFromCenter[0]*(scaleX))).toString();
+        // scaledPath[2] = (centerPoint[1] + (differenceFromCenter[1]*scaleY)).toString();
+        this.currentPoint = [Number(scaledPath[1]), Number(scaledPath[2])];
+        polygonPoints.push(this.currentPoint);
+
+        
+        // Getting the polygon points
+        let nextPoint:number[];
+        let diffPoints:number[];
+        let nextChars:string[];
+        for(let i:number = 3; i < scaledPath.length - 1; ++i) {
+            nextPoint = []; diffPoints = []; nextChars = [];
+            // Getting the next numbers to go with this command
+            for(let j:number = i+1; "MmLlHhVvAaCcZz".indexOf(scaledPath[j]) == -1; ++j) {nextChars = nextChars.concat(scaledPath[j].split(","));}
+            switch(scaledPath[i]) {
+                case "m":
+                case "l":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[0])), this.currentPoint[1] + (Number(nextChars[1]))];
+                    break;
+                case "h":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[0])), this.currentPoint[1]];
+                    break;
+                case "v":
+                    nextPoint = [this.currentPoint[0], this.currentPoint[1] + (Number(nextChars[0]))];
+                    break;
+                case "c":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[4])), this.currentPoint[1] + (Number(nextChars[5]))];
+                    polygonPoints.push([this.currentPoint[0]+Number(nextChars[0]), this.currentPoint[1]+Number(nextChars[1])]);
+                    polygonPoints.push([this.currentPoint[0]+Number(nextChars[2]), this.currentPoint[1]+Number(nextChars[3])]);
+                    break;
+                // s will be added later (adds onto c)
+                case "s":
+                    break;
+                case "q":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[2])), this.currentPoint[1] + (Number(nextChars[3]))];
+                    polygonPoints.push([this.currentPoint[0]+Number(nextChars[0]), this.currentPoint[1]+Number(nextChars[1])]);
+                    break;
+                // t will be added later (adds onto q)
+                case "t":
+                    break;
+                case "a":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[5])), this.currentPoint[1] + (Number(nextChars[6]))];
+                    polygonPoints.push([this.currentPoint[0]+Number(nextChars[5]), this.currentPoint[1]+Number(nextChars[6])]);
+                    break;
+                default:
+                    continue;
+            }
+            // Updating current point
+            this.currentPoint = nextPoint;
+            polygonPoints.push(this.currentPoint);
+        }
+
+
+        // *** Actually outsetting the polygon now using new algorithm ***
+        // Looping through each point in the polygon
+        const numPolygonPoints:number = polygonPoints.length;
+        let newPolygonPoints:number[][] = []; 
+        for(let i:number = 0; i < numPolygonPoints; ++i) {
+            let vector1:Vector, vector2:Vector;
+            let prevPointIndex:number, nextPointIndex:number;
+            
+            // Getting the correct indexes for the next and previous points
+            if(i != 0 && i != numPolygonPoints-1) {
+                prevPointIndex = i-1;
+                nextPointIndex = i+1;
+            }
+            else if(i == 0) {
+                prevPointIndex = numPolygonPoints-1;
+                nextPointIndex = i+1;
+            }
+            else {
+                prevPointIndex = i-1;
+                nextPointIndex = 0;
+            }
+
+            // Issue with prev point to current
+            while( ((Math.abs(polygonPoints[prevPointIndex][0] - polygonPoints[i][0]) < 2) 
+                    && (Math.abs(polygonPoints[prevPointIndex][1] - polygonPoints[i][1]) < 2)) ) {
+                // newPolygonPoints.push([prevPointIndex]);
+                // continue;
+                --prevPointIndex;
+                if(prevPointIndex < 0) {prevPointIndex = numPolygonPoints-1;}
+            }
+            // Issue with next point to current
+            while( ((Math.abs(polygonPoints[nextPointIndex][0] - polygonPoints[i][0]) < 2) 
+                    && (Math.abs(polygonPoints[nextPointIndex][1] - polygonPoints[i][1]) < 2)) ) {
+                //newPolygonPoints.push([nextPointIndex]);
+                //continue;
+                ++nextPointIndex;
+                if(nextPointIndex > numPolygonPoints-1) {nextPointIndex = 0;}
+            }
+
+            // if( ((Math.abs(polygonPoints[prevPointIndex][0] - polygonPoints[i][0]) < .0001) 
+            //         && (Math.abs(polygonPoints[prevPointIndex][1] - polygonPoints[i][1]) < .0001))
+            //     || ((Math.abs(polygonPoints[nextPointIndex][0] - polygonPoints[i][0]) < .0001) 
+            //         && (Math.abs(polygonPoints[nextPointIndex][1] - polygonPoints[i][1]) < .0001))) {
+            //     console.log("FUCK!!!");
+            //     polygonPoints[i][0] += .01;
+            //     polygonPoints[i][1] += .01;
+            // }
+
+            
+            // Getting vector1 prevPoint->currentPoint and vector2 = nextPoint->currentPoint
+            // Next point uses first pair in array, prev uses last (in case of cubic curve)
+            vector1 = new Vector(polygonPoints[prevPointIndex][0], polygonPoints[i][0], 
+                polygonPoints[prevPointIndex][1], polygonPoints[i][1]);
+            vector2 = new Vector(polygonPoints[nextPointIndex][0], polygonPoints[i][0], 
+                polygonPoints[nextPointIndex][1], polygonPoints[i][1]);
+
+
+            // Getting rotated vectors 
+            let vector1_90:Vector = vector1.rotate270Degrees();
+            let vector2_270:Vector = vector2.rotate90Degrees();
+
+            // Getting my normalized na and nb
+            let na:Vector = new Vector(vector1.endX, vector1.endX+vector1_90.timeDependentValues[0], vector1.endY, vector1.endY+vector1_90.timeDependentValues[1]).getUnitVector();
+            let nb:Vector = new Vector(vector2.endX, vector2.endX+vector2_270.timeDependentValues[0], vector2.endY, vector2.endY+vector2_270.timeDependentValues[1]).getUnitVector();
+
+            // Getting normalized bisector
+            let bisector:Vector = na.addVector(nb).getUnitVector();
+            let bisectorLength:number = outset / Math.sqrt( (1 + na.dotProduct(nb))/2 );
+            bisector = bisector.multiply(bisectorLength);
+
+            // Getting parallel vectors exactly outset by the given outset value
+            let vector1_parallel:Vector = vector1.addVectorAtBase(vector1_90.getUnitVector().multiply(outset));
+            let vector2_parallel:Vector = vector2.addVectorAtBase(vector2_270.getUnitVector().multiply(outset));
+            // console.log("HERE::::: [" + vector1_90.getUnitVector().multiply(outset).timeDependentValues + "]t + [" + vector1_90.getUnitVector().multiply(outset).basePoint + "]")
+            // console.log("V1: [" + vector1.timeDependentValues + "]t + [" + vector1.basePoint+"]");
+            // console.log("V1_90: [" + vector1_90.timeDependentValues + "]t + [" + vector1_90.basePoint+"]");
+            // console.log("V1_parallel: [" + vector1_parallel.timeDependentValues + "]t + [" + vector1_parallel.basePoint+"]");
+            // console.log(" HEREv2::::: [" + vector2_270.getUnitVector().multiply(outset).timeDependentValues + "]t + [" + vector2_270.getUnitVector().multiply(outset).basePoint + "]")
+            // console.log(" V2: [" + vector2.timeDependentValues + "]t + [" + vector1.basePoint+"]");
+            // console.log(" V2_90: [" + vector2_270.timeDependentValues + "]t + [" + vector2_270.basePoint+"]");
+            // console.log(" V2_parallel: [" + vector2_parallel.timeDependentValues + "]t + [" + vector2_parallel.basePoint+"]");
+            //console.log("Vector1: " + vector1_parallel.timeDependentValues + "t + " + vector1_parallel.basePoint + "\n");
+            // Getting new point for outset polygon
+            // console.log("na: [" + na.timeDependentValues + "]t + [" + na.basePoint + "]");
+            // console.log("nb: [" + nb.timeDependentValues + "]s + [" + nb.basePoint + "]");
+            let newPoint:number[] = [vector1.endX+bisector.timeDependentValues[0], vector1.endY+bisector.timeDependentValues[1]];
+            // let newPoint:number[] = vector1_parallel.findPointOfIntersection(vector2_parallel);
+            // if(vector1_parallel.getUnitVector().timeDependentValues[0] == -vector2_parallel.getUnitVector().timeDependentValues[0]
+            //     && vector1_parallel.getUnitVector().timeDependentValues[1] == -vector2_parallel.getUnitVector().timeDependentValues[0]) {newPoint = [vector1.endX + vector1_90.timeDependentValues[0], vector1.endY + vector1_90.timeDependentValues[1]]; console.log("Parallel Points");}
+            newPolygonPoints.push(newPoint);
+        }
+
+        // Getting all nodes that should be the same
+        for(let i:number = 0; i < newPolygonPoints.length; ++i) {
+            if(newPolygonPoints[i].length == 1) {newPolygonPoints[i] = newPolygonPoints[newPolygonPoints[i][0]];} 
+        }
+        console.log("\n\nOrig Points: ");
+        console.log(polygonPoints);
+        console.log("\n\nNew Points: ");
+        console.log(newPolygonPoints);
+
+
+
+        // Starting the starting point at the new polygon point start
+        let currentPointNumber:number = 0;
+        scaledPath[1] = String(newPolygonPoints[currentPointNumber][0]);
+        scaledPath[2] = String(newPolygonPoints[currentPointNumber][1]);
+
+        // Outsetting the actual scaledPath now
+        this.currentPoint = [Number(scaledPath[1]), Number(scaledPath[2])];
+        for(let i:number = 3; i < scaledPath.length - 1; ++i) {
+            nextPoint = []; diffPoints = []; nextChars = [];
+            // Getting the next numbers to go with this command
+            for(let j:number = i+1; "MmLlHhVvAaCcZz".indexOf(scaledPath[j]) == -1; ++j) {nextChars = nextChars.concat(scaledPath[j].split(","));}
+            switch(scaledPath[i]) {
+                case "m":
+                case "l":
+                    nextPoint = [newPolygonPoints[currentPointNumber+1][0], newPolygonPoints[currentPointNumber+1][1]];
+                    diffPoints = [nextPoint[0]-this.currentPoint[0], nextPoint[1]-this.currentPoint[1]];
+                    // Updating with new scaled values
+                    for(let k:number = 0; k < diffPoints.length; ++k) {scaledPath[i+(k+1)] = diffPoints[k].toString();}
+                    break;
+                case "h":
+                    nextPoint = [newPolygonPoints[currentPointNumber+1][0], this.currentPoint[1]];
+                    diffPoints = [nextPoint[0]-this.currentPoint[0], 0];
+                    // Updating with new scaled values
+                    scaledPath[i+1] = diffPoints[0].toString();
+                    break;
+                case "v":
+                    nextPoint = [this.currentPoint[0], newPolygonPoints[currentPointNumber+1][1]];
+                    diffPoints = [0, nextPoint[1]-this.currentPoint[1]];
+                    // Updating with new scaled values
+                    scaledPath[i+1] = diffPoints[1].toString();
+                    break;
+                case "c":
+                    for(let k:number = 0; k < 3; ++k) {
+                        nextPoint = [newPolygonPoints[currentPointNumber+1][0], newPolygonPoints[currentPointNumber+1][1]];
+                        diffPoints = [nextPoint[0]-this.currentPoint[0], nextPoint[1]-this.currentPoint[1]];
+                        scaledPath[i+1+(k*2)] = diffPoints[0].toString();
+                        scaledPath[i+1+(k*2)+1] = diffPoints[1].toString();
+                        if(k != 2) {++currentPointNumber;} // Updating current point for control points
+                    }
+                    break;
+                // s will be added later (adds onto c)
+                case "s":
+                    break;
+                case "q":
+                    for(let k:number = 0; k < 2; ++k) {
+                        nextPoint = [newPolygonPoints[currentPointNumber+1][0], newPolygonPoints[currentPointNumber+1][1]];
+                        diffPoints = [nextPoint[0]-this.currentPoint[0], nextPoint[1]-this.currentPoint[1]];
+                        scaledPath[i+1+(k*2)] = diffPoints[0].toString();
+                        scaledPath[i+1+(k*2)+1] = diffPoints[1].toString();
+                        if(k != 1) {++currentPointNumber;} // Updating current point for control points
+                    }
+                    break;
+                // t will be added later (adds onto q)
+                case "t":
+                    break;
+                case "a":
+                    nextPoint = [newPolygonPoints[currentPointNumber+1][0], newPolygonPoints[currentPointNumber+1][1]];
+                    for(let k:number = 0; k < nextChars.length; ++k) {
+                        // Keep same angle, sweep flag, etc.
+                        if(k == 5) {diffPoints.push(nextPoint[0]-this.currentPoint[0]);}
+                        else if(k == 6) {diffPoints.push(nextPoint[1]-this.currentPoint[1]);}
+                        else if(k == 0 || k == 1) {diffPoints.push(Number(nextChars[k]) + outset);}
+                        else {diffPoints.push(Number(nextChars[k]));}
+                        scaledPath[i+(k+1)] = diffPoints[k].toString();
+                    }
+                    break;
+                default:
+                    continue;
+            }
+            // Updating current point
+            this.currentPoint = nextPoint;
+            ++currentPointNumber;
+        }
+
+
+        return scaledPath.join(" ").trim();
+    }
+
+
+    // Method to scale the polygon -- testing for line art -- works
+    // Method to return outset polygon
+    lineScale(scaleX:number, scaleY:number):string {
+        let scaledPath:string[] = this.scalablePath.slice();
+        scaledPath[1] = String(Number(scaledPath[1])*scaleX);
+        scaledPath[2] = String(Number(scaledPath[2])*scaleY);
+        this.currentPoint = [Number(scaledPath[1]), Number(scaledPath[2])];
+        let nextPoint:number[];
+        let diffPoints:number[];
+        let nextChars:string[];
+        for(let i:number = 3; i < scaledPath.length - 1; ++i) {
+            nextPoint = []; diffPoints = []; nextChars = [];
+            // Getting the next numbers to go with this command
+            for(let j:number = i+1; "MmLlHhVvAaCcZz".indexOf(scaledPath[j]) == -1; ++j) {nextChars = nextChars.concat(scaledPath[j].split(","));}
+            switch(scaledPath[i]) {
+                case "m":
+                case "l":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[0])), this.currentPoint[1] + (Number(nextChars[1]))];
+                    diffPoints = [(nextPoint[0]-this.currentPoint[0])*scaleX, (nextPoint[1]-this.currentPoint[1])*scaleY];
+                    // Updating with new scaled values
+                    for(let k:number = 0; k < diffPoints.length; ++k) {scaledPath[i+(k+1)] = diffPoints[k].toString();}
+                    break;
+                case "h":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[0])), this.currentPoint[1]];
+                    diffPoints = [(nextPoint[0]-this.currentPoint[0])*scaleX, 0];
+                    // Updating with new scaled values
+                    scaledPath[i+1] = diffPoints[0].toString();
+                    break;
+                case "v":
+                    nextPoint = [this.currentPoint[0], this.currentPoint[1] + (Number(nextChars[0]))];
+                    diffPoints = [0, (nextPoint[1]-this.currentPoint[1])*scaleY];
+                    // Updating with new scaled values
+                    scaledPath[i+1] = diffPoints[1].toString();
+                    break;
+                case "c":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[4])), this.currentPoint[1] + (Number(nextChars[5]))];
+                    for(let k:number = 0; k < nextChars.length; ++k) {
+                        if(k % 2 == 0) {diffPoints.push(Number(nextChars[k])*scaleX);}
+                        else {diffPoints.push(Number(nextChars[k])*scaleY);}
+                        scaledPath[i+(k+1)] = diffPoints[k].toString();
+                    }
+                    break;
+                // s will be added later (adds onto c)
+                case "s":
+                    break;
+                case "q":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[2])), this.currentPoint[1] + (Number(nextChars[3]))];
+                    for(let k:number = 0; k < nextChars.length; ++k) {
+                        if(k % 2 == 0) {diffPoints.push(Number(nextChars[k])*scaleX);}
+                        else {diffPoints.push(Number(nextChars[k])*scaleY);}
+                        scaledPath[i+(k+1)] = diffPoints[k].toString();
+                    }
+                    break;
+                // t will be added later (adds onto q)
+                case "t":
+                    break;
+                case "a":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[5])), this.currentPoint[1] + (Number(nextChars[6]))];
                     for(let k:number = 0; k < nextChars.length; ++k) {
                         // Keep same angle, sweep flag, etc.
                         if(k >= 2 && k <= 4) {diffPoints.push(Number(nextChars[k]));}
@@ -768,6 +1179,36 @@ export class SVGTemplate {
             else {scaledD += this.subShapes[i].outset(xOutset, yOutset) + " ";}
         }
         return [scaledD.trim(), newScaleX.toString(), newScaleY.toString()];
+    }
+
+    // Method to get a scaled version of the template --> returns [scaledD] -- testing for line art --
+    getLineScaledD(scaleX:number, scaleY:number):string {
+        let scaledD:string = "";
+        
+        
+        // Looping through and outsetting each polygon by a certain value
+        for(let i:number = 0; i < this.subShapes.length; ++i) {
+            let test:Polygon = new Polygon(this.subShapes[i].lineScale(scaleX, scaleY));
+            // scaledD += test.getScalablePath() + " ";
+            console.log("Polygon " + i + ": \n");
+            if(i == this.outerEdgeIndex) {scaledD += test.goodOutset(3) + " ";}
+            else {scaledD += test.goodOutset(3) + " ";}
+        }
+        return scaledD.trim();
+    }
+
+    // Method to get a scaled version of the template --> returns [scaledD] -- testing for line art --
+    getLineScaledPanes(scaleX:number, scaleY:number):string {
+        let scaledD:string = "";
+        
+        
+        // Looping through and outsetting each polygon by a certain value
+        for(let i:number = 0; i < this.subShapes.length; ++i) {
+            let test:Polygon = new Polygon(this.subShapes[i].lineScale(scaleX, scaleY));
+            // scaledD += test.getScalablePath() + " ";
+            if(i != this.outerEdgeIndex) {scaledD += test.goodOutset(1.75) + " ";}
+        }
+        return scaledD.trim();
     }
 
     /*
@@ -1383,7 +1824,13 @@ id="svg567">
 //let p:string = "M -3.1667317,34.166907 V 262.16642 H 214.8334 V 34.166907 Z M 52.833467,42.166419 H 158.83319 v 40.000142 5.15e-4 L 105.83333,116.16707 52.833467,82.167076 v -5.15e-4 z M 4.8338133,42.166935 H 44.833438 V 206.16674 H 4.8338133 Z m 161.9999267,0 h 39.99963 V 206.16674 H 166.83374 Z M 52.833467,90.225502 101.83306,123.16664 v 5.2e-4 130.99924 H 52.833467 v -130.99924 -5.2e-4 z m 105.999723,0 v 32.941138 5.2e-4 130.99924 H 109.8336 v -130.99924 -5.2e-4 h 5.2e-4 z M 4.8338133,214.16677 H 44.833438 v 40.00014 H 4.8338133 Z m 161.9999267,0 h 39.99963 v 40.00014 h -39.99963 z";
 
 // 1.7A 05
-// let p:string = "M -3.1667319 34.166907 v 227.99952299999998 h 218.0001319 v -227.99952299999998 Z M 4.833814 42.166937000000004 h 39.999624999999995 v 40.000141 h -39.999624999999995 Z M 52.833467999999996 42.166937000000004 h 105.99973200000001 v 40.000141 h -105.999732 Z M 166.83373999999998 42.166937000000004 h 39.999629999999996 v 40.000141 h -39.99962999999997 Z M 52.833468 90.166588 h 105.999732 v 0.0005639999999971224 v 39.999628000000016 l -0.0010000000000047748 0.0005600000000072214 h 0.0010000000000047748 l -52.99987 33.99938 l -52.999862 -33.99947 h 0.001100000000000989 l -0.001100000000000989 -0.0005700000000103955 v -39.99957300000001 Z M 4.833814000000004 90.167152 h 39.999625 v 115.99963799999999 v 0.0005600000000072214 h -39.99962500000001 v -0.0005600000000072214 Z M 166.83373999999998 90.167152 h 39.999629999999996 v 115.999588 h -39.99962999999997 Z M 52.833468 139.22509 l 48.999592 32.94114999999999 v 0.0005600000000072214 h 0.0005100000000055616 v 81.99965 h -0.0005100000000055616 h -48.999592 v -81.99965 v -0.0005600000000072214 v -32.94063 Z M 158.8332 139.22509 v 0.0005700000000103955 v 32.94063 v 0.0005600000000072214 h 0.0005600000000072214 v 81.99964 h -0.0005600000000072214 h -48.9996 v -81.99964 v -0.0005600000000072214 h 0.0005199999999945248 Z M 4.833814 214.16677 h 39.999624999999995 v 40.000140000000016 h -39.999624999999995 Z M 166.83373999999998 214.16677 h 39.999629999999996 v 40.000140000000016 h -39.999629999999996 Z";
+//let p:string = "M 47.472659,20.90234 V 437.6543 H 369.23438 804.38282 V 20.90234 H 803.88086 369.23438 198.6543 Z m 1.003907,1.00391 H 198.6543 v 124.74609 0.01 c -36.63661,5.47922 -64.73828,37.07856 -64.73828,75.24023 0,2.29421 0.10776,4.56405 0.30664,6.80665 l -35.66211,0.0273 -50.083984,0.0391 z m 151.181644,0 H 368.73243 V 435.61523 L 256.45313,282.16602 c 18.02555,-13.9163 29.64062,-35.73522 29.64062,-60.26368 0,-42.01768 -34.07606,-76.08398 -76.09375,-76.08398 -3.50848,0 -6.95938,0.24328 -10.34179,0.70313 z m 170.07812,0 H 482.11914 V 436.65039 H 369.73633 Z m 113.38672,0 h 169.07422 v 124.19141 c -2.14399,-0.18154 -4.31107,-0.2793 -6.50195,-0.2793 -0.65653,0 -1.3123,0.009 -1.96485,0.0254 -41.11032,1.0417 -74.12109,34.69743 -74.12109,76.05859 0,24.50995 11.59357,46.31471 29.59375,60.23243 l -63.66211,84.1953 -52.41797,69.32812 z m 170.07812,0 h 150.17774 v 206.86914 h -81.9043 c 0.20282,-2.26416 0.3125,-4.55621 0.3125,-6.87305 0,-39.48624 -30.09409,-71.94826 -68.59179,-75.71679 a 0.49999937,0.49999937 0 0 0 0.006,-0.0566 z M 210,146.81445 c 41.47725,0 75.09571,33.61064 75.09571,75.08789 C 285.09571,263.3796 251.47725,297 210,297 c -41.47725,0 -75.08789,-33.6204 -75.08789,-75.09766 0,-0.64808 0.007,-1.29335 0.0234,-1.9375 1.02776,-40.58101 34.23529,-73.15039 75.06445,-73.15039 z m 435.69532,0 c 41.47725,0 75.0957,33.61064 75.0957,75.08789 0,41.47726 -33.61845,75.09766 -75.0957,75.09766 -41.47722,0 -75.08985,-33.6204 -75.08985,-75.09766 0,-0.64808 0.009,-1.29335 0.0254,-1.9375 1.02776,-40.58101 34.23532,-73.15039 75.06446,-73.15039 z M 134.3125,229.71289 c 3.91112,38.35003 36.30666,68.2832 75.6875,68.2832 17.12872,0 32.93778,-5.66378 45.65625,-15.21875 L 368.2461,436.65039 H 48.476566 V 229.7793 l 55.990234,-0.043 z m 587.07032,0.0664 h 81.99609 v 206.87109 h -319.75 L 599.99805,282.74219 c 12.72461,9.57514 28.54863,15.2539 45.69727,15.2539 39.35803,0 71.74485,-29.89873 75.6875,-68.21679 z";
+
+/*******  New scaling test d  **********/
+// let p:string = "M 27.867852,184.28052 V 294.28053 H 112.88764 227.86785 V 184.28052 H 227.73521 112.88764 67.814902 z m 0.26527,0.26498 h 39.68178 v 32.92623 0.003 c -9.68057,1.44621 -17.10594,9.78673 -17.10594,19.85935 0,0.60555 0.0285,1.20466 0.081,1.79659 l -9.42308,0.007 -13.23379,0.0103 z m 39.94704,0 H 112.755 V 293.74233 L 83.087212,253.24002 c 4.76293,-3.67316 7.832,-9.43217 7.832,-15.90636 0,-11.0904 -9.00399,-20.08206 -20.10641,-20.08206 -0.92706,0 -1.8389,0.0642 -2.73264,0.18559 z m 44.940108,0 h 29.69515 v 109.47005 h -29.69515 z m 29.96041,0 h 44.67484 v 32.77982 c -0.56651,-0.0479 -1.13913,-0.0737 -1.71801,-0.0737 -0.17349,0 -0.34675,0.002 -0.51919,0.007 -10.86266,0.27496 -19.58517,9.15825 -19.58517,20.07536 0,6.4693 3.0634,12.22458 7.81963,15.89811 l -16.82159,22.22301 -13.85051,18.29889 z m 44.94011,0 h 39.68177 v 54.60227 h -21.64175 c 0.0536,-0.59761 0.0826,-1.20259 0.0826,-1.81411 0,-10.42223 -7.95181,-18.99045 -18.12414,-19.98514 z M 70.812802,217.51451 c 10.95962,0 19.8427,8.8714 19.8427,19.81915 0,10.94776 -8.88308,19.82172 -19.8427,19.82172 -10.95963,0 -19.84064,-8.87396 -19.84064,-19.82172 0,-0.17106 0.002,-0.34137 0.006,-0.5114 0.27156,-10.71119 9.04606,-19.30775 19.83444,-19.30775 z m 115.124708,0 c 10.95962,0 19.8427,8.8714 19.8427,19.81915 0,10.94776 -8.88308,19.82172 -19.8427,19.82172 -10.95963,0 -19.84064,-8.87396 -19.84064,-19.82172 0,-0.17106 0.002,-0.34137 0.006,-0.5114 0.27156,-10.71119 9.04606,-19.30775 19.83444,-19.30775 z M 50.813732,239.39522 c 1.03344,10.12234 9.59338,18.02308 19.99907,18.02308 4.52595,0 8.70322,-1.49493 12.06384,-4.01693 L 112.6265,294.01555 H 28.133122 v -54.6028 l 14.79441,-0.0113 z m 155.122848,0.0175 h 21.66598 v 54.6028 h -84.48821 l 30.74847,-40.62346 c 3.36225,2.52732 7.54346,4.02621 12.07469,4.02621 10.39965,0 18.95728,-7.89165 19.99907,-18.00555 z";
+
+
+// let p:string = "M 20.426025,2.38125 C 23.601685,-0.791975 27.616655,0 32.067685,0 h 26.987505 92.86875 25.4 c 2.73368,0 7.90073,-0.93599 10.31875,0.271912 1.70154,0.849948 4.44024,2.353839 5.13213,4.226004 0.84534,2.28817 0.13837,5.696533 0.47201,8.202084 0.44159,3.316394 2.06137,6.292824 3.92774,8.995834 2.94402,4.26376 6.7236,7.766578 10.1227,11.641668 1.57215,1.79229 3.59648,3.54515 4.45426,5.82083 2.26351,6.00472 1.89997,12.28143 2.42967,18.52084 0.18679,2.20106 2.40215,2.98423 2.29076,5.55625 -0.69003,15.91998 -9.37022,29.34176 -15.21592,43.656248 -3.24432,7.94464 -4.41087,16.97778 -7.53269,24.87057 -0.68368,1.72879 -2.92523,2.08306 -3.46287,3.72904 -0.70379,2.15397 -0.22833,5.69198 -0.0169,7.91289 0.32491,3.41392 0.24474,6.89795 0.64982,10.31875 0.26961,2.27806 1.0533,7.20143 -0.0831,9.23184 -0.70776,1.26471 -2.61911,1.50813 -3.67321,2.46618 -4.12936,3.75391 -7.00326,5.32898 -12.72355,4.51327 -1.31657,-0.18786 -3.05832,-0.18839 -4.03119,-1.21021 -2.42756,-2.54979 -3.05806,-7.02363 -4.43574,-10.23858 -2.93185,-6.84212 -6.23941,-13.62683 -9.90151,-20.10833 -5.27843,-9.34191 -11.0019,-18.41527 -17.09234,-27.25209 -3.73063,-5.41232 -8.12853,-10.80876 -11.13208,-16.668748 -1.09776,-2.1418 -0.81254,-4.53496 -1.85235,-6.61458 -0.9062,-1.81213 -2.63393,-3.11732 -3.38164,-5.02709 -2.6797,-6.84424 -4.57835,-14.84021 -4.2545,-22.225 1.12104,-25.55795 28.82291,-38.502535 48.9376,-47.544115 7.27233,-3.268954 17.46276,-5.108258 23.01875,-10.664217 m 1.05833,0 C 194.6539,-0.437539 197.92653,0 202.19479,0 h 15.61042 71.70208 20.90208 c 2.45797,0 6.08541,-0.64938 7.9375,1.073838 1.89441,1.763792 1.58751,3.581982 1.58751,6.069912 v 10.583334 47.624998 169.862508 42.8625 10.58333 c 0,1.6854 0.28838,3.4343 -0.83344,4.7625 -1.26471,1.49755 -2.57969,3.41313 -4.45823,3.88409 -4.43177,1.11125 -10.73679,0.0847 -15.34584,0.0847 H 244.52812 20.426025 M 190.02394,134.9375 c -3.67321,-2.43469 -4.88182,-7.16438 -7.69514,-10.58333 -5.3848,-6.54394 -11.65013,-12.12877 -19.02777,-16.36448 -2.60615,-1.49622 -5.06148,-3.23903 -7.67292,-4.72784 -1.72694,-0.98452 -3.58537,-1.90976 -4.02749,-4.043098 -0.77893,-3.75735 5.04614,-2.64636 6.12855,-5.04164 0.46355,-1.02578 0.0156,-3.07445 0.0156,-4.21878 0,-3.24088 0,-6.54208 0,-9.78958 0,-8.41243 -0.87789,-17.82022 1.76477,-25.92917 1.47717,-4.53284 3.75126,-8.36268 9.08314,-8.1907 4.83315,0.1561 6.36138,3.70787 7.316,7.92612 1.74598,7.71737 0.88609,16.19541 0.88609,24.07708 0,2.73553 0.26326,5.48349 0.26458,8.20209 5.3e-4,1.03769 -0.30215,2.66991 1.07394,2.86729 2.46592,0.35401 5.34035,-0.85593 7.65731,-1.57507 8.43677,-2.61858 14.98362,-7.9502 19.82285,-15.31514 2.16032,-3.28771 3.04112,-7.77134 5.22049,-10.84395 0.84985,-1.1983 2.18308,-1.97644 3.26708,-2.91438 M 20.426025,142.875 c 1.20679,-1.20358 2.52592,-2.38918 3.96875,-3.43667 1.0846,-0.7874 2.47798,-1.5285 3.21643,-2.65933 1.1915,-1.8243 1.8287,-4.36006 2.81834,-6.33941 1.81552,-3.63114 4.18957,-7.112 6.66809,-10.31876 8.474915,-10.96512 19.159055,-20.202518 31.217975,-27.061838 4.23677,-2.40983 8.68442,-4.55983 13.22916,-6.32566 2.01719,-0.78396 4.39791,-1.80023 6.61327,-1.52797 2.10237,0.2585 2.37648,3.92959 3.03159,5.54672 1.9013,4.69371 4.95882,9.444838 8.61166,12.954268 2.36511,2.27224 5.11201,4.17512 7.93724,5.82798 1.4179,0.82973 3.53721,1.41049 4.56988,2.73605 1.1385,1.46103 1.03531,4.00447 1.62877,5.73379 2.03597,5.93302 3.04086,11.61309 4.41352,17.69269 0.27305,1.2102 1.78144,1.75233 2.61197,2.49502 1.06865,0.95567 1.34567,1.93675 1.51712,3.36021 1.8743,15.56464 -4.23757,30.54535 -7.38479,45.50833 -1.3499,6.41747 -2.15477,13.29902 -2.32542,19.84375 -0.0863,3.29618 0.16669,7.69012 -2.12064,10.05417 l -3.70284,-2.15821 -5.22446,-6.028 -9.85812,-8.35263 -16.40416,-9.04981 -9.24323,-4.04468 -1.955,-2.39951 -7.05803,-1.09643 -10.58333,-4.77097 -5.02708,-2.70722 -2.91042,1.71371 m 87.84167,-90.222918 5.55625,1.5875 c -1.84705,1.84705 -2.64662,2.64662 -4.49791,4.49791 m 50.00625,-4.7625 c -1.71053,1.52109 -3.67295,1.6391 -5.82084,2.22912 -4.53046,1.2446 -8.93365,1.68672 -13.49375,2.53338 m -25.92916,-4.49791 13.22916,7.74567 5.29167,1.51474 m 69.85,52.387508 c 3.41895,3.41921 3.65707,8.42751 5.6724,12.96458 3.02552,6.81117 9.3861,12.31821 15.49427,16.31315 2.13122,1.39383 4.96094,3.49409 7.66789,3.24697 1.13453,-0.10345 1.38298,-1.12977 1.5158,-2.09762 0.35136,-2.55984 0.75591,-5.11466 1.20121,-7.67291 1.54358,-8.86884 2.07618,-19.58314 6.68468,-27.51667 2.80565,-4.83024 9.63058,-5.64727 12.82992,-0.52917 2.85883,4.57332 2.37967,10.52539 1.89547,15.61042 -0.56833,5.96847 -1.48299,11.82026 -2.58788,17.72708 -0.71359,3.81476 -1.85367,8.11821 -2.08254,11.90625 -0.11166,1.85129 2.02036,2.43576 3.29857,3.18638 1.43562,0.84323 2.74822,2.56434 1.8497,4.2209 -1.20572,2.22329 -3.94335,2.83924 -6.07907,3.90445 -4.50294,2.24605 -9.03182,4.59979 -13.22916,7.38558 -7.07892,4.69847 -13.79537,10.2788 -19.01826,17.02144 -1.16496,1.50363 -4.32541,5.0218 -6.34259,3.12526 -1.7317,-1.62824 -1.33271,-6.1587 -1.36313,-8.41692 -0.0868,-6.42435 -0.66464,-13.55461 -2.02618,-19.84375 -3.3147,-15.31065 -10.19519,-30.86339 -8.80507,-46.83125 0.2286,-2.62573 3.20225,-2.89878 3.57611,-5.55652 0.86968,-6.18067 2.22065,-11.73295 3.88408,-17.72682 0.54848,-1.9767 0.53102,-4.86225 1.74599,-6.55823 1.11733,-1.55945 3.94599,-2.40744 5.59488,-3.3139 2.5908,-1.42399 5.0075,-3.46128 7.13979,-5.49725 3.80815,-3.63644 6.69819,-8.30157 8.55424,-13.20562 0.50509,-1.33456 1.19433,-4.894528 2.83845,-5.095078 5.17605,-0.63156 11.69325,3.606268 16.12792,5.823478 15.09158,7.54565 29.80003,19.73448 38.67944,34.1966 2.02408,3.29618 3.76503,6.76116 5.2811,10.31875 0.70643,1.66159 1.02658,3.73301 1.85473,5.29061 0.63235,1.1856 1.8997,1.97035 2.86808,2.91544 1.52928,1.49225 3.06123,3.05674 4.49792,4.49395 M 70.16769,178.59376 C 68.6175,176.43872 68.67412,171.37222 68.16321,168.53959 66.55216,159.60673 63.41684,148.75431 65.1406,139.7 c 1.04431,-5.48534 4.46803,-12.27428 11.37709,-9.4869 3.4245,1.38166 5.09641,6.76143 6.00763,10.01607 1.97908,7.06914 3.04059,14.46477 4.24577,21.69584 0.45561,2.7342 0.36962,7.10856 1.91743,9.26041 -4.14496,4.60375 -12.52167,5.20541 -17.96706,7.4168 -0.94588,0.38418 -1.38747,1.34276 -2.16588,1.93675 -1.84996,1.41129 -3.09589,2.21324 -4.47331,4.1402 M 118.32186,136.525 c -3.61791,3.63035 -3.18267,9.81763 -5.54805,14.55209 -4.44817,8.90349 -14.14357,18.18031 -24.08529,20.10833 m -68.527085,-8.20208 c 2.63537,2.24605 5.50162,2.75643 8.42156,4.94744 2.22904,1.6727 3.33772,4.83156 5.86594,6.16162 2.01192,1.05833 4.244445,0.82471 6.350005,1.85552 m 150.01875,-12.7 c 2.50693,2.06587 2.30849,5.56922 2.68685,8.73125 0.7993,6.67994 1.0496,13.45407 1.92325,20.10834 3.34937,25.50768 1.68487,51.59163 2.80856,77.25833 0.24923,5.68854 0.51884,11.51467 0.51884,17.19792 0,2.10608 0.83159,5.14614 0.0683,7.14375 -0.567,1.48431 -2.21033,2.67229 -3.24327,3.70417 m -25.4,-127.79376 c 0.23998,11.62579 4.16799,23.70905 6.23782,35.18959 3.45784,19.17964 6.1304,38.78527 6.98103,58.20833 0.31591,7.21519 0.2749,14.45683 0.2749,21.69583 0,2.65113 -0.80354,6.5114 -0.18044,8.99584 0.37782,1.50812 2.0873,2.70139 3.09086,3.70417 m 133.35,-124.08959 -5.82083,4.08014 -3.27819,2.06163 -3.53748,4.97073 -1.85209,6.35 -8.07244,10.05417 -33.04249,36.77708 -14.14567,16.66875 -5.07921,8.20208 -0.99959,5.55625 -4.30345,12.96459 -2.74664,8.73125 -0.889,3.96875 -3.54542,3.70417 M 34.448935,174.36042 c 1.88564,8.15076 9.166885,13.27494 14.792855,19.31459 10.85665,11.65463 21.84639,23.05817 31.60157,35.71875 3.60389,4.6773 6.48891,9.52632 9.51336,14.55208 1.17211,1.9476 2.00607,4.68604 4.1529,5.81739 1.04167,0.54901 2.53868,0.6395 3.7039,0.75221 3.506,0.33947 7.34484,0.73581 10.31479,-1.55389 2.60905,-2.01137 4.12379,-5.00407 6.61855,-7.13238 0.99272,0.84402 2.46486,1.49305 3.21363,2.65721 1.67111,2.59848 1.97591,7.5274 2.60641,10.57196 1.91029,9.22602 3.3393,18.54465 5.18663,27.78125 0.5207,2.6035 1.25439,5.29167 1.43536,7.9375 0.063,0.92075 0.41989,2.00554 0.0974,2.91042 -0.52679,1.47637 -2.24737,2.67229 -3.27898,3.70417 m -85.989585,-118.79792 -1.85209,1.85208 m 214.047925,3.70417 c 1.23904,1.56818 3.46498,2.17963 5.29167,2.91041 4.05843,1.62349 8.31716,3.78063 12.7,3.96875 m 6.34999,6.35 c 1.78118,-0.14049 3.81767,-0.31062 5.55626,-0.85222 5.18847,-1.61528 10.37695,-4.62703 15.08124,-7.31626 1.778,-1.01732 3.39989,-2.50481 5.29168,-3.30464 1.98965,-0.84138 4.04812,-0.96388 6.0854,-1.49146 m -196.32083,32.80833 1.66397,7.9375 2.1119,7.67292 0.72205,8.99583 m 115.09375,-11.1125 c -0.0183,6.57093 -3.80576,12.28752 -3.96478,18.78542 -0.0484,1.97564 -0.59267,5.28611 0.15558,7.11597 0.51249,1.2536 2.22514,1.44753 3.07895,2.44422 2.15027,2.50931 3.50018,4.54475 7.08025,4.46008 2.93504,-0.0714 5.40704,-0.47889 8.2021,-1.05569 m -150.81252,-12.43541 1.30704,6.35 11.07467,25.92916 2.76304,7.40834 0.95726,4.23333 3.21258,3.43959 m 112.97708,-40.48126 c -3.02207,2.57969 -2.9755,5.40015 -3.59542,9.26042 -0.95012,5.91344 -1.73778,11.85069 -2.91333,17.72708 -0.5379,2.68817 -1.78805,6.86594 -1.15676,9.525 0.37069,1.56105 2.39607,2.93159 3.43218,3.96876 m -201.877095,0 h 0.26459";
 
 // D's for 1.8A: 1,2,3,4
 // let p:string = "M -1.9848173 26.294517 v 227.99974300000002 h 218.0001373 v -227.99974300000002 Z M 6.014970699999999 34.294305 h 63.999954300000006 v 92.000045 h -63.999954300000006 Z M 78.015262 34.294305 h 23.999917999999994 v 92.000045 h -23.999917999999994 Z M 112.01533 34.294305 h 23.99991 v 92.000045 h -23.99991 Z M 144.01503 34.294305 h 63.999949999999984 v 92.000045 h -63.999949999999984 Z M 6.0149707 134.29469 h 97.00010929999999 v 47.99983 h -97.00010929999999 Z M 111.01542 134.29469 h 96.99956 v 47.99983 h -96.99956 Z M 6.0149707 190.2943 h 202.00000930000002 v 56.00017 h -202.00000930000002 Z";
@@ -1442,8 +1889,21 @@ if(process.argv[3]) {let a = new LightScreen(Number(process.argv[3]));}
 //     test.getPanesFileText(Number(websiteText[0])/300, Number(websiteText[1])/300, "paneFile"+panel);
 // }
 // let p:string = "M -44.166681,0.53946792 V 300.5395 H 255.83335 V 0.53946792 Z m 5.000074,5.00007398 H 250.83327 V 51.539559 H -39.166607 Z m 0,51.9999971 H 50.83307 V 295.53943 h -89.999677 z m 96.000207,0 h 97.99946 V 147.53922 H 56.8336 Z m 103.99999,0 h 89.99968 V 295.53943 H 160.83359 Z M 56.8336,153.5392 h 97.99946 V 295.53943 H 56.8336 Z";
+
+/*******   New Scaling Tests  ************/
 // let test:SVGTemplate = new SVGTemplate(p);
-// //let result:string[] = test.getScaledD(2, 2);
+// console.log("100x386\n")
+// console.log(test.getLineScaledD((386-6)/200, (100-6)/110));
+// console.log("\n\n");
+// console.log(test.getLineScaledPanes((386-6)/200, (100-6)/110));
+
+
+
+// console.log("\n\n386x100\n")
+// console.log(test.getLineScaledD((386-6)/200, (100-6)/110));
+// console.log("\n\n");
+// console.log(test.getLineScaledPanes((386-6)/200, (100-6)/110));
+
 // test.getFileText(Number(websiteText[0])/300, Number(websiteText[1])/300);
 //console.log(test.getScaledD(343/300, 305/300));
 //console.log(test.getLaserCutPanes());
