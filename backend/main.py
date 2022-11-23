@@ -340,7 +340,7 @@ def updatePaneColor():
     isAvailable = request.args.get('isAvailable', default=False, type=bool)
     realID = request.args.get('id', default=-1, type=int)
     placementID = request.args.get('placementID', default=-1, type=int)
-    colorOpacity = request.args.get('opacity', default=1, type=int)
+    colorOpacity = request.args.get('opacity', default=1, type=float)
 
     try:
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
