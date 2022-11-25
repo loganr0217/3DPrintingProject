@@ -2,12 +2,24 @@
     background-color: black;
 }
 
+.up-contact {
+    display: none;
+}
+
 @media only screen and (max-width: 576px) {
     #tdiLink {
         display: none;
     }
 
-    .HideOnMobile > .navbar {
-        padding: 0.5rem 0.1rem;
+    #contact {
+        padding-top: 0;
+    }
+
+    #collapsibleNavbar > .navbar-nav > a:hover {
+        background-color:rgba(160, 160, 160, 0.222);
+    }
+
+    .up-contact {
+        display: block;
     }
 }
