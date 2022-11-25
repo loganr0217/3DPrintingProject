@@ -92,7 +92,7 @@ img {
     }
 
     #carouselExampleControls {
-        height: 38vh;
+        height: 40vh;
         max-width: 100%;
     }
 
@@ -159,9 +159,9 @@ img {
         padding-bottom: 0;
     }
 
-    .carousel-item > img {
+    /* .carousel-item > img {
         object-fit: fill;
-    }
+    } */
 
     .text-center {
         padding-bottom: 20px;
