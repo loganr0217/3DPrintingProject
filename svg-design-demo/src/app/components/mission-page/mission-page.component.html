@@ -1,46 +1,4 @@
 <div id="missionPageContainer">
-    <h1 id="missionTitle">Mission</h1>
-    <p>
-        For generations, people have had a thing for stained glass. 
-        We put it in our sacred places, in our public spaces and in our homes. 
-        But because they're designed by experts and handcrafted by artisans, 
-        the beauty and the privacy of custom stained glass has been beyond the reach of most people.
-    </p> 
-    <p>Until now.</p>
-    <p>
-        Made from shatterproof acrylic in rugged 3D printed frames, lightscreens are a 
-        different way of doing things. At LightScreen.art we apply technology to deliver the 
-        look of custom stained glass at a fraction of the price. With web-based design tools, 
-        a growing collection of templates, laser cutters, and 3D printers, our team of artists 
-        and technologists have created a user experience and a product that will delight people 
-        who just aren't satisfied with traditional window coverings like drapes, curtains, shades, 
-        blinds and yes, mass-produced stained glass.
-    </p>
-    <p>
-        Designing your custom lightscreen is fun, free and easy. When you visit LightScreen.art, 
-        we'll first ask you a few questions about your window dimensions. Next, you'll choose from 
-        our growing collection of templates representing a number of popular genres. The real fun 
-        begins when you select from our extensive palette and color in the panes of your chosen design 
-        that's sized just for your window. It's as easy as a coloring book or paint by numbers kit. 
-        When you've created the design you love, we'll bring it to life and ship it in panels to your 
-        door for easy installation on your existing windows.
-    </p>
-    <p>
-        Lightscreens are ideal for windows in a variety of places. In rooms like baths and foyers, they 
-        provide both a beautiful decorative touch and the privacy you need. If a window looks out on an 
-        unsightly scene or presents uncomfortable sunglare, lightscreens transform eyesores into art. 
-        Lightscreens look just as great from the outside as they do from the inside. Our templates are 
-        designed for a multitude of window types from horizontal transoms to vertical entryway sidelights 
-        to standard double hung and casement windows.
-    </p>
-    <p>
-        As much as we love our product, we understand that lightscreens aren't for everyone. Many people 
-        just don't care that much about their interiors or are satisfied with things off the shelf. The 
-        LightScreen.art team is passionate about art, technology and serving those who demand something 
-        beyond the ordinary, those driven to create a space that reflects their individuality.
-    </p>
-    <p>
-        Getting started on your lightscreen is easy. Just return to our homepage to start the process or 
-        check out our overview, tutorials, and FAQs. Cover your windows in color and light with LightScreen.art!
-    </p>
+    <h1 id="missionTitle">{{this.posts[0].fields.tutorialHeader}}</h1>
+    <span [innerHTML]="this.contentfulService.markdownToHtml(this.posts[0].fields.tutorialBody)"></span>
 </div>

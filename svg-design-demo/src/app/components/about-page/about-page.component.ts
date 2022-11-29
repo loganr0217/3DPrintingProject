@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Entry } from 'contentful';
+import { ContentfulService } from 'src/app/services/contentful.service';
 
 @Component({
   selector: 'app-about-page',
@@ -6,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./about-page.component.css']
 })
 export class AboutPageComponent implements OnInit {
-
-  constructor() { }
+  posts:Entry<any>[] = [];
+  constructor(public contentfulService:ContentfulService) { }
 
   ngOnInit(): void {
+    this.contentfulService.getPosts('overview').then(posts => this.posts = posts);
   }
 }
