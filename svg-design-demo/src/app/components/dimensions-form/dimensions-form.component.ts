@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { share } from 'rxjs';
 import { SharedDataService } from 'src/app/services/shared-data.service';
+import { Entry } from 'contentful';
 import { Polygon, DividerWindow, WindowPane, SVGTemplate } from '../svgScaler';
+import { ContentfulService } from 'src/app/services/contentful.service';
 
 declare var $:any;
 @Component({
@@ -10,12 +12,14 @@ declare var $:any;
   styleUrls: ['./dimensions-form.component.css']
 })
 export class DimensionsFormComponent implements OnInit {
+  stage3Posts:Entry<any>[] = [];
   unitChoice:string;
 
-  constructor(public sharedDataService:SharedDataService) {
+  constructor(public sharedDataService:SharedDataService, public contentfulService:ContentfulService) {
   }
   
   ngOnInit(): void {
+    this.contentfulService.getPosts('stage3').then(posts => this.stage3Posts = posts);
     this.unitChoice = this.sharedDataService.unitChoice;
     this.sharedDataService.resetFractionNums();
   }

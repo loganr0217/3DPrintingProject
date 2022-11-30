@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Entry } from 'contentful';
+import { ContentfulService } from 'src/app/services/contentful.service';
 
 @Component({
   selector: 'app-gallery-page',
@@ -6,10 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./gallery-page.component.css']
 })
 export class GalleryPageComponent implements OnInit {
-
-  constructor() { }
+  posts:Entry<any>[] = [];
+  constructor(public contentfulService:ContentfulService) { }
 
   ngOnInit(): void {
+    this.contentfulService.getPosts('galleryItem').then(posts => this.posts = posts);
   }
 
   range(i:number):number[] {

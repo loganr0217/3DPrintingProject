@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ContentfulService } from 'src/app/services/contentful.service';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { DividerWindow } from '../svgScaler';
-
+import { Entry } from 'contentful';
 
 @Component({
   selector: 'app-stage2',
@@ -9,8 +10,8 @@ import { DividerWindow } from '../svgScaler';
   styleUrls: ['./stage2.component.css']
 })
 export class Stage2Component implements OnInit {
-
-  constructor(private sharedDataService:SharedDataService) { }
+  posts:Entry<any>[] = [];
+  constructor(private sharedDataService:SharedDataService, public contentfulService:ContentfulService) { }
   
   // Stage 2 attributes
   dividerType:string;
@@ -18,6 +19,7 @@ export class Stage2Component implements OnInit {
   windowShapes:string[];
 
   ngOnInit(): void {
+    this.contentfulService.getPosts('stage2').then(posts => this.posts = posts);
     this.dividerType = this.sharedDataService.selectedDividerType;
     this.windowShape = this.sharedDataService.selectedWindowShape;
     this.windowShapes = this.sharedDataService.windowShapes;

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedDataService } from 'src/app/services/shared-data.service';
+import { Entry } from 'contentful';
+import { ContentfulService } from 'src/app/services/contentful.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-stage3',
@@ -7,10 +10,22 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
   styleUrls: ['./stage3.component.css']
 })
 export class Stage3Component implements OnInit {
+  posts:Entry<any>[] = [];
+  measurementPosts:Entry<any>[] = [];
+  constructor(private sharedDataService:SharedDataService, public contentfulService:ContentfulService,
+    private sanitizer:DomSanitizer) { }
 
-  constructor(private sharedDataService:SharedDataService) { }
+  addModalLink(s:string) {
+    return this.sanitizer.bypassSecurityTrustHtml(s.replace("https://javascript:void(0)", "javascript:void(0)").replace("<a", "<a data-toggle='modal' data-target='#stage3MeasurementTutorialModal' "));
+  }
+
+  fixNewPageLink(s:string) {
+    return this.sanitizer.bypassSecurityTrustHtml(s.replace("<a", "<a target='_blank' "));
+  }
 
   ngOnInit(): void {
+    this.contentfulService.getPosts('stage3').then(posts => this.posts = posts);
+    this.contentfulService.getPostById('3Ex7TXWpOtcuBsRJSTftkV', 'tutorial').then(post => this.measurementPosts.push(post));
   }
 
   getPanelWidth(width:number):number {

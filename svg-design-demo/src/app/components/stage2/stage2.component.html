@@ -1,22 +1,15 @@
 <!-- Step 2.a -->
 <div id="stage2ACon">
-  <div id="section1" class="section">
-    <h1><b>First, a couple of quick questions</b></h1>
-    <p>What does your window look like? Is it a plain single pane of glass or does it have dividers? Are the
-      dividers raised above the window separating the panes or are they embedded between double panes?
-      <br/>
-      <br/>
-      Click the icon below which matches your divider type.
-    </p>
+  <div *ngFor="let post of this.posts" id="section1" class="section">
+    <h1><b>{{post.fields.stage2header}}</b></h1>
+    <span [innerHTML]="this.contentfulService.markdownToHtml(post.fields.stage2body)"></span>
     <div id="dividerTypeImages">
       <figure class="dividerTypeImageCon" *ngFor="let dividerType of ['nodiv', 'raiseddiv', 'embeddeddiv']" (click)="chooseDivider(dividerType);">
         <img id="dividerTypeImage_{{dividerType}}" class="dividerTypeImage" src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/>
         <figcaption>{{dividerName(dividerType)}}</figcaption>
       </figure>
     </div>
-    <p id="windowShapeText">Now, click the window at right that looks the most like your window. Don't be concerned with the 
-      exact dimensions: we'll get to that in the next step.
-    </p>
+    <span [innerHTML]="this.contentfulService.markdownToHtml(post.fields.stage2hiddenBody)" id="windowShapeText"></span>
     <!-- Start of Breadcrumbs -->
      <!-- <div class="breadCrumbs" id="step2ABreadCrumbs">
        <div class="text-center">
