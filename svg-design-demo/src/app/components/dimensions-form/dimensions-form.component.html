@@ -82,7 +82,9 @@
         </div>
         
     </div>
-    <p *ngIf="!this.isDoubleHung() || this.sharedDataService.topSash" id="dividerDetailsText" [textContent]="this.sharedDataService.selectedDividerType == 'nodiv' ? '' : 'Now, tell us the number of window dividers and their width.'"></p>
+    <div *ngFor="let post of this.stage3Posts" id="dividerDetailsText">
+        <span *ngIf="!this.isDoubleHung() || this.sharedDataService.topSash" [innerHtml]="this.sharedDataService.selectedDividerType == 'nodiv' ? '' : this.contentfulService.markdownToHtml(post.fields.stage3hiddenBody)"></span>
+    </div>
     <div id="dividerDetailInputs">
         <div class="form-group form-row">
             <!-- <div class="col">
