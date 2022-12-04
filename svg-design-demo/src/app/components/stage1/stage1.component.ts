@@ -4,6 +4,7 @@ import { ElementRef } from '@angular/core';
 import { ContentfulService } from 'src/app/services/contentful.service';
 import { Entry } from 'contentful';
 import { marked } from 'marked';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stage1',
@@ -13,12 +14,27 @@ import { marked } from 'marked';
 export class Stage1Component implements OnInit {
   posts:Entry<any>[] = [];
   carouselPosts:Entry<any>[] = [];
+  isMobile: boolean = false;
 
-  constructor(public contentfulService:ContentfulService) {}
+  constructor(public contentfulService:ContentfulService, private router: Router) {}
 
   ngOnInit(): void {
     this.contentfulService.getPosts('stage1').then(posts => this.posts = posts);
     this.contentfulService.getPosts('carouselItem').then(posts => this.carouselPosts = posts);
+    let w = document.documentElement.clientWidth;
+    let h = document.documentElement.clientHeight;
+    if (w <= 576) {
+      this.isMobile = true;
+    }
+    onresize = (event) => {
+      w = document.documentElement.clientWidth;
+      h = document.documentElement.clientHeight;
+      if (w <= 576) {
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
+      }
+    };
   }
 
   @ViewChild('carousel') carousel: ElementRef;
@@ -37,5 +53,9 @@ export class Stage1Component implements OnInit {
 
   learnMore():void {
     //
+  }
+
+  goToPage(){
+    this.router.navigate([`/gallery`]);
   }
 }

@@ -88,15 +88,16 @@ img {
     }
     #stage1Con {
         flex-direction: column;
+        padding-bottom:0;
     }
 
     #carouselExampleControls {
-        height: 76vh;
+        height: 40vh;
         max-width: 100%;
     }
 
     #slide-img {
-        height: 62vh
+        height: 32vh
     }
 
     #sideTextContainer > #header_title {
@@ -121,8 +122,20 @@ img {
     }
 
     #header_title > h1 > b  {
-        font-size: 30px;
+        font-size: 25px;
         /* color: antiquewhite; */
+    }
+
+    #header_title > h1  {
+        font-size: 2rem;
+        /* color: antiquewhite; */
+    }
+
+    #side_text > span > p {
+        margin-bottom: 0.5rem;
+    }
+    #side_text {
+        padding-bottom: 2px;
     }
 
     #side_text > span > p{
@@ -132,10 +145,39 @@ img {
         font-weight: bold;
     }
     
-    .text-center {
+    /* .text-center {
         display: block;
+    } */
+
+    .text-center > a > .btn {
+        /* margin-left: 34vw; */
+        font-size: 15px;
     }
+
     #let-start {
         display: none;
+    }
+
+    .carousel-item {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    /* .carousel-item > img {
+        object-fit: fill;
+    } */
+    .text-center {
+        display: block;
+        padding-bottom: 20px;
+        height: 62px;
+    }
+    .text-center > a {
+        height: 30px;
+    }
+    .text-center > br {
+        display: none;
+    }
+    .carousel-inner {
+        height: inherit;
+        width: 92%;
     }
 }

@@ -3,6 +3,28 @@
       <div *ngFor="let post of this.posts" id="header_title">
         <h1><b>{{ post.fields.stage1header }}</b></h1>
       </div>
+      <div class="carousel_div" *ngIf="isMobile">
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <li *ngFor="let post of this.carouselPosts; let i = index" data-target="#carouselExampleControls" attr.data-slide-to="{{i}}" class="{{i == 0 ? 'active' : ''}}"></li>
+            </ol>
+            <div class="carousel-inner">
+              <div class="carousel-item {{i == 0 ? 'active' : ''}}" data-interval="5000" *ngFor="let post of this.carouselPosts; let i = index">
+                <img class="d-block w-100" (click)="goToPage()" id="slide-img" src="{{post.fields.image.fields.file.url}}" alt="First slide">
+              </div>
+            </div>
+            
+            <!-- <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a> -->
+            
+        </div>
+      </div>
       <div *ngFor="let post of this.posts" id = "side_text">
           <span [innerHTML]="this.contentfulService.markdownToHtml(post.fields.stage1body)"></span>
       </div>
@@ -18,14 +40,14 @@
         <li #carousel data-target="#carouselExampleControls" data-slide="next"></li>
       </ol>
    </div> -->
-    <div class="carousel_div">
+    <div class="carousel_div" *ngIf="!isMobile">
       <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
           <ol class="carousel-indicators">
             <li *ngFor="let post of this.carouselPosts; let i = index" data-target="#carouselExampleControls" attr.data-slide-to="{{i}}" class="{{i == 0 ? 'active' : ''}}"></li>
           </ol>
-          <div class="carousel-inner" routerLink="/gallery">
+          <div class="carousel-inner">
             <div class="carousel-item {{i == 0 ? 'active' : ''}}" data-interval="5000" *ngFor="let post of this.carouselPosts; let i = index">
-              <img class="d-block w-100" id="slide-img" src="{{post.fields.image.fields.file.url}}" alt="First slide">
+              <img class="d-block w-100" (click)="goToPage()" id="slide-img" src="{{post.fields.image.fields.file.url}}" alt="First slide">
             </div>
           </div>
           
