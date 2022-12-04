@@ -11,6 +11,10 @@
         display: none;
     }
 
+    .HideOnMobile > .navbar {
+        padding: 0.5rem 0rem;
+    }
+
     #contact {
         padding-top: 0;
     }
@@ -21,5 +25,13 @@
 
     .up-contact {
         display: block;
+    }
+
+    .navbar-toggler {
+        margin-right: 1rem;
+    }
+
+    .navbar-brand {
+        margin-left: 1rem;
     }
 }

@@ -9,6 +9,7 @@ import { SharedDataService } from './services/shared-data.service';
 })
 export class AppComponent {
   title = 'svg-design-demo';
+  isMobile: boolean = false;
   goToFooter():void {
     document.getElementById("footer")?.scrollIntoView({behavior: 'smooth'});
   }
@@ -92,6 +93,21 @@ export class AppComponent {
           // console.log(this.sharedDataService.userInfo);
         });
         
+        let w = document.documentElement.clientWidth;
+        let h = document.documentElement.clientHeight;
+        if (w <= 576) {
+          this.isMobile = true;
+        }
+        console.log(w);
+        onresize = (event) => {
+          w = document.documentElement.clientWidth;
+          h = document.documentElement.clientHeight;
+          if (w <= 576) {
+            this.isMobile = true;
+          } else {
+            this.isMobile = false;
+          }
+        };
   }
   
 }
