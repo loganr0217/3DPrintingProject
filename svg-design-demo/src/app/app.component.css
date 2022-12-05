@@ -19,9 +19,9 @@
         padding-top: 0;
     }
 
-    #collapsibleNavbar > .navbar-nav > a:hover {
+    /* #collapsibleNavbar > .navbar-nav > a:hover {
         background-color:rgba(160, 160, 160, 0.222);
-    }
+    } */
 
     .up-contact {
         display: block;
@@ -33,5 +33,13 @@
 
     .navbar-brand {
         margin-left: 1rem;
+    }
+
+    #collapsibleNavbar > .navbar-nav {
+        padding-left: 5px;
+    }
+
+    #collapsibleNavbar > .navbar-nav > .dropdown > .dropdown-menu {
+        margin-left: -5px;
     }
 }
