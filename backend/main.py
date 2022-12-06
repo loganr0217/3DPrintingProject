@@ -721,7 +721,41 @@ def makeOrder():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
-        
+# Endpoint to delete order 
+@app.route('/deleteorder')
+def deleteOrder():
+    global conn
+    email = request.args.get('email', default='null', type=str)
+    password = request.args.get('password', default='null', type=str)
+    orderId = request.args.get('orderId', default=-1, type=int)
+    
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' and password != 'null' and orderId != -1:
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions = 'admin');")
+            rows = cur.fetchall()
+            # User has been authenticated as an admin or a designer
+            if len(rows) > 0:
+                cur.execute("SELECT * FROM orders WHERE id = {}".format(orderId))
+                rows = cur.fetchall()
+                # Panel already exists in that location
+                if len(rows) > 0:
+                    cur.execute("DELETE FROM orders WHERE id = {}".format(orderId))
+                    conn.commit()
+                    row = (1,)
+                # No panel to delete
+                else:
+                    rows = (-3,)
+            else:
+                rows = (-2,)
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
 
 if __name__ == '__main__':
     from waitress import serve

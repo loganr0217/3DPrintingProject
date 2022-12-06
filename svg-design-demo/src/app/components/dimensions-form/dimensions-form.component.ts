@@ -82,7 +82,7 @@ getPanelWidths(width:number):number[] {
     let finalWidths:number[] = [];
     let reductionFactor:number = 1;
     while(finalPanelWidth/reductionFactor >= 100) {
-      if(finalPanelWidth/reductionFactor >= 100 && finalPanelWidth/reductionFactor <= 500) {
+      if(finalPanelWidth/reductionFactor >= 100 && finalPanelWidth/reductionFactor <= 386) {
         if((width-totalDividerWidth)/(finalPanelWidth/reductionFactor) <= (this.isDoubleHung() ? 3 : 6)) {
           finalWidths.push(finalPanelWidth/reductionFactor);
         }
@@ -100,8 +100,8 @@ getPanelWidth(width:number):number {
   let vertDividers:number = this.sharedDataService.dividerNumbers[1];
   let finalPanelWidth:number = 0; 
   if(this.sharedDataService.selectedDividerType == 'nodiv') {
-   if(width >= 100 && width <=500) {finalPanelWidth = width;}
-   else {finalPanelWidth = width / (Math.ceil(width/500));}
+   if(width >= 100 && width <=386) {finalPanelWidth = width;}
+   else {finalPanelWidth = width / (Math.ceil(width/386));}
  }
  else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
    finalPanelWidth = width / (vertDividers+1);
@@ -110,9 +110,9 @@ getPanelWidth(width:number):number {
  else {
    finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1));
   }
-  // Fixing panel width to be under 500
-  if(finalPanelWidth > 500) {finalPanelWidth = finalPanelWidth / (Math.ceil(finalPanelWidth/500));}
-  if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return finalPanelWidth;}
+  // Fixing panel width to be under 386
+  if(finalPanelWidth > 386) {finalPanelWidth = finalPanelWidth / (Math.ceil(finalPanelWidth/386));}
+  if(finalPanelWidth >= 100 && finalPanelWidth <= 386) {return finalPanelWidth;}
   else {return -1;}
 }
 
@@ -136,12 +136,12 @@ getPanelHeights(height:number):number[] {
     totalDividerHeight = (horzDividers*this.sharedDataService.dividerWidth);
   }
 
-  //if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return finalPanelHeight;}
+  //if(finalPanelHeight >= 100 && finalPanelHeight <= 386) {return finalPanelHeight;}
   if(finalPanelHeight >= 100) {
     let finalHeights:number[] = [];
     let reductionFactor:number = 1;
     while(finalPanelHeight/reductionFactor >= 100) {
-      if(finalPanelHeight/reductionFactor >= 100 && finalPanelHeight/reductionFactor <= 500) {
+      if(finalPanelHeight/reductionFactor >= 100 && finalPanelHeight/reductionFactor <= 386) {
         if((height-totalDividerHeight)/(finalPanelHeight/reductionFactor) <= (this.isDoubleHung() ? 3 : 6)) {
           finalHeights.push(finalPanelHeight/reductionFactor);
         }
@@ -158,8 +158,8 @@ getPanelHeight(height:number):number {
   let horzDividers:number = this.sharedDataService.dividerNumbers[0];
   let finalPanelHeight:number = 0; 
   if(this.sharedDataService.selectedDividerType == 'nodiv') {
-   if(height >= 100 && height <=500) {finalPanelHeight = height;}
-   else {finalPanelHeight = height / (Math.ceil(height/500));}
+   if(height >= 100 && height <=386) {finalPanelHeight = height;}
+   else {finalPanelHeight = height / (Math.ceil(height/386));}
  }
  else if(this.sharedDataService.selectedDividerType == 'embeddeddiv') {
    finalPanelHeight = height / (horzDividers+1);
@@ -168,10 +168,10 @@ getPanelHeight(height:number):number {
  else {
    finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1));
  }
-  // Fixing panel height to be under 500
-  if(finalPanelHeight >= 500) {finalPanelHeight = finalPanelHeight / (Math.ceil(finalPanelHeight/500));}
+  // Fixing panel height to be under 386
+  if(finalPanelHeight >= 386) {finalPanelHeight = finalPanelHeight / (Math.ceil(finalPanelHeight/386));}
 
-  if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return finalPanelHeight;}
+  if(finalPanelHeight >= 100 && finalPanelHeight <= 386) {return finalPanelHeight;}
   else {return -1;}
 }
 
@@ -482,17 +482,17 @@ getPanelHeight(height:number):number {
     let vertDividers:number = this.sharedDataService.dividerNumbers[1] ? this.sharedDataService.dividerNumbers[1] : 0;
     let finalPanelWidth:number = 0; 
     if(this.sharedDataService.selectedDividerType == 'nodiv') {
-      if(width >= 100 && width <=500) {finalPanelWidth = width;}
-      else {finalPanelWidth = width / (Math.ceil(width/500));}
+      if(width >= 100 && width <=386) {finalPanelWidth = width;}
+      else {finalPanelWidth = width / (Math.ceil(width/386));}
     }
     // raised or embedded divs
     else {
       finalPanelWidth = ((width - (vertDividers*this.sharedDataService.dividerWidth)) / (vertDividers+1));
     }
-    // Fixing panel height to be under 500
-    if(finalPanelWidth >= 500) {finalPanelWidth = finalPanelWidth / (Math.ceil(finalPanelWidth/500));}
+    // Fixing panel height to be under 386
+    if(finalPanelWidth >= 386) {finalPanelWidth = finalPanelWidth / (Math.ceil(finalPanelWidth/386));}
 
-    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return (this.isDoubleHung() ? (top ? "Top Pane Width: " : "Bottom Pane Width: ") : "Pane Width: ") + this.convertBackNumber(finalPanelWidth, this.sharedDataService.unitChoice).toFixed(2) + " " + this.sharedDataService.unitChoice;}
+    if(finalPanelWidth >= 100 && finalPanelWidth <= 386) {return (this.isDoubleHung() ? (top ? "Top Pane Width: " : "Bottom Pane Width: ") : "Pane Width: ") + this.convertBackNumber(finalPanelWidth, this.sharedDataService.unitChoice).toFixed(2) + " " + this.sharedDataService.unitChoice;}
     else {return "-1";}
   }
 
@@ -501,17 +501,17 @@ getPanelHeight(height:number):number {
     let horzDividers:number = this.sharedDataService.dividerNumbers[0];
     let finalPanelHeight:number = 0; 
     if(this.sharedDataService.selectedDividerType == 'nodiv') {
-      if(height >= 100 && height <=500) {finalPanelHeight = height;}
-      else {finalPanelHeight = height / (Math.ceil(height/500));}
+      if(height >= 100 && height <=386) {finalPanelHeight = height;}
+      else {finalPanelHeight = height / (Math.ceil(height/386));}
     }
     // raised or embedded divs
     else {
       finalPanelHeight = ((height - (horzDividers*this.sharedDataService.dividerWidth)) / (horzDividers+1));
     }
-    // Fixing panel height to be under 500
-    if(finalPanelHeight >= 500) {finalPanelHeight = finalPanelHeight / (Math.ceil(finalPanelHeight/500));}
+    // Fixing panel height to be under 386
+    if(finalPanelHeight >= 386) {finalPanelHeight = finalPanelHeight / (Math.ceil(finalPanelHeight/386));}
 
-    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return (this.isDoubleHung() ? (top ? "Top Pane Height: " : "Bottom Pane Height: ") : "Pane Height: ") + this.convertBackNumber(finalPanelHeight, this.sharedDataService.unitChoice).toFixed(2) + " " + this.sharedDataService.unitChoice;}
+    if(finalPanelHeight >= 100 && finalPanelHeight <= 386) {return (this.isDoubleHung() ? (top ? "Top Pane Height: " : "Bottom Pane Height: ") : "Pane Height: ") + this.convertBackNumber(finalPanelHeight, this.sharedDataService.unitChoice).toFixed(2) + " " + this.sharedDataService.unitChoice;}
     else {return "-1";}
   }
 

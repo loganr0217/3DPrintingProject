@@ -354,3 +354,73 @@ module stainGlassPanel(panelDims, innerDesignSVG, outerRailProfile, outerRailDim
 //    }
     
 }
+
+
+
+
+// lineart panel generation with full list of files necessary
+module stainGlassPanelLineart(panelDims, fullWidthSVG, wellWidthSVG, topSVGs, numberRotations) {
+    // Base of the panel
+    linear_extrude(height = 2) {
+        import(fullWidthSVG, center=true);
+    }
+    
+    // Well of the panel
+    translate([0, 0, 2]) {
+        linear_extrude(height = 3.2) {
+            import(wellWidthSVG, center=true);
+        }
+    }
+    
+    // Top of well of the panel
+    translate([0, 0, 5.2]) {
+        linear_extrude(height = 1.6) {
+            import(fullWidthSVG, center=true);
+        }
+    }
+    
+    // Looping through to add the top caps
+    for(i = [0 : len(topSVGs)-1]) {
+        translate([0, 0, 6.8 + (i*.4)]) {
+            linear_extrude(height = .4) {
+                import(topSVGs[i], center=true);
+            }
+        }
+    }
+    
+    rotatedPanelDims = numberRotations % 2 == 0 ? [panelDims[0]/2, panelDims[1]/2] : [panelDims[1]/2, panelDims[0]/2];
+    
+    
+    // Adding brim to the panel
+    difference() {
+        difference() {
+            translate([0, 0, .4]) 
+            cube([2*rotatedPanelDims[0]+10, 2*rotatedPanelDims[1]+10, .8], center=true);
+            translate([0, 0, .4])
+            cube([2*rotatedPanelDims[0], 2*rotatedPanelDims[1], .8], center=true);
+        }
+        
+            // Thin brim cut
+            translate([0, 0, .4+.2]) {
+                cube([rotatedPanelDims[0]+.8, rotatedPanelDims[1]+.8, .4], center=true);
+            }
+            
+            // Top right brim corner
+            translate([rotatedPanelDims[0]+2.5, rotatedPanelDims[1]+2.5, .4]) {
+                cube([5, 5, .8], center=true);
+            }
+            // Top left brim corner
+            translate([-rotatedPanelDims[0]-2.5, rotatedPanelDims[1]+2.5, .4]) {
+                cube([5, 5, .8], center=true);
+            }
+            // Bottom right brim corner
+            translate([rotatedPanelDims[0]+2.5, -rotatedPanelDims[1]-2.5, .4]) {
+                cube([5, 5, .8], center=true);
+            }
+            // Bottom left brim corner
+            translate([-rotatedPanelDims[0]-2.5, -rotatedPanelDims[1]-2.5, .4]) {
+                cube([5, 5, .8], center=true);
+            }
+    }
+    
+}

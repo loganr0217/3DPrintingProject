@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { SVGTemplate } from './components/svgScaler';
 import { SharedDataService } from './services/shared-data.service';
 
 @Component({
@@ -45,7 +46,9 @@ export class AppComponent {
             this.sharedDataService.svgTemplateData = [];
             for(let i:number = 0; i < 100; ++i) {this.sharedDataService.svgTemplateData.push([]);}
             for(let i:number = 0; i < panelData.length; ++i) {
-              let tmp:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string} = {id:panelData[i][1], name:panelData[i][3], panelNumber:panelData[i][2], d:panelData[i][4], panelAutofillString:panelData[i][5]};
+              let tmpSVG:SVGTemplate = new SVGTemplate(panelData[i][4]);
+              let tmpD:string = (Math.abs(tmpSVG.width-320) <= .5 && Math.abs(tmpSVG.height-320) <= .5) ? tmpSVG.getLineScaledD((300-6)/320, (300-6)/320) : tmpSVG.getOptimizedD();
+              let tmp:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string} = {id:panelData[i][1], name:panelData[i][3], panelNumber:panelData[i][2], d:tmpD, panelAutofillString:panelData[i][5]};
               this.sharedDataService.svgTemplateData[panelData[i][1]].push(tmp);
             }
           }

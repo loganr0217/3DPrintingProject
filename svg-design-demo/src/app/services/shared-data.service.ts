@@ -86,8 +86,8 @@ export class SharedDataService {
     // Not a double hung
     if(this.bottomSashWidth <= 0 && this.bottomSashHeight <= 0) {
         if(this.selectedDividerType == "nodiv") {
-            this.topPanelWidth = this.windowWidth / (Math.ceil(this.windowWidth/500));
-            this.topPanelHeight = this.windowHeight / (Math.ceil(this.windowHeight/500));
+            this.topPanelWidth = this.windowWidth / (Math.ceil(this.windowWidth/386));
+            this.topPanelHeight = this.windowHeight / (Math.ceil(this.windowHeight/386));
         }
         else if(this.selectedDividerType == "embeddeddiv") {
             this.topPanelWidth = this.windowWidth / (verticalDividers+1);
@@ -106,10 +106,10 @@ export class SharedDataService {
     }
     else {
         if(this.selectedDividerType == "nodiv") {
-            this.topPanelWidth = this.windowWidth / (Math.ceil(this.windowWidth/500));
-            this.topPanelHeight = this.windowHeight / (Math.ceil(this.windowHeight/500));
-            this.bottomPanelWidth = this.bottomSashWidth / (Math.ceil(this.bottomSashWidth/500));
-            this.bottomPanelHeight = this.bottomSashHeight / (Math.ceil(this.bottomSashHeight/500));
+            this.topPanelWidth = this.windowWidth / (Math.ceil(this.windowWidth/386));
+            this.topPanelHeight = this.windowHeight / (Math.ceil(this.windowHeight/386));
+            this.bottomPanelWidth = this.bottomSashWidth / (Math.ceil(this.bottomSashWidth/386));
+            this.bottomPanelHeight = this.bottomSashHeight / (Math.ceil(this.bottomSashHeight/386));
         }
         else if(this.selectedDividerType == "embeddeddiv" || this.selectedDividerType == "'embeddeddiv'") {
             this.topPanelWidth = this.windowWidth / (verticalDividers+1);
@@ -182,7 +182,7 @@ export class SharedDataService {
     let topPanelWidths:number[] = [];
     let reductionFactor:number = 1;
     while(this.topPanelWidth / reductionFactor >= 100) {
-        if(this.topPanelWidth/reductionFactor >= 100 && this.topPanelWidth/reductionFactor <= 500) {
+        if(this.topPanelWidth/reductionFactor >= 100 && this.topPanelWidth/reductionFactor <= 386) {
           if((this.windowWidth-(this.dividerWidth*this.dividerNumbers[1]))/(this.topPanelWidth/reductionFactor) <= (this.isDoubleHung() ? 3 : 6)) {
             topPanelWidths.push(this.topPanelWidth/reductionFactor);
           }
@@ -194,7 +194,7 @@ export class SharedDataService {
     let topPanelHeights:number[] = [];
     reductionFactor = 1;
     while(this.topPanelHeight / reductionFactor >= 100) {
-        if(this.topPanelHeight/reductionFactor >= 100 && this.topPanelHeight/reductionFactor <= 500) {
+        if(this.topPanelHeight/reductionFactor >= 100 && this.topPanelHeight/reductionFactor <= 386) {
           if((this.windowHeight-(this.dividerWidth*this.dividerNumbers[0]))/(this.topPanelHeight/reductionFactor) <= (this.isDoubleHung() ? 3 : 6)) {
             topPanelHeights.push(this.topPanelHeight/reductionFactor);
           }
@@ -210,7 +210,7 @@ export class SharedDataService {
         let bottomPanelWidths:number[] = [];
         reductionFactor = 1;
         while(this.bottomPanelWidth / reductionFactor >= 100) {
-            if(this.bottomPanelWidth/reductionFactor >= 100 && this.bottomPanelWidth/reductionFactor <= 500) {
+            if(this.bottomPanelWidth/reductionFactor >= 100 && this.bottomPanelWidth/reductionFactor <= 386) {
               if((this.bottomSashWidth-(this.dividerWidth*this.dividerNumbers[1]))/(this.bottomPanelWidth/reductionFactor) <= (this.isDoubleHung() ? 3 : 6)) {
                 bottomPanelWidths.push(this.bottomPanelWidth/reductionFactor);
               }
@@ -223,7 +223,7 @@ export class SharedDataService {
         let bottomPanelHeights:number[] = [];
         reductionFactor = 1;
         while(this.bottomPanelHeight / reductionFactor >= 100) {
-            if(this.bottomPanelHeight/reductionFactor >= 100 && this.bottomPanelHeight/reductionFactor <= 500) {
+            if(this.bottomPanelHeight/reductionFactor >= 100 && this.bottomPanelHeight/reductionFactor <= 386) {
               if((this.bottomSashHeight-(this.dividerWidth*this.dividerNumbers[0]))/(this.bottomPanelHeight/reductionFactor) <= (this.isDoubleHung() ? 3 : 6)) {
                 bottomPanelHeights.push(this.bottomPanelHeight/reductionFactor);
               }
@@ -254,8 +254,8 @@ export class SharedDataService {
     let bottomPanelHeight:number = 0;
     if(this.bottomSashWidth <= 0 && this.bottomSashHeight <= 0) {
         if(this.selectedDividerType == "nodiv") {
-            topPanelWidth = this.windowWidth / (Math.ceil(this.windowWidth/500));
-            topPanelHeight = this.windowHeight / (Math.ceil(this.windowHeight/500));
+            topPanelWidth = this.windowWidth / (Math.ceil(this.windowWidth/386));
+            topPanelHeight = this.windowHeight / (Math.ceil(this.windowHeight/386));
         }
         else if(this.selectedDividerType == "embeddeddiv") {
             topPanelWidth = this.windowWidth / (this.dividerNumbers[0]+1);
@@ -269,10 +269,10 @@ export class SharedDataService {
     }
     else {
         if(this.selectedDividerType == "nodiv") {
-            topPanelWidth = this.windowWidth / (Math.ceil(this.windowWidth/500));
-            topPanelHeight = this.windowHeight / (Math.ceil(this.windowHeight/500));
-            bottomPanelWidth = this.bottomSashWidth / (Math.ceil(this.bottomSashWidth/500));
-            bottomPanelHeight = this.bottomSashHeight / (Math.ceil(this.bottomSashHeight/500));
+            topPanelWidth = this.windowWidth / (Math.ceil(this.windowWidth/386));
+            topPanelHeight = this.windowHeight / (Math.ceil(this.windowHeight/386));
+            bottomPanelWidth = this.bottomSashWidth / (Math.ceil(this.bottomSashWidth/386));
+            bottomPanelHeight = this.bottomSashHeight / (Math.ceil(this.bottomSashHeight/386));
         }
         else if(this.selectedDividerType == "embeddeddiv" || this.selectedDividerType == "'embeddeddiv'") {
             topPanelWidth = this.windowWidth / (this.dividerNumbers[0]+1);
