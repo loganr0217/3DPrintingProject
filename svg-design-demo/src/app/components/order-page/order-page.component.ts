@@ -16,11 +16,7 @@ export class OrderPageComponent implements OnInit {
   constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
 
   ngOnInit(): void {
-    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
-    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
-    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/userorders?email='"+email+"'&password='"+password+ "'").subscribe(result => {
-      this.userOrders = JSON.parse(JSON.stringify(result));
-    });
+    this.refreshOrders();
   }
 
   convertNumber(num:number, unit:string):number {
@@ -233,6 +229,30 @@ export class OrderPageComponent implements OnInit {
     this.printAlertString(final);
     final = this.getOrderFieldHeading(10) + this.order[10] + "\n";
     this.printAlertString(final);
+  }
+
+  // Refreshes list of orders
+  refreshOrders():void {
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/userorders?email='"+email+"'&password='"+password+ "'").subscribe(result => {
+      this.userOrders = JSON.parse(JSON.stringify(result));
+    });
+  }
+  
+  // Deletes order from database
+  deleteOrder():void {
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    const orderId:number = this.order[0];
+
+    if (orderId != undefined && orderId != -1 && confirm('Are you sure you want to delete order ' + orderId + '?')) {
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/deleteorder?email='"+email+"'&password='"+password+ "'&orderId=" + orderId).subscribe(result => {
+        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+        alert(test);
+        this.refreshOrders();
+       });
+    }
   }
 
 }

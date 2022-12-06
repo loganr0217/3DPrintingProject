@@ -123,7 +123,7 @@ export class TemplateInfoFormComponent implements OnInit {
     const panelName:string = (<HTMLInputElement>document.getElementById("nameInput"))?.value + "_" + panelNumber;
     const dAttribute:string = (<HTMLInputElement>document.getElementById("dInput"))?.value;
     let temp300Check:SVGTemplate = new SVGTemplate(dAttribute);
-    if(Math.abs(temp300Check.width - 300) < .05 || Math.abs(temp300Check.height - 300) < .05) {
+    if( (Math.abs(temp300Check.width - 300) < .05 && Math.abs(temp300Check.height - 300) < .05) || (Math.abs(temp300Check.width - 320) < .05 && Math.abs(temp300Check.height - 320) < .05) ) {
       if (confirm('Are you sure you want to add this panel?')) {
         // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelSetId + "&panelNumber=" + panelNumber + "&panelName='" + panelName + "'&dAttribute='" + dAttribute + "'").subscribe(result => {
         //   let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
@@ -172,7 +172,7 @@ export class TemplateInfoFormComponent implements OnInit {
     "\n- Panel Name: " + (<HTMLInputElement>document.getElementById("nameInput"))?.value+"_"+this.sharedDataService.chosenPanel.panelNumber + "\n";
 
     let temp300Check:SVGTemplate = new SVGTemplate(dAttribute);
-    if(Math.abs(temp300Check.width - 300) < .05 || Math.abs(temp300Check.height - 300) < .05) {
+    if( (Math.abs(temp300Check.width - 300) < .5 && Math.abs(temp300Check.height - 300) < .5) || (Math.abs(temp300Check.width - 320) < .5 && Math.abs(temp300Check.height - 320) < .5) ) {
       if (confirm('Are you sure you want to update this panel?\n' + confirmText)) {
         // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelSetId + "&panelNumber=" + panelNumber + "&panelName='" + panelName + "'&dAttribute='" + dAttribute + "'").subscribe(result => {
         //   let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");

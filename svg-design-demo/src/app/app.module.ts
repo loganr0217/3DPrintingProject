@@ -36,6 +36,7 @@ import { FaqPageComponent } from './components/faq-page/faq-page.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 import { OrderPageComponent } from './components/order-page/order-page.component';
 import { ColorOfferingsPageComponent } from './components/color-offerings-page/color-offerings-page.component';
+import { CarouselComponent } from './components/carousel/carousel.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { ColorOfferingsPageComponent } from './components/color-offerings-page/c
     FaqPageComponent,
     ProfilePageComponent,
     OrderPageComponent,
-    ColorOfferingsPageComponent
+    ColorOfferingsPageComponent,
+    CarouselComponent
   ],
   imports: [
     BrowserModule,

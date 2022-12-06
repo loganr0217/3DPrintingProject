@@ -1,3 +1,90 @@
+// Basic class for a vector
+export class Vector {
+    // Vector = [dx, dy]t + [bx, by] where timeDependentValues = [dx, dy] and basePoint = [bx, by]
+    startX:number;
+    endX:number;
+    startY:number;
+    endY:number;
+    basePoint:number[];
+    timeDependentValues:number[];
+
+    constructor(startX:number, endX:number, startY:number, endY:number) {
+        this.startX = startX;
+        this.endX = endX;
+        this.startY = startY;
+        this.endY = endY;
+        this.basePoint = [startX, startY];
+        this.timeDependentValues = [endX-startX, endY-startY];
+    }
+
+    // Returns 90 degree rotated vector -> [my, -mx]
+    rotate90Degrees():Vector {
+        return new Vector(this.startX, this.startX+this.timeDependentValues[1], this.startY, this.startY-this.timeDependentValues[0]);
+
+    }
+
+    // Returns 270 degree rotated vector -> [-my, mx]
+    rotate270Degrees():Vector {
+        return new Vector(this.startX, this.startX-this.timeDependentValues[1], this.startY, this.startY+this.timeDependentValues[0]);
+    }
+
+    // Returns magnitude
+    getMagnitude():number {
+        return Math.sqrt( this.timeDependentValues[0]*this.timeDependentValues[0] + this.timeDependentValues[1]*this.timeDependentValues[1] );
+    }
+
+    // Multiplies vector by a certain value
+    multiply(n:number):Vector {
+        let result:Vector = this.getUnitVector();
+        result.timeDependentValues[0] *= n;
+        result.timeDependentValues[1] *= n;
+        return result;
+    }
+
+    // Returns dot product of two vectors
+    dotProduct(otherVector:Vector):number {
+        return this.timeDependentValues[0]*otherVector.timeDependentValues[0] + this.timeDependentValues[1]*otherVector.timeDependentValues[1];
+    }
+
+    // Returns this vector's unit vector
+    getUnitVector():Vector {
+        return new Vector(this.startX, this.startX + this.timeDependentValues[0]/this.getMagnitude(), this.startY, this.startY + this.timeDependentValues[1]/this.getMagnitude());
+    }
+
+    // Returns resultant vector of addition
+    addVector(otherVector:Vector):Vector {
+        return new Vector(this.startX, this.endX + otherVector.timeDependentValues[0], this.startY, this.endY + otherVector.timeDependentValues[1]);
+    }
+
+    // Returns resultant vector of addition
+    addVectorAtBase(otherVector:Vector):Vector {
+        return new Vector(this.startX + otherVector.timeDependentValues[0], this.endX + otherVector.timeDependentValues[0], 
+            this.startY + otherVector.timeDependentValues[1], this.endY + otherVector.timeDependentValues[1]);
+    }
+
+    // Returns point at which this vector intersects with the another vector
+    findPointOfIntersection(otherVector:Vector):number[] {
+        // Using the following starting conditions: 
+        // dx1*t + bx1 = dx2 + bx2
+        // dy1*s + by1 = dy2*s + by2
+        let dx1:number = this.timeDependentValues[0];
+        let dy1:number = this.timeDependentValues[1];
+        let bx1:number = this.startX;
+        let by1:number = this.startY;
+        let dx2:number = otherVector.timeDependentValues[0];
+        let dy2:number = otherVector.timeDependentValues[1];
+        let bx2:number = otherVector.startX;
+        let by2:number = otherVector.startY;
+
+        // Getting s for when the lines intersect
+        let s:number = ( (dx1*by2) - (dx1*by1) - dy1*(bx2-bx1) ) / ( (dy1*dx2) - (dy1*dy2) );
+
+        // Using s to find the actual point and return it
+        return [bx2 + s*dx2, by2 + s*dy2]; 
+    }
+
+}
+
 // Basic class for a window pane
 export class WindowPane {
     dString:string;
@@ -680,6 +767,329 @@ export class Polygon {
         return scaledPath.join(" ").trim();
     }
 
+    // Method to return good outset polygon -- testing for line art --
+    goodOutset(outset:number):string {
+        
+        // let scaleX:number = (this.polygonWidth+(xOutset*2))/this.polygonWidth;
+        // let scaleY:number = (this.polygonHeight+(yOutset*2))/this.polygonHeight;
+        // let centerPoint:number[] = [this.polygonWidth/2 + this.xMin, this.polygonHeight/2 + this.yMin];
+        let scaledPath:string[] = this.scalablePath.slice();
+        // let differenceFromCenter:number[] = [Number(scaledPath[1])-centerPoint[0], Number(scaledPath[2])-centerPoint[1]];
+
+        // Array to hold every polygon point
+        let polygonPoints:number[][] = [];
+
+        // Changing starting point to be scaled now
+        // scaledPath[1] = (centerPoint[0] + (differenceFromCenter[0]*(scaleX))).toString();
+        // scaledPath[2] = (centerPoint[1] + (differenceFromCenter[1]*scaleY)).toString();
+        this.currentPoint = [Number(scaledPath[1]), Number(scaledPath[2])];
+        polygonPoints.push(this.currentPoint);
+
+        
+        // Getting the polygon points
+        let nextPoint:number[];
+        let diffPoints:number[];
+        let nextChars:string[];
+        for(let i:number = 3; i < scaledPath.length - 1; ++i) {
+            nextPoint = []; diffPoints = []; nextChars = [];
+            // Getting the next numbers to go with this command
+            for(let j:number = i+1; "MmLlHhVvAaCcZz".indexOf(scaledPath[j]) == -1; ++j) {nextChars = nextChars.concat(scaledPath[j].split(","));}
+            switch(scaledPath[i]) {
+                case "m":
+                case "l":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[0])), this.currentPoint[1] + (Number(nextChars[1]))];
+                    break;
+                case "h":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[0])), this.currentPoint[1]];
+                    break;
+                case "v":
+                    nextPoint = [this.currentPoint[0], this.currentPoint[1] + (Number(nextChars[0]))];
+                    break;
+                case "c":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[4])), this.currentPoint[1] + (Number(nextChars[5]))];
+                    polygonPoints.push([this.currentPoint[0]+Number(nextChars[0]), this.currentPoint[1]+Number(nextChars[1])]);
+                    polygonPoints.push([this.currentPoint[0]+Number(nextChars[2]), this.currentPoint[1]+Number(nextChars[3])]);
+                    break;
+                // s will be added later (adds onto c)
+                case "s":
+                    break;
+                case "q":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[2])), this.currentPoint[1] + (Number(nextChars[3]))];
+                    polygonPoints.push([this.currentPoint[0]+Number(nextChars[0]), this.currentPoint[1]+Number(nextChars[1])]);
+                    break;
+                // t will be added later (adds onto q)
+                case "t":
+                    break;
+                case "a":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[5])), this.currentPoint[1] + (Number(nextChars[6]))];
+                    polygonPoints.push([this.currentPoint[0]+Number(nextChars[5]), this.currentPoint[1]+Number(nextChars[6])]);
+                    break;
+                default:
+                    continue;
+            }
+            // Updating current point
+            this.currentPoint = nextPoint;
+            polygonPoints.push(this.currentPoint);
+        }
+
+
+        // *** Actually outsetting the polygon now using new algorithm ***
+        // Looping through each point in the polygon
+        const numPolygonPoints:number = polygonPoints.length;
+        let newPolygonPoints:number[][] = []; 
+        for(let i:number = 0; i < numPolygonPoints; ++i) {
+            let vector1:Vector, vector2:Vector;
+            let prevPointIndex:number, nextPointIndex:number;
+            
+            // Getting the correct indexes for the next and previous points
+            if(i != 0 && i != numPolygonPoints-1) {
+                prevPointIndex = i-1;
+                nextPointIndex = i+1;
+            }
+            else if(i == 0) {
+                prevPointIndex = numPolygonPoints-1;
+                nextPointIndex = i+1;
+            }
+            else {
+                prevPointIndex = i-1;
+                nextPointIndex = 0;
+            }
+
+            // Issue with prev point to current
+            while( ((Math.abs(polygonPoints[prevPointIndex][0] - polygonPoints[i][0]) < 2) 
+                    && (Math.abs(polygonPoints[prevPointIndex][1] - polygonPoints[i][1]) < 2)) ) {
+                // newPolygonPoints.push([prevPointIndex]);
+                // continue;
+                --prevPointIndex;
+                if(prevPointIndex < 0) {prevPointIndex = numPolygonPoints-1;}
+            }
+            // Issue with next point to current
+            while( ((Math.abs(polygonPoints[nextPointIndex][0] - polygonPoints[i][0]) < 2) 
+                    && (Math.abs(polygonPoints[nextPointIndex][1] - polygonPoints[i][1]) < 2)) ) {
+                //newPolygonPoints.push([nextPointIndex]);
+                //continue;
+                ++nextPointIndex;
+                if(nextPointIndex > numPolygonPoints-1) {nextPointIndex = 0;}
+            }
+
+            // if( ((Math.abs(polygonPoints[prevPointIndex][0] - polygonPoints[i][0]) < .0001) 
+            //         && (Math.abs(polygonPoints[prevPointIndex][1] - polygonPoints[i][1]) < .0001))
+            //     || ((Math.abs(polygonPoints[nextPointIndex][0] - polygonPoints[i][0]) < .0001) 
+            //         && (Math.abs(polygonPoints[nextPointIndex][1] - polygonPoints[i][1]) < .0001))) {
+            //     console.log("FUCK!!!");
+            //     polygonPoints[i][0] += .01;
+            //     polygonPoints[i][1] += .01;
+            // }
+
+            
+            // Getting vector1 prevPoint->currentPoint and vector2 = nextPoint->currentPoint
+            // Next point uses first pair in array, prev uses last (in case of cubic curve)
+            vector1 = new Vector(polygonPoints[prevPointIndex][0], polygonPoints[i][0], 
+                polygonPoints[prevPointIndex][1], polygonPoints[i][1]);
+            vector2 = new Vector(polygonPoints[nextPointIndex][0], polygonPoints[i][0], 
+                polygonPoints[nextPointIndex][1], polygonPoints[i][1]);
+
+
+            // Getting rotated vectors 
+            let vector1_90:Vector = vector1.rotate270Degrees();
+            let vector2_270:Vector = vector2.rotate90Degrees();
+
+            // Getting my normalized na and nb
+            let na:Vector = new Vector(vector1.endX, vector1.endX+vector1_90.timeDependentValues[0], vector1.endY, vector1.endY+vector1_90.timeDependentValues[1]).getUnitVector();
+            let nb:Vector = new Vector(vector2.endX, vector2.endX+vector2_270.timeDependentValues[0], vector2.endY, vector2.endY+vector2_270.timeDependentValues[1]).getUnitVector();
+
+            // Getting normalized bisector
+            let bisector:Vector = na.addVector(nb).getUnitVector();
+            let bisectorLength:number = outset / Math.sqrt( (1 + na.dotProduct(nb))/2 );
+            bisector = bisector.multiply(bisectorLength);
+
+            // Getting parallel vectors exactly outset by the given outset value
+            let vector1_parallel:Vector = vector1.addVectorAtBase(vector1_90.getUnitVector().multiply(outset));
+            let vector2_parallel:Vector = vector2.addVectorAtBase(vector2_270.getUnitVector().multiply(outset));
+            // console.log("HERE::::: [" + vector1_90.getUnitVector().multiply(outset).timeDependentValues + "]t + [" + vector1_90.getUnitVector().multiply(outset).basePoint + "]")
+            // console.log("V1: [" + vector1.timeDependentValues + "]t + [" + vector1.basePoint+"]");
+            // console.log("V1_90: [" + vector1_90.timeDependentValues + "]t + [" + vector1_90.basePoint+"]");
+            // console.log("V1_parallel: [" + vector1_parallel.timeDependentValues + "]t + [" + vector1_parallel.basePoint+"]");
+            // console.log(" HEREv2::::: [" + vector2_270.getUnitVector().multiply(outset).timeDependentValues + "]t + [" + vector2_270.getUnitVector().multiply(outset).basePoint + "]")
+            // console.log(" V2: [" + vector2.timeDependentValues + "]t + [" + vector1.basePoint+"]");
+            // console.log(" V2_90: [" + vector2_270.timeDependentValues + "]t + [" + vector2_270.basePoint+"]");
+            // console.log(" V2_parallel: [" + vector2_parallel.timeDependentValues + "]t + [" + vector2_parallel.basePoint+"]");
+            //console.log("Vector1: " + vector1_parallel.timeDependentValues + "t + " + vector1_parallel.basePoint + "\n");
+            // Getting new point for outset polygon
+            // console.log("na: [" + na.timeDependentValues + "]t + [" + na.basePoint + "]");
+            // console.log("nb: [" + nb.timeDependentValues + "]s + [" + nb.basePoint + "]");
+            let newPoint:number[] = [vector1.endX+bisector.timeDependentValues[0], vector1.endY+bisector.timeDependentValues[1]];
+            // let newPoint:number[] = vector1_parallel.findPointOfIntersection(vector2_parallel);
+            // if(vector1_parallel.getUnitVector().timeDependentValues[0] == -vector2_parallel.getUnitVector().timeDependentValues[0]
+            //     && vector1_parallel.getUnitVector().timeDependentValues[1] == -vector2_parallel.getUnitVector().timeDependentValues[0]) {newPoint = [vector1.endX + vector1_90.timeDependentValues[0], vector1.endY + vector1_90.timeDependentValues[1]]; console.log("Parallel Points");}
+            newPolygonPoints.push(newPoint);
+        }
+
+        // Getting all nodes that should be the same
+        for(let i:number = 0; i < newPolygonPoints.length; ++i) {
+            if(newPolygonPoints[i].length == 1) {newPolygonPoints[i] = newPolygonPoints[newPolygonPoints[i][0]];} 
+        }
+        console.log("\n\nOrig Points: ");
+        console.log(polygonPoints);
+        console.log("\n\nNew Points: ");
+        console.log(newPolygonPoints);
+
+
+
+        // Starting the starting point at the new polygon point start
+        let currentPointNumber:number = 0;
+        scaledPath[1] = String(newPolygonPoints[currentPointNumber][0]);
+        scaledPath[2] = String(newPolygonPoints[currentPointNumber][1]);
+
+        // Outsetting the actual scaledPath now
+        this.currentPoint = [Number(scaledPath[1]), Number(scaledPath[2])];
+        for(let i:number = 3; i < scaledPath.length - 1; ++i) {
+            nextPoint = []; diffPoints = []; nextChars = [];
+            // Getting the next numbers to go with this command
+            for(let j:number = i+1; "MmLlHhVvAaCcZz".indexOf(scaledPath[j]) == -1; ++j) {nextChars = nextChars.concat(scaledPath[j].split(","));}
+            switch(scaledPath[i]) {
+                case "m":
+                case "l":
+                    nextPoint = [newPolygonPoints[currentPointNumber+1][0], newPolygonPoints[currentPointNumber+1][1]];
+                    diffPoints = [nextPoint[0]-this.currentPoint[0], nextPoint[1]-this.currentPoint[1]];
+                    // Updating with new scaled values
+                    for(let k:number = 0; k < diffPoints.length; ++k) {scaledPath[i+(k+1)] = diffPoints[k].toString();}
+                    break;
+                case "h":
+                    nextPoint = [newPolygonPoints[currentPointNumber+1][0], this.currentPoint[1]];
+                    diffPoints = [nextPoint[0]-this.currentPoint[0], 0];
+                    // Updating with new scaled values
+                    scaledPath[i+1] = diffPoints[0].toString();
+                    break;
+                case "v":
+                    nextPoint = [this.currentPoint[0], newPolygonPoints[currentPointNumber+1][1]];
+                    diffPoints = [0, nextPoint[1]-this.currentPoint[1]];
+                    // Updating with new scaled values
+                    scaledPath[i+1] = diffPoints[1].toString();
+                    break;
+                case "c":
+                    for(let k:number = 0; k < 3; ++k) {
+                        nextPoint = [newPolygonPoints[currentPointNumber+1][0], newPolygonPoints[currentPointNumber+1][1]];
+                        diffPoints = [nextPoint[0]-this.currentPoint[0], nextPoint[1]-this.currentPoint[1]];
+                        scaledPath[i+1+(k*2)] = diffPoints[0].toString();
+                        scaledPath[i+1+(k*2)+1] = diffPoints[1].toString();
+                        if(k != 2) {++currentPointNumber;} // Updating current point for control points
+                    }
+                    break;
+                // s will be added later (adds onto c)
+                case "s":
+                    break;
+                case "q":
+                    for(let k:number = 0; k < 2; ++k) {
+                        nextPoint = [newPolygonPoints[currentPointNumber+1][0], newPolygonPoints[currentPointNumber+1][1]];
+                        diffPoints = [nextPoint[0]-this.currentPoint[0], nextPoint[1]-this.currentPoint[1]];
+                        scaledPath[i+1+(k*2)] = diffPoints[0].toString();
+                        scaledPath[i+1+(k*2)+1] = diffPoints[1].toString();
+                        if(k != 1) {++currentPointNumber;} // Updating current point for control points
+                    }
+                    break;
+                // t will be added later (adds onto q)
+                case "t":
+                    break;
+                case "a":
+                    nextPoint = [newPolygonPoints[currentPointNumber+1][0], newPolygonPoints[currentPointNumber+1][1]];
+                    for(let k:number = 0; k < nextChars.length; ++k) {
+                        // Keep same angle, sweep flag, etc.
+                        if(k == 5) {diffPoints.push(nextPoint[0]-this.currentPoint[0]);}
+                        else if(k == 6) {diffPoints.push(nextPoint[1]-this.currentPoint[1]);}
+                        else if(k == 0 || k == 1) {diffPoints.push(Number(nextChars[k]) + outset);}
+                        else {diffPoints.push(Number(nextChars[k]));}
+                        scaledPath[i+(k+1)] = diffPoints[k].toString();
+                    }
+                    break;
+                default:
+                    continue;
+            }
+            // Updating current point
+            this.currentPoint = nextPoint;
+            ++currentPointNumber;
+        }
+
+
+        return scaledPath.join(" ").trim();
+    }
+
+
+    // Method to scale the polygon -- testing for line art -- works
+    // Method to return outset polygon
+    lineScale(scaleX:number, scaleY:number):string {
+        let scaledPath:string[] = this.scalablePath.slice();
+        scaledPath[1] = String(Number(scaledPath[1])*scaleX);
+        scaledPath[2] = String(Number(scaledPath[2])*scaleY);
+        this.currentPoint = [Number(scaledPath[1]), Number(scaledPath[2])];
+        let nextPoint:number[];
+        let diffPoints:number[];
+        let nextChars:string[];
+        for(let i:number = 3; i < scaledPath.length - 1; ++i) {
+            nextPoint = []; diffPoints = []; nextChars = [];
+            // Getting the next numbers to go with this command
+            for(let j:number = i+1; "MmLlHhVvAaCcZz".indexOf(scaledPath[j]) == -1; ++j) {nextChars = nextChars.concat(scaledPath[j].split(","));}
+            switch(scaledPath[i]) {
+                case "m":
+                case "l":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[0])), this.currentPoint[1] + (Number(nextChars[1]))];
+                    diffPoints = [(nextPoint[0]-this.currentPoint[0])*scaleX, (nextPoint[1]-this.currentPoint[1])*scaleY];
+                    // Updating with new scaled values
+                    for(let k:number = 0; k < diffPoints.length; ++k) {scaledPath[i+(k+1)] = diffPoints[k].toString();}
+                    break;
+                case "h":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[0])), this.currentPoint[1]];
+                    diffPoints = [(nextPoint[0]-this.currentPoint[0])*scaleX, 0];
+                    // Updating with new scaled values
+                    scaledPath[i+1] = diffPoints[0].toString();
+                    break;
+                case "v":
+                    nextPoint = [this.currentPoint[0], this.currentPoint[1] + (Number(nextChars[0]))];
+                    diffPoints = [0, (nextPoint[1]-this.currentPoint[1])*scaleY];
+                    // Updating with new scaled values
+                    scaledPath[i+1] = diffPoints[1].toString();
+                    break;
+                case "c":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[4])), this.currentPoint[1] + (Number(nextChars[5]))];
+                    for(let k:number = 0; k < nextChars.length; ++k) {
+                        if(k % 2 == 0) {diffPoints.push(Number(nextChars[k])*scaleX);}
+                        else {diffPoints.push(Number(nextChars[k])*scaleY);}
+                        scaledPath[i+(k+1)] = diffPoints[k].toString();
+                    }
+                    break;
+                // s will be added later (adds onto c)
+                case "s":
+                    break;
+                case "q":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[2])), this.currentPoint[1] + (Number(nextChars[3]))];
+                    for(let k:number = 0; k < nextChars.length; ++k) {
+                        if(k % 2 == 0) {diffPoints.push(Number(nextChars[k])*scaleX);}
+                        else {diffPoints.push(Number(nextChars[k])*scaleY);}
+                        scaledPath[i+(k+1)] = diffPoints[k].toString();
+                    }
+                    break;
+                // t will be added later (adds onto q)
+                case "t":
+                    break;
+                case "a":
+                    nextPoint = [this.currentPoint[0] + (Number(nextChars[5])), this.currentPoint[1] + (Number(nextChars[6]))];
+                    for(let k:number = 0; k < nextChars.length; ++k) {
+                        // Keep same angle, sweep flag, etc.
+                        if(k >= 2 && k <= 4) {diffPoints.push(Number(nextChars[k]));}
+                        else if(k % 2 == 0) {diffPoints.push(Number(nextChars[k])*scaleX);}
+                        else {diffPoints.push(Number(nextChars[k])*scaleY);}
+                        scaledPath[i+(k+1)] = diffPoints[k].toString();
+                    }
+                    break;
+                default:
+                    continue;
+            }
+            // Updating current point
+            this.currentPoint = nextPoint;
+        }
+        return scaledPath.join(" ").trim();
+    }
+
     // Method to return scalable path
     getScalablePath():string {return this.scalablePath.join(" ");}
 }
@@ -797,6 +1207,36 @@ export class SVGTemplate {
         }
         //console.log(this.scaledD);
         return [this.scaledD[0].trim(), newScaleX.toString(), newScaleY.toString()];
+    }
+
+    // Method to get a scaled version of the template --> returns [scaledD] -- testing for line art --
+    getLineScaledD(scaleX:number, scaleY:number, outerOutset:number=3, innerOutset:number=3):string {
+        let scaledD:string = "";
+        
+        
+        // Looping through and outsetting each polygon by a certain value
+        for(let i:number = 0; i < this.subShapes.length; ++i) {
+            let test:Polygon = new Polygon(this.subShapes[i].lineScale(scaleX, scaleY));
+            // scaledD += test.getScalablePath() + " ";
+            console.log("Polygon " + i + ": \n");
+            if(i == this.outerEdgeIndex) {scaledD += test.goodOutset(outerOutset) + " ";}
+            else {scaledD += test.goodOutset(innerOutset) + " ";}
+        }
+        return scaledD.trim();
+    }
+
+    // Method to get a scaled version of the template --> returns [scaledD] -- testing for line art --
+    getLineScaledPanes(scaleX:number, scaleY:number):string {
+        let scaledD:string = "";
+        
+        
+        // Looping through and outsetting each polygon by a certain value
+        for(let i:number = 0; i < this.subShapes.length; ++i) {
+            let test:Polygon = new Polygon(this.subShapes[i].lineScale(scaleX, scaleY));
+            // scaledD += test.getScalablePath() + " ";
+            if(i != this.outerEdgeIndex) {scaledD += test.goodOutset(1.75) + " ";}
+        }
+        return scaledD.trim();
     }
 
     // Scales template and updates the scaled d's and transform value
