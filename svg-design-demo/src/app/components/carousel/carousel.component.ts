@@ -15,7 +15,7 @@ export class CarouselComponent implements OnInit {
   constructor(public contentfulService:ContentfulService) { }
 
   ngOnInit(): void {
-    this.contentfulService.getPosts('carouselItem').then(posts => this.carouselPosts = posts);
+    this.contentfulService.getPostsOrdered('carouselItem').then(posts => this.carouselPosts = posts);
   }
 
 }

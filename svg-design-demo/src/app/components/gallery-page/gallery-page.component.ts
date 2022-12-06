@@ -12,7 +12,7 @@ export class GalleryPageComponent implements OnInit {
   constructor(public contentfulService:ContentfulService) { }
 
   ngOnInit(): void {
-    this.contentfulService.getPosts('galleryItem').then(posts => this.posts = posts);
+    this.contentfulService.getPostsOrdered('galleryItem').then(posts => this.posts = posts);
   }
 
   range(i:number):number[] {

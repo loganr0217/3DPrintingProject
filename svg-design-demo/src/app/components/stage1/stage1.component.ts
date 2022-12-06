@@ -12,13 +12,11 @@ import { marked } from 'marked';
 })
 export class Stage1Component implements OnInit {
   posts:Entry<any>[] = [];
-  carouselPosts:Entry<any>[] = [];
 
   constructor(public contentfulService:ContentfulService) {}
 
   ngOnInit(): void {
     this.contentfulService.getPosts('stage1').then(posts => this.posts = posts);
-    this.contentfulService.getPosts('carouselItem').then(posts => this.carouselPosts = posts);
   }
 
   @ViewChild('carousel') carousel: ElementRef;
