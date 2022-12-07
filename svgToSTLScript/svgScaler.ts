@@ -1,5 +1,6 @@
 import { Options, PythonShell } from "python-shell";
 import fetch from "node-fetch";
+import { writeFile } from "fs";
 
 export class Vector {
     // Vector = [dx, dy]t + [bx, by] where timeDependentValues = [dx, dy] and basePoint = [bx, by]
@@ -1336,15 +1337,22 @@ id="svg567">
 </svg>
 `
 
-        let options:Options = {
-            args: [String(newWidth), String(newHeight), fullFileText, svgFileName]
-        };
-
-        PythonShell.run('svgFileGenerator.py', options, function (err, results) {
-            if (err) throw err;
-            // results is an array consisting of messages collected during execution
-            console.log('results: %j', results);
-        });
+        writeFile(svgFileName+".txt", fullFileText, err => {
+            if (err) {
+            console.error(err);
+            }
+            // file written successfully
+            let options:Options = {
+                args: [String(newWidth), String(newHeight), svgFileName]
+            };
+    
+            PythonShell.run('svgFileGenerator.py', options, function (err, results) {
+                if (err) throw err;
+                // results is an array consisting of messages collected during execution
+                console.log('results: %j', results);
+            });
+        })
+        
         return fullFileText;
     }
 
@@ -1397,16 +1405,23 @@ id="svg567">
 </g>
 </svg>
 `
-
-        let options:Options = {
-            args: [String(this.width*scaleX), String(this.height*scaleY), fullFileText, svgFileName]
-        };
-
-        PythonShell.run('svgSTLConversion.py', options, function (err, results) {
-            if (err) throw err;
-            // results is an array consisting of messages collected during execution
-            console.log('results: %j', results);
-        });
+        
+        writeFile(svgFileName+".txt", fullFileText, err => {
+            if (err) {
+            console.error(err);
+            }
+            // file written successfully
+            let options:Options = {
+                args: [String(this.width*scaleX), String(this.height*scaleY), svgFileName]
+            };
+    
+            PythonShell.run('svgSTLConversion.py', options, function (err, results) {
+                if (err) throw err;
+                // results is an array consisting of messages collected during execution
+                console.log('results: %j', results);
+            });
+        })
+        
         return fullFileText;
     }
 
@@ -1477,15 +1492,22 @@ id="svg567">
 </svg>
 `
 
-        let options:Options = {
-            args: [String(newWidth), String(newHeight), fullFileText, svgFileName]
-        };
-
-        PythonShell.run('svgFileGenerator.py', options, function (err, results) {
-            if (err) throw err;
-            // results is an array consisting of messages collected during execution
-            console.log('results: %j', results);
-        });
+        writeFile(svgFileName+".txt", fullFileText, err => {
+            if (err) {
+              console.error(err);
+            }
+            // file written successfully
+            let options:Options = {
+                args: [String(newWidth), String(newHeight), svgFileName]
+            };
+    
+            PythonShell.run('svgFileGenerator.py', options, function (err, results) {
+                if (err) throw err;
+                // results is an array consisting of messages collected during execution
+                console.log('results: %j', results);
+            });
+          })
+        
         return fullFileText;
     }
 
@@ -1561,15 +1583,22 @@ id="svg567">
 </svg>
 `
 
-        let options:Options = {
-            args: [String(this.width*scaleX), String(this.height*scaleY), fullFileText, svgFileName]
-        };
-
-        PythonShell.run('svgSTLConversion.py', options, function (err, results) {
-            if (err) throw err;
-            // results is an array consisting of messages collected during execution
-            console.log('results: %j', results);
-        });
+        writeFile(svgFileName+".txt", fullFileText, err => {
+            if (err) {
+            console.error(err);
+            }
+            // file written successfully
+            let options:Options = {
+                args: [String(this.width*scaleX), String(this.height*scaleY), svgFileName]
+            };
+    
+            PythonShell.run('svgSTLConversion.py', options, function (err, results) {
+                if (err) throw err;
+                // results is an array consisting of messages collected during execution
+                console.log('results: %j', results);
+            });
+        })
+        
         return fullFileText;
     }
     
@@ -1801,15 +1830,22 @@ id="svg567">
 </svg>
 `
 
-        let options:Options = {
-            args: [String(609), String(609), fullFileText, "paneFile_"+currentKey]
-        };
-
-        PythonShell.run('svgFileGenerator.py', options, function (err, results) {
-            if (err) throw err;
-            // results is an array consisting of messages collected during execution
-            console.log('results: %j', results);
-        });
+        writeFile("paneFile_"+currentKey+".txt", fullFileText, err => {
+            if (err) {
+            console.error(err);
+            }
+            // file written successfully
+            let options:Options = {
+                args: [String(609), String(609), "paneFile_"+currentKey]
+            };
+    
+            PythonShell.run('svgFileGenerator.py', options, function (err, results) {
+                if (err) throw err;
+                // results is an array consisting of messages collected during execution
+                console.log('results: %j', results);
+            });
+        })
+        
         }
     }
 
