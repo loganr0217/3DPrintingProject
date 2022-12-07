@@ -27,6 +27,12 @@
     /* max-width: 40vw; */
 }
 
+.carousel_div { 
+    flex:1;
+    padding-right: 1vw;
+    padding-left: 1vw;
+    /* border: thick double black; */
+}
 
 .btn {
     margin-left: 1vw;
