@@ -1062,8 +1062,14 @@ export class LightScreen {
                     else {currentSVG.getFileText(this.bottomPanelWidth/300, this.bottomPanelHeight/300, "panelFile"+i);}
                 }
                 else if(process.argv[2] && process.argv[2] == "-PANES") {
+<<<<<<< Updated upstream
                     if(i < this.numberTopPanels) {currentSVG.getPanesFileText(this.topPanelWidth/300, this.topPanelHeight/300, "paneFile"+i, this.sortedPanesInformation);}
                     else {currentSVG.getPanesFileText(this.bottomPanelWidth/300, this.bottomPanelHeight/300, "paneFile"+i, this.sortedPanesInformation);}
+=======
+			console.log(i);
+                    if(i < this.numberTopPanels) {currentSVG.getLineartPanesFileText(this.topPanelWidth, this.topPanelHeight, "paneFile"+i, this.sortedPanesInformation);}
+                    else {currentSVG.getLineartPanesFileText(this.bottomPanelWidth, this.bottomPanelHeight, "paneFile"+i, this.sortedPanesInformation);}
+>>>>>>> Stashed changes
                 }
                 else {
                     if(i < this.numberTopPanels) {
@@ -1123,7 +1129,7 @@ export class LightScreen {
     }
 
     sortPanes():void {
-        //
+        console.log(this.sortedPanesInformation);
         for(let currentKey of Array.from(this.sortedPanesInformation.keys())) {
             console.log(currentKey);
             let paths:string = "";
