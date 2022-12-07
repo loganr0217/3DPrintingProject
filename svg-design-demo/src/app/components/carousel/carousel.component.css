@@ -1,22 +1,16 @@
 .carousel_div { 
-    flex:2;
     padding-right: 1vw;
     padding-left: 1vw;
     /* border: thick double black; */
 }
 .carousel-inner {
     margin: auto;
-    width: 80%;
 }
 .carousel-item {
-    padding-top: 4vh;
     padding-bottom: 2vh;
-    height: 76vh;
     object-fit: contain;
 }
 .carousel { 
-    height: 82vh;
-    max-width: 60vw;
     border-radius: 2%;
 }
 
@@ -25,12 +19,14 @@
     background-color: rgba(70, 70, 70, 0.25);
 }
 
+
 .carousel .carousel-indicators .active {
     background-color: #444;
 }
 
 img {
-    height: 72vh;
+    max-height: 80vh;
+    padding-bottom: 4vh;
     object-fit: contain;
 }
 
