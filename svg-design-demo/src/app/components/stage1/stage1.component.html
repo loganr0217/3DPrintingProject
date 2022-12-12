@@ -6,8 +6,8 @@
       <div id = "side_text">
           <span [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(this.posts[0].fields.stage1body), 1)"></span>
       </div>
+      <app-carousel [startNumber]="0" *ngIf="this.isMobile()" class="carousel_div"></app-carousel>
       <div class="text-center">
-        <br/> <br/>
         <a href="javascript:void(0)" routerLink="/about" (click)="learnMore()"> <input type="button" class="btn btn-light btn-lg" value="Learn More"/> </a>
         <a id="let-start" href="javascript:void(0)" (click)="nextstage2()"> <input type="button" class="btn btn-dark btn-lg" value="Let's Start!"/> </a>
       </div>
@@ -21,7 +21,7 @@
         <li #carousel data-target="#carouselExampleControls" data-slide="next"></li>
       </ol>
    </div> -->
-    <app-carousel [startNumber]="0" class="carousel_div"></app-carousel>
+    <app-carousel [startNumber]="0" *ngIf="!this.isMobile()" class="carousel_div"></app-carousel>
 
     
 

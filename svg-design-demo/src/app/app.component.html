@@ -1,5 +1,5 @@
 <div class="HideOnMobile">
-  <!-- Navbar content -->
+  <!-- Laptop Navbar content -->
   <nav class="navbar sticky-top navbar-expand-lg navbar-dark navbar-custom" style="height: 65px;">
           <a href="javascript:void(0)" routerLink="" class="navbar-brand">
               <!-- Logo Image -->
@@ -13,23 +13,23 @@
     </button>
           <div class="collapse navbar-collapse navbar-custom" id="collapsibleNavbar">
               <div class="navbar-nav ml-auto">
-                <a href="javascript:void(0)" (click)="goToFooter()" class="nav-item nav-link">Contact</a>
+                <a href="javascript:void(0)" (click)="goToFooter()" class="nav-item nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">Contact</a>
                 <div class="dropdown">
                   <a href="javascript:void(0)" class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
                   <!-- <button class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Frame Color
                   </button> -->
                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButtonAbout">
-                    <a href="javascript:void(0)" routerLink="/mission" class="dropdown-item">Company</a>
-                    <a href="javascript:void(0)" routerLink="/about" class="dropdown-item">How To Design</a>
-                    <a href="javascript:void(0)" routerLink="/tutorials" class="dropdown-item">Tutorials</a>
-                    <a href="javascript:void(0)" routerLink="/faq" class="dropdown-item">FAQs</a>
+                    <a href="javascript:void(0)" routerLink="/mission" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">Company</a>
+                    <a href="javascript:void(0)" routerLink="/about" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">How To Design</a>
+                    <a href="javascript:void(0)" routerLink="/tutorials" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">Tutorials</a>
+                    <a href="javascript:void(0)" routerLink="/faq" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">FAQs</a>
                   </div>
                 </div>
                 <!-- <a href="javascript:void(0)" routerLink="/about" class="nav-item nav-link">About</a> -->
-                <a href="javascript:void(0)" routerLink="/gallery" class="nav-item nav-link">Gallery</a>
-                <a href="javascript:void(0)" *ngIf="!this.sharedDataService.signedIn" routerLink="/signup" class="nav-item nav-link">Signup</a>
-                <a href="javascript:void(0)" *ngIf="!this.sharedDataService.signedIn" routerLink="/login" class="nav-item nav-link">Login</a>
+                <a href="javascript:void(0)" routerLink="/gallery" class="nav-item nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">Gallery</a>
+                <a href="javascript:void(0)" *ngIf="!this.sharedDataService.signedIn" routerLink="/signup" class="nav-item nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">Signup</a>
+                <a href="javascript:void(0)" *ngIf="!this.sharedDataService.signedIn" routerLink="/login" class="nav-item nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">Login</a>
                 <!-- <a href="javascript:void(0)" *ngIf="this.sharedDataService.signedIn" (click)="userSignout()" class="nav-item nav-link">Logout</a> -->
                 <div class="dropdown" *ngIf="this.sharedDataService.signedIn">
                   <a href="javascript:void(0)" class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{this.sharedDataService.userInfo[1] + " " + this.sharedDataService.userInfo[2]}}</a>
@@ -37,9 +37,9 @@
                       Frame Color
                   </button> -->
                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButtonProfile">
-                    <a href="javascript:void(0)" routerLink="/profile" class="dropdown-item">Profile</a>
-                    <a href="javascript:void(0)" routerLink="/orders" class="dropdown-item">Saved Orders</a>
-                    <a href="javascript:void(0)" (click)="userSignout()" class="dropdown-item">Logout</a>
+                    <a href="javascript:void(0)" routerLink="/profile" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">Profile</a>
+                    <a href="javascript:void(0)" routerLink="/orders" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">Saved Orders</a>
+                    <a href="javascript:void(0)" (click)="userSignout()" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">Logout</a>
                   </div>
                 </div>
               </div>

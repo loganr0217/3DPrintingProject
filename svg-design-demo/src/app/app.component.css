@@ -11,3 +11,18 @@
         display: none;
     }
 }
+
+@media only screen and (max-width: 992px) {
+    #tdiLink {
+        display: none;
+    }
+
+    .HideOnMobile > .navbar {
+        padding: 0.5rem 0rem;
+    }
+
+    .nav-item {
+        margin-left:2vw;
+    }
+
+}
