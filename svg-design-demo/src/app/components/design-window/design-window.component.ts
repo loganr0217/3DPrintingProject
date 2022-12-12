@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { Polygon } from '../svgScaler';
 import { SVGTemplate } from '../svgScaler';
+import { Entry } from 'contentful';
+import { ContentfulService } from 'src/app/services/contentful.service';
 
 @Component({
   selector: 'app-design-window',
@@ -9,12 +11,14 @@ import { SVGTemplate } from '../svgScaler';
   styleUrls: ['./design-window.component.css']
 })
 export class DesignWindowComponent implements OnInit {
-  constructor(private sharedDataService:SharedDataService) { }
+  howToPosts:Entry<any>[] = [];
+  constructor(private sharedDataService:SharedDataService, public contentfulService:ContentfulService) { }
 
   // Queue-like array to hold changes
   recentChanges:string[][][];
   undoQueueSize:number = 10;
   ngOnInit(): void {
+    this.contentfulService.getPostById('59SeNkOJ9iQ3KlfMaRb0WA', 'howTo').then(post => this.howToPosts.push(post));
     // let newTemplate:SVGTemplate = new SVGTemplate(String(document.getElementById("svgTemplate")?.getAttribute("d")));
     // document.getElementById("svgTemplate")?.setAttribute("d", newTemplate.getOptimizedD());
     // document.getElementById("svgTemplate")?.setAttribute("style", "fill:#666666");

@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 @Component({
   selector: 'app-checkout-page',
@@ -7,10 +9,19 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
   styleUrls: ['./checkout-page.component.css']
 })
 export class CheckoutPageComponent implements OnInit {
+  emailForm:FormGroup;
 
-  constructor(private sharedDataService:SharedDataService, private http:HttpClient) { }
+  constructor(public sharedDataService:SharedDataService, private http:HttpClient, private formBuilder:FormBuilder,
+    private router:Router) { }
 
   ngOnInit(): void {
+    this.emailForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
+  }
+
+  get email() {
+    return this.emailForm.get('email');
   }
 
 
@@ -38,22 +49,7 @@ export class CheckoutPageComponent implements OnInit {
   }
 
   getFinalInfo():void {
-    // let finalText:string = 
-    // "Divider Type: " + this.sharedDataService.selectedDividerType + "\n" + 
-    // "Window Shape: " + this.sharedDataService.selectedWindowShape + "\n" +
-    // "Unit of measure: " + this.sharedDataService.unitChoice + " to mm\n" +
-    // "Width: " + this.convertNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice) + "mm\n" + 
-    // "Height: " + this.convertNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice) + "mm\n" +
-    // "Panel Width: " + this.getPanelWidthHeight(this.convertNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice)) + "mm\n" +
-    // "Panel Height: " + + this.getPanelWidthHeight(this.convertNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice)) + "mm\n" +
-    // "Template: " + this.sharedDataService.currentWindowNumber + "\n"
-    // "Color Selection: " + "\n";
-
-    // var serializer = new XMLSerializer();
-    // var xmlString = serializer.serializeToString(document.getElementById("windowPreviewContainertrue")!);
-    // let svgText:string[] = xmlString.split("<svg");
-    // for(let i:number = 0; i < svgText.length; ++i) {svgText[i] = "<svg" + svgText[i]; finalText += svgText[i] + "\n\n";}
-
+    if(!this.sharedDataService.signedIn && this.email?.invalid) {alert("Make sure to enter your email."); return;}
     if (confirm('Are you sure you want to make this order?')) {
       let finalText:string[] = [String(this.convertNumber(this.sharedDataService.windowWidth / this.sharedDataService.panelLayoutDims[0], this.sharedDataService.unitChoice)),
       String(this.convertNumber(this.sharedDataService.windowHeight / this.sharedDataService.panelLayoutDims[1], this.sharedDataService.unitChoice))];
@@ -72,7 +68,7 @@ export class CheckoutPageComponent implements OnInit {
       final += this.sharedDataService.panelColoringArray;
       if((<HTMLInputElement>document.getElementById("couponCodeInput"))?.value == "lightscreen.art-beta") {
         // Setting up vars to get final info for order
-        const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : null;
+        const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : (<HTMLInputElement>document.getElementById("emailInput")).value;
         const selectedDividerType:string = this.sharedDataService.selectedDividerType;
         const unitChoice:string = this.sharedDataService.unitChoice;
         const windowWidth:number = this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice);
@@ -102,7 +98,10 @@ export class CheckoutPageComponent implements OnInit {
         +"&templateID="+templateID+"&panelColoringString='"+panelColoringString
         +"'&streetAddress='"+streetAddress+"'&city='"+city+"'&state='"+state
         +"'&zipcode='"+zipcode+"'&country='"+country+"'&bottomWindowWidth="+bottomWindowWidth+
-        "&bottomWindowHeight="+bottomWindowHeight).subscribe(result => alert("Success! Your order has been placed."));
+        "&bottomWindowHeight="+bottomWindowHeight).subscribe(result => {
+          alert(this.sharedDataService.signedIn ? "Success! Your order has been placed." : "Success! Your order has been placed. We recommend signing up using the same email for this order so you can track your previous orders.");
+          if(!this.sharedDataService.signedIn) {this.router.navigateByUrl("/signup")};
+        });
       }
       else {
         alert("Make sure to enter your coupon code as well as your shipping information.");

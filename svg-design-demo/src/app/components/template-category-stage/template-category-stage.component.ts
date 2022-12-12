@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedDataService } from 'src/app/services/shared-data.service';
+import { Entry } from 'contentful';
+import { ContentfulService } from 'src/app/services/contentful.service';
 
 @Component({
   selector: 'app-template-category-stage',
@@ -7,10 +9,13 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
   styleUrls: ['./template-category-stage.component.css']
 })
 export class TemplateCategoryStageComponent implements OnInit {
-
-  constructor(private sharedDataService:SharedDataService) { }
+  posts:Entry<any>[] = [];
+  howToPosts:Entry<any>[] = [];
+  constructor(private sharedDataService:SharedDataService, public contentfulService:ContentfulService) { }
 
   ngOnInit(): void {
+    this.contentfulService.getPosts('stage4').then(posts => this.posts = posts);
+    this.contentfulService.getPostById('2KERXKUaE2ZFfLQ82ciWxA', 'howTo').then(post => this.howToPosts.push(post));
   }
 
   showTemplates(tempCategory:string):void {

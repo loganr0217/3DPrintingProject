@@ -23,7 +23,7 @@ export class Stage2Component implements OnInit {
 
   ngOnInit(): void {
     this.contentfulService.getPosts('stage2').then(posts => this.posts = posts);
-    this.contentfulService.getPostById('3LQEq4lCz3txf8cvbf7pYM', 'howTo').then(post => this.howToPosts.push(post));
+    this.contentfulService.getPostById('4ARLsx1buVa21eJfdJgm3T', 'howTo').then(post => this.howToPosts.push(post));
     this.dividerType = this.sharedDataService.selectedDividerType;
     this.windowShape = this.sharedDataService.selectedWindowShape;
     this.windowShapes = this.sharedDataService.windowShapes;

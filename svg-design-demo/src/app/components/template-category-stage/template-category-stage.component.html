@@ -1,7 +1,28 @@
+<!-- Modal for howTo info -->
+<div class="modal fade" id="howToModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">{{this.howToPosts[0].fields.stage}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span [innerHTML]="this.contentfulService.richtextToHtml(this.howToPosts[0].fields.bodyCopy)"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Back to Your Window</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="bigContainer">
     <div id="section1" class="section">
-        <h1><b>Choose your design</b></h1>
-        <p>Browse through our collections of design templates and select the one that’s best for your window.</p>
+        <h1><b>{{this.posts[0].fields.stage4header}}</b></h1>
+        <span [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(this.posts[0].fields.stage4body), 3)"></span>
         <div id="templateCategoryImages">
             <div>
                 <figure (click)="showTemplates(templateCategory)" class="templateCategoryImageCon" *ngFor="let templateCategory of ['Artist Inspired', 'Garden']">
