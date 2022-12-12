@@ -42,6 +42,8 @@ export class SharedDataService {
   selectedTemplateCategory:string;
   chosenPanel:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string};
 
+  currentStepID:number = 0;
+
   windowWidthFractionNum:number;
   windowHeightFractionNum:number;
   bottomSashWidthFractionNum:number;

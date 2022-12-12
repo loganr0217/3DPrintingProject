@@ -1,8 +1,29 @@
+<!-- Modal for howTo info -->
+<div class="modal fade" id="howToModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">{{this.howToPosts[0].fields.stage}}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <span [innerHTML]="this.contentfulService.richtextToHtml(this.howToPosts[0].fields.bodyCopy)"></span>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-dark" data-dismiss="modal">Back to Your Window</button>
+              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
+      </div>
+  </div>
+</div>
+
 <!-- Step 2.a -->
 <div id="stage2ACon">
   <div *ngFor="let post of this.posts" id="section1" class="section">
     <h1><b>{{post.fields.stage2header}}</b></h1>
-    <span [innerHTML]="this.contentfulService.markdownToHtml(post.fields.stage2body)"></span>
+    <span [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(post.fields.stage2body), 2)"></span>
     <div id="dividerTypeImages">
       <figure class="dividerTypeImageCon" *ngFor="let dividerType of ['nodiv', 'raiseddiv', 'embeddeddiv']" (click)="chooseDivider(dividerType);">
         <img id="dividerTypeImage_{{dividerType}}" class="dividerTypeImage" src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/>
