@@ -32,12 +32,7 @@ img {
 
 
 @media only screen and (max-width: 576px) {
-    #carouselExampleControls {
-        height: 76vh;
-        max-width: 100%;
-    }
-
-    #slide-img {
-        height: 62vh
+    img {
+        max-height: 30vh;
     }
 }

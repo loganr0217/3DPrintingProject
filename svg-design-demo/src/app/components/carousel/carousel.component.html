@@ -5,7 +5,7 @@
         </ol>
         <div class="carousel-inner" routerLink="/gallery">
           <div class="carousel-item {{i == this.startNumber ? 'active' : ''}}" data-interval="5000" *ngFor="let post of this.carouselPosts; let i = index">
-            <img class="d-block w-100" id="slide-img" src="{{post.fields.image.fields.file.url}}" alt="First slide">
+            <img class="d-block w-100" src="{{post.fields.image.fields.file.url}}" alt="First slide">
           </div>
         </div>
         

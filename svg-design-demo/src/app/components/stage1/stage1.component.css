@@ -60,15 +60,6 @@
         flex-direction: column;
     }
 
-    #carouselExampleControls {
-        height: 76vh;
-        max-width: 100%;
-    }
-
-    #slide-img {
-        height: 62vh
-    }
-
     #sideTextContainer > #header_title {
         text-align: center;
     }

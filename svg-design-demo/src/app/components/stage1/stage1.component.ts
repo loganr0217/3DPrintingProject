@@ -5,6 +5,7 @@ import { ContentfulService } from 'src/app/services/contentful.service';
 import { Entry } from 'contentful';
 import { marked } from 'marked';
 import { DomSanitizer } from '@angular/platform-browser';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-stage1',
@@ -14,12 +15,24 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class Stage1Component implements OnInit {
   posts:Entry<any>[] = [];
   howToPosts:Entry<any>[] = [];
+  screenWidth:number;
+  screenHeight:number;
 
-  constructor(public contentfulService:ContentfulService, private sanitizer:DomSanitizer) {}
+  @HostListener('window:resize', ['$event'])
+  onResize(event?:any) {
+    this.screenHeight = window.innerHeight;
+    this.screenWidth = window.innerWidth;
+  }
+
+  constructor(public contentfulService:ContentfulService, private sanitizer:DomSanitizer) {this.onResize();}
 
   ngOnInit(): void {
     this.contentfulService.getPosts('stage1').then(posts => this.posts = posts);
     this.contentfulService.getPostById('4ARLsx1buVa21eJfdJgm3T', 'howTo').then(post => this.howToPosts.push(post));
+  }
+
+  isMobile():boolean {
+    return this.screenWidth <= 576;
   }
 
   @ViewChild('carousel') carousel: ElementRef;
