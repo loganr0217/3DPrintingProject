@@ -12,12 +12,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class Stage3Component implements OnInit {
   posts:Entry<any>[] = [];
   measurementPosts:Entry<any>[] = [];
+  howToPosts:Entry<any>[] = [];
   constructor(private sharedDataService:SharedDataService, public contentfulService:ContentfulService,
     private sanitizer:DomSanitizer) { }
-
-  addModalLink(s:string) {
-    return this.sanitizer.bypassSecurityTrustHtml(s.replace("https://javascript:void(0)", "javascript:void(0)").replace("<a", "<a data-toggle='modal' data-target='#stage3MeasurementTutorialModal' "));
-  }
 
   fixNewPageLink(s:string) {
     return this.sanitizer.bypassSecurityTrustHtml(s.replace("<a", "<a target='_blank' "));
@@ -26,6 +23,7 @@ export class Stage3Component implements OnInit {
   ngOnInit(): void {
     this.contentfulService.getPosts('stage3').then(posts => this.posts = posts);
     this.contentfulService.getPostById('3Ex7TXWpOtcuBsRJSTftkV', 'tutorial').then(post => this.measurementPosts.push(post));
+    this.contentfulService.getPostById('2KERXKUaE2ZFfLQ82ciWxA', 'howTo').then(post => this.howToPosts.push(post));
   }
 
   getPanelWidth(width:number):number {

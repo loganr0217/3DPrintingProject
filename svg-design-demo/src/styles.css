@@ -2,14 +2,14 @@
 
 h1 {
     color: #000000;
-    font-family: 'Raleway', sans-serif;
-    font-weight: bold;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 600;
     font-size: 2.5vw;
 }
 
 p, li {
     color: #000000;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Inter Tight', sans-serif;
     font-weight: 300;
     font-size: 1.4vw;
 }
@@ -30,7 +30,7 @@ html, body {
     p, li {
         color: #000000;
         font-size: 3vw;
-        font-family: 'Lato', sans-serif;
+        font-family: 'Inter Tight', sans-serif;
         font-weight: 300;
     }
 }

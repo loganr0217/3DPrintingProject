@@ -1,3 +1,9 @@
 <div id="aboutPageContainer">
-    <span [innerHTML]="this.contentfulService.richtextToHtml(this.posts[0].fields.overviewBody)"></span>
+    <!-- <span [innerHTML]="this.contentfulService.richtextToHtml(this.posts[0].fields.overviewBody)"></span> -->
+    <div *ngFor="let post of this.posts; let i = index">
+        <h1 *ngIf="i == 0">{{this.posts[i].fields.stage}}</h1>
+        <h3 *ngIf="i != 0">{{this.posts[i].fields.stage}}</h3>
+        <span [innerHTML]="this.contentfulService.richtextToHtml(this.posts[i].fields.bodyCopy)"></span>
+    </div>
+    
 </div>

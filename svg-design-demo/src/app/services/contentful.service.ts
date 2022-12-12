@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { createClient, Entry } from 'contentful';
 import { marked } from 'marked';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import { DomSanitizer } from '@angular/platform-browser';
 
 const CONFIG = {
   space: 'ptwvalfxn2gq',
@@ -19,7 +20,7 @@ export class ContentfulService {
     accessToken: CONFIG.accessToken
   });
 
-  constructor() { }
+  constructor(private sanitizer:DomSanitizer) { }
 
   getPosts(contentTypeId:string, query?: object): Promise<Entry<any>[]> {
     return this.cdaClient.getEntries(Object.assign({
@@ -45,6 +46,10 @@ export class ContentfulService {
   // Converts markdown to html
   markdownToHtml(md:string):any {
     return marked(md);
+  }
+
+  addModalLink(s:string, stageIndex:number) {
+    return this.sanitizer.bypassSecurityTrustHtml(s.replace("https://javascript:void(0)", "javascript:void(0)").replace('<a href="javascript:void(0)"', "<a href='javascript:void(0)' data-toggle='modal' data-target='#stage3MeasurementTutorialModal' ").replace('<a href="https://howTo"', '<a href="javscript:void(0)" data-toggle="modal" data-target="#howToModal'+stageIndex+'"'));
   }
 
   // Converts rich text to html

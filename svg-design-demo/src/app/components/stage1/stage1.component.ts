@@ -4,6 +4,7 @@ import { ElementRef } from '@angular/core';
 import { ContentfulService } from 'src/app/services/contentful.service';
 import { Entry } from 'contentful';
 import { marked } from 'marked';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-stage1',
@@ -12,11 +13,13 @@ import { marked } from 'marked';
 })
 export class Stage1Component implements OnInit {
   posts:Entry<any>[] = [];
+  howToPosts:Entry<any>[] = [];
 
-  constructor(public contentfulService:ContentfulService) {}
+  constructor(public contentfulService:ContentfulService, private sanitizer:DomSanitizer) {}
 
   ngOnInit(): void {
     this.contentfulService.getPosts('stage1').then(posts => this.posts = posts);
+    this.contentfulService.getPostById('4ARLsx1buVa21eJfdJgm3T', 'howTo').then(post => this.howToPosts.push(post));
   }
 
   @ViewChild('carousel') carousel: ElementRef;
