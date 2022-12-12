@@ -1,5 +1,5 @@
 <!-- Modal for howTo info -->
-<div class="modal fade" id="howToModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="howToModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
       <div class="modal-content">
           <div class="modal-header">
@@ -23,7 +23,7 @@
 <div id="stage2ACon">
   <div *ngFor="let post of this.posts" id="section1" class="section">
     <h1><b>{{post.fields.stage2header}}</b></h1>
-    <span [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(post.fields.stage2body), 2)"></span>
+    <span [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(post.fields.stage2body), 1)"></span>
     <div id="dividerTypeImages">
       <figure class="dividerTypeImageCon" *ngFor="let dividerType of ['nodiv', 'raiseddiv', 'embeddeddiv']" (click)="chooseDivider(dividerType);">
         <img id="dividerTypeImage_{{dividerType}}" class="dividerTypeImage" src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/>

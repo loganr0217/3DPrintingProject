@@ -1,8 +1,8 @@
 <!-- bootstrap css -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- main app container -->
-<div id="formRegisterContainer">
-    <div class="container" *ngIf="!this.sharedDataService.signedIn">
+<div id="formRegisterContainer" *ngIf="!this.sharedDataService.signedIn">
+    <div class="container">
         <div class="container mt-3">
             <div class="row" style="text-align: center;">
                 <div style="font-size: x-large;">Sign up</div>
@@ -88,4 +88,6 @@
     </div>
 
     <app-carousel id="carouselContainer" [startNumber]="3"></app-carousel>
+    
 </div>
+<h1 *ngIf="this.sharedDataService.signedIn">You are already signed in!</h1>

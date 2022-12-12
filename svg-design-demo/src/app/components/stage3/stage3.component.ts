@@ -23,7 +23,7 @@ export class Stage3Component implements OnInit {
   ngOnInit(): void {
     this.contentfulService.getPosts('stage3').then(posts => this.posts = posts);
     this.contentfulService.getPostById('3Ex7TXWpOtcuBsRJSTftkV', 'tutorial').then(post => this.measurementPosts.push(post));
-    this.contentfulService.getPostById('2KERXKUaE2ZFfLQ82ciWxA', 'howTo').then(post => this.howToPosts.push(post));
+    this.contentfulService.getPostById('3LQEq4lCz3txf8cvbf7pYM', 'howTo').then(post => this.howToPosts.push(post));
   }
 
   getPanelWidth(width:number):number {

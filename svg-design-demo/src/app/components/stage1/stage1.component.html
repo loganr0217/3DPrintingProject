@@ -1,36 +1,18 @@
-<!-- Modal for howTo info -->
-<div class="modal fade" id="howToModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">{{this.howToPosts[0].fields.stage}}</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <div class="modal-body">
-              <span [innerHTML]="this.contentfulService.richtextToHtml(this.howToPosts[0].fields.bodyCopy)"></span>
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-dark" data-dismiss="modal">Back to Your Window</button>
-              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-          </div>
-      </div>
-  </div>
-</div>
-
 <div id="stage1Con">
     <div id="sideTextContainer">
-      <div *ngFor="let post of this.posts" id="header_title">
-        <h1><b>{{ post.fields.stage1header }}</b></h1>
+      <div id="header_title">
+        <h1><b>{{ this.posts[0].fields.stage1header }}</b></h1>
       </div>
-      <div *ngFor="let post of this.posts" id = "side_text">
-          <span [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(post.fields.stage1body), 1)"></span>
+      <div id = "side_text">
+          <span [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(this.posts[0].fields.stage1body), 1)"></span>
       </div>
       <div class="text-center">
         <br/> <br/>
         <a href="javascript:void(0)" routerLink="/about" (click)="learnMore()"> <input type="button" class="btn btn-light btn-lg" value="Learn More"/> </a>
         <a id="let-start" href="javascript:void(0)" (click)="nextstage2()"> <input type="button" class="btn btn-dark btn-lg" value="Let's Start!"/> </a>
+      </div>
+      <div id = "news_text">
+        <span [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(this.posts[0].fields.stage1news), 1)"></span>
       </div>
     </div>
 
