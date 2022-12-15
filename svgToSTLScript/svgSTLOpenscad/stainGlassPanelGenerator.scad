@@ -367,7 +367,7 @@ module stainGlassPanelLineart(panelDims, fullWidthSVG, wellWidthSVG, topSVGs, nu
     }
     
     // Well of the panel
-    translate([0, 0, 1.99]) {
+    translate([0, 0, 2]) {
         linear_extrude(height = 3.2) {
             offset(delta=0.0001)
             import(wellWidthSVG, center=true);
@@ -375,7 +375,7 @@ module stainGlassPanelLineart(panelDims, fullWidthSVG, wellWidthSVG, topSVGs, nu
     }
     
     // Top of well of the panel
-    translate([0, 0, 5.19]) {
+    translate([0, 0, 5.2]) {
         linear_extrude(height = 1.6) {
             offset(delta=0.0001) 
             import(fullWidthSVG, center=true);
@@ -384,7 +384,7 @@ module stainGlassPanelLineart(panelDims, fullWidthSVG, wellWidthSVG, topSVGs, nu
     
     // Looping through to add the top caps
     for(i = [0 : len(topSVGs)-1]) {
-        translate([0, 0, 6.79 + (i*.4)]) {
+        translate([0, 0, 6.8 + (i*.4)]) {
             linear_extrude(height = .4) {
                 offset(delta=0.0001)
                 import(topSVGs[i], center=true);
@@ -405,8 +405,8 @@ module stainGlassPanelLineart(panelDims, fullWidthSVG, wellWidthSVG, topSVGs, nu
         }
         
             // Thin brim cut
-            translate([0, 0, .3+.2]) {
-                cube([2*rotatedPanelDims[0]+1.6, 2*rotatedPanelDims[1]+1.6, .6], center=true);
+            translate([0, 0, .4+.2]) {
+                cube([2*rotatedPanelDims[0]+.8, 2*rotatedPanelDims[1]+.8, .4], center=true);
             }
             
             // Top right brim corner
