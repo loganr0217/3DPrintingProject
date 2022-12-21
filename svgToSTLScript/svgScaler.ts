@@ -1101,6 +1101,7 @@ export class SVGTemplate {
     */
     polygonPaths:string[];
     startingPoint:number[];
+    sortedStartingPoint:number[];
 
     // Values for max/min in x/y
     xMin:number;
@@ -1110,6 +1111,8 @@ export class SVGTemplate {
     numberRotations:number;
     flipped:boolean;
     paneColorString:string[];
+
+    transformValue:string = "";
 
     width:number;
     height:number;
@@ -1611,6 +1614,16 @@ id="svg567">
         return "rotate(" + rotationAmount + ", " + centerX + ", " + centerY + ") scale(" + flipNumber + ",1) " + (this.flipped ? " translate(" + (-2*centerX) + ", 0)" : "");
     }
 
+    fixSortedTransform():void {
+        if(this.transformValue.includes("rotate(90") || this.transformValue.includes("rotate(270")) {
+            this.sortedStartingPoint = [this.sortedStartingPoint[0] + (this.width-this.height)/2, this.sortedStartingPoint[1] + (this.height-this.width)/2];
+            const xRotate:number = this.xMin + (this.height/2) + (this.sortedStartingPoint[0]-this.startingPoint[0]);
+            const yRotate:number = this.yMin + (this.width/2) + (this.sortedStartingPoint[1]-this.startingPoint[1]);
+            if(this.transformValue.includes("rotate(90")) {this.transformValue = this.transformValue.substring(0, this.transformValue.indexOf("r")) + "rotate(90,"+xRotate+","+yRotate+")";}
+            else {this.transformValue = this.transformValue.substring(0, this.transformValue.indexOf("r")) + "rotate(270,"+xRotate+","+yRotate+")";}
+        }
+    }
+
     getFileTransform(scaleX:number = 1, scaleY:number = 1) {
         const rotationAmount:number = this.numberRotations * 90;
         const flipNumber:number = this.flipped ? -1 : 1;
@@ -1771,35 +1784,136 @@ export class LightScreen {
         else {return num*10;};
     }
 
+    // Recursive algorithm to handle bin packing into a sized rectangle
+    // Takes in array of rectangles, baseBinSize->set, array of subBins for each finalBin in format [subBin.width, subBin.height, subBin.startX, subBin.startY], and array for finalBins
+    binpack2D(rectangles:SVGTemplate[], baseBinSize:number[] = [304.8, 609.6], paneSpaceBetween:number = 1, subBins:number[][][] = [[]], finalBins:SVGTemplate[][] = [[]]):SVGTemplate[][] {
+        // Base case of having no more rectangles to sort
+        if(rectangles.length == 0) {return finalBins;}
+
+        // Case of the first rectangle to place (no subBins yet)
+        if(subBins.length == 1 && subBins[0].length == 0) {
+            // Starting first rectangle in bottom left of first baseBin
+            rectangles[rectangles.length-1].sortedStartingPoint = [0+(rectangles[rectangles.length-1].startingPoint[0] - rectangles[rectangles.length-1].xMin), 0+(rectangles[rectangles.length-1].startingPoint[1] - rectangles[rectangles.length-1].yMin)];
+            rectangles[rectangles.length-1].fixSortedTransform();
+
+            // Adding subbins for the remaining width height if possible
+            if(baseBinSize[0] - rectangles[rectangles.length-1].width - paneSpaceBetween >= 0) {
+                // Remaining width subBin
+                subBins[0].push([baseBinSize[0] - rectangles[rectangles.length-1].width - paneSpaceBetween, rectangles[rectangles.length-1].height, rectangles[rectangles.length-1].width + paneSpaceBetween, 0]);
+            }
+            if(baseBinSize[1] - rectangles[rectangles.length-1].height - paneSpaceBetween >= 0) {
+                // Remaining height subBin
+                subBins[0].push([baseBinSize[0], baseBinSize[1] - rectangles[rectangles.length-1].height - paneSpaceBetween, 0, rectangles[rectangles.length-1].height + paneSpaceBetween]);
+            }
+
+            // Removing placed rectangle and adding it to finalBin[0]
+            finalBins[0].push(rectangles.pop()!);
+        }
+        // subBins exist to try
+        else {
+            let foundSubBin:boolean = false;
+            // Looping through each basebin
+            for(let baseBinIndex:number = 0; baseBinIndex < subBins.length; ++baseBinIndex) {
+                // Looping through each subBin in the basebin
+                for(let subBinIndex:number = 0; subBinIndex < subBins[baseBinIndex].length; ++subBinIndex) {
+                    // Checking if subBin is able to hold the rectangle
+                    if(subBins[baseBinIndex][subBinIndex][0] >= rectangles[rectangles.length-1].width 
+                        && subBins[baseBinIndex][subBinIndex][1] >= rectangles[rectangles.length-1].height) {
+                            foundSubBin = true;
+                            // Setting starting point to starting point of subBin
+                            rectangles[rectangles.length-1].sortedStartingPoint = [subBins[baseBinIndex][subBinIndex][2]+(rectangles[rectangles.length-1].startingPoint[0] - rectangles[rectangles.length-1].xMin), subBins[baseBinIndex][subBinIndex][3]+(rectangles[rectangles.length-1].startingPoint[1] - rectangles[rectangles.length-1].yMin)];
+                            rectangles[rectangles.length-1].fixSortedTransform();
+
+                            // Checking if new subBins for this baseBin need to be added
+                            if(subBins[baseBinIndex][subBinIndex][0] - rectangles[rectangles.length-1].width - paneSpaceBetween >= 0) {
+                                // Remaining width subBin
+                                subBins[baseBinIndex].push([subBins[baseBinIndex][subBinIndex][0] - rectangles[rectangles.length-1].width - paneSpaceBetween, rectangles[rectangles.length-1].height, subBins[baseBinIndex][subBinIndex][2] + rectangles[rectangles.length-1].width + paneSpaceBetween, subBins[baseBinIndex][subBinIndex][3]]);
+                            }
+                            if(subBins[baseBinIndex][subBinIndex][1] - rectangles[rectangles.length-1].height - paneSpaceBetween >= 0) {
+                                // Remaining height subBin
+                                subBins[baseBinIndex].push([subBins[baseBinIndex][subBinIndex][0], subBins[baseBinIndex][subBinIndex][1] - rectangles[rectangles.length-1].height - paneSpaceBetween, subBins[baseBinIndex][subBinIndex][2], subBins[baseBinIndex][subBinIndex][3] + rectangles[rectangles.length-1].height + paneSpaceBetween]);
+                            }
+
+                            // Removing current subBin from subBins
+                            subBins[baseBinIndex].splice(subBinIndex, 1);
+
+                            // Adding placed rectangle to final bin 
+                            finalBins[baseBinIndex].push(rectangles.pop()!);
+                            break;
+                        }
+                    else {continue;}
+                }
+                if(foundSubBin) {break;}
+            }
+
+            // Didn't find a subBin --> need to add a new baseBin and its subBins
+            if(!foundSubBin) {
+                finalBins.push([]);
+                subBins.push([[baseBinSize[0], baseBinSize[1], 0, 0]]);
+            }
+        }
+
+        // Recursively placing the rest of the rectangles
+        return this.binpack2D(rectangles, baseBinSize, paneSpaceBetween, subBins, finalBins);
+    }
+
     sortPanes():void {
         //
         for(let currentKey of Array.from(this.sortedPanesInformation.keys())) {
             console.log(currentKey);
             let paths:string = "";
             let currentPanesArray = this.sortedPanesInformation.get(currentKey);
-            let currentStartingPoint = [0,0];
+
+            // Populating array of currentPanes and sorting them by arear (smallest to largest)
+            let currentRectangles:SVGTemplate[] = [];
             for(let i:number = 0; i < currentPanesArray.length; ++i) {
                 let tmp:{paneHex:string, paneWidth:number, paneHeight:number, d:string, transform:string} = currentPanesArray[i];
-                let dArray = tmp.d.trim().split(" ");
-                dArray[0] = "M";
-                dArray[1] = String(currentStartingPoint[0]);
-                dArray[2] = String(currentStartingPoint[1]);
-                currentStartingPoint[0] += 2*tmp.paneWidth + 1;
-                let finalD = dArray.join(" ");
-                paths += `\n
+                let tmpSVG:SVGTemplate = new SVGTemplate(tmp.d);
+                tmpSVG.transformValue = tmp.transform;
+                // Swapping width and height if tranform rotates the pane
+                if(tmp.transform.includes("rotate(90") || tmp.transform.includes("rotate(270")) {
+                    let tmpWidth:number = tmpSVG.width;
+                    tmpSVG.width = tmpSVG.height;
+                    tmpSVG.height = tmpWidth;
+                }
+
+                // Sorting them as they are added
+                let sortedPlacementIndex:number = i;
+                while(sortedPlacementIndex > 0) {
+                    if(tmpSVG.width*tmpSVG.height >= currentRectangles[sortedPlacementIndex-1].width*currentRectangles[sortedPlacementIndex-1].height) {break;}
+                    --sortedPlacementIndex;
+                }
+                currentRectangles.splice(sortedPlacementIndex, 0, tmpSVG);
+                // currentRectangles.push(tmpSVG);
+            }
+
+            // Getting array of final sorted bins
+            let finalSortedBins:SVGTemplate[][] = this.binpack2D(currentRectangles);
+
+            // Looping through to generate a file for each bin
+            for(let binNumber:number = 0; binNumber < finalSortedBins.length; ++binNumber) {
+                paths = "";
+                // Looping through each pane in current bin
+                for(let i:number = 0; i < finalSortedBins[binNumber].length; ++i) {
+                    let dArray = finalSortedBins[binNumber][i].getOptimizedD().trim().split(" ");
+                    dArray[0] = "M";
+                    dArray[1] = String(finalSortedBins[binNumber][i].sortedStartingPoint[0]);
+                    dArray[2] = String(finalSortedBins[binNumber][i].sortedStartingPoint[1]);
+                    let finalD = dArray.join(" ");
+                    paths += `\n
                 <path
                     id="rect` + i + `"
-                    style="fill:#` + tmp.paneHex + `;stroke-width:0.999999"
+                    style="fill:#` + currentKey + `;stroke-width:0.999999"
                     d="` + finalD + `"
-                    transform="` + tmp.transform + `" /> \n
+                    transform="` + finalSortedBins[binNumber][i].transformValue + `" /> \n
                 `;
-            } 
+                } 
 
-        let svgSizeInfo:string = "\nwidth='"+609+"mm'\n" +
-            "height='"+609+"mm'\n" +
-            "viewBox='"+0 + " " + 0 + " " + 609 + " " + 609 + "'\n";
-        
-        let fullFileText:string = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                let svgSizeInfo:string = "\nwidth='"+304.8+"mm'\n" +
+                    "height='"+609.6+"mm'\n" +
+                    "viewBox='"+0 + " " + 0 + " " + 304.8 + " " + 609.6 + "'\n";
+                
+                let fullFileText:string = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
 xmlns:dc="http://purl.org/dc/elements/1.1/"
 xmlns:cc="http://creativecommons.org/ns#"
@@ -1830,22 +1944,22 @@ id="svg567">
 </svg>
 `
 
-        writeFile("paneFile_"+currentKey+".txt", fullFileText, err => {
-            if (err) {
-            console.error(err);
+                writeFile("paneFile_"+currentKey+"_" + binNumber + ".txt", fullFileText, err => {
+                    if (err) {
+                    console.error(err);
+                    }
+                    // file written successfully
+                    let options:Options = {
+                        args: [String(609), String(609), "paneFile_"+currentKey+"_" + binNumber]
+                    };
+            
+                    PythonShell.run('svgFileGenerator.py', options, function (err, results) {
+                        if (err) throw err;
+                        // results is an array consisting of messages collected during execution
+                        console.log('results: %j', results);
+                    });
+                });
             }
-            // file written successfully
-            let options:Options = {
-                args: [String(609), String(609), "paneFile_"+currentKey]
-            };
-    
-            PythonShell.run('svgFileGenerator.py', options, function (err, results) {
-                if (err) throw err;
-                // results is an array consisting of messages collected during execution
-                console.log('results: %j', results);
-            });
-        })
-        
         }
     }
 
