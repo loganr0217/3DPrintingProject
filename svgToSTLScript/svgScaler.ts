@@ -1615,12 +1615,15 @@ id="svg567">
     }
 
     fixSortedTransform():void {
+        const xRotate:number = this.xMin + (this.height/2) + (this.sortedStartingPoint[0]-this.startingPoint[0]);
+        const yRotate:number = this.yMin + (this.width/2) + (this.sortedStartingPoint[1]-this.startingPoint[1]);
         if(this.transformValue.includes("rotate(90") || this.transformValue.includes("rotate(270")) {
             this.sortedStartingPoint = [this.sortedStartingPoint[0] + (this.width-this.height)/2, this.sortedStartingPoint[1] + (this.height-this.width)/2];
-            const xRotate:number = this.xMin + (this.height/2) + (this.sortedStartingPoint[0]-this.startingPoint[0]);
-            const yRotate:number = this.yMin + (this.width/2) + (this.sortedStartingPoint[1]-this.startingPoint[1]);
             if(this.transformValue.includes("rotate(90")) {this.transformValue = this.transformValue.substring(0, this.transformValue.indexOf("r")) + "rotate(90,"+xRotate+","+yRotate+")";}
             else {this.transformValue = this.transformValue.substring(0, this.transformValue.indexOf("r")) + "rotate(270,"+xRotate+","+yRotate+")";}
+        }
+        if(this.transformValue.includes("scale(-1")) {
+            this.transformValue = "translate(" + (2*(this.sortedStartingPoint[0])+(this.xMax - this.startingPoint[0])) + ", 0) " + this.transformValue;
         }
     }
 
