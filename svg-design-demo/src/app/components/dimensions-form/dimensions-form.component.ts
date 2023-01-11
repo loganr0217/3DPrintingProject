@@ -323,8 +323,8 @@ getPanelHeight(height:number):number {
         dividerWidth = this.sharedDataService.dividerWidth;
       }
       else {
-        horzDividers = Number((<HTMLInputElement>document.getElementById("horizontalDividersInput")).value);
-        vertDividers = Number((<HTMLInputElement>document.getElementById("verticalDividersInput")).value);
+        horzDividers = Number((<HTMLInputElement>document.getElementById("horizontalDividersInput")).value) >= 0 ? Number((<HTMLInputElement>document.getElementById("horizontalDividersInput")).value) : 0;
+        vertDividers = Number((<HTMLInputElement>document.getElementById("verticalDividersInput")).value) >= 0 ? Number((<HTMLInputElement>document.getElementById("verticalDividersInput")).value) : 0;
         dividerWidth = this.convertNumber(Math.floor(Number((<HTMLInputElement>document.getElementById("dividerWidthInput")).value)) + (this.sharedDataService.dividerWidthFractionNum/16), this.sharedDataService.unitChoice); 
       }
       
@@ -433,13 +433,19 @@ getPanelHeight(height:number):number {
     if(this.sharedDataService.finishedSashes == false) {
       this.sharedDataService.finishedSashes = true;
       document.getElementById("submitInput")?.removeAttribute("disabled");
-      (<HTMLInputElement>document.getElementById("widthInput")).value = String(Math.round(this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice) - (this.sharedDataService.windowWidthFractionNum/16)));
-      (<HTMLInputElement>document.getElementById("heightInput")).value = String(Math.round(this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice) - (this.sharedDataService.windowHeightFractionNum/16)));
+      (<HTMLInputElement>document.getElementById("widthInput")).value = "";
+      (<HTMLInputElement>document.getElementById("heightInput")).value = "";
+      document.getElementById("widthInput")?.focus();
     }
     else {
       (<HTMLInputElement>document.getElementById("widthInput")).value = String(Math.round(this.convertBackNumber(this.sharedDataService.topSash ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice) - (this.sharedDataService.topSash ? this.sharedDataService.windowWidthFractionNum/16 : this.sharedDataService.bottomSashWidthFractionNum/16)));
       (<HTMLInputElement>document.getElementById("heightInput")).value = String(Math.round(this.convertBackNumber(this.sharedDataService.topSash ? this.sharedDataService.windowHeight : this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice) - (this.sharedDataService.topSash ? this.sharedDataService.windowHeightFractionNum/16 : this.sharedDataService.bottomSashHeightFractionNum/16)));
     }
+  }
+
+  // Focuses on the next element when a change is detected
+  changeElementFocus(elementId:string):void {
+    document.getElementById(elementId)?.focus();
   }
 
   updateWidthFraction(n:number):void {

@@ -121,6 +121,7 @@ export class Stage2Component implements OnInit {
       this.sharedDataService.finishedSashes = true;
       document.getElementById("submitInput")?.removeAttribute("disabled");
     }
+    document.getElementById("widthInput")?.focus();
     this.nextstage3();
   }
 
@@ -176,16 +177,8 @@ export class Stage2Component implements OnInit {
     this.sharedDataService.dividerWindow = newDividerWindow;
   }
   
-  nextstage2BCon() {
-    document.getElementById("stage2BCon")?.scrollIntoView({behavior: 'smooth'});
-  }
-
-  preStage1Con() {
+  previousStage() {
     document.getElementById("entirePage")?.scrollIntoView({behavior: 'smooth'});
-  }
-
-  prestage2ACon() {
-    document.getElementById("stage2ACon")?.scrollIntoView({behavior: 'smooth'});
   }
 
   nextstage3() {

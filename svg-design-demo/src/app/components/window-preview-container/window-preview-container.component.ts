@@ -89,43 +89,55 @@ export class WindowPreviewContainerComponent implements OnInit {
   // Gets the icon width in vw
   getIconWidth(row:number, col:number):string {
     // Height > width --> use height instead
-    if((this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight) > (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth)) {
-      return "";
+    let useWidth:boolean = false;
+    if(((this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight) / (.8*window.innerHeight)) <= ((this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth) / (.4*window.innerWidth))) {
+      useWidth = true;
     }
     let panelNum = row*this.sharedDataService.panelLayoutDims[0]+col;
-    let normWidth:number, tmp:number;
+    let widthPercentage:number, heightPercentage:number;
+    let widthToHeightRatio:number;
+
     if(panelNum < this.sharedDataService.numberTopPanels) {
-      normWidth = (this.sharedDataService.topPanelWidth - 100) / (500 - 100);
-      tmp = this.sharedDataService.topPanelWidth / (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth);
+      widthToHeightRatio = this.sharedDataService.topPanelWidth / this.sharedDataService.topPanelHeight;
+      widthPercentage = this.sharedDataService.topPanelWidth / (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth);
+      heightPercentage = this.sharedDataService.topPanelHeight / (this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight);
     }
     else {
-      normWidth = (this.sharedDataService.bottomPanelWidth - 100) / (500 - 100);
-      tmp = this.sharedDataService.bottomPanelWidth / (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth);
+      widthToHeightRatio = this.sharedDataService.bottomPanelWidth / this.sharedDataService.bottomPanelHeight;
+      widthPercentage = this.sharedDataService.bottomPanelWidth / (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth);
+      heightPercentage = this.sharedDataService.bottomPanelHeight / (this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight);
     }
-    let adjustedWidth:number = normWidth*(7-5)+5;
-    return (window.innerWidth < 576 ? 80 : 40)*tmp + "vw";
+    
+
+    if(useWidth) {return (window.innerWidth < 576 ? 80 : 40)*widthPercentage + "vw";}
+    else {return 80*heightPercentage * widthToHeightRatio + "vh";}
   }
 
   // Gets the icon width in vw
   getIconHeight(row:number, col:number):string {
+    let useWidth:boolean = false;
     // Width >= height --> use width instead
-    if((this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight) <= (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth)) {
-      return "";
+    if(((this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight) / (.8*window.innerHeight)) <= ((this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth) / (.4*window.innerWidth))) {
+      useWidth = true;
     }
     let panelNum = row*this.sharedDataService.panelLayoutDims[0]+col;
-    let normHeight:number, tmp:number;
+    let widthPercentage:number, heightPercentage:number;
+    let widthToHeightRatio:number;
 
     if(panelNum < this.sharedDataService.numberTopPanels) {
-      normHeight = (this.sharedDataService.topPanelHeight - 100) / (500 - 100);
-      tmp = this.sharedDataService.topPanelHeight / (this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight);
+      widthToHeightRatio = this.sharedDataService.topPanelWidth / this.sharedDataService.topPanelHeight;
+      widthPercentage = this.sharedDataService.topPanelWidth / (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth);
+      heightPercentage = this.sharedDataService.topPanelHeight / (this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight);
     }
     else {
-      normHeight = (this.sharedDataService.bottomPanelHeight - 100) / (500 - 100);
-      tmp = this.sharedDataService.bottomPanelHeight / (this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight);
-      
+      widthToHeightRatio = this.sharedDataService.bottomPanelWidth / this.sharedDataService.bottomPanelHeight;
+      widthPercentage = this.sharedDataService.bottomPanelWidth / (this.sharedDataService.windowWidth > this.sharedDataService.bottomSashWidth ? this.sharedDataService.windowWidth : this.sharedDataService.bottomSashWidth);
+      heightPercentage = this.sharedDataService.bottomPanelHeight / (this.sharedDataService.windowHeight + this.sharedDataService.bottomSashHeight);
     }
-    let adjustedHeight:number = normHeight*(7-5)+5;
-    return 80*tmp + "vh";
+    
+
+    if(useWidth) {return ((window.innerWidth < 576 ? 80 : 40)*widthPercentage / widthToHeightRatio) + "vw";}
+    else {return 80*heightPercentage + "vh";}
   }
 
   // Gets template viewbox

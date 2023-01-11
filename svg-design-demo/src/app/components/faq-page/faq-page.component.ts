@@ -13,7 +13,7 @@ export class FaqPageComponent implements OnInit {
   constructor(public contentfulService:ContentfulService, private sanitizer:DomSanitizer) { }
 
   ngOnInit(): void {
-    this.contentfulService.getPosts('faq').then(posts => this.posts = posts);
+    this.contentfulService.getPostsOrdered('faq').then(posts => this.posts = posts);
   }
 
   fixMailLink(s:string) {

@@ -876,7 +876,7 @@ export class Polygon {
             //         && (Math.abs(polygonPoints[prevPointIndex][1] - polygonPoints[i][1]) < .0001))
             //     || ((Math.abs(polygonPoints[nextPointIndex][0] - polygonPoints[i][0]) < .0001) 
             //         && (Math.abs(polygonPoints[nextPointIndex][1] - polygonPoints[i][1]) < .0001))) {
-            //     console.log("FUCK!!!");
+            //
             //     polygonPoints[i][0] += .01;
             //     polygonPoints[i][1] += .01;
             // }
@@ -929,10 +929,10 @@ export class Polygon {
         for(let i:number = 0; i < newPolygonPoints.length; ++i) {
             if(newPolygonPoints[i].length == 1) {newPolygonPoints[i] = newPolygonPoints[newPolygonPoints[i][0]];} 
         }
-        console.log("\n\nOrig Points: ");
-        console.log(polygonPoints);
-        console.log("\n\nNew Points: ");
-        console.log(newPolygonPoints);
+        // console.log("\n\nOrig Points: ");
+        // console.log(polygonPoints);
+        // console.log("\n\nNew Points: ");
+        // console.log(newPolygonPoints);
 
 
 
@@ -1218,7 +1218,7 @@ export class SVGTemplate {
         for(let i:number = 0; i < this.subShapes.length; ++i) {
             let test:Polygon = new Polygon(this.subShapes[i].lineScale(scaleX, scaleY));
             // scaledD += test.getScalablePath() + " ";
-            console.log("Polygon " + i + ": \n");
+            // console.log("Polygon " + i + ": \n");
             if(i == this.outerEdgeIndex) {scaledD += test.goodOutset(outerOutset) + " ";}
             else {scaledD += test.goodOutset(innerOutset) + " ";}
         }

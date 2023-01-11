@@ -1,25 +1,35 @@
 <div id="designWindow">
-    <div class="dropdown">
-        <button class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1 dropdown-toggle" type="button" id="dropdownMenuButton" *ngIf="!isColorPage()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Frame Color
-        </button>
-        <div *ngIf="!isColorPage()" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a href="javascript:void(0)" style="background-color: #666666;color:#ffffff;" (click)="changeFrameColor('666666')" class="dropdown-item">Silver</a>
-          <a href="javascript:void(0)" style="background-color: #FFD700;color:#ffffff;" (click)="changeFrameColor('FFD700')" class="dropdown-item">Gold</a>
-          <a href="javascript:void(0)" style="background-color: #CD7F32;color:#ffffff;" (click)="changeFrameColor('CD7F32')" class="dropdown-item">Bronze</a>
-          <a href="javascript:void(0)" style="background-color: #000000;color:#ffffff;" (click)="changeFrameColor('000000')" class="dropdown-item">Black</a>
+    <svg fill="#000000" class="backArrowIcon" (click)="previousStage()" height="45" width="45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 viewBox="0 0 219.151 219.151" xml:space="preserve">
+        <g id="g6">
+            <path class="backArrowInner" style="stroke-width:3.38983" d="M 335.59322,737.51414 C 267.70797,723.28871 209.22724,691.94068 159.73825,643.24878 127.93085,611.95369 108.85143,585.14715 89.994854,545.25939 65.018078,492.42542 59.322034,465.45027 59.322034,400 c 0,-65.45028 5.696044,-92.42543 30.67282,-145.25938 18.424346,-38.97345 37.636026,-66.26739 68.057196,-96.68857 30.42118,-30.42117 57.71512,-49.63285 96.68857,-68.057196 52.83395,-24.976776 79.8091,-30.67282 145.25938,-30.67282 47.89908,0 60.07047,1.126494 84.74576,7.843451 100.30329,27.303946 181.4276,94.856755 225.25939,187.575135 24.97678,52.83395 30.67282,79.8091 30.67282,145.25938 0,47.89908 -1.12651,60.07047 -7.84346,84.74576 -9.6601,35.48716 -32.88187,85.30519 -52.69898,113.056 -19.04292,26.66665 -55.66712,63.29085 -82.33377,82.33377 -27.21451,19.43416 -77.32359,42.93837 -111.36108,52.23518 -34.53434,9.43248 -116.96673,12.24319 -150.84746,5.14343 z m 49.78152,-165.22367 c 5.66814,-5.32494 7.8456,-11.13864 7.8456,-20.94725 0,-12.98888 -2.29987,-15.89285 -53.12072,-67.07359 l -53.12073,-53.49692 155.11175,-0.97959 155.11177,-0.97956 8.17844,-9.51105 c 4.56196,-5.30529 8.17847,-13.84085 8.17847,-19.30251 0,-5.46166 -3.61651,-13.99723 -8.17847,-19.30249 l -8.17844,-9.51107 -155.11177,-0.97957 -155.11175,-0.97957 53.12073,-53.49692 c 50.17736,-50.53274 53.12072,-54.22287 53.12072,-66.59856 0,-18.25692 -10.38911,-28.79284 -28.39162,-28.79284 -13.27421,0 -15.83789,2.17267 -92.99733,78.81356 -43.64075,43.34746 -81.48987,83.77119 -84.10917,89.83051 -4.08992,9.46139 -4.08992,12.57251 0,22.0339 2.6193,6.05932 40.46842,46.48305 84.10917,89.83051 76.20899,75.69681 79.86785,78.81356 92.52228,78.81356 8.86214,0 15.74394,-2.41295 21.02107,-7.37055 z" id="path240" transform="scale(0.27393875)" />
+            <path d="M109.576,219.151c60.419,0,109.573-49.156,109.573-109.576C219.149,49.156,169.995,0,109.576,0S0.002,49.156,0.002,109.575   C0.002,169.995,49.157,219.151,109.576,219.151z M109.576,15c52.148,0,94.573,42.426,94.574,94.575   c0,52.149-42.425,94.575-94.574,94.576c-52.148-0.001-94.573-42.427-94.573-94.577C15.003,57.427,57.428,15,109.576,15z" id="path2" />
+            <path d="M94.861,156.507c2.929,2.928,7.678,2.927,10.606,0c2.93-2.93,2.93-7.678-0.001-10.608l-28.82-28.819l83.457-0.008   c4.142-0.001,7.499-3.358,7.499-7.502c-0.001-4.142-3.358-7.498-7.5-7.498l-83.46,0.008l28.827-28.825   c2.929-2.929,2.929-7.679,0-10.607c-1.465-1.464-3.384-2.197-5.304-2.197c-1.919,0-3.838,0.733-5.303,2.196l-41.629,41.628   c-1.407,1.406-2.197,3.313-2.197,5.303c0.001,1.99,0.791,3.896,2.198,5.305L94.861,156.507z" id="path4" />
+        </g>
+    </svg>
+    <div class="float-right">
+        <div class="dropdown">
+            <button class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1 dropdown-toggle" type="button" id="dropdownMenuButton" *ngIf="!isColorPage()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Frame Color
+            </button>
+            <div *ngIf="!isColorPage()" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a href="javascript:void(0)" style="background-color: #666666;color:#ffffff;" (click)="changeFrameColor('666666')" class="dropdown-item">Silver</a>
+            <a href="javascript:void(0)" style="background-color: #FFD700;color:#ffffff;" (click)="changeFrameColor('FFD700')" class="dropdown-item">Gold</a>
+            <a href="javascript:void(0)" style="background-color: #CD7F32;color:#ffffff;" (click)="changeFrameColor('CD7F32')" class="dropdown-item">Bronze</a>
+            <a href="javascript:void(0)" style="background-color: #000000;color:#ffffff;" (click)="changeFrameColor('000000')" class="dropdown-item">Black</a>
+            </div>
         </div>
-    </div>
-    <!-- <input type="button" (click)="toggleAutofill()" class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1" id="autofillInput" value="Autofill"/> -->
-    <div *ngIf="!isColorPage()" class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" id="customSwitch_autofill">
-        <label class="custom-control-label btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1" for="customSwitch_autofill">Autofill</label>
-        <a class="btn text-center text-white btn-outline-light btn-floating m-1" data-toggle="modal" data-target="#howToModal4" role="button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#FFD700" class="bi bi-question-circle" viewBox="0 0 16 16">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-              </svg>
-        </a>
+        <!-- <input type="button" (click)="toggleAutofill()" class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1" id="autofillInput" value="Autofill"/> -->
+        <div *ngIf="!isColorPage()" class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch_autofill" [checked]="true">
+            <label class="custom-control-label btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1" for="customSwitch_autofill">Autofill</label>
+            <!-- <a class="btn text-center text-white btn-outline-light btn-floating m-1" data-toggle="modal" data-target="#howToModal4" role="button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#FFD700" class="bi bi-question-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                </svg>
+            </a> -->
+        </div>
     </div>
     
     <svg xmlns="http://www.w3.org/2000/svg" width="109mm" height="114mm" viewBox="-4 40 109 114" id="currentTemplate">
@@ -62,5 +72,6 @@
     
     <input type="button" class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1 float-right" *ngIf="!isColorPage()" id="button_nextPane" value="Next Step" (click)="nextstage5();"
     />
-    <input type="button" class="btn btn-med bg-light text-center btn-floating m-1 float-right" *ngIf="!isColorPage()" value="Previous Step" (click)="previousStage();"/>
+    <!-- <input type="button" class="btn btn-med bg-light text-center btn-floating m-1 float-right" *ngIf="!isColorPage()" value="Previous Step" (click)="previousStage();"/> -->
+    <input type="button" class="btn btn-med bg-light text-center btn-floating m-1 float-right" *ngIf="!isColorPage()" value="Help" data-toggle="modal" data-target="#howToModal4"/>
 </div>
