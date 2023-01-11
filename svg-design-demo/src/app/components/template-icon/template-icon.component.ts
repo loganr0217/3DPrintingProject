@@ -15,6 +15,7 @@ export class TemplateIconComponent implements OnInit {
   // Array containing the svgPath data for displaying icons / generating a template
   svgTemplateData:{id:number, name:string, d:string}[][];
   templateData:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}[];
+  currentTemplateIndex:number = 0;
 
   constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
 
@@ -353,11 +354,22 @@ export class TemplateIconComponent implements OnInit {
       
       //panelLayout[Math.floor(panelID/temp.panelDims[0])].push(myTemplate);
     }
+    if(isOkay) {this.sharedDataService.templatesAvailable = true;}
     return isOkay;
   }
 
   // Checking whether it is the color page (TDI)
   isColorPage():boolean {
     return document.URL.includes("windowCreation");
+  }
+
+  checkForAvailableTemplates():boolean {
+    let isAvailable:boolean = false;
+    for(let template of this.templateData) {
+      if((template.panelDims[0] == this.sharedDataService.panelLayoutDims[0] 
+        && template.panelDims[1] == this.sharedDataService.panelLayoutDims[1]
+        && this.isTemplateOkay(template))) {isAvailable = true;}
+    }
+    return isAvailable;
   }
 }

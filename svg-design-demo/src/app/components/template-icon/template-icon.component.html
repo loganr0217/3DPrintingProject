@@ -1,11 +1,11 @@
-<div class="fullWin" [style]="'flex-direction:'+(this.flexColumn ? 'column' : 'row')">
-    <div *ngFor="let template of templateData;">
+<div class="fullWin" id="templateIconContainer">
+    <ng-container *ngFor="let template of templateData; let tempIndex = index">
         <div *ngIf="(template.panelDims[0] == this.sharedDataService.panelLayoutDims[0] 
             && template.panelDims[1] == this.sharedDataService.panelLayoutDims[1]
-            && isTemplateOkay(template))">
+            && isTemplateOkay(template))" style="flex:1;">
             <div class="windowTemplateContainer" [style]="this.isColorPage() && this.sharedDataService.selectedTemplateID == template.id ? 'filter: invert(7%) sepia(100%) saturate(7423%) hue-rotate(248deg) brightness(104%) contrast(143%);' : ''">
             
-                <div class="windowTemplate" (click)="nextstage4(); createPreview(template); displayFirstTemplate();" data-toggle="modal" data-target="#exampleModalCenter" *ngFor="let row of getPanelLayout(template); let rowNumber = index;">
+                <div class="windowTemplate" (click)="nextstage4(); createPreview(template); displayFirstTemplate();" data-toggle="modal" data-target="#howToModal4" *ngFor="let row of getPanelLayout(template); let rowNumber = index;">
                     <!-- <img class="svgTemplateIcons" *ngFor="let svgTemplate of window" 
                     src="{{'assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
                     (click)="displayTemplate(window, i)"/> -->
@@ -21,7 +21,8 @@
                 <button *ngIf="isColorPage()" (click)="nextstage4(); createPreview(template); displayFirstTemplate();" [textContent]="template.id"></button>
             </div>
         </div>
-    </div>
+    </ng-container>
+    <h3 *ngIf="!this.checkForAvailableTemplates()">We currently offer no templates<br/> for this category and dimensions.</h3>
 </div>
 
 <!-- <div class="bottomRightFullWin">

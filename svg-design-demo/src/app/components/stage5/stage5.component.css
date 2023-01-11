@@ -1,5 +1,5 @@
 #stage5Container {
-    padding-top: 50px;
+    padding-top: 80px;
     display: flex;
 }
 /* Text */
@@ -12,13 +12,11 @@ p {
 
 #sideText {
     flex:1;
-    padding-top: 20px;
     padding-left: 2vw;
     padding-right: 2vw;
     
 }
 #bigContainer {
-    padding-top: 5vh;
     padding-left: 5vw;
     display: flex;
     justify-content: center;

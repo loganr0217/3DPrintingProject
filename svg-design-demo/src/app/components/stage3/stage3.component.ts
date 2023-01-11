@@ -144,7 +144,9 @@ export class Stage3Component implements OnInit {
     // document.getElementById("heightUnits")!.textContent = unitChoice;
     document.getElementById("dropdownMenuButton")!.innerHTML = "Your selected unit of measure is " + this.sharedDataService.unitChoice;
     // document.getElementById("dividerWidthUnits")!.textContent = unitChoice;
-    document.getElementById("dividerDetailText")?.setAttribute("style", "visibility:visible;")
+    document.getElementById("dividerDetailText")?.setAttribute("style", "visibility:visible;");
+    document.getElementById("widthInput")?.focus();
+
   }
 
   previousStage() {

@@ -57,7 +57,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text">Width:</span>
             </div>
-            <input (change)="updateDimensionsButton()" type="number" min="0" class="form-control" id="widthInput" placeholder=0/>
+            <input (change)="updateDimensionsButton(); changeElementFocus('heightInput')" type="number" min="0" class="form-control" id="widthInput" placeholder=""/>
             <div class="input-group-append">
                 <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sup>{{this.sharedDataService.topSash ? this.sharedDataService.windowWidthFractionNum : this.sharedDataService.bottomSashWidthFractionNum}}</sup>&frasl;<sub>16</sub>"</button>
                 <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
@@ -71,7 +71,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text">Height:</span>
             </div>
-            <input (change)="updateDimensionsButton()" type="number" min="0" class="form-control" id="heightInput" placeholder=0/>
+            <input (change)="updateDimensionsButton(); changeElementFocus('horizontalDividersInput')" type="number" min="0" class="form-control" id="heightInput" placeholder=""/>
             <div class="input-group-append">
                 <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sup>{{this.sharedDataService.topSash ? this.sharedDataService.windowHeightFractionNum : this.sharedDataService.bottomSashHeightFractionNum}}</sup>&frasl;<sub>16</sub>"</button>
                 <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
@@ -100,14 +100,14 @@
                 <div class="input-group-prepend">
                 <span class="input-group-text">Horizontal:</span>
                 </div>
-                <input (change)="updateDimensionsButton()" type="number" min="0" class="form-control" id="horizontalDividersInput" placeholder="0" [value]="this.sharedDataService.dividerNumbers[0]"/>
+                <input (change)="updateDimensionsButton(); changeElementFocus('verticalDividersInput')" type="number" min="0" class="form-control" id="horizontalDividersInput" placeholder="" [value]="this.sharedDataService.dividerNumbers[0]"/>
             </div>
             <!-- vertical dividers input -->
             <div class="col input-group mb-3" *ngIf="!this.isDoubleHung() || this.sharedDataService.topSash">
                 <div class="input-group-prepend">
                 <span class="input-group-text">Vertical:</span>
                 </div>
-                <input (change)="updateDimensionsButton()" type="number" min="0" class="form-control" id="verticalDividersInput" placeholder="0" [value]="this.sharedDataService.dividerNumbers[1]"/>
+                <input (change)="updateDimensionsButton(); changeElementFocus('dividerWidthInput')" type="number" min="0" class="form-control" id="verticalDividersInput" placeholder="" [value]="this.sharedDataService.dividerNumbers[1]"/>
             </div>
         </div>
         <div class="form-group form-row" *ngIf="!this.isDoubleHung() || this.sharedDataService.topSash">
@@ -130,7 +130,7 @@
         </div>
     </div>
 
-    <input type="button" class="btn btn-light btn-med" id="backInput" (click)="previousStage()" value="Back"/>
+    <!-- <input type="button" class="btn btn-light btn-med" id="backInput" (click)="previousStage()" value="Back"/> -->
     <input type="button" [style]="'display: ' + (isDoubleHung() ? 'inline' : 'none') + ';'" class="btn btn-dark btn-med" id="sashSelectionButton" (click)="switchSash()" value="{{sashButtonText()}}"/>
     <input type="button" class="btn btn-dark btn-med" id="submitInput" (click)="updateDimensionsButton(); updatePanelLayout()" value="Next" data-toggle="modal" data-target="#dimensionsFormModal"/>
     

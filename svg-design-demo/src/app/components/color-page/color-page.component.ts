@@ -261,9 +261,9 @@ export class ColorPageComponent implements OnInit {
     
     let colorNumberArray:number[] = [];
     for(let i:number = 0; i < colorArray.length; ++i) {
-      let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.colorsData.filter(function(item) { return item.hex == colorArray[i]; });
+      let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.tdiColorsData.filter(function(item) { return item.hex == colorArray[i]; });
       if(foundColor.length > 0) {colorNumberArray.push(foundColor[0].id);}
-      else {colorNumberArray.push(3);}
+      else {colorNumberArray.push(6);}
     }
     const panelAutofillString:string = colorNumberArray.join(",");
     const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
@@ -306,7 +306,7 @@ export class ColorPageComponent implements OnInit {
       let tmpHex:string = "";
       let splitAutofillString:string[] = autofillString.split(',');
       for(let i:number = 0; i < splitAutofillString.length; ++i) {
-        let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.colorsData.filter(function(item) { return item.id == Number(splitAutofillString[i]); });
+        let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.tdiColorsData.filter(function(item) { return item.id == Number(splitAutofillString[i]); });
         if(foundColor.length > 0) {
           tmpHex = foundColor[0].hex;
           if(this.sharedDataService.currentTemplateNumber == 0 && panelNumber == 0) {document.getElementById("pane"+i)?.setAttribute("style", "fill:#"+tmpHex);}
@@ -322,10 +322,10 @@ export class ColorPageComponent implements OnInit {
 
   getPaneAutofillStyle(autofillString:string, paneId:number) {
     if(autofillString != undefined) {
-      //alert(autofillString);
+      // alert(autofillString);
       let tmpHex:string = "";
       let splitAutofillString:string[] = autofillString.split(',');
-      let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.colorsData.filter(function(item) { return item.id == Number(splitAutofillString[paneId]); });
+      let foundColor:{ id: number; name: string; hex: string; paneColor: boolean; }[] = this.sharedDataService.tdiColorsData.filter(function(item) { return item.id == Number(splitAutofillString[paneId]); });
       if(foundColor.length > 0) {
         tmpHex = foundColor[0].hex;
         return "#"+tmpHex;

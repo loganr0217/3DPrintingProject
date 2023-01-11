@@ -19,8 +19,10 @@ export class TemplateCategoryStageComponent implements OnInit {
   }
 
   showTemplates(tempCategory:string):void {
+    this.sharedDataService.templatesAvailable = false;
     this.sharedDataService.selectedTemplateCategory = tempCategory;
     document.getElementById("templateSelectionContainer")?.setAttribute("style", "visibility:visible;");
+    
   }
 
   previousStage() {
