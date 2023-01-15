@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { SVGTemplate } from './components/svgScaler';
 import { SharedDataService } from './services/shared-data.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,12 @@ import { SharedDataService } from './services/shared-data.service';
 })
 export class AppComponent {
   title = 'svg-design-demo';
+  contactForm!: FormGroup;
+
   goToFooter():void {
     document.getElementById("footer")?.scrollIntoView({behavior: 'smooth'});
   }
-  constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
+  constructor(public sharedDataService:SharedDataService, private http:HttpClient, private formBuilder:FormBuilder) { }
 
   userSignout():void {
     if (confirm('Are you sure you want to logout of your account?')) {
@@ -23,7 +26,64 @@ export class AppComponent {
     }
   }
 
+  // Gets current year for copyright
+  getCurrentYear():string {
+    let year:Date = new Date();
+    return String(year.getFullYear());
+  }
+
+  // Contact form submission
+  submitContactForm():void {
+    const headers = { 'content-type': 'application/json'}  
+    const body=JSON.stringify(
+      {
+        'name':this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[1]+" "+this.sharedDataService.userInfo[2] : this.name?.value,
+        'email':this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : this.email?.value,
+        'number':this.number?.value,
+        'message':this.message?.value
+      });
+      
+    // Making sure each field has data and it's valid
+    if( (this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[1]+" "+this.sharedDataService.userInfo[2] : this.name?.value) != ""
+        && (this.sharedDataService.userInfo.length > 1 || this.name?.valid)
+        && (this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : this.email?.value) != ""
+        && (this.sharedDataService.userInfo.length > 1 || this.email?.valid)
+        && this.number?.valid
+        && this.message?.valid ) {
+        let fullMessage:String = "Name: " + (this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[1]+" "+this.sharedDataService.userInfo[2] : this.name?.value) + "\nNumber: " + this.number?.value + "\nEmail: " + (this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : this.email?.value) + "\nMessage: " + this.message?.value;
+      
+        if (confirm("Are you sure you want to send this message?\n" + fullMessage)) {
+          // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelSetId + "&panelNumber=" + panelNumber + "&panelName='" + panelName + "'&dAttribute='" + dAttribute + "'").subscribe(result => {
+          //   let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+          //   alert(test);
+          //  });
+          this.http.post("https://backend-dot-lightscreendotart.uk.r.appspot.com/submitcontactform", body, {'headers':headers}).subscribe(result => {
+          });;
+          alert("Sent");
+          this.contactForm.reset();
+        }
+    }
+    else {alert("Make sure to enter information in each field");}
+    
+    
+
+  }
+
+  // Convenience getters for easy access to form fields
+  get email() {return this.contactForm.get('email');}
+  get name() {return this.contactForm.get('name');}
+  get number() {return this.contactForm.get('number');}
+  get message() {return this.contactForm.get('message');}
+
   ngOnInit() {
+
+    // Getting contact form set up
+    this.contactForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      number: ['', Validators.required],
+      message: ['', Validators.required]
+    });
     
         // Getting data and populating user info
         const data = JSON.parse(localStorage.getItem('userInfo') || '{}');

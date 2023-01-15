@@ -2,8 +2,22 @@
     background-color: black;
 }
 
+.contactForm {
+    width: 50vw;
+    margin: auto;
+    padding-bottom: 5vh;
+}
+
 .footerTag {
     font-size: 2vw;
+}
+
+.contactFormButton {
+    color: #ffffff;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 300;
+    font-size: 1.4vw;
+    border: 1px solid black;
 }
 
 @media only screen and (max-width: 576px) {
