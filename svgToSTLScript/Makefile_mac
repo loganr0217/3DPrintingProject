@@ -1,7 +1,7 @@
 ORDERID = 0
 ACTUALINDEX = 0
 
-FILES: PANES
+FILES: STLS PANES
 
 STLS: 
 	-@mkdir order_$(ORDERID)

@@ -1,7 +1,21 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from flask_mail import Mail, Message
 import os
+
 app = Flask(__name__)
+
+mail= Mail(app)
+
+emailPassword = os.environ.get('CONTACT_FORM_PASSWORD')
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'info@lightscreenart.com'
+app.config['MAIL_PASSWORD'] = "{}".format(emailPassword)
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
+
 CORS(app)
 import psycopg2
 
@@ -756,6 +770,24 @@ def deleteOrder():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
+# Endpoint to send an email through contact form
+@app.route("/submitcontactform", methods = ['POST'])
+def index():
+    global conn
+    data = request.get_json()
+    email = data.get('email')
+    name = data.get('name')
+    number = data.get('number')
+    message = data.get('message')
+    
+    try:
+        msg = Message('Contact Form Submission', sender = 'info@lightscreenart.com', recipients = ['logan.richards@lightscreenart.com', 'willow.mattison@lightscreenart.com', 'ron.seide@lightscreenart.com', 'info@lightscreenart.com'])
+        msg.body = "Name: {}\nEmail: {}\nNumber: {}\nMessage: {}".format(name, email, number, message)
+        mail.send(msg)
+        # Returning the final result
+        return ("Sent", )
+    except Exception as e:
+        return ("Error sending the message " + str(e), )
 
 if __name__ == '__main__':
     from waitress import serve
