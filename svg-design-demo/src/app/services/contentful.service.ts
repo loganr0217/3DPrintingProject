@@ -57,7 +57,13 @@ export class ContentfulService {
     if (richText === undefined || richText === null || richText.nodeType !== 'document') {
       return '<p>Error</p>';
     }
-    return documentToHtmlString(richText);
+    let options = {
+      renderNode: {
+        'embedded-asset-block': (node:any) =>
+          `<img class="img-fluid" src="${node.data.target.fields.file.url}"/>`
+      }
+    }
+    return documentToHtmlString(richText, options);
   }
 
 }
