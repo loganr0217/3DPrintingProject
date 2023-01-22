@@ -1,8 +1,11 @@
 .carousel_div { 
     padding-right: 1vw;
     padding-left: 1vw;
+    max-height: 80vh;
+    display:flex;
     /* border: thick double black; */
 }
+
 .carousel-inner {
     margin: auto;
 }
@@ -10,8 +13,19 @@
     padding-bottom: 2vh;
     object-fit: contain;
 }
+
 .carousel { 
     border-radius: 2%;
+}
+
+#carouselExampleControls {
+    width: 50vw;
+}
+
+#carouselLeftExampleControls, #carouselRightExampleControls {
+    margin-top: 20vh;
+    width: 25vw;
+    position: relative;
 }
 
 .carousel .carousel-indicators li {
@@ -19,6 +33,14 @@
     background-color: rgba(70, 70, 70, 0.25);
 }
 
+.carousel-control {
+    color: white;
+    position:absolute;
+    top:25%;
+}
+
+.left {right:0;}
+.right {left:0;}
 
 .carousel .carousel-indicators .active {
     background-color: #444;
@@ -28,6 +50,11 @@ img {
     max-height: 80vh;
     padding-bottom: 4vh;
     object-fit: contain;
+    position: relative;
+}
+
+.nonActive {
+    filter: blur(1px);
 }
 
 

@@ -46,7 +46,6 @@ export class Stage1Component implements OnInit {
   nextstage2() {
     document.getElementById("stage2")?.setAttribute("style", "visibility:visible;")
     document.getElementById("stage2")?.scrollIntoView({behavior: 'smooth'});
-    console.log(this.posts[0].fields.stage1body);
   }
 
   learnMore():void {

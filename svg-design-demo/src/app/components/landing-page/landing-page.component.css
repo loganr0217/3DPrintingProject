@@ -1,0 +1,170 @@
+#landingPage1, #landingPage3 {background-color: #1A1919;}
+
+.landingPage {
+    display: flex;
+    margin-bottom: 66px;
+}
+
+#landingPage4 {
+    margin-bottom: 66px;
+}
+
+#landingPage6 {
+    position: relative;
+}
+
+#printerVideo {
+    width: 100vw;
+    height: 90vh;
+    object-fit: fill;
+}
+
+#landingImg1 {
+    max-width: 57vw;
+    max-height: 90vh;
+}
+
+#landingImg2 {
+    max-width: 67vw;
+    max-height: 90vh;
+}
+
+#sideText1 {
+    margin-top: 2vh;
+    margin-left: 3vw;
+    margin-right: 3vw;
+}
+
+#sideText2 {
+    margin-left: 3vw;
+    margin-right: 3vw;
+    width: 33vw;
+}
+
+#sideText3 {
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    width: 80vw;
+}
+
+#sideText6 {
+    position:absolute;
+    width: 100vw;
+    top: 20vh;
+    display: flex;
+    flex-direction: column;
+}
+
+hr {
+    border: none;
+    height: 1px; 
+}
+.hr-dark {
+    /* Set the hr color */
+    color: black; /* old IE */
+    background-color: black; /* Modern Browsers */
+}
+.hr-light {
+    /* Set the hr color */
+    color: white; /* old IE */
+    background-color: white; /* Modern Browsers */
+}
+
+
+.text1, .text6 {
+    color: white;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 600;
+    font-size: 5.5vw;
+}
+
+.text2, .text4 {
+    color: black;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 600;
+    font-size: 4vw;
+}
+.text4, .text6 {text-align: center;}
+.text6 {width: 60vw; margin: auto; text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;}
+
+.text3 {
+    text-align: center;
+    color: white;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 600;
+    font-size: 4vw;
+}
+
+.bodyText2 {
+    margin-right: 2vw;
+    color: black;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 400;
+    font-size: 1.6vw;
+}
+
+.bodyText3 {
+    text-align: center;
+    color: white;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 400;
+    font-size: 3.2vw;
+}
+
+form {
+    display: flex;
+}
+
+.form-group {
+    margin-right: 1vw;
+}
+
+.inputField {
+    width: 22vw;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 400;
+    font-size: 1.6vw;
+}
+
+
+.startDesigning1, .startDesigning6 {
+    width:22vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 400;
+    font-size: 2vw;
+}
+
+.startDesigning6 {
+    margin: auto;
+    margin-top: 5vh;
+    border: 1px solid black;
+}
+
+.registerBtn {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 400;
+    font-size: 1.6vw;
+}
+
+.img1 {
+    max-width: 57vw;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+.img2 {
+    max-width: 67vw;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+.imgChart {
+    max-width: 100vw;
+    max-height: 80vh;
+    margin:auto;
+    object-fit: contain;
+}

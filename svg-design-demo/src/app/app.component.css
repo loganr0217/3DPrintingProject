@@ -1,9 +1,9 @@
 .navbar-custom {
-    background-color: black;
+    background-color: white;
 }
 
 .contactForm {
-    width: 50vw;
+    width: 80vw;
     margin: auto;
     padding-bottom: 5vh;
 }
@@ -12,13 +12,20 @@
     font-size: 2vw;
 }
 
+.footerNote {
+    font-size: 2vw;
+}
+
 .contactFormButton {
     color: #ffffff;
     font-family: 'Inter Tight', sans-serif;
     font-weight: 300;
-    font-size: 1.4vw;
+    font-size: 2vw;
     border: 1px solid black;
 }
+
+.navbar {padding: 0.5rem 0rem;}
+.nav-item, .navbar-brand, .navbar-toggler {margin-left:2vw; margin-right: 2vw;}
 
 @media only screen and (max-width: 576px) {
     #tdiLink {

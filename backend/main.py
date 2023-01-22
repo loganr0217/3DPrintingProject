@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_mail import Mail, Message
 import os
+import secrets
 
 app = Flask(__name__)
 
@@ -70,7 +71,7 @@ def signup():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
-@app.route('/addpanel', methods = ['POST'])
+@app.route('/panel', methods = ['POST'])
 def addPanel():
     global conn
     data = request.get_json()
@@ -770,6 +771,33 @@ def deleteOrder():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
+# Adds a new user with a temporary password and sends a confirmation email
+def addTempUser(email):
+    global conn
+
+    # Generating random password 15 characters
+    randPassword = secrets.token_urlsafe(15)
+
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+
+        cur.execute("INSERT INTO users(first_name, last_name, email, password, permissions) VALUES('Temp', 'User', '" + email + "', MD5('" + randPassword + "'), 'basic');")
+        cur.execute("SELECT * FROM users WHERE email = '" + email + "' AND password = MD5('" + randPassword + "');")
+        rows = cur.fetchall()
+        conn.commit()
+        try:
+            msg = Message('New LightScreen User', sender = 'info@lightscreenart.com', recipients = [email])
+            msg.body = "Congratulations! You're now a registered user with lightscreenart.com. Your temporary password is below.\n\nTemporary Password: {}".format(randPassword)
+            mail.send(msg)
+            # Returning the final result
+            return rows
+        except Exception as e:
+            return ("Error sending the message " + str(e), )
+    except Exception as e:
+        return ("Error connecting to the database " + str(e), )
+
+
 # Endpoint to send an email through contact form
 @app.route("/submitcontactform", methods = ['POST'])
 def index():
@@ -777,17 +805,33 @@ def index():
     data = request.get_json()
     email = data.get('email')
     name = data.get('name')
-    number = data.get('number')
     message = data.get('message')
     
     try:
         msg = Message('Contact Form Submission', sender = 'info@lightscreenart.com', recipients = ['logan.richards@lightscreenart.com', 'willow.mattison@lightscreenart.com', 'ron.seide@lightscreenart.com', 'info@lightscreenart.com'])
-        msg.body = "Name: {}\nEmail: {}\nNumber: {}\nMessage: {}".format(name, email, number, message)
+        msg.body = "Name: {}\nEmail: {}\nMessage: {}".format(name, email, message)
         mail.send(msg)
-        # Returning the final result
-        return ("Sent", )
+
+        # Checking to see if we need to create a new user account
+        try:
+            conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+            cur = conn.cursor()
+            if email != 'null':
+                cur.execute("SELECT * FROM users WHERE email = '" + email + "';")
+                rows = cur.fetchall()
+                # User has been authenticated as already having an account
+                if len(rows) > 0:
+                    rows = (-1, )
+                else:
+                    rows = addTempUser(email)
+            else:
+                rows = (-2,)
+            # Returning the final result
+            return jsonify(rows)
+        except Exception as e:
+            return "Error connecting to the database " + str(e)
     except Exception as e:
-        return ("Error sending the message " + str(e), )
+        return "Error sending the message " + str(e)
 
 if __name__ == '__main__':
     from waitress import serve

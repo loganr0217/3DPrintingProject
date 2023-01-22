@@ -1,6 +1,6 @@
 <div class="HideOnMobile">
   <!-- Laptop Navbar content -->
-  <nav class="navbar sticky-top navbar-expand-lg navbar-dark navbar-custom" style="height: 65px;">
+  <nav class="navbar sticky-top navbar-light navbar-custom" style="height: 65px;">
           <a href="javascript:void(0)" routerLink="" class="navbar-brand">
               <!-- Logo Image -->
               <a href="javascript:void(0)" routerLink="">
@@ -115,7 +115,7 @@
       <!-- Section: Text -->
       <section class="mb-4">
         <h1 class="text-white footerTag">
-          Cover Your Windows In Color and Light
+          Questions?
         </h1>
       </section>
       <!-- Section: Text -->
@@ -125,20 +125,9 @@
         <form [formGroup]="contactForm">
           <div *ngIf="this.sharedDataService.userInfo.length <= 1" class="form-group mt-2 mb-2">
               <input type="text" placeholder="Name" formControlName="name" class="form-control" />
-              <div style="color: red;" *ngIf="name?.invalid && (name?.touched || name?.dirty)">
-                <span *ngIf="name?.errors?.['required']">*Name is required</span>
-              </div>
-          
-          </div>
-          <div class="form-group mt-2 mb-2">
-              <input type="text" placeholder="Number" formControlName="number" class="form-control" />
-              <div style="color: red;" *ngIf="number?.invalid && (number?.touched || number?.dirty)">
-                <span *ngIf="number?.errors?.['required']">*Number is required</span>
-              </div>
-          
           </div>
           <div *ngIf="this.sharedDataService.userInfo.length <= 1" class="form-group mt-2 mb-2">
-              <input type="text" placeholder="Email" formControlName="email" class="form-control" />
+              <input type="text" placeholder="Email*" formControlName="email" class="form-control" />
               <div style="color: red;" *ngIf="email?.invalid && (email?.touched || email?.dirty)">
                 <span *ngIf="email?.errors?.['required']">*Email is required</span>
                 <span *ngIf="email?.errors?.['email']">*Enter valid email (example@gmail.com)</span>
@@ -146,9 +135,6 @@
           </div>
           <div class="form-group mt-2 mb-2">
             <input type="text" placeholder="How can we help you?" formControlName="message" class="form-control" />
-            <div style="color: red;" *ngIf="message?.invalid && (message?.touched || message?.dirty)">
-              <span *ngIf="message?.errors?.['required']">*Message is required</span>
-            </div>
           </div>
           <div class="form-group mt-2 mb-2">
             <button style="width: 100%;" (click)="submitContactForm()" class="btn btn-dark contactFormButton">Send Message</button>
@@ -175,7 +161,7 @@
           <div class="col-lg-3 mb-4 mb-md-0">
             <ul class="list-unstyled mb-0">
               <li>
-                <a href="javascript:void(0)" routerLink="/about" class="text-white text-decoration-none">About</a>
+                <a href="javascript:void(0)" routerLink="/about" class="text-white text-decoration-none footerNote">About</a>
               </li>
             </ul>
           </div>
@@ -185,7 +171,7 @@
           <div class="col-lg-3 mb-4 mb-md-0">
             <ul class="list-unstyled mb-0">
               <li>
-                <a href="javascript:void(0)" routerLink="/gallery" class="text-white text-decoration-none">Gallery</a>
+                <a href="javascript:void(0)" routerLink="/gallery" class="text-white text-decoration-none footerNote">Gallery</a>
               </li>
             </ul>
           </div>
@@ -195,7 +181,7 @@
           <div class="col-lg-3 mb-4 mb-md-0" *ngIf="!this.sharedDataService.signedIn">
             <ul class="list-unstyled mb-0">
               <li>
-                <a href="javascript:void(0)" routerLink="/signup" class="text-white text-decoration-none">Signup</a>
+                <a href="javascript:void(0)" routerLink="/signup" class="text-white text-decoration-none footerNote">Signup</a>
               </li>
             </ul>
           </div>
@@ -205,7 +191,7 @@
           <div class="col-lg-3 mb-4 mb-md-0" *ngIf="!this.sharedDataService.signedIn">
             <ul class="list-unstyled mb-0">
               <li>
-                <a href="javascript:void(0)" routerLink="/login" class="text-white text-decoration-none">Login</a>
+                <a href="javascript:void(0)" routerLink="/login" class="text-white text-decoration-none footerNote">Login</a>
               </li>
             </ul>
           </div>
@@ -215,7 +201,7 @@
           <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] == 'admin'">
             <ul class="list-unstyled mb-0">
               <li>
-                <a href="javascript:void(0)" routerLink="/windowCreation" id="tdiLink" class="text-white text-decoration-none">TDI</a>
+                <a href="javascript:void(0)" routerLink="/windowCreation" id="tdiLink" class="text-white text-decoration-none footerNote">TDI</a>
               </li>
             </ul>
           </div>
@@ -225,7 +211,7 @@
           <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] == 'admin'">
             <ul class="list-unstyled mb-0">
               <li>
-                <a href="javascript:void(0)" routerLink="/colorOfferings" class="text-white text-decoration-none">Color Offerings</a>
+                <a href="javascript:void(0)" routerLink="/colorOfferings" class="text-white text-decoration-none footerNote">Color Offerings</a>
               </li>
             </ul>
           </div>
