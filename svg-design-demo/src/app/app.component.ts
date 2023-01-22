@@ -39,18 +39,13 @@ export class AppComponent {
       {
         'name':this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[1]+" "+this.sharedDataService.userInfo[2] : this.name?.value,
         'email':this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : this.email?.value,
-        'number':this.number?.value,
         'message':this.message?.value
       });
       
     // Making sure each field has data and it's valid
-    if( (this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[1]+" "+this.sharedDataService.userInfo[2] : this.name?.value) != ""
-        && (this.sharedDataService.userInfo.length > 1 || this.name?.valid)
-        && (this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : this.email?.value) != ""
-        && (this.sharedDataService.userInfo.length > 1 || this.email?.valid)
-        && this.number?.valid
-        && this.message?.valid ) {
-        let fullMessage:String = "Name: " + (this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[1]+" "+this.sharedDataService.userInfo[2] : this.name?.value) + "\nNumber: " + this.number?.value + "\nEmail: " + (this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : this.email?.value) + "\nMessage: " + this.message?.value;
+    if((this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : this.email?.value) != ""
+        && (this.sharedDataService.userInfo.length > 1 || this.email?.valid)) {
+        let fullMessage:String = "Name: " + (this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[1]+" "+this.sharedDataService.userInfo[2] : this.name?.value) + "\nEmail: " + (this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : this.email?.value) + "\nMessage: " + this.message?.value;
       
         if (confirm("Are you sure you want to send this message?\n" + fullMessage)) {
           // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelSetId + "&panelNumber=" + panelNumber + "&panelName='" + panelName + "'&dAttribute='" + dAttribute + "'").subscribe(result => {
@@ -58,8 +53,17 @@ export class AppComponent {
           //   alert(test);
           //  });
           this.http.post("https://backend-dot-lightscreendotart.uk.r.appspot.com/submitcontactform", body, {'headers':headers}).subscribe(result => {
-          });;
-          alert("Sent");
+            this.sharedDataService.userInfo = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(","); 
+            if(this.sharedDataService.userInfo.length > 1) {
+              this.sharedDataService.signedIn = true;
+              localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));
+              alert("You're now registered and should have recieved a confirmation email in your inbox.");
+            }
+          });
+
+          // Signed in
+          if(this.sharedDataService.userInfo.length > 1) {alert("Message sent.");}
+          else {alert("Message sent. A confirmation email has been sent to your inbox.")}
           this.contactForm.reset();
         }
     }
