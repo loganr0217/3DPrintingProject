@@ -3,6 +3,8 @@
     padding-left: 1vw;
     max-height: 80vh;
     display:flex;
+    width: 100vw;
+    overflow: hidden;
     /* border: thick double black; */
 }
 
