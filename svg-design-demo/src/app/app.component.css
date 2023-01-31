@@ -8,32 +8,41 @@
     padding-bottom: 5vh;
 }
 
-.footerTag {
-    font-size: 2vw;
-}
-
-.footerNote {
-    font-size: 2vw;
-}
-
 .contactFormButton {
     color: #ffffff;
     font-family: 'Inter Tight', sans-serif;
     font-weight: 300;
-    font-size: 2vw;
     border: 1px solid black;
 }
 
 .navbar {padding: 0.5rem 0rem;}
 .nav-item, .navbar-brand, .navbar-toggler {margin-left:2vw; margin-right: 2vw;}
 
+/* Mobile styling */
 @media only screen and (max-width: 576px) {
-    #tdiLink {
-        display: none;
+    .contactFormButton {
+        font-size: 5vw;
+    }
+    .footerTag {
+        font-size: 7vw;
+    }
+    .footerNote {
+        font-size: 5vw;
     }
 }
 
-@media only screen and (max-width: 992px) {
+/* Laptop Styling */
+@media only screen and (min-width: 576px) {
+    .contactFormButton {
+        font-size: 2vw;
+    }
+    .footerTag, .footerNote {
+        font-size: 2vw;
+    }
+}
+
+/* Old fix for collapsing navbar dynamic */
+/* @media only screen and (max-width: 992px) {
     #tdiLink {
         display: none;
     }
@@ -46,4 +55,4 @@
         margin-left:2vw;
     }
 
-}
+} */

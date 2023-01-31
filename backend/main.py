@@ -782,7 +782,7 @@ def addTempUser(email):
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
 
-        cur.execute("INSERT INTO users(first_name, last_name, email, password, permissions) VALUES('Temp', 'User', '" + email + "', MD5('" + randPassword + "'), 'basic');")
+        cur.execute("INSERT INTO users(first_name, last_name, email, password, permissions) VALUES('Temporary', 'User', '" + email + "', MD5('" + randPassword + "'), 'basic');")
         cur.execute("SELECT * FROM users WHERE email = '" + email + "' AND password = MD5('" + randPassword + "');")
         rows = cur.fetchall()
         conn.commit()
