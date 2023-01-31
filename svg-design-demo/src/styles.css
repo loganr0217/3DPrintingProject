@@ -11,14 +11,12 @@ p, li {
     color: #000000;
     font-family: 'Inter Tight', sans-serif;
     font-weight: 300;
-    font-size: 1.4vw;
 }
 
 .light > p {
     color: white;
     font-family: 'Inter Tight', sans-serif;
     font-weight: 400;
-    font-size: 1.4vw;
 }
 
 .backArrowIcon:hover .backArrowInner {
@@ -41,12 +39,9 @@ html, body {
         display: initial;
     }
 
-    p, li {
-        color: #000000;
-        font-size: 3vw;
-        font-family: 'Inter Tight', sans-serif;
-        font-weight: 300;
-    }
+    p, li {font-size: 5vw;}
+
+    .light > p {font-size: 5vw;}
 }
 
 @media (min-width: 576px) {
@@ -57,4 +52,9 @@ html, body {
     .ShowOnMobile {
         display: none;
     }
+
+    p, li {font-size: 1.4vw;}
+
+    .light > p {font-size: 1.4vw;}
+
 }

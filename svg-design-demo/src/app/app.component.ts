@@ -4,6 +4,10 @@ import { SVGTemplate } from './components/svgScaler';
 import { SharedDataService } from './services/shared-data.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+declare var $:any;
+var pageScroll:number = 0;
+var stickyNav:boolean = true;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -80,6 +84,31 @@ export class AppComponent {
   get message() {return this.contactForm.get('message');}
 
   ngOnInit() {
+    // Closes navbar on click outside
+    $(function() {
+      $(document).click(function (event:any) {
+        $('.navbar-collapse').collapse('hide');
+      });
+    });
+
+    // Detects scroll for disappearing navbar
+    $(window).scroll(function (event:any) {
+      var scroll = $(window).scrollTop();
+      if(scroll >= pageScroll) {
+          pageScroll = scroll;
+          if(stickyNav) {
+            document.getElementById("mainNavbar")?.classList.remove("sticky-top");
+            stickyNav = false; 
+          } 
+      }
+      else {
+        if(Math.abs(scroll - pageScroll) > 5) {
+          pageScroll = scroll;
+          document.getElementById("mainNavbar")?.classList.add("sticky-top");
+          stickyNav = true;
+        }
+      }
+    });
 
     // Getting contact form set up
     this.contactForm = this.formBuilder.group({

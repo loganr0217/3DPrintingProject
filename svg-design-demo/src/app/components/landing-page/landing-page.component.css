@@ -1,33 +1,133 @@
 #landingPage1, #landingPage3 {background-color: #1A1919;}
 
-.landingPage {
-    display: flex;
-    margin-bottom: 66px;
+.landingPage {display: flex;}
+
+#landingPage6 {position: relative;}
+
+/* Mobile site styling */
+@media only screen and (max-width: 576px) {
+    /* Landing page 1 */
+    #landingPage1 {flex-direction: column;}
+    #landingImg1 {
+        max-width: 100vw;
+        max-height: 90vh;
+    }
+    .img1, .img2 {max-width: 100vw;}
+    .text1 {font-size: 12vw;}
+    .startDesigning1, .startDesigning6 {
+        width:55vw;
+        font-size: 5.5vw;
+    }
+    .inputField {
+        width: 55vw;
+        font-size: 5vw;
+        margin-right: 2vw;
+        margin-bottom: 2vh;
+    }
+    .registerBtn {font-size: 5vw;}
+
+    /* Landing page 2 */
+    #landingPage2 {flex-direction: column-reverse;}
+    #landingImg2 {
+        max-width: 100vw;
+        max-height: 90vh;
+    }
+    #sideText2 {
+        margin-left: 3vw;
+        margin-top: 2vh;
+        margin-right: 3vw;
+        width: 80vw;
+    }
+    .text2, .text4 {font-size: 12vw;}
+    .bodyText2 {font-size: 4.5vw;}
+
+    /* Landing page 3 */
+    #sideText3 {
+        margin-top: 5vh;
+        margin-bottom: 5vh;
+        margin-left: 3vw;
+        margin-right: 3vw;
+        width: 100vw;
+    }
+    .text3 {font-size: 12vw;}
+    .bodyText3 {font-size: 8vw;}
+
+    /* Landing page 5 */
+    #landingPage3, #landingPage5 {margin-bottom: 2vh;}
+
+    /* Landing page 6 */
+    #printerVideo {
+        width: 100vw;
+        height: 30vh;
+        object-fit: fill;
+    }
+    #sideText6 {top: 5vh;}
+    .text6 {width: 90vw;}
 }
 
-#landingPage4 {
-    margin-bottom: 66px;
+/* Laptop styling */
+@media only screen and (min-width: 576px) {
+    .landingPage {margin-bottom: 66px;}
+
+    /* Landing page 1 */
+    #landingImg1 {
+        max-width: 57vw;
+        max-height: 90vh;
+    }
+    .img1 {max-width: 57vw;}
+    .text1 {
+        font-size: 5.5vw;
+    }
+    .startDesigning1, .startDesigning6 {
+        width:22vw;
+        font-size: 2vw;
+    }
+    .inputField {
+        width: 22vw;
+        font-size: 1.6vw;
+    }
+    .registerBtn {font-size: 1.6vw;}
+
+    /* Landing page 2 */
+    #landingImg2 {
+        max-width: 67vw;
+        max-height: 90vh;
+    }
+    #sideText2 {
+        margin-left: 3vw;
+        margin-right: 3vw;
+        width: 33vw;
+    }
+    .text2, .text4 {font-size: 4vw;}
+    .bodyText2 {font-size: 1.6vw;}
+    .img2 {max-width: 67vw;}
+
+    /* Landing page 3 */
+    #sideText3 {
+        margin-top: 5vh;
+        margin-bottom: 5vh;
+        margin-left: 10vw;
+        margin-right: 10vw;
+        width: 80vw;
+    }
+    .text3 {font-size: 4vw;}
+    .bodyText3 {font-size: 3.2vw;}
+
+    /* Landing page 4 */
+    #landingPage4 {margin-bottom: 66px;}
+
+    /* Landing page 6 */
+    #printerVideo {
+        width: 100vw;
+        height: 90vh;
+        object-fit: fill;
+    }
+    #sideText6 {top: 20vh;}
+    .text6 {width: 60vw;}
 }
 
-#landingPage6 {
-    position: relative;
-}
 
-#printerVideo {
-    width: 100vw;
-    height: 90vh;
-    object-fit: fill;
-}
 
-#landingImg1 {
-    max-width: 57vw;
-    max-height: 90vh;
-}
-
-#landingImg2 {
-    max-width: 67vw;
-    max-height: 90vh;
-}
 
 #sideText1 {
     margin-top: 2vh;
@@ -38,21 +138,11 @@
 #sideText2 {
     margin-left: 3vw;
     margin-right: 3vw;
-    width: 33vw;
-}
-
-#sideText3 {
-    margin-top: 5vh;
-    margin-bottom: 5vh;
-    margin-left: 10vw;
-    margin-right: 10vw;
-    width: 80vw;
 }
 
 #sideText6 {
     position:absolute;
     width: 100vw;
-    top: 20vh;
     display: flex;
     flex-direction: column;
 }
@@ -77,24 +167,21 @@ hr {
     color: white;
     font-family: 'Inter Tight', sans-serif;
     font-weight: 600;
-    font-size: 5.5vw;
 }
 
 .text2, .text4 {
     color: black;
     font-family: 'Inter Tight', sans-serif;
     font-weight: 600;
-    font-size: 4vw;
 }
 .text4, .text6 {text-align: center;}
-.text6 {width: 60vw; margin: auto; text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;}
+.text6 {margin: auto; text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;}
 
 .text3 {
     text-align: center;
     color: white;
     font-family: 'Inter Tight', sans-serif;
     font-weight: 600;
-    font-size: 4vw;
 }
 
 .bodyText2 {
@@ -102,7 +189,6 @@ hr {
     color: black;
     font-family: 'Inter Tight', sans-serif;
     font-weight: 400;
-    font-size: 1.6vw;
 }
 
 .bodyText3 {
@@ -110,7 +196,6 @@ hr {
     color: white;
     font-family: 'Inter Tight', sans-serif;
     font-weight: 400;
-    font-size: 3.2vw;
 }
 
 form {
@@ -122,20 +207,16 @@ form {
 }
 
 .inputField {
-    width: 22vw;
     font-family: 'Inter Tight', sans-serif;
     font-weight: 400;
-    font-size: 1.6vw;
 }
 
 
 .startDesigning1, .startDesigning6 {
-    width:22vw;
     margin-top: 1vh;
     margin-bottom: 2vh;
     font-family: 'Inter Tight', sans-serif;
     font-weight: 400;
-    font-size: 2vw;
 }
 
 .startDesigning6 {
@@ -147,17 +228,10 @@ form {
 .registerBtn {
     font-family: 'Inter Tight', sans-serif;
     font-weight: 400;
-    font-size: 1.6vw;
 }
 
-.img1 {
-    max-width: 57vw;
-    max-height: 90vh;
-    object-fit: contain;
-}
 
-.img2 {
-    max-width: 67vw;
+.img1, .img2 {
     max-height: 90vh;
     object-fit: contain;
 }

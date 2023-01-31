@@ -18,15 +18,40 @@
     border-radius: 2%;
 }
 
-#carouselExampleControls {
-    width: 50vw;
-}
-
 #carouselLeftExampleControls, #carouselRightExampleControls {
-    margin-top: 20vh;
-    width: 25vw;
     position: relative;
 }
+
+@media only screen and (max-width: 576px) {
+    #carouselExampleControls {
+        width: 70vw;
+    }
+    #carouselLeftExampleControls, #carouselRightExampleControls {
+        width: 70vw;
+    }
+    #carouselLeftExampleControls {
+        margin-left: -35vw;
+    }
+    #carouselRightExampleControls {
+        margin-right: -35vw;
+    }
+}
+
+@media only screen and (min-width: 576px) {
+    #carouselExampleControls {
+        width: 50vw;
+    }
+    #carouselLeftExampleControls, #carouselRightExampleControls {
+        width: 50vw;
+    }
+    #carouselLeftExampleControls {
+        margin-left: -25vw;
+    }
+    #carouselRightExampleControls {
+        margin-right: -25vw;
+    }
+}
+
 
 .carousel .carousel-indicators li {
     background-color: #fff;
@@ -36,7 +61,7 @@
 .carousel-control {
     color: white;
     position:absolute;
-    top:25%;
+    bottom:25%;
 }
 
 .left {right:0;}
@@ -48,7 +73,6 @@
 
 img {
     max-height: 80vh;
-    padding-bottom: 4vh;
     object-fit: contain;
     position: relative;
 }
@@ -57,9 +81,3 @@ img {
     filter: blur(1px);
 }
 
-
-@media only screen and (max-width: 576px) {
-    img {
-        max-height: 30vh;
-    }
-}
