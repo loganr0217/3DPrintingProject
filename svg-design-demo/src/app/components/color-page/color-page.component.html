@@ -101,7 +101,7 @@
                 <br/>
                 <input type="button" class="btn btn-dark btn-med" (click)="addTemplate()" id="createLayoutInput"  value="Save Template"/>
                 <input type="button" class="btn btn-dark btn-med" (click)="deleteTemplate()" id="templateDeleteInput"  value="Delete Template"/>
-                <!-- <input type="button" class="btn btn-dark btn-med" (click)="switchTemplatePanel()" id="templatePanelSwitchInput" [value]="getTemplatePanelSwitchText()"/> -->
+                <input type="button" class="btn btn-dark btn-med" (click)="switchTemplatePanel()" id="templatePanelSwitchInput" [value]="getTemplatePanelSwitchText()"/>
                 
             </form>
         </div>
@@ -128,15 +128,15 @@
                 src="{{'assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
                 (click)="displayTemplate(window, i)"/> -->
         
-                <svg *ngFor="let svgTemplate of window" xmlns="http://www.w3.org/2000/svg" class="bottomRightSvgTemplateIcons"  [attr.viewBox]=getTemplateViewBox(svgTemplate.getOptimizedD())>
-                    <path  style="fill:#666666;" [attr.transform]="svgTemplate.getTransform()" [attr.d]="svgTemplate.getOptimizedD()"/>
+                <svg *ngFor="let svgTemplate of window; let j = index" xmlns="http://www.w3.org/2000/svg" class="bottomRightSvgTemplateIcons"  [attr.viewBox]=getTemplateViewBox(svgTemplate.getOptimizedD())>
+                    <path [attr.fill]="getCurrentPanelFill(i, j)" [attr.transform]="svgTemplate.getTransform()" [attr.d]="svgTemplate.getOptimizedD()"/>
                 </svg>
             </div>
         </div>
     </div>
 </div>
 
-<div id="templateSelectionContainer">
+<div id="templateSelectionContainer" *ngIf="!this.onPanels">
     <div id="templateIconsCategoryContainer">
         <app-template-selection-container [flexColumn]="false"></app-template-selection-container>
         <div id="templateCategorySliders">
