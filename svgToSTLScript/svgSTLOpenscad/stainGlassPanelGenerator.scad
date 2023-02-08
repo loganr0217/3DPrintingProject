@@ -395,36 +395,36 @@ module stainGlassPanelLineart(panelDims, fullWidthSVG, wellWidthSVG, topSVGs, nu
     rotatedPanelDims = numberRotations % 2 == 0 ? [panelDims[0]/2, panelDims[1]/2] : [panelDims[1]/2, panelDims[0]/2];
     
     
-    // Adding brim to the panel
-    difference() {
-        difference() {
-            translate([0, 0, .3]) 
-            cube([2*rotatedPanelDims[0]+10, 2*rotatedPanelDims[1]+10, .6], center=true);
-            translate([0, 0, .3])
-            cube([2*rotatedPanelDims[0], 2*rotatedPanelDims[1], .6], center=true);
-        }
-        
-            // Thin brim cut
-            translate([0, 0, .2+.2]) {
-                cube([2*rotatedPanelDims[0]+1.6, 2*rotatedPanelDims[1]+1.6, .4], center=true);
-            }
-            
-            // Top right brim corner
-            translate([rotatedPanelDims[0]+2.5, rotatedPanelDims[1]+2.5, .4]) {
-                cube([5, 5, .8], center=true);
-            }
-            // Top left brim corner
-            translate([-rotatedPanelDims[0]-2.5, rotatedPanelDims[1]+2.5, .4]) {
-                cube([5, 5, .8], center=true);
-            }
-            // Bottom right brim corner
-            translate([rotatedPanelDims[0]+2.5, -rotatedPanelDims[1]-2.5, .4]) {
-                cube([5, 5, .8], center=true);
-            }
-            // Bottom left brim corner
-            translate([-rotatedPanelDims[0]-2.5, -rotatedPanelDims[1]-2.5, .4]) {
-                cube([5, 5, .8], center=true);
-            }
-    }
+//    // Adding brim to the panel
+//    difference() {
+//        difference() {
+//            translate([0, 0, .3]) 
+//            cube([2*rotatedPanelDims[0]+10, 2*rotatedPanelDims[1]+10, .6], center=true);
+//            translate([0, 0, .3])
+//            cube([2*rotatedPanelDims[0], 2*rotatedPanelDims[1], .6], center=true);
+//        }
+//        
+//            // Thin brim cut
+//            translate([0, 0, .2+.2]) {
+//                cube([2*rotatedPanelDims[0]+1.6, 2*rotatedPanelDims[1]+1.6, .4], center=true);
+//            }
+//            
+//            // Top right brim corner
+//            translate([rotatedPanelDims[0]+2.5, rotatedPanelDims[1]+2.5, .4]) {
+//                cube([5, 5, .8], center=true);
+//            }
+//            // Top left brim corner
+//            translate([-rotatedPanelDims[0]-2.5, rotatedPanelDims[1]+2.5, .4]) {
+//                cube([5, 5, .8], center=true);
+//            }
+//            // Bottom right brim corner
+//            translate([rotatedPanelDims[0]+2.5, -rotatedPanelDims[1]-2.5, .4]) {
+//                cube([5, 5, .8], center=true);
+//            }
+//            // Bottom left brim corner
+//            translate([-rotatedPanelDims[0]-2.5, -rotatedPanelDims[1]-2.5, .4]) {
+//                cube([5, 5, .8], center=true);
+//            }
+//    }
     
 }
