@@ -583,7 +583,7 @@ def getUsers():
     try:
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
-        cur.execute("SELECT * FROM users;")
+        cur.execute("SELECT id,first_name,last_name,email,permissions FROM users;")
         rows = cur.fetchall()
         return jsonify(rows)
     except Exception as e:

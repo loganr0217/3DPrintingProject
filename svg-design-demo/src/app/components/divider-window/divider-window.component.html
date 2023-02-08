@@ -1,7 +1,7 @@
 <div id="dividerWindow">
     <svg xmlns="http://www.w3.org/2000/svg" width="109mm" height="114mm" viewBox="-4 40 109 114" id="dividerTemplate">
         <path id="windowPerimeter" style="fill:#666666" d=""/>
-        <path *ngFor="let i of range()" id="dividerPane{{i}}"/>
+        <path *ngFor="let i of range()" id="dividerPane{{i}}" [attr.fill]="isActiveSashPane(i) ? '#AAAAAA' : '#ECECEC'" />
     </svg>
 </div>
 <!-- <form id="dividerPaneFormContainer">

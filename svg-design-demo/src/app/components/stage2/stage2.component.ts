@@ -168,7 +168,7 @@ export class Stage2Component implements OnInit {
       for(let col:number = 0; col < newDividerWindow.windowPanes[row].length; ++col) {
         // Updating each individual pane
         document.getElementById("dividerPane"+paneNum)?.setAttribute("d", newDividerWindow.windowPanes[row][col].dString);
-        document.getElementById("dividerPane"+paneNum)?.setAttribute("style", "fill:#ECECEC;fill-rule:evenodd;stroke:#000000;stroke-width:.2;");
+        document.getElementById("dividerPane"+paneNum)?.setAttribute("style", "fill-rule:evenodd;stroke:#000000;stroke-width:.2;");
         ++paneNum;
       }
       

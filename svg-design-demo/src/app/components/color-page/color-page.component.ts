@@ -122,12 +122,27 @@ export class ColorPageComponent implements OnInit {
     
     if(this.currentPanelLocation[1] + 1 >= this.panelDims[0]) {++this.currentPanelLocation[0]; this.currentPanelLocation[1]=0;}
     else {++this.currentPanelLocation[1];}
-    document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + this.currentPanelLocation; 
+    document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + (this.currentPanelLocation[0]+1) + "," + (this.currentPanelLocation[1]+1); 
     
 
   }
 
+  fillOutBlankTemplate():void {
+    do {
+      let tmp:SVGTemplate = new SVGTemplate(this.currentWindow[0].d);
+      this.sharedDataService.chosenPanel = this.currentWindow[0];
+      tmp.panelsetId = this.panelSetId;
+      tmp.panelNumber = this.currentWindow[0].panelNumber;
+      this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]] = tmp;
+      this.increaseCurrentLocation();
+    } while(this.currentPanelLocation[0] != 0 || this.currentPanelLocation[1] != 0);
+  }
+
   updateLayout():void {
+    if(this.currentWindow == undefined) {
+      alert("Make sure to select a panelset to blank fill your template.");
+      return;
+    }
     let leftRight:number = Number((<HTMLInputElement>document.getElementById("leftRightInput")).value)
     let topBottom:number = Number((<HTMLInputElement>document.getElementById("topBottomInput")).value)
     if(leftRight != null && topBottom != null && leftRight > 0 && topBottom > 0) {
@@ -144,9 +159,10 @@ export class ColorPageComponent implements OnInit {
       
       document.getElementById("currentLayoutText")!.textContent = "Current Layout: " + leftRight + "x" + topBottom; 
       this.currentPanelLocation = [0, 0];
-      document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + this.currentPanelLocation; 
+      document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + (this.currentPanelLocation[0]+1) + "," + (this.currentPanelLocation[1]+1); 
       this.panelDims = [leftRight, topBottom];
       this.sharedDataService.panelLayoutDims = [leftRight, topBottom];
+      this.fillOutBlankTemplate();
     }
     
   }
@@ -156,7 +172,7 @@ export class ColorPageComponent implements OnInit {
     if(this.currentPanelLocation[1] - 1 < 0 && this.currentPanelLocation[0] - 1 >= 0) {--this.currentPanelLocation[0]; this.currentPanelLocation[1]=this.panelDims[0]-1;}
     else {--this.currentPanelLocation[1];}
     this.panelLayout[this.currentPanelLocation[0]].pop();
-    document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + this.currentPanelLocation; 
+    document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + (this.currentPanelLocation[0]+1) + "," + (this.currentPanelLocation[1]+1); 
     let test:string[] = this.templateString.split(";");
     // Removing empty ending and last panel
     test.pop();
@@ -176,6 +192,11 @@ export class ColorPageComponent implements OnInit {
 
   showTemplateString():void {
     alert(this.templateString.substring(0, this.templateString.length-1));
+  }
+
+  getCurrentPanelFill(row:number, col:number):string {
+    if(this.currentPanelLocation[0] == row && this.currentPanelLocation[1] == col) {return '#0000FF';}
+    else {return '#666666';}
   }
 
   // Method to decrease current panel location
@@ -209,7 +230,7 @@ export class ColorPageComponent implements OnInit {
   }
 
   updateCurrentLocationText():void {
-    document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + this.currentPanelLocation; 
+    document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + (this.currentPanelLocation[0]+1) + "," + (this.currentPanelLocation[1]+1); 
   }
 
   // Method to rotate the last placed panel 90 degrees
@@ -397,8 +418,8 @@ export class ColorPageComponent implements OnInit {
   }
 
   getTemplatePanelSwitchText():string {
-    if(this.onPanels) {return "Switch to Template Autofill";}
-    else {return "Switch to Panel Autofill";}
+    if(this.onPanels) {return "Switch to Templates";}
+    else {return "Switch to Panels";}
   }
 
   switchTemplatePanel():void {this.onPanels = !this.onPanels;}

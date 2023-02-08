@@ -147,7 +147,6 @@ export class DividerWindowComponent implements OnInit {
               ((this.sharedDataService.dividerWindow.numberVerticalPanes - row) 
               - numberVerticalAdjustedAfter) * (remainingPaneNewHeight-remainingPaneOriginalHeight));
           }
-
           // Not adjusted yet (able to be edited in terms of width/height)
           if((this.sharedDataService.dividerWindow.windowPanes[row][col].widthAdjusted == false &&  
             this.sharedDataService.dividerWindow.windowPanes[row][col].heightAdjusted == false) ||
@@ -159,6 +158,7 @@ export class DividerWindowComponent implements OnInit {
             document.getElementById("dividerPane"+paneNumber)?.setAttribute("style", 
               ((col != paneCol && row != paneRow) ? "fill:#FFFFFF;" : "fill:#FFCCCB;") +
               "fill-rule:evenodd;stroke:#000000;stroke-width:.2;");
+              
           }
           // Already adjusted in either width or height
           else {
@@ -194,6 +194,16 @@ export class DividerWindowComponent implements OnInit {
   // Returns 0 to n-1 (mainly used for iterating svg path items)
   range(n:number=this.sharedDataService.maxPanes):number[] {
     return [...Array(n).keys()];
+  }
+
+  isActiveSashPane(paneId:number):boolean {
+    if(!this.sharedDataService.isDoubleHung()) {return true;}
+
+    if(this.sharedDataService.topSash) {
+      return paneId < (this.sharedDataService.dividerWindow.numberVerticalPanes*this.sharedDataService.dividerWindow.numberHorizontalPanes);
+    }
+    return paneId >= (this.sharedDataService.dividerWindow.numberVerticalPanes*this.sharedDataService.dividerWindow.numberHorizontalPanes);
+    
   }
 
 }
