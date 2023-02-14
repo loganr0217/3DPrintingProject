@@ -20,9 +20,9 @@
             </div>
         </div>
         <!-- <input type="button" (click)="toggleAutofill()" class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1" id="autofillInput" value="Autofill"/> -->
-        <div *ngIf="!isColorPage()" class="onoffswitch">
-            <input type="checkbox" class="onoffswitch-checkbox" id="customSwitch_autofill" checked>
-            <label class="onoffswitch-label" for="customSwitch_autofill"><span class="onoffswitch-inner"></span></label>
+        <div *ngIf="!isColorPage()" class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch_autofill" [checked]="true">
+            <label class="custom-control-label btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1" for="customSwitch_autofill">Autofill</label>
             <!-- <a class="btn text-center text-white btn-outline-light btn-floating m-1" data-toggle="modal" data-target="#howToModal4" role="button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#FFD700" class="bi bi-question-circle" viewBox="0 0 16 16">
                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
