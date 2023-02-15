@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { SVGTemplate } from './components/svgScaler';
 import { SharedDataService } from './services/shared-data.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { Router } from '@angular/router';
 
 declare var $:any;
 var pageScroll:number = 0;
@@ -20,12 +21,15 @@ export class AppComponent {
   emailFormModal!:UntypedFormGroup;
   modalPopups:number = 0;
   modalPopupIntervalId:any;
+  user:SocialUser;
+  loggedIn:boolean;
   
 
   goToFooter():void {
     document.getElementById("footer")?.scrollIntoView({behavior: 'smooth'});
   }
-  constructor(public sharedDataService:SharedDataService, private http:HttpClient, private formBuilder:UntypedFormBuilder, private authService:SocialAuthService) { }
+  constructor(public sharedDataService:SharedDataService, private http:HttpClient, private formBuilder:UntypedFormBuilder, 
+    private authService:SocialAuthService, private router:Router) { }
 
   userSignout():void {
     if (confirm('Are you sure you want to logout of your account?')) {
@@ -167,6 +171,34 @@ export class AppComponent {
           document.getElementById("mainNavbar")?.classList.add("sticky-top");
           stickyNav = true;
         }
+      }
+    });
+
+    this.authService.authState.subscribe((user: SocialUser) => {
+      this.user = user;
+      this.loggedIn = (user!=null);
+      if(this.loggedIn) {
+        this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/signupWithExternal?idtoken="+this.user.idToken+"&provider="+this.user.provider).subscribe(result => {
+          this.sharedDataService.userInfo = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(","); 
+          if(this.sharedDataService.userInfo.length > 1) {
+            this.sharedDataService.signedIn = true;
+            $('#discountModal').modal('hide');
+            if((<HTMLInputElement>document.getElementById("rememberMeBox"))?.checked) {localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));}
+            this.router.navigate(['/']);
+          }
+          else if(this.sharedDataService.userInfo.length == 1 && this.sharedDataService.userInfo[0] == -1) {
+            // alert("A user with that email already exists.");
+            this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/loginWithExternal?idtoken="+this.user.idToken+"&provider="+this.user.provider).subscribe(result => {
+              this.sharedDataService.userInfo = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(","); 
+              if(this.sharedDataService.userInfo.length > 1) {
+                this.sharedDataService.signedIn = true;
+                $('#discountModal').modal('hide');
+                if((<HTMLInputElement>document.getElementById("rememberMeBox"))?.checked) {localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));}
+                this.router.navigate(['/']);
+              } 
+            });
+          } 
+        });
       }
     });
 
