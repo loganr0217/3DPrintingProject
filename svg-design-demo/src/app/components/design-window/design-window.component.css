@@ -4,11 +4,9 @@
     border:3px solid black;
     padding:auto;
 }
-
 #svgTemplate {
     width:100%;
 }
-
 #currentTemplate {
     margin:auto;
     padding-top:2%;
@@ -16,8 +14,50 @@
     width:100%;
     overflow: visible;
 }
+ .backArrowIcon {
+     margin-left: 1vw;
+     margin-top: 1vw;
+ }
 
-.backArrowIcon {
-    margin-left: 1vw;
-    margin-top: 1vw;
-}
+ .onoffswitch {
+     position: relative; left: 5px; width: 127px;
+     -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;
+ }
+
+ .onoffswitch-checkbox {
+     position: absolute; left: 5px;
+     opacity: 0;
+     pointer-events: none; 
+ }
+
+ .onoffswitch-label {
+     display: block; overflow: hidden; cursor: pointer;
+     border-radius: 4px;
+ }
+
+ .onoffswitch-inner {
+     display: block; width: 200%; margin-left: -100%;
+     transition: margin 0.3s ease-in 0s;
+ }
+
+ .onoffswitch-inner:before, .onoffswitch-inner:after {
+     display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
+     font-size: 14px; color: white; font-weight: bold;
+     box-sizing: border-box;
+ }
+
+ .onoffswitch-inner:before {
+     content: "Autofill: ON";
+     background-color: #EEEEEE; color: #666666;
+     text-align: center;
+ }
+
+ .onoffswitch-inner:after {
+     content: "Autofill: OFF";
+     background-color: #EEEEEE; color: #666666;
+     text-align: center;
+ }
+
+ .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+     margin-left: 0;
+ }
