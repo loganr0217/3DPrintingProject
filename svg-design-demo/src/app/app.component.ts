@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { SVGTemplate } from './components/svgScaler';
 import { SharedDataService } from './services/shared-data.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 declare var $:any;
 var pageScroll:number = 0;
@@ -15,12 +15,12 @@ var stickyNav:boolean = true;
 })
 export class AppComponent {
   title = 'svg-design-demo';
-  contactForm!: FormGroup;
+  contactForm!: UntypedFormGroup;
 
   goToFooter():void {
     document.getElementById("footer")?.scrollIntoView({behavior: 'smooth'});
   }
-  constructor(public sharedDataService:SharedDataService, private http:HttpClient, private formBuilder:FormBuilder) { }
+  constructor(public sharedDataService:SharedDataService, private http:HttpClient, private formBuilder:UntypedFormBuilder) { }
 
   userSignout():void {
     if (confirm('Are you sure you want to logout of your account?')) {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ContentfulService } from 'src/app/services/contentful.service';
 import { Entry } from 'contentful';
 import { SharedDataService } from 'src/app/services/shared-data.service';
-import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Form, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -12,10 +12,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LandingPageComponent implements OnInit {
   posts:Entry<any>[] = [];
-  emailForm!:FormGroup;
+  emailForm!:UntypedFormGroup;
 
   constructor(public contentfulService:ContentfulService, public sharedDataService:SharedDataService, 
-    private http:HttpClient, private formBuilder:FormBuilder) { }
+    private http:HttpClient, private formBuilder:UntypedFormBuilder) { }
 
   // Convenience getters for easy access to form fields
   get email() {return this.emailForm.get('email');}

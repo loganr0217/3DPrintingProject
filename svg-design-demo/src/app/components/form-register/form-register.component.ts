@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./form-register.component.css']
 })
 export class FormRegisterComponent implements OnInit {
-  registerForm!: FormGroup;
+  registerForm!: UntypedFormGroup;
   passW!: string;
   confirmPass!: string;
   isPass: boolean = true;
@@ -21,7 +21,7 @@ export class FormRegisterComponent implements OnInit {
   cpass!: string;
   isCshow!: boolean;
   fakeUrl: string = 'http://localhost:4200/';
-  constructor(private formBuilder:FormBuilder, private http:HttpClient, public sharedDataService:SharedDataService, private router:Router) { }
+  constructor(private formBuilder:UntypedFormBuilder, private http:HttpClient, public sharedDataService:SharedDataService, private router:Router) { }
 
 
   ngOnInit(): void {

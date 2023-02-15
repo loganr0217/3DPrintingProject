@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-reset-password',
@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit {
-  resetForm!: FormGroup;
+  resetForm!: UntypedFormGroup;
   pass!: string;
   isShow!: boolean;
   cpass!: string;
@@ -15,7 +15,7 @@ export class ResetPasswordComponent implements OnInit {
   newPw!: string;
   confirmPw!: string;
   fakeUrl: string = 'http://localhost:4200/';
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: UntypedFormBuilder) { }
 
   ngOnInit(): void {
     this.resetForm = this.formBuilder.group({

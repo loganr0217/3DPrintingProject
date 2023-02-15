@@ -115,5 +115,7 @@
       }
     }
   },
-  "defaultProject": "svg-design-demo"
+  "cli": {
+    "analytics": false
+  }
 }

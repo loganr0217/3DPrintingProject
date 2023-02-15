@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 @Component({
@@ -9,9 +9,9 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
   styleUrls: ['./checkout-page.component.css']
 })
 export class CheckoutPageComponent implements OnInit {
-  emailForm:FormGroup;
+  emailForm:UntypedFormGroup;
 
-  constructor(public sharedDataService:SharedDataService, private http:HttpClient, private formBuilder:FormBuilder,
+  constructor(public sharedDataService:SharedDataService, private http:HttpClient, private formBuilder:UntypedFormBuilder,
     private router:Router) { }
 
   ngOnInit(): void {
