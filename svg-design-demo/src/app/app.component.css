@@ -8,6 +8,21 @@
     padding-bottom: 5vh;
 }
 
+.modal-title, .modal-text {
+    text-align: center;
+}
+.modal-header, .modal-body {
+    margin:auto;
+}
+
+.modal-emailForm {
+    display: flex;
+}
+
+.sendButton {
+    margin-left: 5px;
+}
+
 .contactFormButton {
     color: #ffffff;
     font-family: 'Inter Tight', sans-serif;

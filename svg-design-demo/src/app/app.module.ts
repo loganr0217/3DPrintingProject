@@ -38,6 +38,11 @@ import { OrderPageComponent } from './components/order-page/order-page.component
 import { ColorOfferingsPageComponent } from './components/color-offerings-page/color-offerings-page.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider
+} from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -81,9 +86,32 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SocialLoginModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '474514984650-2f0dvbnbcjh2tolup348qjpolkh22rb1.apps.googleusercontent.com'
+            )
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('577140994305662')
+          }
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

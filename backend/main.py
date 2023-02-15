@@ -3,6 +3,7 @@ from flask_cors import CORS
 from flask_mail import Mail, Message
 import os
 import secrets
+import requests
 
 app = Flask(__name__)
 
@@ -28,7 +29,7 @@ db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
 @app.route('/login')
 def login():
     global conn
-    email = request.args.get('email', default='null', type=str)
+    email = request.args.get('email', default='null', type=str).lower()
     password = request.args.get('password', default='null', type=str)
     try:
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
@@ -43,12 +44,39 @@ def login():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
+@app.route('/loginWithExternal')
+def loginWithExternal():
+    global conn
+    idToken = request.args.get('idtoken', default='null', type=str)
+    provider = request.args.get('provider', default='null', type=str)
+
+    tokenURL = ""
+    if provider == "GOOGLE":
+        tokenURL = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token={}".format(idToken)
+        
+    r = requests.get(tokenURL)
+    rJson = r.json()
+    email = rJson['email'].lower()
+
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != None:
+            cur.execute("SELECT * FROM users WHERE email = '" + email + "';")
+            rows = cur.fetchall()
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
 @app.route('/signup')
 def signup():
     global conn
     firstname = request.args.get('firstname', default='null', type=str)
     lastname = request.args.get('lastname', default='null', type=str)
-    email = request.args.get('email', default='null', type=str)
+    email = request.args.get('email', default='null', type=str).lower()
     password = request.args.get('password', default='null', type=str)
     try:
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
@@ -62,6 +90,46 @@ def signup():
             else:
                 cur.execute("INSERT INTO users(first_name, last_name, email, password, permissions) VALUES(" + firstname + ", " + lastname + ", " + email + ", MD5(" + password + "), 'basic');")
                 cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = MD5(" + password + ");")
+                rows = cur.fetchall()
+                conn.commit()
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
+@app.route('/signupWithExternal')
+def signupWithExternal():
+    global conn
+    idToken = request.args.get('idtoken', default='null', type=str)
+    provider = request.args.get('provider', default='null', type=str)
+
+    # Generating random password 15 characters
+    password = secrets.token_urlsafe(15)
+
+    tokenURL = ""
+    if provider == "GOOGLE":
+        tokenURL = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token={}".format(idToken)
+
+    r = requests.get(tokenURL)
+    rJson = r.json()
+    firstName = rJson['name'].split()[0]
+    lastName = rJson['name'].split()[1]
+    email = rJson['email'].lower()
+
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if firstName != None and lastName != None and email != None and len(password) >= 8 and password != None and email != '':
+            cur.execute("SELECT * FROM users WHERE email = '" + email + "';")
+            rows = cur.fetchall()
+            # User already has an account with that email
+            if len(rows) > 0:
+                rows = (-1,)
+            else:
+                cur.execute("INSERT INTO users(first_name, last_name, email, password, permissions) VALUES('" + firstName + "', '" + lastName + "', '" + email + "', MD5('" + password + "'), 'basic');")
+                cur.execute("SELECT * FROM users WHERE email = '" + email + "' AND password = MD5('" + password + "');")
                 rows = cur.fetchall()
                 conn.commit()
         else:

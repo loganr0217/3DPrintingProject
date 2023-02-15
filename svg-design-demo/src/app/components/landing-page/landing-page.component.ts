@@ -52,6 +52,7 @@ export class LandingPageComponent implements OnInit {
               this.sharedDataService.signedIn = true;
               localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));
               alert("You're now registered and should have recieved a confirmation email in your inbox.");
+              this.nextstage2();
             }
             else if(this.sharedDataService.userInfo.length == 1 && this.sharedDataService.userInfo[0] == -1) {alert("A user with that email already exists.");}
           });;
@@ -59,6 +60,17 @@ export class LandingPageComponent implements OnInit {
         }
     }
     else {alert("Make sure to enter information in each field");}
+  }
+
+  // Focus email signup
+  focusEmailRegister():void {
+    if(this.sharedDataService.signedIn) {this.nextstage2();}
+    else {
+      document.getElementById("requiredEmailField")?.focus();
+      document.getElementById("requiredEmailField")?.blur();
+      document.getElementById("requiredEmailField")?.focus();
+    }
+    
   }
 
   // Starts design process

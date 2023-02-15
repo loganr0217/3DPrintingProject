@@ -4,15 +4,15 @@
     </div>
     <div id="sideText1">
         <h1 class="text1">The art of <br/>stained glass, modernized.</h1>
-        <button class="btn btn-outline-light startDesigning1" (click)="nextstage2()"><b>Start Designing</b></button>
+        <button class="btn btn-outline-light startDesigning1" (click)="focusEmailRegister()"><b>Start Designing</b></button>
         <div id = "news_text">
             <span class="light" [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(this.posts[0].fields.stage1news), 1)"></span>
         </div>
         <form *ngIf="this.sharedDataService.userInfo.length <= 1" [formGroup]="emailForm">
             <div class="form-group mt-2 mb-2">
-                <input type="text" placeholder="Enter Email" formControlName="email" class="form-control inputField" />
+                <input type="text" placeholder="Enter Email" formControlName="email" class="form-control inputField" id="requiredEmailField" />
                 <div style="color: red;" *ngIf="email?.invalid && (email?.touched || email?.dirty)">
-                  <span *ngIf="email?.errors?.['required']">*Email is required</span>
+                  <span *ngIf="email?.errors?.['required']">*Email is required to save your design</span>
                   <span *ngIf="email?.errors?.['email']">*Enter valid email (example@gmail.com)</span>
                 </div>
             </div>
@@ -62,7 +62,7 @@
     <!-- Optional: some overlay text to describe the video -->
     <div id="sideText6">
         <h1 class="text6">Our 3D Printers are standing by.</h1>
-        <button class="btn btn-light startDesigning6" (click)="nextstage2()"><b>Start Designing</b></button>
+        <button class="btn btn-light startDesigning6" (click)="focusEmailRegister()"><b>Start Designing</b></button>
     </div>
 </div>
 
