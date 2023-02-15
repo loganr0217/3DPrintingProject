@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-forgot-pass',
@@ -8,10 +8,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ForgotPassComponent implements OnInit {
 
-  forgotForm!: FormGroup
+  forgotForm!: UntypedFormGroup
   email!: string;
   fakeUrl: string = 'http://localhost:4200/';
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: UntypedFormBuilder) { }
 
   ngOnInit(): void {
     this.forgotForm = this.formBuilder.group({

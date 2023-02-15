@@ -38,7 +38,7 @@ export class SharedDataService {
   finishedSashes:boolean = false;
   userInfo:any;
   selectedTemplateID:number = -1;
-  signedIn:boolean;
+  signedIn:boolean = false;
   selectedTemplateCategory:string;
   chosenPanel:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string};
   templatesAvailable:boolean = false;

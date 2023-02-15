@@ -191,6 +191,11 @@ hr {
     font-weight: 400;
 }
 
+#requiredRegister {
+    display: flex;
+    margin:auto;
+}
+
 .bodyText3 {
     text-align: center;
     color: white;
@@ -223,12 +228,14 @@ form {
     margin: auto;
     margin-top: 5vh;
     border: 1px solid black;
+    margin-bottom: 10vh;
 }
 
 .registerBtn {
     font-family: 'Inter Tight', sans-serif;
     font-weight: 400;
 }
+.registerBtn6 {border: 1px solid black;}
 
 
 .img1, .img2 {

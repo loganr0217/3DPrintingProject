@@ -1,3 +1,29 @@
+<!-- Modal for howTo info -->
+<div class="modal fade" id="discountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title" id="exampleModalLongTitle"><b>Get 20% OFF<br/>Your First Order</b></h1>
+          </div>
+          <div class="modal-body">
+            <h6 class="modal-text">Join now to get the coupon code</h6>
+            <form *ngIf="this.sharedDataService.userInfo.length <= 1" [formGroup]="emailFormModal" class="modal-emailForm">
+              <div class="form-group mt-2 mb-2">
+                  <input type="text" placeholder="Enter Email" formControlName="email" class="form-control inputField" />
+                  <div style="color: red;" *ngIf="emailModal?.invalid && (emailModal?.touched || emailModal?.dirty)">
+                    <span *ngIf="emailModal?.errors?.['required']">*Email is required</span>
+                    <span *ngIf="emailModal?.errors?.['email']">*Enter valid email (example@gmail.com)</span>
+                  </div>
+              </div>
+              <div class="form-group sendButton mt-2 mb-2">
+                <button class="btn btn-dark" (click)="submitEmailForm()"><b>Register</b></button>
+              </div>
+            </form>
+          </div>
+      </div>
+  </div>
+</div>
+
 <div>
   <!-- Laptop Navbar content -->
   <nav class="navbar sticky-top navbar-light navbar-custom" style="height: 65px;" id="mainNavbar">

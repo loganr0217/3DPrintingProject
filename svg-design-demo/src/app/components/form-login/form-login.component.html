@@ -3,11 +3,12 @@
 <!-- main app container -->
     <div class="container">
         <div class="container mt-3 mb-3">
-            <div class="row" style="text-align: center;">
+            <div class="row header" style="text-align: center;">
                 <div style="font-size: x-large;">Welcome</div>
             </div>
             <div class="row pb-3">
                 <div class="md-3">
+                    <asl-google-signin-button type='standard' size='large'></asl-google-signin-button>
                     <form [formGroup]="loginForm">
                         <div class="form-group mt-2 mb-2">
                             <label>Email</label>

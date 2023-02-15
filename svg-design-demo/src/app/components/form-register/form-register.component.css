@@ -1,5 +1,6 @@
 #formRegisterContainer {
     display: flex;
+    flex-direction: column;
 }
 
 .container {
@@ -8,6 +9,10 @@
     padding-right: 2vw;
     padding-top: 2vh;
     
+}
+
+.header {
+    padding-bottom: 2vh;
 }
 
 #carouselContainer {

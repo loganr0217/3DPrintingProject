@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { SVGTemplate } from './components/svgScaler';
 import { SharedDataService } from './services/shared-data.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 
 declare var $:any;
 var pageScroll:number = 0;
@@ -15,17 +16,22 @@ var stickyNav:boolean = true;
 })
 export class AppComponent {
   title = 'svg-design-demo';
-  contactForm!: FormGroup;
+  contactForm!: UntypedFormGroup;
+  emailFormModal!:UntypedFormGroup;
+  modalPopups:number = 0;
+  modalPopupIntervalId:any;
+  
 
   goToFooter():void {
     document.getElementById("footer")?.scrollIntoView({behavior: 'smooth'});
   }
-  constructor(public sharedDataService:SharedDataService, private http:HttpClient, private formBuilder:FormBuilder) { }
+  constructor(public sharedDataService:SharedDataService, private http:HttpClient, private formBuilder:UntypedFormBuilder, private authService:SocialAuthService) { }
 
   userSignout():void {
     if (confirm('Are you sure you want to logout of your account?')) {
       this.sharedDataService.userInfo = [];
       this.sharedDataService.signedIn = false;
+      this.authService.signOut();
       localStorage.clear();
     }
   }
@@ -34,6 +40,47 @@ export class AppComponent {
   getCurrentYear():string {
     let year:Date = new Date();
     return String(year.getFullYear());
+  }
+
+  // Shows modal to user if they're not signed in and they haven't seen it twice
+  showDiscountModal():void {
+    if(this.sharedDataService.signedIn || this.modalPopups >= 2) {clearInterval(this.modalPopupIntervalId);}
+    else {
+      ++this.modalPopups;
+      $('#discountModal').modal('show');
+    }
+  }
+
+  // Email form submission
+  submitEmailForm():void {
+    const headers = { 'content-type': 'application/json'}  
+    const body=JSON.stringify(
+      {
+        'email':this.email?.value
+      });
+      
+    // Making sure each field has data and it's valid
+    if(this.email?.value != "" && this.email?.valid) {
+        let fullMessage:string = "Is this the correct email?\n> " + this.email?.value;
+      
+        if (confirm(fullMessage)) {
+          // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelSetId + "&panelNumber=" + panelNumber + "&panelName='" + panelName + "'&dAttribute='" + dAttribute + "'").subscribe(result => {
+          //   let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+          //   alert(test);
+          //  });
+          this.http.post("https://backend-dot-lightscreendotart.uk.r.appspot.com/submitcontactform", body, {'headers':headers}).subscribe(result => {
+            this.sharedDataService.userInfo = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(","); 
+            if(this.sharedDataService.userInfo.length > 1) {
+              this.sharedDataService.signedIn = true;
+              localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));
+              alert("You're now registered and should have recieved a confirmation email in your inbox.");
+            }
+            else if(this.sharedDataService.userInfo.length == 1 && this.sharedDataService.userInfo[0] == -1) {alert("A user with that email already exists.");}
+          });;
+          this.emailFormModal.reset();
+        }
+    }
+    else {alert("Make sure to enter information in each field");}
   }
 
   // Contact form submission
@@ -78,12 +125,25 @@ export class AppComponent {
   }
 
   // Convenience getters for easy access to form fields
+  get emailModal() {return this.emailFormModal.get('email');}
+
+  // Convenience getters for easy access to form fields
   get email() {return this.contactForm.get('email');}
   get name() {return this.contactForm.get('name');}
   get number() {return this.contactForm.get('number');}
   get message() {return this.contactForm.get('message');}
 
   ngOnInit() {
+    // Sets up popping modal for 20 seconds of not signing in
+    this.modalPopups = 0;
+    this.modalPopupIntervalId = setInterval(() => {
+      if(this.sharedDataService.signedIn || this.modalPopups >= 2) {clearInterval(this.modalPopupIntervalId);}
+      else {
+        ++this.modalPopups;
+        $('#discountModal').modal('show');
+      }
+    }, 20000);
+  
     // Closes navbar on click outside
     $(function() {
       $(document).click(function (event:any) {
@@ -116,6 +176,11 @@ export class AppComponent {
       email: ['', [Validators.required, Validators.email]],
       number: ['', Validators.required],
       message: ['', Validators.required]
+    });
+
+    // Getting email modal form set up
+    this.emailFormModal = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]]
     });
     
         // Getting data and populating user info
