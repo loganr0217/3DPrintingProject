@@ -5,7 +5,6 @@ import { ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { Router } from '@angular/router';
-import { SocialAuthService, SocialUser, GoogleLoginProvider } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'form-register',
@@ -13,8 +12,6 @@ import { SocialAuthService, SocialUser, GoogleLoginProvider } from '@abacritt/an
   styleUrls: ['./form-register.component.css']
 })
 export class FormRegisterComponent implements OnInit {
-  user:SocialUser;
-  loggedIn:boolean;
   accessToken:string;
   registerForm!: UntypedFormGroup;
   passW!: string;
@@ -26,36 +23,11 @@ export class FormRegisterComponent implements OnInit {
   isCshow!: boolean;
   fakeUrl: string = 'http://localhost:4200/';
   constructor(private formBuilder:UntypedFormBuilder, private http:HttpClient, public sharedDataService:SharedDataService, 
-    private router:Router, private authService:SocialAuthService) {
+    private router:Router) {
     }
 
 
   ngOnInit(): void {
-      this.authService.authState.subscribe((user: SocialUser) => {
-        this.user = user;
-        this.loggedIn = (user!=null);
-        if(this.loggedIn) {
-          this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/signupWithExternal?idtoken="+this.user.idToken+"&provider="+this.user.provider).subscribe(result => {
-            this.sharedDataService.userInfo = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(","); 
-            if(this.sharedDataService.userInfo.length > 1) {
-              this.sharedDataService.signedIn = true;
-              if((<HTMLInputElement>document.getElementById("rememberMeBox"))?.checked) {localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));}
-              this.router.navigate(['/']);
-            }
-            else if(this.sharedDataService.userInfo.length == 1 && this.sharedDataService.userInfo[0] == -1) {
-              // alert("A user with that email already exists.");
-              this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/loginWithExternal?idtoken="+this.user.idToken+"&provider="+this.user.provider).subscribe(result => {
-                this.sharedDataService.userInfo = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(","); 
-                if(this.sharedDataService.userInfo.length > 1) {
-                  this.sharedDataService.signedIn = true;
-                  if((<HTMLInputElement>document.getElementById("rememberMeBox"))?.checked) {localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));}
-                  this.router.navigate(['/']);
-                } 
-              });
-            } 
-          });
-        }
-      });
     this.registerForm = this.formBuilder.group({
       emailId: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(24)]],
