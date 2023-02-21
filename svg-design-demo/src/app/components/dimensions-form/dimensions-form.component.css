@@ -4,6 +4,7 @@
 
 #dimensionsFormContainer {
     max-height: 100%;
+    width:45vw;
 }
 
 .fractionDropdown {
@@ -22,7 +23,7 @@
 }
 
 #widthInput, #heightInput {
-    width: 4vw;
+    width:4vw;
 }
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
