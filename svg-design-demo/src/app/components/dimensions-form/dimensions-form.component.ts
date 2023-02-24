@@ -406,6 +406,7 @@ getPanelHeight(height:number):number {
       document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;");
       $('#dimensionsFormModal').modal('hide');
       document.getElementById("templateCategoryStage")?.scrollIntoView({behavior: 'smooth'});
+      // this.sharedDataService.continueSavedOrder = true;
     }
     // Doesn't meet panel width/height requirements
     else {

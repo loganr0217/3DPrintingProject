@@ -5,6 +5,8 @@ import { ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { Router } from '@angular/router';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { FacebookLoginProvider } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'form-register',
@@ -23,7 +25,7 @@ export class FormRegisterComponent implements OnInit {
   isCshow!: boolean;
   fakeUrl: string = 'http://localhost:4200/';
   constructor(private formBuilder:UntypedFormBuilder, private http:HttpClient, public sharedDataService:SharedDataService, 
-    private router:Router) {
+    private router:Router, private authService:SocialAuthService) {
     }
 
 
@@ -52,6 +54,10 @@ export class FormRegisterComponent implements OnInit {
         this.isPass = true;
       }
     }
+  }
+
+  signInWithFB(): void {
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
   }
 
   // convenience getter for easy access to form fields

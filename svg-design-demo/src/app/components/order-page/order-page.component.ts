@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { HttpClient } from '@angular/common/http';
 import { SVGTemplate } from '../svgScaler';
+import { DividerWindow } from '../svgScaler';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-page',
@@ -13,7 +15,7 @@ export class OrderPageComponent implements OnInit {
   adminFilter:boolean = false;
   order:any;
 
-  constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
+  constructor(public sharedDataService:SharedDataService, private http:HttpClient, private router:Router) { }
 
   ngOnInit(): void {
     this.refreshOrders();
@@ -46,6 +48,18 @@ export class OrderPageComponent implements OnInit {
     this.sharedDataService.selectedTemplateID = Number(Number(order[9]));
     this.sharedDataService.bottomSashWidth = this.convertNumber(Number(order[16]), this.sharedDataService.unitChoice);
     this.sharedDataService.bottomSashHeight = this.convertNumber(Number(order[17]), this.sharedDataService.unitChoice);
+    if(this.sharedDataService.bottomSashWidth > 0 && this.sharedDataService.bottomSashHeight > 0) {this.sharedDataService.selectedWindowShape = "2xhung2to4";}
+    else {this.sharedDataService.selectedWindowShape = "vertical2to4";}
+    this.sharedDataService.continueSavedOrder = true;
+
+    // Setting up divider window with this info
+    let newDividerWindow:DividerWindow;
+    newDividerWindow = new DividerWindow(this.sharedDataService.windowWidth >= 100 ? this.sharedDataService.windowWidth : undefined, this.sharedDataService.windowHeight >= 100 ? this.sharedDataService.windowHeight : undefined, this.sharedDataService.dividerNumbers[0], this.sharedDataService.dividerNumbers[1], this.sharedDataService.dividerWidth, 
+    this.sharedDataService.selectedDividerType, 
+    this.sharedDataService.selectedWindowShape.substring(0, 2) == "2x" ? true : false, 
+    this.sharedDataService.bottomSashWidth, this.sharedDataService.bottomSashHeight);
+    this.sharedDataService.dividerWindow = newDividerWindow;
+
     
     let templateIndex:number = this.sharedDataService.templateData.findIndex(function(item, i){
       return Number(item.id) == Number(order[9])
@@ -73,6 +87,27 @@ export class OrderPageComponent implements OnInit {
     }
     
     
+  }
+
+  // Continue saved design
+  continueSavedDesign():void {
+    this.router.navigate(['/'])
+    // Updating template dimensions
+    document.getElementById("windowPerimeter")?.setAttribute("d", this.sharedDataService.dividerWindow.dString);
+    document.getElementById("windowPerimeter")?.setAttribute("style", "fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:.2;");
+    let viewboxValue:string = this.sharedDataService.dividerWindow.getViewbox();
+    document.getElementById("dividerTemplate")?.setAttribute("viewBox", viewboxValue);
+
+    let paneNum:number = 0;
+    for(let row:number = 0; row < this.sharedDataService.dividerWindow.windowPanes.length; ++row) {
+      for(let col:number = 0; col < this.sharedDataService.dividerWindow.windowPanes[row].length; ++col) {
+        // Updating each individual pane
+        document.getElementById("dividerPane"+paneNum)?.setAttribute("d", this.sharedDataService.dividerWindow.windowPanes[row][col].dString);
+        document.getElementById("dividerPane"+paneNum)?.setAttribute("style", "fill-rule:evenodd;stroke:#000000;stroke-width:.2;");
+        ++paneNum;
+      }
+      
+    }
   }
 
   // Creates the window previews

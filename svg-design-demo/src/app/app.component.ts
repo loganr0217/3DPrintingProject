@@ -46,15 +46,6 @@ export class AppComponent {
     return String(year.getFullYear());
   }
 
-  // Shows modal to user if they're not signed in and they haven't seen it twice
-  showDiscountModal():void {
-    if(this.sharedDataService.signedIn || this.modalPopups >= 2) {clearInterval(this.modalPopupIntervalId);}
-    else {
-      ++this.modalPopups;
-      $('#discountModal').modal('show');
-    }
-  }
-
   // Email form submission
   submitEmailForm():void {
     const headers = { 'content-type': 'application/json'}  
@@ -141,12 +132,12 @@ export class AppComponent {
     // Sets up popping modal for 20 seconds of not signing in
     this.modalPopups = 0;
     this.modalPopupIntervalId = setInterval(() => {
-      if(this.sharedDataService.signedIn || this.modalPopups >= 2) {clearInterval(this.modalPopupIntervalId);}
+      if(this.sharedDataService.signedIn || this.modalPopups >= 1) {clearInterval(this.modalPopupIntervalId);}
       else {
         ++this.modalPopups;
         $('#discountModal').modal('show');
       }
-    }, 20000);
+    }, 40000);
   
     // Closes navbar on click outside
     $(function() {
@@ -174,34 +165,6 @@ export class AppComponent {
       }
     });
 
-    this.authService.authState.subscribe((user: SocialUser) => {
-      this.user = user;
-      this.loggedIn = (user!=null);
-      if(this.loggedIn) {
-        this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/signupWithExternal?idtoken="+this.user.idToken+"&provider="+this.user.provider).subscribe(result => {
-          this.sharedDataService.userInfo = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(","); 
-          if(this.sharedDataService.userInfo.length > 1) {
-            this.sharedDataService.signedIn = true;
-            $('#discountModal').modal('hide');
-            if((<HTMLInputElement>document.getElementById("rememberMeBox"))?.checked) {localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));}
-            this.router.navigate(['/']);
-          }
-          else if(this.sharedDataService.userInfo.length == 1 && this.sharedDataService.userInfo[0] == -1) {
-            // alert("A user with that email already exists.");
-            this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/loginWithExternal?idtoken="+this.user.idToken+"&provider="+this.user.provider).subscribe(result => {
-              this.sharedDataService.userInfo = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(","); 
-              if(this.sharedDataService.userInfo.length > 1) {
-                this.sharedDataService.signedIn = true;
-                $('#discountModal').modal('hide');
-                if((<HTMLInputElement>document.getElementById("rememberMeBox"))?.checked) {localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));}
-                this.router.navigate(['/']);
-              } 
-            });
-          } 
-        });
-      }
-    });
-
     // Getting contact form set up
     this.contactForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -215,40 +178,74 @@ export class AppComponent {
       email: ['', [Validators.required, Validators.email]]
     });
     
-        // Getting data and populating user info
-        const data = JSON.parse(localStorage.getItem('userInfo') || '{}');
-        this.sharedDataService.userInfo = [];
-        for(let i:number = 0; i < data.length; ++i) {
-          this.sharedDataService.userInfo.push(data[i]);
-        }
-    
-        // User is not signed in
-        if(this.sharedDataService.userInfo.length <= 1) {this.sharedDataService.signedIn = false;} 
-        // User is signed in
-        else {this.sharedDataService.signedIn = true;}
-    
-        // Getting panelsets from database
-        this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/panels").subscribe(result => {
-          let panelData = JSON.parse(JSON.stringify(result));
-          
-          if(panelData.length > 1) {
-            // console.log(panelData);
-            this.sharedDataService.svgTemplateData = [];
-            for(let i:number = 0; i < 100; ++i) {this.sharedDataService.svgTemplateData.push([]);}
-            for(let i:number = 0; i < panelData.length; ++i) {
-              let tmpSVG:SVGTemplate = new SVGTemplate(panelData[i][4]);
-              let tmpD:string = (Math.abs(tmpSVG.width-320) <= .5 && Math.abs(tmpSVG.height-320) <= .5) ? tmpSVG.getLineScaledD((300-6)/320, (300-6)/320) : tmpSVG.getOptimizedD();
-              let tmp:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string} = {id:panelData[i][1], name:panelData[i][3], panelNumber:panelData[i][2], d:tmpD, panelAutofillString:panelData[i][5]};
-              this.sharedDataService.svgTemplateData[panelData[i][1]].push(tmp);
+    // Getting data and populating user info
+    const data = JSON.parse(localStorage.getItem('userInfo') || '{}');
+    this.sharedDataService.userInfo = [];
+    for(let i:number = 0; i < data.length; ++i) {
+      this.sharedDataService.userInfo.push(data[i]);
+    }
+
+    // User is not signed in
+    if(this.sharedDataService.userInfo.length <= 1) {this.sharedDataService.signedIn = false;} 
+    // User is signed in
+    else {this.sharedDataService.signedIn = true;}
+
+    // Setting up facebook and google signin
+    if(!this.sharedDataService.signedIn) {
+      this.authService.authState.subscribe((user: SocialUser) => {
+        this.user = user;
+        this.loggedIn = (user!=null);
+        if(this.loggedIn) {
+          let idToken:string = "";
+          if(this.user.provider == "GOOGLE") {idToken = this.user.idToken;}
+          if(this.user.provider == "FACEBOOK") {idToken = this.user.authToken;}
+          this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/signupWithExternal?idtoken="+idToken+"&provider="+this.user.provider+"&userid="+this.user.id).subscribe(result => {
+            this.sharedDataService.userInfo = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(","); 
+            if(this.sharedDataService.userInfo.length > 1) {
+              this.sharedDataService.signedIn = true;
+              $('#discountModal').modal('hide');
+              if((<HTMLInputElement>document.getElementById("rememberMeBox"))?.checked) {localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));}
+              this.router.navigate(['/']);
             }
-          }
-          else {alert("error"); this.sharedDataService.svgTemplateData = [];}
-          while(this.sharedDataService.svgTemplateData[this.sharedDataService.svgTemplateData.length-1].length == 0) {
-            this.sharedDataService.svgTemplateData.pop();
-          }
-          // console.log(this.loginForm.value);
-          // console.log(this.sharedDataService.userInfo);
-        });
+            else if(this.sharedDataService.userInfo.length == 1 && this.sharedDataService.userInfo[0] == -1) {
+              // alert("A user with that email already exists.");
+              this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/loginWithExternal?idtoken="+idToken+"&provider="+this.user.provider+"&userid="+this.user.id).subscribe(result => {
+                this.sharedDataService.userInfo = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(","); 
+                if(this.sharedDataService.userInfo.length > 1) {
+                  this.sharedDataService.signedIn = true;
+                  $('#discountModal').modal('hide');
+                  if((<HTMLInputElement>document.getElementById("rememberMeBox"))?.checked) {localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));}
+                  this.router.navigate(['/']);
+                } 
+              });
+            } 
+          });
+        }
+      });
+    }
+
+    // Getting panelsets from database
+    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/panels").subscribe(result => {
+      let panelData = JSON.parse(JSON.stringify(result));
+      
+      if(panelData.length > 1) {
+        // console.log(panelData);
+        this.sharedDataService.svgTemplateData = [];
+        for(let i:number = 0; i < 100; ++i) {this.sharedDataService.svgTemplateData.push([]);}
+        for(let i:number = 0; i < panelData.length; ++i) {
+          let tmpSVG:SVGTemplate = new SVGTemplate(panelData[i][4]);
+          let tmpD:string = (Math.abs(tmpSVG.width-320) <= .5 && Math.abs(tmpSVG.height-320) <= .5) ? tmpSVG.getLineScaledD((300-6)/320, (300-6)/320) : tmpSVG.getOptimizedD();
+          let tmp:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string} = {id:panelData[i][1], name:panelData[i][3], panelNumber:panelData[i][2], d:tmpD, panelAutofillString:panelData[i][5]};
+          this.sharedDataService.svgTemplateData[panelData[i][1]].push(tmp);
+        }
+      }
+      else {alert("error"); this.sharedDataService.svgTemplateData = [];}
+      while(this.sharedDataService.svgTemplateData[this.sharedDataService.svgTemplateData.length-1].length == 0) {
+        this.sharedDataService.svgTemplateData.pop();
+      }
+      // console.log(this.loginForm.value);
+      // console.log(this.sharedDataService.userInfo);
+    });
 
         // Getting templates from database
         this.sharedDataService.templateData = []

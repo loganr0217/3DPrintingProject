@@ -9,3 +9,9 @@
         display: none;
     }
 }
+
+#savedOrderLandingPage {
+    width: 50vw;
+    margin-left: 2vw;
+    margin-right: 2vw;
+}

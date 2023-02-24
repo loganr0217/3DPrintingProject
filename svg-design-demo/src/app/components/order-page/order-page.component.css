@@ -14,11 +14,18 @@
     border:1px solid black;
 }
 
-#pastOrderPreview {
+#previewAndContinue {
     flex:2;
+    display: flex;
+    flex-direction: column;
+}
+.continueButton {
+    width: 15vw;
+    margin: auto;
+    margin-top: 2vh;
 }
 
-.btn {
+.btnReg {
     margin-right: 1vw;
 }
 #orderHeading, #orderListAndButton {
@@ -29,6 +36,7 @@
     margin-bottom: 4vh;
     border:1px solid black;
 } */
+
 
 
 #adminFilterInput {

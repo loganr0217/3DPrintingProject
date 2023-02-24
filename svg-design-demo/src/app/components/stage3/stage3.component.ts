@@ -158,5 +158,10 @@ export class Stage3Component implements OnInit {
     document.getElementById("stage4")?.scrollIntoView({behavior: 'smooth'});
   }
 
+  getDimensionsFormVisibility():string {
+    if(this.sharedDataService.unitChoice == "") {return "visibility: hidden;";}
+    else {return "";}
+  }
+
   
 }

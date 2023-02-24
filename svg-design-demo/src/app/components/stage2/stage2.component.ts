@@ -4,6 +4,8 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
 import { DividerWindow } from '../svgScaler';
 import { Entry } from 'contentful';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Form, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-stage2',
@@ -13,20 +15,62 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class Stage2Component implements OnInit {
   posts:Entry<any>[] = [];
   howToPosts:Entry<any>[] = [];
-  constructor(private sharedDataService:SharedDataService, public contentfulService:ContentfulService,
-    private sanitizer:DomSanitizer) { }
+  emailForm!:UntypedFormGroup;
+
+  constructor(public sharedDataService:SharedDataService, public contentfulService:ContentfulService,
+    private sanitizer:DomSanitizer, private http:HttpClient, private formBuilder:UntypedFormBuilder) { }
   
   // Stage 2 attributes
   dividerType:string;
   windowShape:string;
   windowShapes:string[];
 
+  // Convenience getters for easy access to form fields
+  get email() {return this.emailForm.get('email');}
+
   ngOnInit(): void {
+    // Getting contact form set up
+    this.emailForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
+
     this.contentfulService.getPosts('stage2').then(posts => this.posts = posts);
     this.contentfulService.getPostById('4ARLsx1buVa21eJfdJgm3T', 'howTo').then(post => this.howToPosts.push(post));
     this.dividerType = this.sharedDataService.selectedDividerType;
     this.windowShape = this.sharedDataService.selectedWindowShape;
     this.windowShapes = this.sharedDataService.windowShapes;
+  }
+
+  // Email form submission
+  submitEmailForm():void {
+    const headers = { 'content-type': 'application/json'}  
+    const body=JSON.stringify(
+      {
+        'email':this.email?.value
+      });
+      
+    // Making sure each field has data and it's valid
+    if(this.email?.value != "" && this.email?.valid) {
+        let fullMessage:string = "Is this the correct email?\n> " + this.email?.value;
+      
+        if (confirm(fullMessage)) {
+          // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelSetId + "&panelNumber=" + panelNumber + "&panelName='" + panelName + "'&dAttribute='" + dAttribute + "'").subscribe(result => {
+          //   let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+          //   alert(test);
+          //  });
+          this.http.post("https://backend-dot-lightscreendotart.uk.r.appspot.com/submitcontactform", body, {'headers':headers}).subscribe(result => {
+            this.sharedDataService.userInfo = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(","); 
+            if(this.sharedDataService.userInfo.length > 1) {
+              this.sharedDataService.signedIn = true;
+              localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));
+              alert("You're now registered and should have recieved a confirmation email in your inbox.");
+            }
+            else if(this.sharedDataService.userInfo.length == 1 && this.sharedDataService.userInfo[0] == -1) {alert("A user with that email already exists.");}
+          });;
+          this.emailForm.reset();
+        }
+    }
+    else {alert("Make sure to enter information in each field");}
   }
 
 
@@ -47,6 +91,21 @@ export class Stage2Component implements OnInit {
     for(let i = 0; i < this.windowShapes.length; ++i) {
         document.getElementById("windowShapeImage_"+this.windowShapes[i])?.setAttribute("src", "assets/img/windowButtons2/"+this.windowShapes[i]+this.dividerType+".svg");
         document.getElementById("windowShapeImage_"+this.windowShapes[i])?.setAttribute("style", "visibility:visible;");
+    }
+  }
+
+  getWindowShapeSrc(windowShape:string):string {
+    return "assets/img/windowButtons2/"+windowShape+this.sharedDataService.selectedDividerType+".svg";
+  }
+
+  getIconHighlight(iconType:string, iconName:string):string {
+    if(iconType == "windowShape") {
+      if(this.sharedDataService.selectedWindowShape == iconName) {return "filter: invert(25%);";}
+      else {return "";}
+    }
+    else {
+      if(this.sharedDataService.selectedDividerType == iconName) {return "filter: invert(25%);";}
+      else {return "";}
     }
   }
 

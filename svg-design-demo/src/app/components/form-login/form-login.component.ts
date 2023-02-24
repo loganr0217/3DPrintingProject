@@ -5,6 +5,8 @@ import { ElementRef } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { Router } from '@angular/router';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { FacebookLoginProvider } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'form-login',
@@ -20,7 +22,7 @@ export class FormLoginComponent implements OnInit {
   pass!: string;
   fakeUrl: string = 'http://localhost:4200/';
   constructor(private formBuilder:UntypedFormBuilder, private http:HttpClient, public sharedDataService:SharedDataService, 
-    private router:Router) { }
+    private router:Router, private authService:SocialAuthService) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -38,6 +40,10 @@ export class FormLoginComponent implements OnInit {
 
   get password() {
     return this.loginForm.get('password');
+  }
+
+  signInWithFB(): void {
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
   }
 
   onClickShowPass() {
