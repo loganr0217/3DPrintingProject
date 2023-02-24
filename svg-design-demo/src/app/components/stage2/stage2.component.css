@@ -1,10 +1,24 @@
 #stage2ACon, #stage2BCon {
     display: flex;
-    padding-top: 75px;
 }
 
+#emailStep0 {
+    padding-top: 10px;
+    width: 40vw;
+    margin-left: 2vw;
+    margin-right: 2vw;
+}
 /* Text */
-
+.emailForm {
+    display: flex;
+}
+.emailInput {
+    flex: 2;
+}
+.registerBtn {
+    margin-left: 1vw;
+    flex: 1;
+}
 
 /* Sections */
 #section1, #section1b {

@@ -9,6 +9,8 @@
             <div class="row pb-3">
                 <div class="md-3">
                     <asl-google-signin-button type='standard' size='large'></asl-google-signin-button>
+                    <button class="btn btn-med btn-primary fbButton" (click)="signInWithFB()"><i class="fa fa-facebook"></i>  Sign in with Facebook</button>
+                    <!-- <input type="button" (click)="signInWithFB()" class="btn btn-med btn-outline-dark" value="Sign in with Facebook" /> -->
                     <form [formGroup]="loginForm">
                         <div class="form-group mt-2 mb-2">
                             <label>Email</label>

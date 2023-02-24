@@ -15,15 +15,15 @@ export class SharedDataService {
   currentTemplateNumber:number = -1;
   currentWindowNumber:number;
   maxPanes:number = 100;
-  selectedDividerType:string = "plain";
-  selectedWindowShape:string = "square2to2";
+  selectedDividerType:string = "nodiv";
+  selectedWindowShape:string = "unselected";
   dividerNumbers:number[] = [0, 0]; // [horizontalDividers, verticalDividers]
   dividerWidth:number = 0;
   windowWidth:number = 0;
   windowHeight:number = 0;
   bottomSashWidth:number = -1;
   bottomSashHeight:number = -1;
-  unitChoice:string = "mm";
+  unitChoice:string = "";
   panelLayout:SVGTemplate[][];
   panelLayoutDims:number[] = [0, 0];
   topPanelLayoutDims:number[] = [0, 0];
@@ -50,6 +50,8 @@ export class SharedDataService {
   bottomSashWidthFractionNum:number;
   bottomSashHeightFractionNum:number;
   dividerWidthFractionNum:number;
+
+  continueSavedOrder:boolean = false;
 
   // Array holding all window shapes offered
   windowShapes:string[] = [

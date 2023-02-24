@@ -60,7 +60,7 @@
               <a class="dropdown-item" (click)="changeUnits('mm')">mm</a>
             </div>
         </div>
-        <div id="dividerDetailText" style="visibility: hidden;">
+        <div id="dividerDetailText" [attr.style]="this.getDimensionsFormVisibility()">
             <span [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(post.fields.stage3body), 2)"></span>
             <app-dimensions-form></app-dimensions-form>
         </div>

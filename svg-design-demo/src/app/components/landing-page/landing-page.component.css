@@ -90,7 +90,7 @@
 
     /* Landing page 2 */
     #landingImg2 {
-        max-width: 67vw;
+        width: 60vw;
         max-height: 90vh;
     }
     #sideText2 {

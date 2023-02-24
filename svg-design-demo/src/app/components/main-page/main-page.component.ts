@@ -16,6 +16,34 @@ export class MainPageComponent implements OnInit {
     // }) 
   }
 
+  getStageVisibility(stage:string) {
+    let finalResult:string = "";
+    switch(stage) {
+      case("landingPage"): {
+        if(this.sharedDataService.continueSavedOrder) {finalResult = "visibility: hidden; display: none;";}
+        break;
+      }
+      case("stage4"):
+      case("stage5"):
+      case("checkout"): {
+        if(this.sharedDataService.selectedTemplateID == -1) {finalResult = "visibility: hidden; display: none;";}
+        break;
+      }
+
+      // case("stage2"):
+      // case("stage3"): {
+      //   if(this.sharedDataService.selectedWindowShape == "unselected" || this.sharedDataService.continueSavedOrder) {finalResult = "visibility: hidden; display: none;";}
+      //   break;
+      // }
+      // case("templateCategory"): {
+      //   if(this.sharedDataService.continueSavedOrder) {finalResult = "visibility: hidden; display: none;";}
+      //   break;
+      // }
+      
+    }
+    return finalResult;
+  }
+
   ngOnInit(): void {
   }
 

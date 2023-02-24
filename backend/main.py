@@ -49,11 +49,14 @@ def loginWithExternal():
     global conn
     idToken = request.args.get('idtoken', default='null', type=str)
     provider = request.args.get('provider', default='null', type=str)
+    userID = request.args.get('userid', default='null', type=str)
 
     tokenURL = ""
     if provider == "GOOGLE":
         tokenURL = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token={}".format(idToken)
-        
+    if provider == "FACEBOOK":
+        tokenURL = "https://graph.facebook.com/{}?fields=email,name&access_token={}".format(userID, idToken)
+    
     r = requests.get(tokenURL)
     rJson = r.json()
     email = rJson['email'].lower()
@@ -104,6 +107,7 @@ def signupWithExternal():
     global conn
     idToken = request.args.get('idtoken', default='null', type=str)
     provider = request.args.get('provider', default='null', type=str)
+    userID = request.args.get('userid', default='null', type=str)
 
     # Generating random password 15 characters
     password = secrets.token_urlsafe(15)
@@ -111,6 +115,8 @@ def signupWithExternal():
     tokenURL = ""
     if provider == "GOOGLE":
         tokenURL = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token={}".format(idToken)
+    if provider == "FACEBOOK":
+        tokenURL = "https://graph.facebook.com/{}?fields=email,name&access_token={}".format(userID, idToken)
 
     r = requests.get(tokenURL)
     rJson = r.json()
@@ -651,7 +657,7 @@ def getUsers():
     try:
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
-        cur.execute("SELECT id,first_name,last_name,email,permissions FROM users;")
+        cur.execute("SELECT id,first_name,last_name,email,permissions,created_at FROM users;")
         rows = cur.fetchall()
         return jsonify(rows)
     except Exception as e:

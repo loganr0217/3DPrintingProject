@@ -13,7 +13,7 @@ export class DividerWindowComponent implements OnInit {
   selectedDividerPaneWidth:number;
   selectedDividerPaneHeight:number;
 
-  constructor(private sharedDataService:SharedDataService) { }
+  constructor(public sharedDataService:SharedDataService) { }
 
   ngOnInit(): void {
     // Starts selectedDividerPane at 0
@@ -109,7 +109,6 @@ export class DividerWindowComponent implements OnInit {
     
     // Changing width/height if able to 
     if(1) {
-
       // Values for the remaining unadjusted panes
       const remainingPaneOriginalWidth:number = remainingWidth/numberHorizontalUnadjusted;
       const remainingPaneNewWidth:number = (remainingWidth-(newWidth-originalWidth))/numberHorizontalUnadjusted;
@@ -204,6 +203,13 @@ export class DividerWindowComponent implements OnInit {
     }
     return paneId >= (this.sharedDataService.dividerWindow.numberVerticalPanes*this.sharedDataService.dividerWindow.numberHorizontalPanes);
     
+  }
+
+  getDividerWindowPaneD(paneID:number):string {
+    let row:number = Math.floor(paneID / this.sharedDataService.dividerWindow.windowPanes.length);
+    let col:number = paneID % this.sharedDataService.dividerWindow.windowPanes[row].length;
+    console.log(this.sharedDataService.dividerWindow.windowPanes[row]);
+    return this.sharedDataService.dividerWindow.windowPanes[row][col].dString;
   }
 
 }
