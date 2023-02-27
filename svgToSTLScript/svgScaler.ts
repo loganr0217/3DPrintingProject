@@ -1212,7 +1212,7 @@ export class SVGTemplate {
         for(let i:number = 0; i < this.subShapes.length; ++i) {
             let test:Polygon = new Polygon(this.subShapes[i].lineScale(scaleX, scaleY));
             // scaledD += test.getScalablePath() + " ";
-            if(i != this.outerEdgeIndex) {scaledD += test.goodOutset(1.25) + " ";} // 1.75 good (3-1.75 = 1.25)
+            if(i != this.outerEdgeIndex) {scaledD += test.goodOutset(1.5) + " ";} // 1.75 good (3-1.75 = 1.25)
         }
         return scaledD.trim();
     }
