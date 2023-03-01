@@ -145,7 +145,7 @@ def signupWithExternal():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
-@app.route('/panel', methods = ['POST'])
+@app.route('/addpanel', methods = ['POST'])
 def addPanel():
     global conn
     data = request.get_json()
