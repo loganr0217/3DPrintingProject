@@ -30,6 +30,20 @@ html, body {
     overscroll-behavior-x: none;
 }
 
+.lp3text > p {
+    text-align: center;
+    color: white;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 600;
+}
+
+.lp3bodyText > p {
+    text-align: center;
+    color: white;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 400;
+}
+
 @media (max-width: 575.98px) {
     .HideOnMobile {
         display: initial;
@@ -40,6 +54,10 @@ html, body {
     }
 
     p, li {font-size: 5vw;}
+
+    .lp3text > p {font-size: 12vw;}
+
+    .lp3bodyText > p {font-size: 8vw;}
 
     .light > p {font-size: 5vw;}
 }
@@ -52,6 +70,10 @@ html, body {
     .ShowOnMobile {
         display: none;
     }
+
+    .lp3text > p {font-size: 4vw;}
+
+    .lp3bodyText > p {font-size: 3.2vw;}
 
     p, li {font-size: 1.4vw;}
 
