@@ -26,7 +26,7 @@ export class LandingPageComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]]
     });
 
-    this.contentfulService.getPosts('stage1').then(posts => this.posts = posts);
+    this.contentfulService.getPosts('landingPage').then(posts => this.posts = posts);
   }
 
   // Email form submission

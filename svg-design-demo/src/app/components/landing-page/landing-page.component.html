@@ -3,10 +3,10 @@
         <img class="img1" src="assets/img/landingPageImg1.jpg" alt="First slide"/>
     </div>
     <div id="sideText1">
-        <h1 class="text1">The art of <br/>stained glass, modernized.</h1>
+        <h1 class="text1">{{this.posts[0].fields.lp1header}}</h1>
         <button class="btn btn-outline-light startDesigning1" (click)="focusEmailRegister()"><b>Start Designing</b></button>
         <div id = "news_text">
-            <span class="light" [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(this.posts[0].fields.stage1news), 1)"></span>
+            <span class="light" [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(this.posts[0].fields.lp1newsText), 1)"></span>
         </div>
         <form *ngIf="this.sharedDataService.userInfo.length <= 1" [formGroup]="emailForm">
             <div class="form-group mt-2 mb-2">
@@ -25,11 +25,9 @@
 
 <div id="landingPage2" class="landingPage">
     <div id="sideText2">
-        <h1 class="text2">Custom, <br/>beautiful,<br/>functional,<br/>1/2 the cost...</h1>
+        <h1 class="text2">{{this.posts[0].fields.lp2header}}</h1>
         <hr class="hr-dark" />
-        <p class="bodyText2">... or less</p>
-        <p class="bodyText2">At LightScreen.art we apply technology to deliver the look of custom stained glass at a fraction of the price. 
-            Made from shatterproof acrylic in rugged 3D printed frames, lightscreens are a different way of doing things.</p>
+        <p class="bodyText2" [innerHTML]="this.contentfulService.markdownToHtml(this.posts[0].fields.lp2body)"></p>
     </div>
     <div id="landingImg2">
         <iframe width="100%" height="100%" src="https://www.youtube.com/embed/BUus97kuJr4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -39,9 +37,9 @@
 
 <div id="landingPage3" class="landingPage">
     <div id="sideText3">
-        <h1 class="text3">Lightscreens aren't <br/>for everyone.</h1>
+        <h1 class="text3 lp3text" [innerHTML]="this.contentfulService.markdownToHtml(this.posts[0].fields.lp3header)"></h1>
         <hr class="hr-light" />
-        <h3 class="bodyText3">We are passionate <br/>about serving those who <br/>demand something <b><u><i>beyond the ordinary</i></u></b>.</h3>
+        <h3 class="bodyText3 lp3bodyText" [innerHTML]="this.contentfulService.markdownToHtml(this.posts[0].fields.lp3body)"></h3>
     </div>
 </div>
 
