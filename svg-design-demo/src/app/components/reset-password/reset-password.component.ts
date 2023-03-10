@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reset-password',
@@ -15,7 +17,7 @@ export class ResetPasswordComponent implements OnInit {
   newPw!: string;
   confirmPw!: string;
   fakeUrl: string = 'http://localhost:4200/';
-  constructor(private formBuilder: UntypedFormBuilder) { }
+  constructor(private formBuilder: UntypedFormBuilder, private http:HttpClient, private router:Router) { }
 
   ngOnInit(): void {
     this.resetForm = this.formBuilder.group({
@@ -57,8 +59,17 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   onSubmit() {
+    let paramString = window.location.href.split('?')[1];
+    let queryString = new URLSearchParams(paramString);
+
+    let resetToken:string = queryString.get('resettoken')!;
+    let email:string = queryString.get('email')!;
+
     if(this.confirmPw === this.newPw) {
-      window.location.href = this.fakeUrl + 'login';;
+      // Resetting password
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/resetpassword?email="+email+"&resettoken="+resetToken+"&password="+String(this.newPassword?.value)).subscribe(result => {
+        this.router.navigate(['/']);
+      });
     }else {
       this.resetForm.setErrors({'invalid': true});
     }

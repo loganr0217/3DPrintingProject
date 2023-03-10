@@ -257,7 +257,7 @@ export class TemplateIconComponent implements OnInit {
     }
     this.sharedDataService.selectedTemplateID = temp.id;
     if(this.isColorPage()) {
-      for(const tempCategory of ["Artist Inspired", "Interests", "Garden", "Classics"]) {
+      for(const tempCategory of ["Artist Inspired", "Interests", "Garden", "Classics", "Sacred"]) {
         if(temp.category != undefined && temp.category.includes(tempCategory)) {(<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))!.checked = true;}
         else {(<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))!.checked = false;}
       }

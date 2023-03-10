@@ -486,7 +486,7 @@ export class ColorPageComponent implements OnInit {
     const templateId:number = this.sharedDataService.selectedTemplateID;
     let templateCategories:string = "";
     let templateCategoriesFormatted:string = "";
-    for(const tempCategory of ["Artist Inspired", "Interests", "Garden", "Classics"]) {
+    for(const tempCategory of ["Artist Inspired", "Interests", "Garden", "Classics", "Sacred"]) {
       if((<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))?.checked) {
         templateCategories += tempCategory + ";";
         templateCategoriesFormatted += "\n- " + tempCategory;
