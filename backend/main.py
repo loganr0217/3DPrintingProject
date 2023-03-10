@@ -145,6 +145,89 @@ def signupWithExternal():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
+# Endpoint for a user to start the forgot password process
+@app.route('/forgotpassword')
+def forgotPassword():
+    global conn
+    email = request.args.get('email', default='null', type=str)
+
+    # Generating random reset token 15 characters
+    resetToken = secrets.token_urlsafe(15)
+
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != None and email != '' and email != 'null':
+            # Making sure user exists
+            cur.execute("SELECT * FROM users WHERE email = '" + email + "';")
+            rows = cur.fetchall()
+
+            # User has account
+            if len(rows) > 0:
+                cur.execute("UPDATE users SET reset_token = '" + resetToken + "', token_expire_time = (now() + interval '5 minutes') where email = '" + email + "';")
+                rows = (1,)
+                conn.commit()
+
+                # Sending email with reset link to use
+                try:
+                    resetLink = "https://www.lightscreenart.com/reset-pass?email="+email+"&resettoken="+resetToken
+                    msg = Message('LightScreen Reset Password', sender = 'info@lightscreenart.com', recipients = [email])
+                    msg.body = "Follow the link below to update your password. This link will expire in 5 minutes for your security.\n\nLink: {}".format(resetLink)
+                    mail.send(msg)
+                    # Returning the final result
+                    return jsonify(rows)
+                except Exception as e:
+                    return ("Error sending the message " + str(e), )
+            else:
+                rows = (-1,)
+        else:
+            rows = (-2,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
+
+@app.route('/resetpassword')
+def resetPassword():
+    global conn
+    email = request.args.get('email', default='null', type=str)
+    resetToken = request.args.get('resettoken', default='null', type=str)
+    password = request.args.get('password', default='null', type=str)
+
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != None and email != '' and email != 'null' and len(password) >= 8 and password != None:
+            # Making sure user exists and token is not expired
+            cur.execute("SELECT * FROM users WHERE email = '" + email + "' and reset_token = '" + resetToken + "' and now() < token_expire_time;")
+            rows = cur.fetchall()
+
+            # Reset link is valid
+            if len(rows) > 0:
+                cur.execute("UPDATE users SET password = MD5('" + password + "') where email = '" + email + "' and reset_token = '" + resetToken + "';")
+                rows = (1,)
+                conn.commit()
+
+                # Sending email letting user know the password has been successfully reset
+                try:
+                    msg = Message('LightScreen Password Change', sender = 'info@lightscreenart.com', recipients = [email])
+                    msg.body = "Your LightScreen password has been successfully reset."
+                    mail.send(msg)
+                    # Returning the final result
+                    return jsonify(rows)
+                except Exception as e:
+                    return ("Error sending the message " + str(e), )
+            else:
+                rows = (-1)
+        else:
+            rows = (-2,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
+
 @app.route('/addpanel', methods = ['POST'])
 def addPanel():
     global conn
