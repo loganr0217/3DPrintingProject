@@ -231,7 +231,7 @@ export class AppComponent {
       if(panelData.length > 1) {
         // console.log(panelData);
         this.sharedDataService.svgTemplateData = [];
-        for(let i:number = 0; i < 100; ++i) {this.sharedDataService.svgTemplateData.push([]);}
+        for(let i:number = 0; i < 300; ++i) {this.sharedDataService.svgTemplateData.push([]);}
         for(let i:number = 0; i < panelData.length; ++i) {
           let tmpSVG:SVGTemplate = new SVGTemplate(panelData[i][4]);
           let tmpD:string = (Math.abs(tmpSVG.width-320) <= .5 && Math.abs(tmpSVG.height-320) <= .5) ? tmpSVG.getLineScaledD((300-6)/320, (300-6)/320) : tmpSVG.getOptimizedD();

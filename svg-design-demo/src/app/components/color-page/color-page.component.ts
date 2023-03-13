@@ -139,31 +139,38 @@ export class ColorPageComponent implements OnInit {
   }
 
   updateLayout():void {
-    if(this.currentWindow == undefined) {
-      alert("Make sure to select a panelset to blank fill your template.");
-      return;
-    }
     let leftRight:number = Number((<HTMLInputElement>document.getElementById("leftRightInput")).value)
     let topBottom:number = Number((<HTMLInputElement>document.getElementById("topBottomInput")).value)
-    if(leftRight != null && topBottom != null && leftRight > 0 && topBottom > 0) {
-      this.templateString = "";
-      if(this.sharedDataService.panelLayoutDims[0] > leftRight || this.sharedDataService.panelLayoutDims[1] > topBottom) {
-        this.panelLayout = [];
-        for(let i:number = 0; i < topBottom; ++i) {
-          this.panelLayout.push([]);
+    if(this.onPanels) {
+      if(this.currentWindow == undefined) {
+        alert("Make sure to select a panelset to blank fill your template.");
+        return;
+      }
+      if(leftRight != null && topBottom != null && leftRight > 0 && topBottom > 0) {
+        this.templateString = "";
+        if(this.sharedDataService.panelLayoutDims[0] > leftRight || this.sharedDataService.panelLayoutDims[1] > topBottom) {
+          this.panelLayout = [];
+          for(let i:number = 0; i < topBottom; ++i) {
+            this.panelLayout.push([]);
+          }
         }
+        else {
+          while(this.panelLayout.length < topBottom) {this.panelLayout.push([]);}
+        }
+        
+        document.getElementById("currentLayoutText")!.textContent = "Current Layout: " + leftRight + "x" + topBottom; 
+        this.currentPanelLocation = [0, 0];
+        document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + (this.currentPanelLocation[0]+1) + "," + (this.currentPanelLocation[1]+1); 
+        this.panelDims = [leftRight, topBottom];
+        this.sharedDataService.panelLayoutDims = [leftRight, topBottom];
+        this.fillOutBlankTemplate();
       }
-      else {
-        while(this.panelLayout.length < topBottom) {this.panelLayout.push([]);}
-      }
-      
-      document.getElementById("currentLayoutText")!.textContent = "Current Layout: " + leftRight + "x" + topBottom; 
-      this.currentPanelLocation = [0, 0];
-      document.getElementById("currentPanelIndexText")!.textContent = "Current Panel Location: " + (this.currentPanelLocation[0]+1) + "," + (this.currentPanelLocation[1]+1); 
+    }
+    else {
       this.panelDims = [leftRight, topBottom];
       this.sharedDataService.panelLayoutDims = [leftRight, topBottom];
-      this.fillOutBlankTemplate();
     }
+    
     
   }
 

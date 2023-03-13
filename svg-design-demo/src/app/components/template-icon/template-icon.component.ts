@@ -246,6 +246,12 @@ export class TemplateIconComponent implements OnInit {
 
   // Creates the window previews
   createPreview(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):void {
+    if(this.isColorPage()) {
+      for(const tempCategory of ["Artist Inspired", "Interests", "Garden", "Classics", "Sacred"]) {
+        if(temp.category != undefined && temp.category.includes(tempCategory)) {(<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))!.checked = true;}
+        else {(<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))!.checked = false;}
+      }
+    }
     this.sharedDataService.panelLayout = this.getPanelLayout(temp);
     this.sharedDataService.panelLayoutDims = [this.sharedDataService.panelLayout[0].length, this.sharedDataService.panelLayout.length];
     this.sharedDataService.panelColoringArray = [];
@@ -256,12 +262,6 @@ export class TemplateIconComponent implements OnInit {
       }
     }
     this.sharedDataService.selectedTemplateID = temp.id;
-    if(this.isColorPage()) {
-      for(const tempCategory of ["Artist Inspired", "Interests", "Garden", "Classics", "Sacred"]) {
-        if(temp.category != undefined && temp.category.includes(tempCategory)) {(<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))!.checked = true;}
-        else {(<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))!.checked = false;}
-      }
-    }
   }
 
   getPanelWidth(top:boolean = true):number {
@@ -342,9 +342,14 @@ export class TemplateIconComponent implements OnInit {
     // Adding each panel to the panel layout
     for(let panelID:number = 0; panelID < panelInfoArray.length; ++panelID) {
       if(panelID % temp.panelDims[0] == 0) {++rowNumber;}
+
+      // Check for templates with -1 panelset selected
+      if(Number(panelInfoArray[panelID][0]) == -1) {return false;}
+      
       let panelIndex:number = this.sharedDataService.svgTemplateData[Number(panelInfoArray[panelID][0])].findIndex(function(item, i){
         return Number(item.panelNumber) == Number(panelInfoArray[panelID][1]);
       });
+      // console.log(panelIndex);
       
       if(this.sharedDataService.svgTemplateData[Number(panelInfoArray[panelID][0])][panelIndex] == undefined) {isOkay = false; break;}
       let myTemplate:SVGTemplate = new SVGTemplate(this.sharedDataService.svgTemplateData[Number(panelInfoArray[panelID][0])][panelIndex].d);
