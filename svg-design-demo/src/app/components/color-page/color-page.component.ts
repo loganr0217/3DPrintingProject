@@ -217,7 +217,7 @@ export class ColorPageComponent implements OnInit {
   // Method to increase current panel location
   increaseCurrentLocation():void {
     // Increasing the current location by 1
-    if(this.currentPanelLocation[1] + 1 >= this.panelDims[0] && this.currentPanelLocation[0] + 1 < this.panelDims[0]) {++this.currentPanelLocation[0]; this.currentPanelLocation[1]=0;}
+    if(this.currentPanelLocation[1] + 1 >= this.panelDims[0] && this.currentPanelLocation[0] + 1 < this.panelDims[1]) {++this.currentPanelLocation[0]; this.currentPanelLocation[1]=0;}
     else if(this.currentPanelLocation[1] + 1 >= this.panelDims[0]) {this.currentPanelLocation[0] = 0; this.currentPanelLocation[1] = 0;}
     else {++this.currentPanelLocation[1];}
   }
