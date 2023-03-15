@@ -59,8 +59,13 @@ export class ContentfulService {
     }
     let options = {
       renderNode: {
-        'embedded-asset-block': (node:any) =>
-          `<img class="img-fluid" src="${node.data.target.fields.file.url}"/>`
+        'embedded-asset-block': (node:any) => {
+          if(node.data.target.fields.file.url.includes("mp4")) {
+            return `<video class="img-fluid" controls src="${node.data.target.fields.file.url}"></video>`
+          }
+          return `<img class=img-fluid src="${node.data.target.fields.file.url}" />`
+          
+        }
       }
     }
     return documentToHtmlString(richText, options);
