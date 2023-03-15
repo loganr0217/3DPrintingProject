@@ -11,7 +11,7 @@ import { ContentfulService } from 'src/app/services/contentful.service';
 export class TemplateCategoryStageComponent implements OnInit {
   posts:Entry<any>[] = [];
   howToPosts:Entry<any>[] = [];
-  constructor(private sharedDataService:SharedDataService, public contentfulService:ContentfulService) { }
+  constructor(public sharedDataService:SharedDataService, public contentfulService:ContentfulService) { }
 
   ngOnInit(): void {
     this.contentfulService.getPosts('stage4').then(posts => this.posts = posts);
