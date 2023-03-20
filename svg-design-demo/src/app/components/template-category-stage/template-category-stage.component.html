@@ -33,7 +33,7 @@
         <span [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(this.posts[0].fields.stage4body), 3)"></span>
         <div id="templateCategoryImages">
             <div>
-                <figure (click)="showTemplates(templateCategory)" class="templateCategoryImageCon" *ngFor="let templateCategory of ['Artist Inspired', 'Garden']">
+                <figure (click)="showTemplates(templateCategory)" class="templateCategoryImageCon" *ngFor="let templateCategory of ['Artist Inspired', 'Garden', 'Sacred']">
                     <img class="templateCategoryImage" src="{{getTemplateCategoryButtonFile(templateCategory)}}" alt="{{templateCategory}}">
                     <!-- <img id="dividerTypeImage_{{dividerType}}"  src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/> -->
                     <figcaption>{{templateCategory}}</figcaption>
@@ -46,13 +46,7 @@
                     <figcaption>{{templateCategory}}</figcaption>
                 </figure>
             </div>
-            <div *ngIf="this.sharedDataService.userInfo[5] == 'admin'">
-                <figure (click)="showTemplates(templateCategory)" class="templateCategoryImageCon" *ngFor="let templateCategory of ['Sacred']">
-                    <img class="templateCategoryImage" src="{{getTemplateCategoryButtonFile(templateCategory)}}" alt="{{templateCategory}}">
-                    <!-- <img id="dividerTypeImage_{{dividerType}}"  src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/> -->
-                    <figcaption>{{templateCategory}}</figcaption>
-                </figure>
-            </div>
+            <!--  -->
             
         </div>
         <!-- <a class="btn bg-light text-center text-white btn-outline-dark btn-floating m-1" (click)="previousStage()" role="button">
