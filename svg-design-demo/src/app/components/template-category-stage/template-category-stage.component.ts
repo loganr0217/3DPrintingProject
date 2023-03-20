@@ -34,6 +34,7 @@ export class TemplateCategoryStageComponent implements OnInit {
     else if(fileType == "Garden") {return "assets/img/templateCategoryButtons/garden.svg";}
     else if(fileType == "Interests") {return "assets/img/templateCategoryButtons/interests.svg";}
     else if(fileType == "Classics") {return "assets/img/templateCategoryButtons/classics.svg";}
+    else if(fileType == "Sacred") {return "assets/img/templateCategoryButtons/sacred.svg";}
     else {return "";}
   }
 }
