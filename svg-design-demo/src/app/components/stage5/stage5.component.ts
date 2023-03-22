@@ -13,7 +13,7 @@ export class Stage5Component implements OnInit {
   posts:Entry<any>[] = [];
   howToPosts:Entry<any>[] = [];
 
-  constructor(private sharedDataService:SharedDataService, private http:HttpClient, public contentfulService:ContentfulService) { }
+  constructor(public sharedDataService:SharedDataService, private http:HttpClient, public contentfulService:ContentfulService) { }
   getPanelWidth(top:boolean = true):string {
     let finalPanelWidth:number = top ? this.sharedDataService.topPanelWidth : this.sharedDataService.bottomPanelWidth;
     if(finalPanelWidth >= 100 && finalPanelWidth <= 386) {return (this.isDoubleHung() ? (top ? "Top Panel Width: " : "Bottom Panel Width: ") : "Panel Width: ") + this.convertBackNumber(finalPanelWidth, this.sharedDataService.unitChoice).toFixed(2) + " " + this.sharedDataService.unitChoice;}

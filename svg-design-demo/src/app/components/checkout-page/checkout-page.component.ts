@@ -110,4 +110,10 @@ export class CheckoutPageComponent implements OnInit {
     
   }
 
+  previousStage():void {
+    --this.sharedDataService.currentStepID;
+    document.getElementById("stage5")?.setAttribute("style", "visibility:visible;")
+    document.getElementById("stage5")?.scrollIntoView({behavior: 'smooth'});
+  }
+
 }

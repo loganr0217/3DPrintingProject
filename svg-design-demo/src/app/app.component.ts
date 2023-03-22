@@ -130,7 +130,7 @@ export class AppComponent {
 
   ngOnInit() {
     // Sets up popping modal for 20 seconds of not signing in
-    this.modalPopups = 0;
+    this.modalPopups = window.innerWidth < 576 ? 1 : 0;
     this.modalPopupIntervalId = setInterval(() => {
       if(this.sharedDataService.signedIn || this.modalPopups >= 1) {clearInterval(this.modalPopupIntervalId);}
       else {

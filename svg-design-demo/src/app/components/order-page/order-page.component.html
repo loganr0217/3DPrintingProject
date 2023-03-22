@@ -25,7 +25,7 @@
         </div>
         <div id="previewAndContinue">
             <app-window-preview-container id="pastOrderPreview"></app-window-preview-container>
-            <input *ngIf="this.order != null" type="button" class="btn btn-dark btn-med continueButton" (click)="continueSavedDesign()" [value]="'Continue'"/>
+            <input *ngIf="this.order != null" type="button" class="btn btn-dark btn-med continueButton notOnMobile" (click)="continueSavedDesign()" [value]="'Continue'"/>
         </div>
         
     </div>

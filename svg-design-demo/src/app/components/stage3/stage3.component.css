@@ -1,6 +1,5 @@
 #stage3Container {
     display: flex;
-    padding-top: 80px;
     padding-bottom: 20vh;
 }
 
@@ -42,6 +41,57 @@ p {
 }
 .breadCrumbButton {
     font-size: 1.5vw;
+}
+
+@media only screen and (max-width: 576px) {
+    .notOnMobile {
+        display: none;
+    }
+
+    #stage3Container {
+        flex-direction: column;
+    }
+
+    .sideText {
+        flex: 1;
+        padding-left: 2vw;
+        padding-right: 2vw;
+        width: 100vw;
+    }
+    
+    .sideText > h1 {
+        font-size: 9vw;
+    }
+
+    #dropdownMenuButton {
+        font-size: 3.5vw;
+    }
+
+    .unitButtons {
+        width: 96vw;
+    }
+
+    .unitButton {
+        width: 45.5vw;
+        font-size: 3vw;
+    }
+
+    #inchesButton {
+        margin-right: 5vw;
+    }
+    .headerTitle {
+        text-align: center;
+    }
+    
+}
+
+@media only screen and (min-width: 576.1px) {
+    .notOnLaptop {
+        display: none;
+    }
+
+    #stage3Container {padding-top: 80px;}
+    
 }
 
 

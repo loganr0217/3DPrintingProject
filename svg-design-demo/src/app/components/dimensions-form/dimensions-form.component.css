@@ -21,9 +21,9 @@
     background-color: white;
 }
 
-#widthInput, #heightInput {
-    width: 4vw;
-}
+/* #widthInput, #heightInput {
+    width: 6vw;
+} */
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -34,4 +34,22 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+@media only screen and (max-width: 576px) {
+    .notOnMobile {
+        display: none;
+    }
+
+    .form-control, .formLabel {
+        font-size: 3.5vw;
+    }
+    .input-group-text, .dropdown-toggle {
+        font-size: 3vw;
+    }
+
+    .input-group-prepend, .input-group-text {
+        width: fit-content;
+    }
+    
 }

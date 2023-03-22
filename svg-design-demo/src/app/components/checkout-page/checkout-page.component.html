@@ -1,72 +1,76 @@
 <div id="checkoutContainer" class="container px-4 py-5 mx-auto">
-<div id="checkout">
-    <div class="row justify-content-center">
-        <div class="col-lg-12">
-            <div class="card bg-dark text-white">
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="row px-2">
-                            <div class="form-group col-md-12">
-                                <label class="form-control-label">Street Address</label>
-                                <input type="text" id="streetAddressInput" name="streetAddress"/>
-                            </div>
-                        </div>
-                        <div class="row px-2">
-                            <div class="form-group col-md-12">
-                                <label class="form-control-label">Zip Code</label>
-                                <input type="text" id="zipcodeInput" name="zipcode"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="row px-2">
-                            <div class="form-group col-md-12">
-                                <label class="form-control-label">City</label>
-                                <input type="text" id="cityInput" name="city"/>
-                            </div>
-                        </div>
-                        <div class="row px-2">
-                            <div class="form-group col-md-12">
-                                <label class="form-control-label">State</label>
-                                <input type="text" id="stateInput" name="state"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="row px-2">
-                            <div class="form-group col-md-12">
-                                <label class="form-control-label">Coupon Code</label>
-                                <input type="text" id="couponCodeInput" name="couponCode"/>
-                            </div>
-                        </div>
-
-                        
-                        <form [formGroup]="emailForm" *ngIf="!this.sharedDataService.signedIn">
-                            <div class="row px-2" >
+    <div id="checkout">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="card bg-dark text-white">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="row px-2">
                                 <div class="form-group col-md-12">
-                                    <label class="form-control-label">Email</label>
-                                    <input type="text" formControlName="email" autocomplete="email" class="form-control" id="emailInput"/>
-                                    <div style="color: red;" *ngIf="email?.invalid && (email?.touched || email?.dirty)">
-                                        <span *ngIf="email?.errors?.['required']">*Email is required</span>
-                                        <span *ngIf="email?.errors?.['email']">*Enter valid email (example@gmail.com)</span>
-                                    </div>
+                                    <label class="form-control-label">Street Address</label>
+                                    <input type="text" id="streetAddressInput" name="streetAddress"/>
                                 </div>
                             </div>
-                        </form>
-                                
-                       
+                            <div class="row px-2">
+                                <div class="form-group col-md-12">
+                                    <label class="form-control-label">Zip Code</label>
+                                    <input type="text" id="zipcodeInput" name="zipcode"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="row px-2">
+                                <div class="form-group col-md-12">
+                                    <label class="form-control-label">City</label>
+                                    <input type="text" id="cityInput" name="city"/>
+                                </div>
+                            </div>
+                            <div class="row px-2">
+                                <div class="form-group col-md-12">
+                                    <label class="form-control-label">State</label>
+                                    <input type="text" id="stateInput" name="state"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="row px-2">
+                                <div class="form-group col-md-12">
+                                    <label class="form-control-label">Coupon Code</label>
+                                    <input type="text" id="couponCodeInput" name="couponCode"/>
+                                </div>
+                            </div>
 
-                        <button (click)="getFinalInfo()" class="btn-block btn-light">
-                            <span>
-                                <span id="checkout">Checkout</span>
-                                <!-- <span id="check-amt">$26.48</span> -->
-                            </span>
-                        </button>
+                            
+                            <form [formGroup]="emailForm" *ngIf="!this.sharedDataService.signedIn">
+                                <div class="row px-2" >
+                                    <div class="form-group col-md-12">
+                                        <label class="form-control-label">Email</label>
+                                        <input type="text" formControlName="email" autocomplete="email" class="form-control" id="emailInput"/>
+                                        <div style="color: red;" *ngIf="email?.invalid && (email?.touched || email?.dirty)">
+                                            <span *ngIf="email?.errors?.['required']">*Email is required</span>
+                                            <span *ngIf="email?.errors?.['email']">*Enter valid email (example@gmail.com)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                                    
+                        
+
+                            <button (click)="getFinalInfo()" class="btn-block btn-light notOnMobile">
+                                <span>
+                                    <span id="checkout">Checkout</span>
+                                    <!-- <span id="check-amt">$26.48</span> -->
+                                </span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
+</div>
+<div class="breadCrumbs notOnLaptop">
+    <a (click)="previousStage()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-lg breadCrumbButton" value="Go Back"/> </a>
+    <a *ngIf="this.sharedDataService.currentStepID == 8" (click)="getFinalInfo()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton nextButton" value="Checkout"/> </a>
 </div>

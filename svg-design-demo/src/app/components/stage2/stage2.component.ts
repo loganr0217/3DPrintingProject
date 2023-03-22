@@ -100,11 +100,11 @@ export class Stage2Component implements OnInit {
 
   getIconHighlight(iconType:string, iconName:string):string {
     if(iconType == "windowShape") {
-      if(this.sharedDataService.selectedWindowShape == iconName) {return "filter: invert(25%);";}
+      if(this.sharedDataService.selectedWindowShape == iconName) {return "border: 1px solid black;";}
       else {return "";}
     }
     else {
-      if(this.sharedDataService.selectedDividerType == iconName) {return "filter: invert(25%);";}
+      if(this.sharedDataService.selectedDividerType == iconName) {return "border: 1px solid black;";}
       else {return "";}
     }
   }
@@ -112,11 +112,12 @@ export class Stage2Component implements OnInit {
   // Method to change the currently selected divider
   chooseDivider(dividerType:string) {
     document.getElementById("windowShapeText")?.setAttribute("style", "visibility:visible;");
+    document.getElementById("windowShapeTextMobile")?.setAttribute("style", "visibility:visible;");
     document.getElementById("section2")?.setAttribute("style", "visibility:visible;");
     document.getElementById("windowShapeExamples")?.setAttribute("style", "visibility:visible;");
     // Unhighlighting old selection if possible and highlighting new one
     if(this.dividerType != null) {document.getElementById("dividerTypeImage_"+this.dividerType)?.setAttribute("style", "");}
-    document.getElementById("dividerTypeImage_"+dividerType)?.setAttribute("style", "filter: invert(25%);");
+    // document.getElementById("dividerTypeImage_"+dividerType)?.setAttribute("style", "filter: invert(25%);");
     if(dividerType == "nodiv") {
       // document.getElementById("dividerDetailsText")!.innerHTML = "";
       document.getElementById("horizontalDividersInput")?.setAttribute("disabled", "true");
@@ -152,8 +153,8 @@ export class Stage2Component implements OnInit {
   // Method to change the currently selected window shape
   chooseWindowShape(windowShape:string) {
     // Unhighlighting old selection if possible and highlighting new one
-    if(this.windowShape != null) {document.getElementById("windowShapeImage_"+this.windowShape)?.setAttribute("style", "");}
-    document.getElementById("windowShapeImage_"+windowShape)?.setAttribute("style", "filter: invert(25%);");
+    // if(this.windowShape != null) {document.getElementById("windowShapeImage_"+this.windowShape)?.setAttribute("style", "");}
+    // document.getElementById("windowShapeImage_"+windowShape)?.setAttribute("style", "filter: invert(25%);");
     
     // Updating values for windowShape
     this.windowShape = windowShape;
@@ -180,8 +181,10 @@ export class Stage2Component implements OnInit {
       this.sharedDataService.finishedSashes = true;
       document.getElementById("submitInput")?.removeAttribute("disabled");
     }
-    document.getElementById("widthInput")?.focus();
-    this.nextstage3();
+    if(window.innerWidth >= 576) {
+      document.getElementById("widthInput")?.focus();
+      this.nextstage3();
+    }
   }
 
   // Method to clear old panes
