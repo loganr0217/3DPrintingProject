@@ -1,0 +1,31 @@
+<div id="colorPickerContainer">
+    <div id="colorOptionsContainer">
+        <div class="colorOffering" *ngFor="let color of getPossibleColors(); let i = index">
+            <!-- <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="customSwitches{{color.id}}">
+                <label class="custom-control-label" for="customSwitches{{color.id}}"><b>Name:</b> {{color.name}} <b>Hex:</b> {{color.hex}}</label>
+            </div> -->
+            <div class="colorOption" (click)="changeCurrentColorID(i)" [style]="i == currentChosenColorID ? 'border:.5px solid black;' : ''">
+                <label class="colorLabel">{{getColorLabel(i)}}</label><br/>
+                <label class="colorIcons" [attr.style]="'background-color: #' + color.hex+'; opacity:' + color.opacity + ';'" type="button" title="{{color.name}}" id="button_{{color.hex}}_{{color.paneColor}}"></label>
+            </div>
+            
+        </div> 
+    </div>
+    <div id="colorPallete">
+        <h1 class="palleteHeader">Choose Colors</h1>
+        <div id="colorPalleteOfferings">
+            <div class="colorPalleteOffering" *ngFor="let color of this.sharedDataService.colorsData">
+                <!-- <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitches{{color.id}}">
+                    <label class="custom-control-label" for="customSwitches{{color.id}}"><b>Name:</b> {{color.name}} <b>Hex:</b> {{color.hex}}</label>
+                </div> -->
+                <div class="colorPalleteOption" (click)="chooseColor(color)">
+                    <label class="colorPalleteIcons" [attr.style]="'background-color: #' + color.hex+'; opacity:' + color.opacity + ';'" type="button" title="{{color.name}}" id="button_{{color.hex}}_{{color.paneColor}}"></label>
+                </div>
+                
+            </div> 
+        </div>
+        
+    </div>
+</div>

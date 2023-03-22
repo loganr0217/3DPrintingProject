@@ -1,6 +1,3 @@
-#checkoutContainer {
-    height: 100vh;
-}
 body {
     color: #000;
     overflow-x: hidden;
@@ -141,3 +138,41 @@ button:focus {
         padding-left: 20px;
     }
 }
+
+@media screen and (max-width: 576px) {
+    .notOnMobile {
+        display: none;
+    }
+
+    /* Breadcrumbs */
+    .breadCrumbs {
+        width: 100vw;
+        position: fixed;
+        bottom: 8.5vh;
+    }
+    .prevBreadCrumb {
+        left: 5vw;
+    }
+    .nextBreadCrumb {
+        right: 5vw;
+    }
+    .breadCrumbButton {
+        font-size: 4vw;
+        width: 42.5vw;
+        margin-left: 5vw;
+    }
+    .nextButton {
+        color: white !important;
+    }
+
+    .py-5 {
+        padding-top: 0px!important;
+    }
+}
+
+@media screen and (min-width: 576.1px) {
+    #checkoutContainer {
+        height: 100vh;
+    }
+}
+

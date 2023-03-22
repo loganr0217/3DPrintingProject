@@ -1,11 +1,11 @@
 <div id="bigContainer">
     <div id="section2" class="section">
-        <app-design-window></app-design-window>
-        <app-colors-container [paneColors]=true></app-colors-container>
-        <!-- <p>Frame Color:</p>
-        <app-colors-container [paneColors]=false></app-colors-container> -->
+        <app-design-window class="notOnMobile"></app-design-window>
+        <app-colors-container [paneColors]=true class="notOnMobile"></app-colors-container>
+        <app-mobile-color-picker class="notOnLaptop"></app-mobile-color-picker>
     </div>
     <div id="section3" class="section">
+        <p class="previewNotice notOnLaptop">Preview (scroll down to see view)</p>
         <app-window-preview-container [finished]="false"></app-window-preview-container>
     </div>
 </div>

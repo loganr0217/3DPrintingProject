@@ -4,7 +4,7 @@
     </div>
     <div id="sideText1">
         <h1 class="text1">{{this.posts[0].fields.lp1header}}</h1>
-        <button class="btn btn-outline-light startDesigning1" (click)="focusEmailRegister()"><b>Start Designing</b></button>
+        <button class="btn btn-outline-light startDesigning1" (click)="nextstage2()"><b>Start Designing</b></button>
         <div id = "news_text">
             <span class="light" [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(this.posts[0].fields.lp1newsText), 1)"></span>
         </div>

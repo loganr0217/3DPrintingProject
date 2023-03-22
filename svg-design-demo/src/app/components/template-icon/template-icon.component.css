@@ -46,4 +46,42 @@
     display: flex;
 }
 
+@media only screen and (max-width: 576px) {
+    .notOnMobile {
+        display: none;
+    }
 
+    .fullWin {
+        height: 60vh;
+        flex:1;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        width: 100vw;
+        border: 1px solid black;
+        /* flex-direction: column; */
+        overscroll-behavior-x: contain;
+    }
+
+    .svgTemplateIcons {
+        width:80vw;
+    }
+
+    .windowTemplate {
+        flex:1;
+        display: flex;
+        justify-content: center;
+    }
+
+    .windowTemplateContainer {
+        padding-bottom: 5vh;
+    }
+    
+    
+}
+
+@media only screen and (min-width: 576.1px) {
+    .notOnLaptop {
+        display: none;
+    }
+    
+}

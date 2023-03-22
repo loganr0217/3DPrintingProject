@@ -43,6 +43,7 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider
 } from '@abacritt/angularx-social-login';
+import { MobileColorPickerComponent } from './components/mobile-color-picker/mobile-color-picker.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import {
     OrderPageComponent,
     ColorOfferingsPageComponent,
     CarouselComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    MobileColorPickerComponent
   ],
   imports: [
     BrowserModule,

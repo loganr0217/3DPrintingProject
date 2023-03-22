@@ -77,6 +77,8 @@ export class LandingPageComponent implements OnInit {
   nextstage2() {
     document.getElementById("stage2")?.setAttribute("style", "visibility:visible;")
     document.getElementById("stage2")?.scrollIntoView({behavior: 'smooth'});
+    if(this.sharedDataService.signedIn) {this.sharedDataService.currentStepID = 2;}
+    else {this.sharedDataService.currentStepID = 1;}
   }
 
 }

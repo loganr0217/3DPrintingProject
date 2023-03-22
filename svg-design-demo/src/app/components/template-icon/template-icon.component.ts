@@ -5,6 +5,8 @@ import { Polygon } from '../svgScaler';
 import { SVGTemplate } from '../svgScaler';
 import { Input } from '@angular/core';
 
+declare var $:any;
+
 @Component({
   selector: 'app-template-icon',
   templateUrl: './template-icon.component.html',
@@ -170,8 +172,10 @@ export class TemplateIconComponent implements OnInit {
   }
 
   nextstage4() {
-    document.getElementById("stage4")?.setAttribute("style", "visibility:visible;")
-    document.getElementById("stage4")?.scrollIntoView({behavior: 'auto'});
+    if(window.innerWidth >= 576) {
+      document.getElementById("stage4")?.setAttribute("style", "visibility:visible;")
+      document.getElementById("stage4")?.scrollIntoView({behavior: 'auto'});
+    }
   }
 
   ngOnInit(): void {
@@ -366,6 +370,10 @@ export class TemplateIconComponent implements OnInit {
   // Checking whether it is the color page (TDI)
   isColorPage():boolean {
     return document.URL.includes("windowCreation");
+  }
+
+  isMobile():boolean {
+    return window.innerWidth <= 576;
   }
 
   checkForAvailableTemplates():boolean {

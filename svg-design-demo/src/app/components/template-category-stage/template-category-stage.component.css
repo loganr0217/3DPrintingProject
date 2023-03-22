@@ -1,7 +1,6 @@
 #bigContainer {
     display:flex;
     width:100%;
-    padding-top: 80px;
 }
 /* Text */
 h1 {
@@ -26,11 +25,7 @@ p {
 /* .section {margin:10px;} */
 
 /* Divider types */
-#templateCategoryImages {
-    display: flex;
-    padding-left: 2vw;
-    padding-right: 2vw;
-}
+
 .templateCategoryImage {
     flex: 1;
     padding-left: 2vw;
@@ -50,4 +45,75 @@ figcaption {
 
 .btn {
     margin-top: 5vh;
+}
+
+@media only screen and (max-width: 576px) {
+    .notOnMobile {
+        display: none;
+    }
+
+    h1 {
+        font-size: 8vw;
+        text-align: center;
+    }
+
+    .templateName {
+        font-size:6vw;
+        flex:8;
+        width: fit-content;
+        text-align: left;
+        margin-top: 2vw;
+        margin-left: 4vw;
+    }
+    .templateCategoryImage {
+        flex: 2;
+    }
+
+    .dropdown-toggle {
+        margin: auto;
+        display: flex;
+        width: 90vw;
+    }
+
+    .dropdown-item {
+        margin: auto;
+        display: flex;
+        width: 90vw;
+    }
+
+    .dropdown-toggle::after {
+        margin-top: 6vw;
+    }
+
+    #bigContainer {
+        flex-direction: column;
+        padding-bottom: 90vh;
+    }
+
+    /* Sections */
+    #section1 {
+        width: 100vw;
+        /* justify-content: space-around; */
+    }
+
+    #section2 {
+        padding-left: 0;
+    }
+    
+}
+
+@media only screen and (min-width: 576.1px) {
+    .notOnLaptop {
+        display: none;
+    }
+
+    #bigContainer {
+        padding-top: 80px;
+    }
+    #templateCategoryImages {
+        display: flex;
+        padding-left: 2vw;
+        padding-right: 2vw;
+    }
+    
 }

@@ -298,10 +298,15 @@ getPanelHeight(height:number):number {
   updateDimensionsButton():void {
     let newWidth:number = this.convertNumber(Math.floor(Number((<HTMLInputElement>document.getElementById("widthInput")).value)) + (this.sharedDataService.topSash ? this.sharedDataService.windowWidthFractionNum/16 : this.sharedDataService.bottomSashWidthFractionNum/16), this.sharedDataService.unitChoice);
     let newHeight:number = this.convertNumber(Math.floor(Number((<HTMLInputElement>document.getElementById("heightInput")).value)) + (this.sharedDataService.topSash ? this.sharedDataService.windowHeightFractionNum/16 : this.sharedDataService.bottomSashHeightFractionNum/16), this.sharedDataService.unitChoice);
-    this.updateDimensions(newWidth, newHeight);
+    let newBottomWidth:number = 0, newBottomHeight:number = 0;
+    if(window.innerWidth <= 576 && this.isDoubleHung()) {
+      newBottomWidth = this.convertNumber(Math.floor(Number((<HTMLInputElement>document.getElementById("bottomWidthInput")).value)) + (this.sharedDataService.topSash ? this.sharedDataService.windowWidthFractionNum/16 : this.sharedDataService.bottomSashWidthFractionNum/16), this.sharedDataService.unitChoice);
+      newBottomHeight = this.convertNumber(Math.floor(Number((<HTMLInputElement>document.getElementById("bottomHeightInput")).value)) + (this.sharedDataService.topSash ? this.sharedDataService.windowHeightFractionNum/16 : this.sharedDataService.bottomSashHeightFractionNum/16), this.sharedDataService.unitChoice);
+    }
+    this.updateDimensions(newWidth, newHeight, newBottomWidth, newBottomHeight);
   }
   // Method to update dimensions
-  updateDimensions(newWidth:number, newHeight:number):void {
+  updateDimensions(newWidth:number, newHeight:number, newBottomWidth:number=0, newBottomHeight:number=0):void {
     this.clearOldDividerPanes();
     
     // Getting the user's desired width and height and divider info
@@ -332,7 +337,20 @@ getPanelHeight(height:number):number {
     if(dividerWidth == 0) {dividerWidth = 25.4;}
     // dividerWidth = this.convertNumber(dividerWidth, this.sharedDataService.unitChoice);
     let newDividerWindow:DividerWindow;
-    if(this.sharedDataService.topSash) {
+
+    // Checking if user is on phone doing double hung
+    if(window.innerWidth <= 576 && this.isDoubleHung()) {
+      this.sharedDataService.windowWidth = newWidth;
+      this.sharedDataService.windowHeight = newHeight;
+      this.sharedDataService.bottomSashWidth = newBottomWidth;
+      this.sharedDataService.bottomSashHeight = newBottomHeight;
+      newDividerWindow = new DividerWindow(newWidth >= 100 ? newWidth : undefined, newHeight >= 100 ? newHeight : undefined, horzDividers, vertDividers, dividerWidth, 
+      this.sharedDataService.selectedDividerType, 
+      this.sharedDataService.selectedWindowShape.substring(0, 2) == "2x" ? true : false, 
+      this.sharedDataService.bottomSashWidth, this.sharedDataService.bottomSashHeight);
+    }
+    // User is regular top sash
+    else if(this.sharedDataService.topSash) {
       this.sharedDataService.windowWidth = newWidth;
       this.sharedDataService.windowHeight = newHeight;
       newDividerWindow = new DividerWindow(newWidth >= 100 ? newWidth : undefined, newHeight >= 100 ? newHeight : undefined, horzDividers, vertDividers, dividerWidth, 
@@ -340,6 +358,7 @@ getPanelHeight(height:number):number {
       this.sharedDataService.selectedWindowShape.substring(0, 2) == "2x" ? true : false, 
       this.sharedDataService.bottomSashWidth, this.sharedDataService.bottomSashHeight);
     }
+    // Regular bottom sash
     else {
       this.sharedDataService.bottomSashWidth = newWidth;
       this.sharedDataService.bottomSashHeight = newHeight;
@@ -412,8 +431,10 @@ getPanelHeight(height:number):number {
     else {
       alert("We currently do not offer a template for that window shape.");
     }
+    ++this.sharedDataService.currentStepID;
     
   }
+  
 
   // Method to get the correct
   sashButtonText():string {
@@ -425,6 +446,10 @@ getPanelHeight(height:number):number {
   isDoubleHung():boolean {
     if(this.sharedDataService.selectedWindowShape.substring(0, 2) == "2x") {return true;}
     return false;
+  }
+
+  isLaptop():boolean {
+    return window.innerWidth > 576;
   }
 
   // Method to switch the current Sash for a 2xHung window

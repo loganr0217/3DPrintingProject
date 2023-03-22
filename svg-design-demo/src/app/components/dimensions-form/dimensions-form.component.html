@@ -42,16 +42,8 @@
     </div>
 </div>
 <form id="dimensionsFormContainer">
+    <h5 [style]="'display: ' + ((!isDoubleHung() || isLaptop())  ? 'none' : 'inline') + ';'">Top Window</h5>
     <div class="form-group form-row">
-        <!-- <div class="col">
-            <label class="formLabel" for="widthInput">Width:</label>
-            <input type="number" min="0" class="form-control" id="widthInput" placeholder="{{unitChoice}}"/>
-        </div> 
-        <div class="col">
-            <label class="formLabel" for="heightInput">Height:</label>
-            <input type="number" min="0" class="form-control" id="heightInput" placeholder="{{unitChoice}}"/><span style="margin-left:10px;">lb</span>
-        </div> -->
-
         <!-- width input -->
         <div class="col input-group mb-3">
             <div class="input-group-prepend">
@@ -80,21 +72,14 @@
               <span *ngIf="this.sharedDataService.unitChoice != 'inches'"  class="input-group-text textarea-addon" id="heightUnits" [textContent]="unitText()"></span>
             </div>
         </div>
-        
     </div>
+
     <div *ngFor="let post of this.stage3Posts" id="dividerDetailsText">
         <span *ngIf="!this.isDoubleHung() || this.sharedDataService.topSash" [innerHtml]="this.sharedDataService.selectedDividerType == 'nodiv' ? '' : this.contentfulService.markdownToHtml(post.fields.stage3hiddenBody)"></span>
     </div>
+
     <div id="dividerDetailInputs">
         <div class="form-group form-row">
-            <!-- <div class="col">
-                <label class="formLabel" for="horizontalDividersInput">Horizontal Dividers:</label>
-                <input type="number" min="0" class="form-control" id="horizontalDividersInput" disabled="true" placeholder="0"/>
-            </div>
-            <div class="col">
-                <label class="formLabel" for="verticalDividersInput">Vertical Dividers:</label>
-                <input type="number" min="0" class="form-control" id="verticalDividersInput" disabled="true" placeholder="0"/>
-            </div> -->
             <!-- horizontal dividers input -->
             <div class="col input-group mb-3" *ngIf="this.sharedDataService.selectedDividerType != 'nodiv'">
                 <div class="input-group-prepend">
@@ -130,8 +115,51 @@
         </div>
     </div>
 
+    <!-- Below is only available to mobile users with a double hung -->
+    <h5 [style]="'display: ' + ((!isDoubleHung() || isLaptop())  ? 'none' : 'inline') + ';'">Bottom Window <p>*usually they are slightly different</p></h5>
+    <div [style]="((!isDoubleHung() || isLaptop())  ? 'display:none;' : '')"class="form-group form-row">
+        <!-- <div class="col">
+            <label class="formLabel" for="widthInput">Width:</label>
+            <input type="number" min="0" class="form-control" id="widthInput" placeholder="{{unitChoice}}"/>
+        </div> 
+        <div class="col">
+            <label class="formLabel" for="heightInput">Height:</label>
+            <input type="number" min="0" class="form-control" id="heightInput" placeholder="{{unitChoice}}"/><span style="margin-left:10px;">lb</span>
+        </div> -->
+
+        <!-- width input -->
+        <div class="col input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Width:</span>
+            </div>
+            <input (change)="updateDimensionsButton(); changeElementFocus('bottomHeightInput')" type="number" min="0" class="form-control" id="bottomWidthInput" placeholder=""/>
+            <div class="input-group-append">
+                <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sup>{{this.sharedDataService.topSash ? this.sharedDataService.windowWidthFractionNum : this.sharedDataService.bottomSashWidthFractionNum}}</sup>&frasl;<sub>16</sub>"</button>
+                <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
+                    <a *ngFor="let num of range(16)" (click)="this.updateWidthFraction(num)" class="dropdown-item" href="javascript:void(0)"><sup>{{num}}</sup>&frasl;<sub>16</sub>"</a>
+                </div>
+              <span *ngIf="this.sharedDataService.unitChoice != 'inches'" class="input-group-text textarea-addon" id="widthUnits" [textContent]="unitText()"></span>
+            </div>
+        </div>
+        <!-- height input -->
+        <div class="col input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Height:</span>
+            </div>
+            <input (change)="updateDimensionsButton();" type="number" min="0" class="form-control" id="bottomHeightInput" placeholder=""/>
+            <div class="input-group-append">
+                <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sup>{{this.sharedDataService.topSash ? this.sharedDataService.windowHeightFractionNum : this.sharedDataService.bottomSashHeightFractionNum}}</sup>&frasl;<sub>16</sub>"</button>
+                <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
+                    <a *ngFor="let num of range(16)" (click)="this.updateHeightFraction(num)" class="dropdown-item" href="javascript:void(0)"><sup>{{num}}</sup>&frasl;<sub>16</sub>"</a>
+                </div>
+              <span *ngIf="this.sharedDataService.unitChoice != 'inches'"  class="input-group-text textarea-addon" id="heightUnits" [textContent]="unitText()"></span>
+            </div>
+        </div>
+        
+    </div>
+
     <!-- <input type="button" class="btn btn-light btn-med" id="backInput" (click)="previousStage()" value="Back"/> -->
-    <input type="button" [style]="'display: ' + (isDoubleHung() ? 'inline' : 'none') + ';'" class="btn btn-dark btn-med" id="sashSelectionButton" (click)="switchSash()" value="{{sashButtonText()}}"/>
-    <input type="button" class="btn btn-dark btn-med" id="submitInput" (click)="updateDimensionsButton(); updatePanelLayout()" value="Next" data-toggle="modal" data-target="#dimensionsFormModal"/>
+    <input type="button" [style]="'display: ' + ((isDoubleHung() && isLaptop())  ? 'inline' : 'none') + ';'" class="btn btn-dark btn-med notOnMobile" id="sashSelectionButton" (click)="switchSash()" value="{{sashButtonText()}}"/>
+    <input type="button" class="btn btn-dark btn-med notOnMobile" id="submitInput" (click)="updateDimensionsButton(); updatePanelLayout()" value="Next" data-toggle="modal" data-target="#dimensionsFormModal"/>
     
 </form>

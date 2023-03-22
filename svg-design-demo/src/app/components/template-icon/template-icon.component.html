@@ -3,17 +3,8 @@
         <div *ngIf="(template.panelDims[0] == this.sharedDataService.panelLayoutDims[0] 
             && template.panelDims[1] == this.sharedDataService.panelLayoutDims[1]
             && isTemplateOkay(template))" style="flex:1;">
-            <div class="windowTemplateContainer" [style]="this.isColorPage() && this.sharedDataService.selectedTemplateID == template.id ? 'filter: invert(7%) sepia(100%) saturate(7423%) hue-rotate(248deg) brightness(104%) contrast(143%);' : ''">
-            
-                <div class="windowTemplate" (click)="nextstage4(); createPreview(template); displayFirstTemplate();" data-toggle="modal" data-target="#howToModal4" *ngFor="let row of getPanelLayout(template); let rowNumber = index;">
-                    <!-- <img class="svgTemplateIcons" *ngFor="let svgTemplate of window" 
-                    src="{{'assets/img/' + svgTemplate.name}}" alt="{{svgTemplate.name}}"
-                    (click)="displayTemplate(window, i)"/> -->
-
-                    <!-- <svg *ngFor="let svgTemplate of row" xmlns="http://www.w3.org/2000/svg" class="svgTemplateIcons"  [attr.viewBox]="getTemplateViewBox(svgTemplate.getScaledD( ( isRowInTopSash(rowNumber) ? getPanelWidth() : getPanelWidth(false) )/300 , ( isRowInTopSash(rowNumber) ? getPanelHeight() : getPanelHeight(false) )/300 )[0], getScaleX(svgTemplate, rowNumber), getScaleY(svgTemplate, rowNumber))">
-                        <path style="fill:#666666" [attr.transform]="'scale(' + getScaleX(svgTemplate, rowNumber) + ',' + getScaleY(svgTemplate, rowNumber) +') ' + svgTemplate.getTransform()" [attr.d]="svgTemplate.getScaledD( ( isRowInTopSash(rowNumber) ? getPanelWidth() : getPanelWidth(false) )/300 , ( isRowInTopSash(rowNumber) ? getPanelHeight() : getPanelHeight(false) )/300 )[0]"/>
-                    </svg> -->
-
+            <div class="windowTemplateContainer" [style]="(this.isColorPage() || isMobile()) && this.sharedDataService.selectedTemplateID == template.id ? 'filter: invert(7%) sepia(100%) saturate(7423%) hue-rotate(248deg) brightness(104%) contrast(143%);' : ''">
+                <div class="windowTemplate" (click)="nextstage4(); createPreview(template); displayFirstTemplate();" *ngFor="let row of getPanelLayout(template); let rowNumber = index;">
                     <svg *ngFor="let svgTemplate of row" xmlns="http://www.w3.org/2000/svg" class="svgTemplateIcons" [attr.viewBox]="getTemplateViewBox(svgTemplate.getOptimizedD())">
                         <path style="fill:#666666" [attr.transform]="svgTemplate.getTransform()" [attr.d]="svgTemplate.getOptimizedD()"/>
                     </svg>

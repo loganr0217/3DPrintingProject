@@ -4,6 +4,8 @@ import { Entry } from 'contentful';
 import { ContentfulService } from 'src/app/services/contentful.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
+declare var $:any;
+
 @Component({
   selector: 'app-stage3',
   templateUrl: './stage3.component.html',
@@ -138,6 +140,7 @@ export class Stage3Component implements OnInit {
 
   changeUnits(unitChoice:string):void {
     if(unitChoice != this.sharedDataService.unitChoice) {this.sharedDataService.resetFractionNums();}
+   
     this.sharedDataService.unitChoice = unitChoice;
     // Updating the placeholders for each input
     // document.getElementById("widthUnits")!.textContent = unitChoice;
@@ -146,7 +149,14 @@ export class Stage3Component implements OnInit {
     // document.getElementById("dividerWidthUnits")!.textContent = unitChoice;
     document.getElementById("dividerDetailText")?.setAttribute("style", "visibility:visible;");
     document.getElementById("widthInput")?.focus();
-
+    if(unitChoice == "mm") {
+      $("#inchesButton").removeClass("active");
+      $("#mmButton").addClass("active");
+    }
+    else if(unitChoice == "inches") {
+      $("#mmButton").removeClass("active");
+      $("#inchesButton").addClass("active");
+    }
   }
 
   previousStage() {
