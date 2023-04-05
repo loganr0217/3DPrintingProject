@@ -1,7 +1,6 @@
 #bigContainer {
     display:flex;
     width:100%;
-    padding-top: 60px;
 }
 /* Text */
 h1 {
@@ -60,6 +59,7 @@ p {
 
     #bigContainer {
         flex-direction: column;
+        padding-top: 60px;
         padding-bottom: 80vh;
     }
 
@@ -77,5 +77,9 @@ p {
 @media only screen and (min-width: 576.1px) {
     .notOnLaptop {
         display: none;
+    }
+
+    #bigContainer {
+        padding-bottom: 30vh;
     }
 }

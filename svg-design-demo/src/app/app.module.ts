@@ -38,12 +38,16 @@ import { OrderPageComponent } from './components/order-page/order-page.component
 import { ColorOfferingsPageComponent } from './components/color-offerings-page/color-offerings-page.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
-import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import { SocialLoginModule, SocialAuthServiceConfig, GoogleInitOptions } from '@abacritt/angularx-social-login';
 import {
   GoogleLoginProvider,
   FacebookLoginProvider
 } from '@abacritt/angularx-social-login';
 import { MobileColorPickerComponent } from './components/mobile-color-picker/mobile-color-picker.component';
+
+const googleLoginOptions:GoogleInitOptions = {
+  oneTapEnabled: (JSON.parse(localStorage.getItem('userInfo') || '{}').length > 1 ? false : true), // user signed in before
+};
 
 @NgModule({
   declarations: [
@@ -100,7 +104,8 @@ import { MobileColorPickerComponent } from './components/mobile-color-picker/mob
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              '474514984650-2f0dvbnbcjh2tolup348qjpolkh22rb1.apps.googleusercontent.com'
+              '474514984650-2f0dvbnbcjh2tolup348qjpolkh22rb1.apps.googleusercontent.com',
+              googleLoginOptions
             )
           },
           {

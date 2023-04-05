@@ -1,6 +1,9 @@
 .form-control, .formLabel {
     font-size: 1.5vw;
 }
+.form-control {
+    min-width: 5vw;
+}
 
 #dimensionsFormContainer {
     max-height: 100%;

@@ -25,7 +25,7 @@ export class FormRegisterComponent implements OnInit {
   isCshow!: boolean;
   fakeUrl: string = 'http://localhost:4200/';
   constructor(private formBuilder:UntypedFormBuilder, private http:HttpClient, public sharedDataService:SharedDataService, 
-    private router:Router, private authService:SocialAuthService) {
+    private router:Router) {
     }
 
 
@@ -56,9 +56,9 @@ export class FormRegisterComponent implements OnInit {
     }
   }
 
-  signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-  }
+  // signInWithFB(): void {
+  //   this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  // }
 
   // convenience getter for easy access to form fields
   get emailid() {

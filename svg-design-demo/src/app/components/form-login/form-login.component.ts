@@ -22,7 +22,7 @@ export class FormLoginComponent implements OnInit {
   pass!: string;
   fakeUrl: string = 'http://localhost:4200/';
   constructor(private formBuilder:UntypedFormBuilder, private http:HttpClient, public sharedDataService:SharedDataService, 
-    private router:Router, private authService:SocialAuthService) { }
+    private router:Router) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -42,9 +42,9 @@ export class FormLoginComponent implements OnInit {
     return this.loginForm.get('password');
   }
 
-  signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-  }
+  // signInWithFB(): void {
+  //   this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  // }
 
   onClickShowPass() {
     if (this.pass === 'password') {

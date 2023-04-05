@@ -186,7 +186,7 @@ export class AppComponent {
     }
 
     // User is not signed in
-    if(this.sharedDataService.userInfo.length <= 1) {this.sharedDataService.signedIn = false;} 
+    if(this.sharedDataService.userInfo == undefined || this.sharedDataService.userInfo.length <= 1) {this.sharedDataService.signedIn = false;} 
     // User is signed in
     else {this.sharedDataService.signedIn = true;}
 
@@ -204,7 +204,7 @@ export class AppComponent {
             if(this.sharedDataService.userInfo.length > 1) {
               this.sharedDataService.signedIn = true;
               $('#discountModal').modal('hide');
-              if((<HTMLInputElement>document.getElementById("rememberMeBox"))?.checked) {localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));}
+              if(true) {localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));}
               this.router.navigate(['/']);
             }
             else if(this.sharedDataService.userInfo.length == 1 && this.sharedDataService.userInfo[0] == -1) {
@@ -214,7 +214,7 @@ export class AppComponent {
                 if(this.sharedDataService.userInfo.length > 1) {
                   this.sharedDataService.signedIn = true;
                   $('#discountModal').modal('hide');
-                  if((<HTMLInputElement>document.getElementById("rememberMeBox"))?.checked) {localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));}
+                  if(true) {localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));}
                   this.router.navigate(['/']);
                 } 
               });
