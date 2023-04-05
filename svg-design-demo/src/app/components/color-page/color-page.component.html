@@ -145,6 +145,7 @@
                 <label class="custom-control-label" for="customSwitch_{{templateCategory}}">{{templateCategory}}</label>
             </div>
             <input type="button" class="btn btn-dark btn-med" (click)="addTemplateCategories()" id="templateCategoryInput"  value="Update Template Categories"/>
+            <input type="button" class="btn btn-dark btn-med" (click)="filterTemplates()" id="templateFilterInput"  value="Filter Templates (select 1 category or none)"/>
         </div>
     </div>
     <!-- <div *ngIf="!this.onPanels" id="templateAutofillDesigner">

@@ -334,6 +334,11 @@ export class TemplateIconComponent implements OnInit {
       if(temp.category != undefined && temp.category.includes(this.sharedDataService.selectedTemplateCategory)) {isOkay = true;}
       else {isOkay = false; return false;}
     }
+    else {
+      if(temp.category == undefined && (this.sharedDataService.selectedTemplateCategory == undefined || this.sharedDataService.selectedTemplateCategory == "unassigned")) {isOkay = true;}
+      else if(temp.category != undefined && temp.category.includes(this.sharedDataService.selectedTemplateCategory)) {isOkay = true;}
+      else {isOkay = false; return false;}
+    }
     if(temp.tempString == "-1") {return false;}
     // Splitting the tempString info into a 2d array of panel info
     let tempString:string[] = temp.tempString.split(';');

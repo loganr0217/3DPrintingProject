@@ -513,6 +513,23 @@ export class ColorPageComponent implements OnInit {
     }
   }
 
+  filterTemplates():void {
+    let templateCategories:string = "";
+    let templateCategoriesFormatted:string = "";
+    let categoriesSelected:number = 0;
+    for(const tempCategory of ["Artist Inspired", "Interests", "Garden", "Classics", "Sacred"]) {
+      if((<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))?.checked) {
+        templateCategories += tempCategory + ";";
+        templateCategoriesFormatted += "\n- " + tempCategory;
+        ++categoriesSelected;
+      }
+    }
+    if(categoriesSelected == 0) {this.sharedDataService.selectedTemplateCategory = "unassigned";}
+    else if(categoriesSelected == 1) {this.sharedDataService.selectedTemplateCategory = templateCategories.substring(0, templateCategories.length-1);}
+    else {alert("You can only filter by 1 category or unassigned (no category).");} 
+    
+  }
+
   
 
 }

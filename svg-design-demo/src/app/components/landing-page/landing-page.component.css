@@ -18,6 +18,18 @@
         width:55vw;
         font-size: 5.5vw;
     }
+    .startDesigning1, .startDesigning6 {
+        margin-top: 1vh;
+        margin-bottom: 2vh;
+        font-family: 'Inter Tight', sans-serif;
+        font-weight: 400;
+    }
+    
+    .startDesigning6 {
+        margin: auto;
+        border: 1px solid black;
+        margin-bottom: 10vh;
+    }
     .inputField {
         width: 55vw;
         font-size: 5vw;
@@ -81,6 +93,19 @@
     .startDesigning1, .startDesigning6 {
         width:22vw;
         font-size: 2vw;
+    }
+    .startDesigning1, .startDesigning6 {
+        margin-top: 1vh;
+        margin-bottom: 2vh;
+        font-family: 'Inter Tight', sans-serif;
+        font-weight: 400;
+    }
+    
+    .startDesigning6 {
+        margin: auto;
+        margin-top: 5vh;
+        border: 1px solid black;
+        margin-bottom: 10vh;
     }
     .inputField {
         width: 22vw;
@@ -216,20 +241,6 @@ form {
     font-weight: 400;
 }
 
-
-.startDesigning1, .startDesigning6 {
-    margin-top: 1vh;
-    margin-bottom: 2vh;
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 400;
-}
-
-.startDesigning6 {
-    margin: auto;
-    margin-top: 5vh;
-    border: 1px solid black;
-    margin-bottom: 10vh;
-}
 
 .registerBtn {
     font-family: 'Inter Tight', sans-serif;
