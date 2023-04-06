@@ -1,9 +1,8 @@
-.formLabel {
+.form-control, .formLabel {
     font-size: 1.5vw;
 }
 .form-control {
     min-width: 5vw;
-    font-size: max(1.5vw, 16px);
 }
 
 #dimensionsFormContainer {
@@ -46,7 +45,7 @@ input[type=number] {
     }
 
     .form-control, .formLabel {
-        font-size: 3.5vw;
+        font-size: max(3.5vw, 16px);
     }
     .input-group-text, .dropdown-toggle {
         font-size: 3vw;
