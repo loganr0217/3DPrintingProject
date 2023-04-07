@@ -4,7 +4,6 @@ import { Polygon } from '../svgScaler';
 import { SVGTemplate } from '../svgScaler';
 import { Entry } from 'contentful';
 import { ContentfulService } from 'src/app/services/contentful.service';
-import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-design-window',
