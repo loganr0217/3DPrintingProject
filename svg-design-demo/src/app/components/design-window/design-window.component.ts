@@ -4,6 +4,7 @@ import { Polygon } from '../svgScaler';
 import { SVGTemplate } from '../svgScaler';
 import { Entry } from 'contentful';
 import { ContentfulService } from 'src/app/services/contentful.service';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-design-window',
@@ -12,7 +13,16 @@ import { ContentfulService } from 'src/app/services/contentful.service';
 })
 export class DesignWindowComponent implements OnInit {
   howToPosts:Entry<any>[] = [];
-  constructor(private sharedDataService:SharedDataService, public contentfulService:ContentfulService) { }
+  constructor(public sharedDataService:SharedDataService, public contentfulService:ContentfulService) { }
+  mouseX:number = 0;
+  mouseY:number = 0;
+
+  onMousemove(e:any) {
+    let elem = document.querySelector("#designWindow");
+    let rect = elem!.getBoundingClientRect();
+    this.mouseX =(e.clientX - rect.left);
+    this.mouseY = (e.clientY - rect.top);
+  }
 
   // Queue-like array to hold changes
   recentChanges:string[][][];

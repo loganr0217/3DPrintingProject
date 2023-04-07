@@ -174,5 +174,9 @@ button:focus {
     #checkoutContainer {
         height: 100vh;
     }
+
+    .notOnLaptop {
+        display: none;
+    }
 }
 
