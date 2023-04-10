@@ -25,15 +25,15 @@ export class MainPageComponent implements OnInit {
         break;
       }
       case("stage4"): {
-        if(this.sharedDataService.selectedTemplateID == -1 || this.sharedDataService.currentStepID < 6) {finalResult = "visibility: hidden; display: none;";}
+        if(this.sharedDataService.selectedTemplateID == -1 || (this.sharedDataService.currentStepID < 5 && !this.sharedDataService.continueSavedOrder)) {finalResult = "visibility: hidden; display: none;";}
         break;
       }
       case("stage5"): {
-        if(this.sharedDataService.selectedTemplateID == -1 || (this.sharedDataService.currentStepID < 7 && window.innerWidth <= 576)) {finalResult = "visibility: hidden; display: none;";}
+        if(this.sharedDataService.selectedTemplateID == -1 || (this.sharedDataService.currentStepID < 6 && window.innerWidth <= 576)) {finalResult = "visibility: hidden; display: none;";}
         break;
       }
       case("checkout"): {
-        if(this.sharedDataService.selectedTemplateID == -1 || (this.sharedDataService.currentStepID < 8 && window.innerWidth <= 576)) {finalResult = "visibility: hidden; display: none;";}
+        if(this.sharedDataService.selectedTemplateID == -1 || (this.sharedDataService.currentStepID < 7 && window.innerWidth <= 576)) {finalResult = "visibility: hidden; display: none;";}
         break;
       }
 
@@ -52,88 +52,112 @@ export class MainPageComponent implements OnInit {
   }
 
   isCustomProgressBarHidden() {
-    if(this.sharedDataService.currentStepID < 1) {return true;}
-    return false;
+    if(this.sharedDataService.currentStepID >= 1 || (this.sharedDataService.currentStepID == 0 && !this.sharedDataService.signedIn)) {return false;}
+    return true;
   }
 
   ngOnInit(): void {
   }
 
+  // Focus email signup
+  focusEmailRegister():void {
+    if(this.sharedDataService.signedIn) {
+      this.sharedDataService.currentStepID = 1;
+      this.stageSwitch();
+    }
+    else {
+      document.getElementById("requiredEmailFieldStep0")?.focus();
+      document.getElementById("requiredEmailFieldStep0")?.blur();
+      document.getElementById("requiredEmailFieldStep0")?.focus();
+    }
+    
+  }
+
+
   stageSwitch():void {
     switch(this.sharedDataService.currentStepID) {
-      case(0): {
+      case(-1): {
         document.getElementById("entirePage")?.scrollIntoView({behavior: 'smooth'});
         break;
       }
-      case(1): {
+      case(0): {
         document.getElementById("stage2")?.setAttribute("style", "visibility:visible;");
         document.getElementById("stage2")?.scrollIntoView({behavior: 'smooth'});
         break;
       }
-      case(2): {
+      case(1): {
         document.getElementById("stage2ACon")?.setAttribute("style", "visibility:visible;");
         document.getElementById("stage2ACon")?.scrollIntoView({behavior: 'smooth'});
         break;
       }
-      case(3): {
+      case(2): {
         document.getElementById("section2")?.setAttribute("style", "visibility:visible;");
         document.getElementById("section2")?.scrollIntoView({behavior: 'smooth'});
         break;
       }
-      case(4): {
+      case(3): {
         document.getElementById("stage3")?.setAttribute("style", "visibility:visible;");
         document.getElementById("stage3")?.scrollIntoView({behavior: 'smooth'});
         break;
       }
-      case(5): {
+      case(4): {
         document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;");
         document.getElementById("templateCategoryStage")?.scrollIntoView({behavior: 'smooth'});
         break;
       }
-      case(6): {
+      case(5): {
         document.getElementById("stage4")?.setAttribute("style", "visibility:visible;");
         document.getElementById("stage4")?.scrollIntoView({behavior: 'smooth'});
         break;
       }
-      case(7): {
+      case(6): {
         document.getElementById("stage5")?.setAttribute("style", "visibility:visible;");
         document.getElementById("stage5")?.scrollIntoView({behavior: 'smooth'});
         break;
       }
-      case(8): {
+      case(7): {
         document.getElementById("checkoutStage")?.setAttribute("style", "visibility:visible;");
         document.getElementById("checkoutStage")?.scrollIntoView({behavior: 'smooth'});
         break;
       }
+      // case(8): {
+      //   document.getElementById("checkoutStage")?.setAttribute("style", "visibility:visible;");
+      //   document.getElementById("checkoutStage")?.scrollIntoView({behavior: 'smooth'});
+      //   break;
+      // }
     }
   }
 
   previousStage():void {
-    --this.sharedDataService.currentStepID;
+    if(this.sharedDataService.currentStepID == 1 && this.sharedDataService.signedIn) {this.sharedDataService.currentStepID = -1;} 
+    else {--this.sharedDataService.currentStepID;}
     this.stageSwitch();
   }
 
   nextStage():void {
-    if(this.sharedDataService.currentStepID == 4) {
+    if(this.sharedDataService.currentStepID == 3) {
       this.updateDimensionsButton();
       this.updatePanelLayout();
     }
-    else if(this.sharedDataService.currentStepID < 8) {
-      if(this.sharedDataService.currentStepID == 3) {
+    else if(this.sharedDataService.currentStepID < 7) {
+      if(this.sharedDataService.currentStepID == 2) {
         if(this.sharedDataService.selectedWindowShape != 'unselected') {
           ++this.sharedDataService.currentStepID;
           this.stageSwitch();
         }
       }
-      else if(this.sharedDataService.currentStepID == 5) {
+      else if(this.sharedDataService.currentStepID == 4) {
         if(this.sharedDataService.selectedTemplateCategory != undefined) {
           ++this.sharedDataService.currentStepID;
           this.stageSwitch();
         }
       }
+      else if(this.sharedDataService.currentStepID == 0) {
+        this.focusEmailRegister();
+      } 
       else {
         ++this.sharedDataService.currentStepID;
-      this.stageSwitch();
+        this.stageSwitch();
       }
     }
   }

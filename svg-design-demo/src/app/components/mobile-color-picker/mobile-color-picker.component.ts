@@ -61,7 +61,7 @@ export class MobileColorPickerComponent {
   }
 
   getPossibleColors():{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number}[] {
-    if(this.sharedDataService.currentStepID < 6) {return [];}
+    if(this.sharedDataService.currentStepID < 5) {return [];}
     let possibleColors:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number}[] = [];
     let colorIds:number[] = [];
 

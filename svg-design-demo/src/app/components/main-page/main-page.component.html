@@ -12,9 +12,9 @@
 
 <div id="customProgressBar" [hidden]="isCustomProgressBarHidden()">
     <div class="breadCrumbs notOnLaptop" id="step2ABreadCrumbs">
-        <a *ngIf="this.sharedDataService.currentStepID != 8" (click)="previousStage()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-lg breadCrumbButton" value="Go Back"/> </a>
-        <a *ngIf="this.sharedDataService.currentStepID != 4 && this.sharedDataService.currentStepID != 8" (click)="nextStage()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" [value]="this.sharedDataService.currentStepID >= 7 ? 'Checkout' : 'Next Step'"/> </a>
-        <a *ngIf="this.sharedDataService.currentStepID == 4 && this.sharedDataService.unitChoice != ''" (click)="nextStage()" data-toggle="modal" data-target="#dimensionsFormModal" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next Step"/> </a>
+        <a *ngIf="this.sharedDataService.currentStepID != 7" (click)="previousStage()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-lg breadCrumbButton" value="Go Back"/> </a>
+        <a *ngIf="this.sharedDataService.currentStepID != 3 && this.sharedDataService.currentStepID != 7" (click)="nextStage()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" [value]="this.sharedDataService.currentStepID >= 6 ? 'Checkout' : 'Next Step'"/> </a>
+        <a *ngIf="this.sharedDataService.currentStepID == 3 && this.sharedDataService.unitChoice != ''" (click)="nextStage()" data-toggle="modal" data-target="#dimensionsFormModal" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next Step"/> </a>
     </div>
     <div class="progress">
         <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="12.5"
@@ -22,6 +22,6 @@
         </div>
     </div>
     <div >
-        <h5 class="progressLabel">Step {{this.sharedDataService.currentStepID}} of 8</h5>
+        <h5 class="progressLabel">Step {{this.sharedDataService.currentStepID}} of 7</h5>
     </div>
 </div>
