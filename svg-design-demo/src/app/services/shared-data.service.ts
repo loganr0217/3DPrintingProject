@@ -43,7 +43,7 @@ export class SharedDataService {
   chosenPanel:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string};
   templatesAvailable:boolean = false;
 
-  currentStepID:number = 0;
+  currentStepID:number = -1;
 
   windowWidthFractionNum:number;
   windowHeightFractionNum:number;

@@ -71,6 +71,6 @@
 
 </div>
 <div class="breadCrumbs notOnLaptop">
-    <a (click)="previousStage()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-lg breadCrumbButton" value="Go Back"/> </a>
-    <a *ngIf="this.sharedDataService.currentStepID == 8" (click)="getFinalInfo()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton nextButton" value="Checkout"/> </a>
+    <a *ngIf="this.sharedDataService.currentStepID == 7" (click)="previousStage()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-lg breadCrumbButton" value="Go Back"/> </a>
+    <a *ngIf="this.sharedDataService.currentStepID == 7" (click)="getFinalInfo()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton nextButton" value="Checkout"/> </a>
 </div>

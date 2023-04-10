@@ -17,6 +17,11 @@
     font-size: 1.7vw;
 } */
 
+.input-group-text {
+    padding-left: .1rem;
+    padding-right: .1rem;
+}
+
 .btn {
     margin-right: 1vw;
 }
@@ -47,6 +52,9 @@ input[type=number] {
     .form-control, .formLabel {
         font-size: max(3.5vw, 16px);
     }
+    .form-control {
+        min-width: 12vw;
+    }
     .input-group-text, .dropdown-toggle {
         font-size: 3vw;
     }
@@ -54,5 +62,12 @@ input[type=number] {
     .input-group-prepend, .input-group-text {
         width: fit-content;
     }
+    
+}
+
+@media only screen and (min-width: 576.1px) {
+    /* #dimensionsFormContainer {
+        width: 50vw;
+    } */
     
 }

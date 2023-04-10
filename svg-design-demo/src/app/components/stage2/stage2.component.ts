@@ -64,6 +64,7 @@ export class Stage2Component implements OnInit {
               this.sharedDataService.signedIn = true;
               localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));
               alert("You're now registered and should have recieved a confirmation email in your inbox.");
+              this.sharedDataService.currentStepID = 1;
             }
             else if(this.sharedDataService.userInfo.length == 1 && this.sharedDataService.userInfo[0] == -1) {alert("A user with that email already exists.");}
           });;
@@ -111,6 +112,14 @@ export class Stage2Component implements OnInit {
 
   // Method to change the currently selected divider
   chooseDivider(dividerType:string) {
+    // User needs to sign in
+    if(window.innerWidth > 576 && !this.sharedDataService.signedIn) {
+      document.getElementById("requiredEmailFieldStep0")?.focus();
+      document.getElementById("requiredEmailFieldStep0")?.blur();
+      document.getElementById("requiredEmailFieldStep0")?.focus();
+      return;
+    }
+    
     document.getElementById("windowShapeText")?.setAttribute("style", "visibility:visible;");
     document.getElementById("windowShapeTextMobile")?.setAttribute("style", "visibility:visible;");
     document.getElementById("section2")?.setAttribute("style", "visibility:visible;");
@@ -181,7 +190,7 @@ export class Stage2Component implements OnInit {
       this.sharedDataService.finishedSashes = true;
       document.getElementById("submitInput")?.removeAttribute("disabled");
     }
-    if(window.innerWidth >= 576) {
+    if(window.innerWidth > 576) {
       document.getElementById("widthInput")?.focus();
       this.nextstage3();
     }
