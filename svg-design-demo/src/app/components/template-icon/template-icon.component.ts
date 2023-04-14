@@ -175,6 +175,7 @@ export class TemplateIconComponent implements OnInit {
     if(window.innerWidth >= 576) {
       document.getElementById("stage4")?.setAttribute("style", "visibility:visible;")
       document.getElementById("stage4")?.scrollIntoView({behavior: 'auto'});
+      this.sharedDataService.currentStepID = 5;
     }
   }
 

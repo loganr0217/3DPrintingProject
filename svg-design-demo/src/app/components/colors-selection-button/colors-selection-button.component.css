@@ -8,6 +8,8 @@
 
 #colorIconContainer {
     display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
 }
 /* Pane Color Offerings
 #button_141315_true {background-color: #141315;}
