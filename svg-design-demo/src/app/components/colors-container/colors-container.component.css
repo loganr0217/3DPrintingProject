@@ -1,8 +1,10 @@
 #colorsContainer {
     display:flex;
-    width:55vw;
-    overflow-x: scroll;  
-    overflow-y: hidden;  
+    flex-direction: column;
+    height: 30vw;
+    width: 5vw;
+    overflow-x: hidden;  
+    overflow-y: scroll;  
     white-space: nowrap;
 }
 

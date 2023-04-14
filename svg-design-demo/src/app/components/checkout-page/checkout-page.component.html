@@ -56,12 +56,11 @@
                                     
                         
 
-                            <button (click)="getFinalInfo()" class="btn-block btn-light notOnMobile">
+                            <!-- <button (click)="getFinalInfo()" class="btn-block btn-light notOnMobile">
                                 <span>
                                     <span id="checkout">Checkout</span>
-                                    <!-- <span id="check-amt">$26.48</span> -->
                                 </span>
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                 </div>
@@ -70,7 +69,7 @@
     </div>
 
 </div>
-<div class="breadCrumbs notOnLaptop">
-    <a *ngIf="this.sharedDataService.currentStepID == 7" (click)="previousStage()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-lg breadCrumbButton" value="Go Back"/> </a>
+<div class="breadCrumbs">
+    <a *ngIf="this.sharedDataService.currentStepID == 7" (click)="previousStage()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-light btn-lg breadCrumbButton" value="Go Back"/> </a>
     <a *ngIf="this.sharedDataService.currentStepID == 7" (click)="getFinalInfo()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton nextButton" value="Checkout"/> </a>
 </div>

@@ -160,6 +160,6 @@
 
     <!-- <input type="button" class="btn btn-light btn-med" id="backInput" (click)="previousStage()" value="Back"/> -->
     <input type="button" [style]="'display: ' + ((isDoubleHung() && isLaptop())  ? 'inline' : 'none') + ';'" class="btn btn-dark btn-med notOnMobile" id="sashSelectionButton" (click)="switchSash()" value="{{sashButtonText()}}"/>
-    <input type="button" class="btn btn-dark btn-med notOnMobile" id="submitInput" (click)="updateDimensionsButton(); updatePanelLayout()" value="Next" data-toggle="modal" data-target="#dimensionsFormModal"/>
+    <!-- <input type="button" class="btn btn-dark btn-med notOnMobile" id="submitInput" (click)="updateDimensionsButton(); updatePanelLayout()" value="Next" data-toggle="modal" data-target="#dimensionsFormModal"/> -->
     
 </form>

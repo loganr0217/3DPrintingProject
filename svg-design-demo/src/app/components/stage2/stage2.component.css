@@ -163,12 +163,6 @@ figcaption {
 }
 
 @media only screen and (min-width: 576.1px) {
-    #emailStep0 {
-        padding-top: 10px;
-        width: 40vw;
-        margin-left: 2vw;
-        margin-right: 2vw;
-    }
     /* Text */
     .emailForm {
         display: flex;
@@ -187,5 +181,13 @@ figcaption {
 
     .dividerTypeImageCon {
         padding-top: 2vh;
+    }
+
+    #emailStep0 {
+        padding-top: 5vh;
+        padding-bottom: 90vh;
+        width: 40vw;
+        margin-left: 2vw;
+        margin-right: 2vw;
     }
 }

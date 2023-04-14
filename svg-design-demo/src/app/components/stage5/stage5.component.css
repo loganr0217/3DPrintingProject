@@ -58,4 +58,9 @@ p {
         padding-top: 5px;
         padding-bottom: 30vh;
     }
+    .saveIcon {
+        position: fixed;
+        bottom: 15vh;
+        right: 5vh;
+    }
 }

@@ -91,6 +91,11 @@ p {
     }
 
     #stage3Container {padding-top: 5px;}
+
+    .unitButton {
+        width: 15vw;
+        margin-right: 5vw;
+    }
     
 }
 
