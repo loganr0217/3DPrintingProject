@@ -1,8 +1,8 @@
 #colorsContainer {
     display:flex;
     flex-direction: column;
-    height: 30vw;
-    width: 5vw;
+    height: 431px;
+    width: 65px;
     overflow-x: hidden;  
     overflow-y: scroll;  
     white-space: nowrap;
@@ -12,8 +12,8 @@
     -webkit-appearance: none;
 }
 
-#colorsContainer::-webkit-scrollbar:horizontal {
-    height: 11px;
+#colorsContainer::-webkit-scrollbar:vertical {
+    width: 11px;
 }
 
 #colorsContainer::-webkit-scrollbar-thumb {

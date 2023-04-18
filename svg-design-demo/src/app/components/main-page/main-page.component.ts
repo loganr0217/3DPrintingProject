@@ -4,6 +4,7 @@ import { User } from 'src/app/models/user';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { DividerWindow } from '../svgScaler';
 
+declare var $:any;
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
@@ -57,6 +58,20 @@ export class MainPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  isAvailableTemplate():boolean {
+    let availableTemplate:boolean = false;
+    if(this.sharedDataService.templateData == undefined) {return false;}
+    for(let i:number = 0; i < this.sharedDataService.templateData.length; ++i) {
+      if(this.sharedDataService.panelLayoutDims[0] == this.sharedDataService.templateData[i].panelDims[0]
+        && this.sharedDataService.panelLayoutDims[1] == this.sharedDataService.templateData[i].panelDims[1] 
+        && this.sharedDataService.templateData[i].category != undefined) {
+          availableTemplate = true;
+          break;
+      }
+    }
+    return availableTemplate;
   }
 
   // Focus email signup
@@ -138,6 +153,12 @@ export class MainPageComponent implements OnInit {
     if(this.sharedDataService.currentStepID == 3) {
       this.updateDimensionsButton();
       this.updatePanelLayout();
+      if(!this.isAvailableTemplate()) {$('#dimensionsFormModal').modal('show');}
+      else {
+        ++this.sharedDataService.currentStepID;
+        this.stageSwitch();
+      }
+      
     }
     else if(this.sharedDataService.currentStepID < 7) {
       if(this.sharedDataService.currentStepID == 2) {

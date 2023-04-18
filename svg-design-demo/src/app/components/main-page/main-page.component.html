@@ -14,7 +14,7 @@
     <div class="breadCrumbs" id="step2ABreadCrumbs">
         <a *ngIf="this.sharedDataService.currentStepID != 7" (click)="previousStage()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-light btn-lg breadCrumbButton" value="Go Back"/> </a>
         <a *ngIf="this.sharedDataService.currentStepID != 3 && this.sharedDataService.currentStepID != 7" (click)="nextStage()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" [value]="this.sharedDataService.currentStepID >= 6 ? 'Checkout' : 'Next Step'"/> </a>
-        <a *ngIf="this.sharedDataService.currentStepID == 3 && this.sharedDataService.unitChoice != ''" (click)="nextStage()" data-toggle="modal" data-target="#dimensionsFormModal" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next Step"/> </a>
+        <a *ngIf="this.sharedDataService.currentStepID == 3 && this.sharedDataService.unitChoice != ''" (click)="nextStage()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next Step"/> </a>
     </div>
     <div class="progress">
         <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="12.5"

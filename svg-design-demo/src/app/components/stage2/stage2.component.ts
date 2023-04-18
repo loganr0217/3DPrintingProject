@@ -119,7 +119,8 @@ export class Stage2Component implements OnInit {
       document.getElementById("requiredEmailFieldStep0")?.focus();
       return;
     }
-    this.sharedDataService.currentStepID = 2;
+    if(window.innerWidth > 576) {this.sharedDataService.currentStepID = 2;}
+    
 
     document.getElementById("windowShapeText")?.setAttribute("style", "visibility:visible;");
     document.getElementById("windowShapeTextMobile")?.setAttribute("style", "visibility:visible;");
@@ -168,7 +169,7 @@ export class Stage2Component implements OnInit {
     
     // Updating values for windowShape
     this.windowShape = windowShape;
-    this.sharedDataService.currentStepID = 3;
+    if(window.innerWidth > 576) {this.sharedDataService.currentStepID = 3;}
 
     // Getting type of window and default dimensions
     let windowDimensions:string[] = windowShape.slice(windowShape.length-4).split("to");
