@@ -146,6 +146,7 @@ export class MainPageComponent implements OnInit {
   previousStage():void {
     if(this.sharedDataService.currentStepID == 1 && this.sharedDataService.signedIn) {this.sharedDataService.currentStepID = -1;} 
     else {--this.sharedDataService.currentStepID;}
+    if(this.sharedDataService.continueSavedOrder) { this.sharedDataService.currentStepID = 5; }
     this.stageSwitch();
   }
 

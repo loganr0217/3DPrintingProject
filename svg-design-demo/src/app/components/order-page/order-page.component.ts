@@ -106,8 +106,8 @@ export class OrderPageComponent implements OnInit {
         document.getElementById("dividerPane"+paneNum)?.setAttribute("style", "fill-rule:evenodd;stroke:#000000;stroke-width:.2;");
         ++paneNum;
       }
-      
     }
+    this.nextstage5();
   }
 
   // Creates the window previews
@@ -288,6 +288,12 @@ export class OrderPageComponent implements OnInit {
         this.refreshOrders();
        });
     }
+  }
+
+  nextstage5() {
+    document.getElementById("stage5")?.setAttribute("style", "visibility:visible;")
+    document.getElementById("stage5")?.scrollIntoView({behavior: 'smooth'});
+    if(this.sharedDataService.signedIn) {this.sharedDataService.currentStepID = 5;}
   }
 
 }
