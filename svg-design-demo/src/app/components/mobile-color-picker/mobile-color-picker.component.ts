@@ -71,7 +71,7 @@ export class MobileColorPickerComponent {
         for(let i:number = 0; i < currentAutofillString.length; ++i) {
           if(!colorIds.includes(Number(currentAutofillString[i]))) {colorIds.push(Number(currentAutofillString[i]));}
         }
-        console.log(currentAutofillString);
+        // console.log(currentAutofillString);
       }
     }
 

@@ -18,6 +18,13 @@ export class CheckoutPageComponent implements OnInit {
     this.emailForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]]
     });
+
+    this.initialize();
+  }
+
+  initialize() {
+    var input = document.getElementById('searchTextField') as HTMLInputElement;
+    new google.maps.places.Autocomplete(input);
   }
 
   get email() {
@@ -83,11 +90,11 @@ export class CheckoutPageComponent implements OnInit {
           if(i != this.sharedDataService.panelColoringArray.length - 1) {panelColoringString += ";";}
         }
 
-        const streetAddress:string = (<HTMLInputElement>document.getElementById("streetAddressInput")).value;
-        const city:string = (<HTMLInputElement>document.getElementById("cityInput")).value;
-        const state:string = (<HTMLInputElement>document.getElementById("stateInput")).value;
-        const zipcode:string = (<HTMLInputElement>document.getElementById("zipcodeInput")).value;
-        const country:string = "US";
+        const streetAddress:string = (<HTMLInputElement>document.getElementById("searchTextField")).value;
+        // const city:string = (<HTMLInputElement>document.getElementById("cityInput")).value;
+        // const state:string = (<HTMLInputElement>document.getElementById("stateInput")).value;
+        // const zipcode:string = (<HTMLInputElement>document.getElementById("zipcodeInput")).value;
+        // const country:string = "US";
         const bottomWindowWidth:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice) : 0;
         const bottomWindowHeight:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice) : 0;
         const frameColor:string = this.sharedDataService.currentFilamentColor;
@@ -97,8 +104,7 @@ export class CheckoutPageComponent implements OnInit {
         +"'&windowWidth="+windowWidth+"&windowHeight="+windowHeight+"&horzDividers="+horzDividers
         +"&vertDividers="+vertDividers+"&dividerWidth="+dividerWidth
         +"&templateID="+templateID+"&panelColoringString='"+panelColoringString
-        +"'&streetAddress='"+streetAddress+"'&city='"+city+"'&state='"+state
-        +"'&zipcode='"+zipcode+"'&country='"+country+"'&bottomWindowWidth="+bottomWindowWidth+
+        +"'&streetAddress='"+streetAddress+"'&bottomWindowWidth="+bottomWindowWidth+
         "&bottomWindowHeight="+bottomWindowHeight+"&frameColor='"+frameColor+"'").subscribe(result => {
           alert(this.sharedDataService.signedIn ? "Success! Your order has been placed." : "Success! Your order has been placed. We recommend signing up using the same email for this order so you can track your previous orders.");
           if(!this.sharedDataService.signedIn) {this.router.navigateByUrl("/signup")};
