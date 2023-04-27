@@ -52,6 +52,7 @@ export class SharedDataService {
   dividerWidthFractionNum:number;
 
   continueSavedOrder:boolean = false;
+  sampleOrder:string = "";
 
   // Array holding all window shapes offered
   windowShapes:string[] = [

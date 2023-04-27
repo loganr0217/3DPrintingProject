@@ -146,6 +146,7 @@ export class MainPageComponent implements OnInit {
   previousStage():void {
     if(this.sharedDataService.currentStepID == 1 && this.sharedDataService.signedIn) {this.sharedDataService.currentStepID = -1;} 
     else {--this.sharedDataService.currentStepID;}
+    if(this.sharedDataService.currentStepID == 3 && this.sharedDataService.sampleOrder != '') {--this.sharedDataService.currentStepID;}
     this.stageSwitch();
   }
 
@@ -164,6 +165,7 @@ export class MainPageComponent implements OnInit {
       if(this.sharedDataService.currentStepID == 2) {
         if(this.sharedDataService.selectedWindowShape != 'unselected') {
           ++this.sharedDataService.currentStepID;
+          if(this.sharedDataService.sampleOrder != '') {++this.sharedDataService.currentStepID;}
           this.stageSwitch();
         }
       }

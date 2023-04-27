@@ -24,10 +24,12 @@
         <h1><b>{{this.posts[0].fields.stage5header}}</b></h1>
         <span class="bodyText" [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(this.posts[0].fields.stage5body), 5)"></span>
         <div id="windowCartDetails" class="notOnMobile">
-            <p [textContent]="getWindowWidth()"></p>
-            <p [textContent]="getWindowHeight()"></p>
-            <p [textContent]="getPanelWidth()"></p>
-            <p [textContent]="getPanelHeight()"></p>
+            <p *ngIf="this.sharedDataService.sampleOrder == ''" [textContent]="getWindowWidth()"></p>
+            <p *ngIf="this.sharedDataService.sampleOrder == ''" [textContent]="getWindowHeight()"></p>
+            <p *ngIf="this.sharedDataService.sampleOrder == ''" [textContent]="getPanelWidth()"></p>
+            <p *ngIf="this.sharedDataService.sampleOrder == ''" [textContent]="getPanelHeight()"></p>
+            <p *ngIf="this.sharedDataService.sampleOrder == 'coasters'">Coaster Set (4): 4 inches square</p>
+            <p *ngIf="this.sharedDataService.sampleOrder == 'lightcatcher'">Lightcatcher: 12 inches square</p>
             <hr *ngIf="this.isDoubleHung()" />
             <p *ngIf="this.isDoubleHung()" [textContent]="getBottomSashWidth()"></p>
             <p *ngIf="this.isDoubleHung()" [textContent]="getBottomSashHeight()"></p>
