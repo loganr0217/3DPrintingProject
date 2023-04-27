@@ -90,6 +90,7 @@ export class CheckoutPageComponent implements OnInit {
         const country:string = "US";
         const bottomWindowWidth:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice) : 0;
         const bottomWindowHeight:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice) : 0;
+        const frameColor:string = this.sharedDataService.currentFilamentColor;
         
         this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/makeorder?email='"+email
         +"'&selectedDividerType='"+selectedDividerType+"'&unitChoice='"+unitChoice
@@ -98,7 +99,7 @@ export class CheckoutPageComponent implements OnInit {
         +"&templateID="+templateID+"&panelColoringString='"+panelColoringString
         +"'&streetAddress='"+streetAddress+"'&city='"+city+"'&state='"+state
         +"'&zipcode='"+zipcode+"'&country='"+country+"'&bottomWindowWidth="+bottomWindowWidth+
-        "&bottomWindowHeight="+bottomWindowHeight).subscribe(result => {
+        "&bottomWindowHeight="+bottomWindowHeight+"&frameColor='"+frameColor+"'").subscribe(result => {
           alert(this.sharedDataService.signedIn ? "Success! Your order has been placed." : "Success! Your order has been placed. We recommend signing up using the same email for this order so you can track your previous orders.");
           if(!this.sharedDataService.signedIn) {this.router.navigateByUrl("/signup")};
         });

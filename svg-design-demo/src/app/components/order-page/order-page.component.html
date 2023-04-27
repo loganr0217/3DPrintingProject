@@ -7,7 +7,7 @@
                 <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
             </svg>
         </a>
-        <input type="button" *ngIf="this.sharedDataService.userInfo[5] == 'admin'" class="btn btn-dark btn-med btnReg" (click)="adminFilterToggle()" id="adminFilterInput" [value]="this.adminFilter ? 'Turn Off Admin View' : 'Turn On Admin View'"/>
+        <input type="button" *ngIf="this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('production')" class="btn btn-dark btn-med btnReg" (click)="adminFilterToggle()" id="adminFilterInput" [value]="this.adminFilter ? 'Turn Off Admin View' : 'Turn On Admin View'"/>
     </div>
     <div id="orderListAndPreview">
         <div id="orderListAndButton">
@@ -20,8 +20,8 @@
                     </div>
                 </div>
             </div>
-            <input type="button" *ngIf="this.sharedDataService.userInfo[5] == 'admin'" class="btn btn-dark btn-med btnReg" (click)="getOrderInfo()" id="orderInfoInput" value="Get Order Info"/>
-            <input type="button" *ngIf="this.sharedDataService.userInfo[5] == 'admin'" class="btn btn-dark btn-med btnReg" (click)="deleteOrder()" id="deleteOrderInput" value="Delete Order"/>
+            <input type="button" *ngIf="this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('production')" class="btn btn-dark btn-med btnReg" (click)="getOrderInfo()" id="orderInfoInput" value="Get Order Info"/>
+            <input type="button" *ngIf="this.sharedDataService.userInfo[5].includes('admin')" class="btn btn-dark btn-med btnReg" (click)="deleteOrder()" id="deleteOrderInput" value="Delete Order"/>
         </div>
         <div id="previewAndContinue">
             <app-window-preview-container id="pastOrderPreview"></app-window-preview-container>

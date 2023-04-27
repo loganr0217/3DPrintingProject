@@ -51,6 +51,7 @@ export class OrderPageComponent implements OnInit {
     if(this.sharedDataService.bottomSashWidth > 0 && this.sharedDataService.bottomSashHeight > 0) {this.sharedDataService.selectedWindowShape = "2xhung2to4";}
     else {this.sharedDataService.selectedWindowShape = "vertical2to4";}
     this.sharedDataService.continueSavedOrder = true;
+    this.sharedDataService.currentFilamentColor = order[22];
 
     // Setting up divider window with this info
     let newDividerWindow:DividerWindow;
