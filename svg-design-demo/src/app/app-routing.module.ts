@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AboutPageComponent } from './components/about-page/about-page.component';
 import { ColorOfferingsPageComponent } from './components/color-offerings-page/color-offerings-page.component';
 import { ColorPageComponent } from './components/color-page/color-page.component';
+import { CouponCodeGenerationPageComponent } from './components/coupon-code-generation-page/coupon-code-generation-page.component';
 import { FaqPageComponent } from './components/faq-page/faq-page.component';
 import { ForgotPassComponent } from './components/forgot-pass/forgot-pass.component';
 import { FormLoginComponent } from './components/form-login/form-login.component';
@@ -79,6 +80,10 @@ const routes: Routes = [
   {
     path: "forgot-pass",
     component: ForgotPassComponent
+  },
+  {
+    path: "couponGeneration",
+    component: CouponCodeGenerationPageComponent
   }
 ];
 

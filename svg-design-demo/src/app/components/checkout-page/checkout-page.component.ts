@@ -11,6 +11,9 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
 })
 export class CheckoutPageComponent implements OnInit {
   emailForm:UntypedFormGroup;
+  userCouponCodes:any;
+  selectedCouponCode:string = "";
+  selectedCouponCodeIndex:number = -1;
 
   constructor(public sharedDataService:SharedDataService, private http:HttpClient, private formBuilder:UntypedFormBuilder,
     private router:Router) { }
@@ -19,6 +22,14 @@ export class CheckoutPageComponent implements OnInit {
     this.emailForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]]
     });
+
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+
+    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/getusercouponcodes?email='"+email+"'&password='"+password+ "'").subscribe(result => {
+      this.userCouponCodes = JSON.parse(JSON.stringify(result));
+    });
+    
 
     this.initialize();
   }
@@ -74,7 +85,7 @@ export class CheckoutPageComponent implements OnInit {
       }
       final += "]\n"
       final += this.sharedDataService.panelColoringArray;
-      if((<HTMLInputElement>document.getElementById("couponCodeInput"))?.value == "lightscreen.art-beta") {
+      if(this.isValidCouponCode(this.selectedCouponCodeIndex)) {
         // Setting up vars to get final info for order
         const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : (<HTMLInputElement>document.getElementById("emailInput")).value;
         const selectedDividerType:string = this.sharedDataService.selectedDividerType;
@@ -92,6 +103,10 @@ export class CheckoutPageComponent implements OnInit {
         }
 
         const streetAddress:string = (<HTMLInputElement>document.getElementById("searchTextField")).value;
+        if(streetAddress == "") {
+          alert("Make sure to enter an address.");
+          return;
+        }
         // const city:string = (<HTMLInputElement>document.getElementById("cityInput")).value;
         // const state:string = (<HTMLInputElement>document.getElementById("stateInput")).value;
         // const zipcode:string = (<HTMLInputElement>document.getElementById("zipcodeInput")).value;
@@ -99,16 +114,19 @@ export class CheckoutPageComponent implements OnInit {
         const bottomWindowWidth:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice) : 0;
         const bottomWindowHeight:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice) : 0;
         const frameColor:string = this.sharedDataService.currentFilamentColor;
-        
+        const totalWindowArea:number = this.sharedDataService.sampleOrder != "" ? (this.sharedDataService.sampleOrder == "coasters" ? (1) : (2)) : ((this.sharedDataService.windowWidth * this.sharedDataService.windowHeight) + (this.sharedDataService.bottomSashWidth * this.sharedDataService.bottomPanelHeight)); 
+
         this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/makeorder?email='"+email
         +"'&selectedDividerType='"+selectedDividerType+"'&unitChoice='"+unitChoice
         +"'&windowWidth="+windowWidth+"&windowHeight="+windowHeight+"&horzDividers="+horzDividers
         +"&vertDividers="+vertDividers+"&dividerWidth="+dividerWidth
         +"&templateID="+templateID+"&panelColoringString='"+panelColoringString
         +"'&streetAddress='"+streetAddress+"'&bottomWindowWidth="+bottomWindowWidth+
-        "&bottomWindowHeight="+bottomWindowHeight+"&frameColor='"+frameColor+"'").subscribe(result => {
-          alert(this.sharedDataService.signedIn ? "Success! Your order has been placed." : "Success! Your order has been placed. We recommend signing up using the same email for this order so you can track your previous orders.");
-          if(!this.sharedDataService.signedIn) {this.router.navigateByUrl("/signup")};
+        "&bottomWindowHeight="+bottomWindowHeight+"&frameColor='"+frameColor+"'"+"&couponCode="+this.selectedCouponCode+"&totalArea="+totalWindowArea).subscribe(result => {
+          let test = JSON.parse(JSON.stringify(result));
+          if(test[0] == 1) {alert("Success! Your order has been placed.");}
+          else if(test[0] == -2) {alert("This code is invalid.");}
+          else {alert("Something went wrong when placing the order.");}
         });
       }
       else {
@@ -116,6 +134,29 @@ export class CheckoutPageComponent implements OnInit {
       }
     }
     
+  }
+
+  selectCouponCode(code:string, index:number):void {
+    this.selectedCouponCode = code;
+    this.selectedCouponCodeIndex = index;
+    (<HTMLInputElement>document.getElementById("couponCodeInput")).value = this.selectedCouponCode;
+  }
+
+  isValidCouponCode(index:number):boolean {
+    // Hasn't been used yet
+    if(this.userCouponCodes[index][3] == undefined) {
+      let totalWindowArea:number = (this.sharedDataService.windowWidth * this.sharedDataService.windowHeight) + (this.sharedDataService.bottomSashWidth * this.sharedDataService.bottomPanelHeight); 
+      if(this.sharedDataService.sampleOrder == "coasters" && this.userCouponCodes[index][1].toString().includes("coasters_")) {return true;}
+      else if(this.sharedDataService.sampleOrder == "lightcatcher" && this.userCouponCodes[index][1].toString().includes("lightcatcher_")) {return true;}
+      else if(this.sharedDataService.sampleOrder == "") {
+        let numberStart:number = Number(this.userCouponCodes[index][1].substring(0, this.userCouponCodes[index][1].indexOf("sq")));
+        let maxSize:number = (numberStart*12*25.4)*(numberStart*12*25.4);
+        if(totalWindowArea <= maxSize) {return true;}
+        else {return false;}
+      }
+      else {return false;}
+    }
+    return false;
   }
 
   previousStage():void {

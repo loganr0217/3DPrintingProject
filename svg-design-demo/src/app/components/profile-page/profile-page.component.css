@@ -6,3 +6,35 @@ p {
     margin:5px;
 }
 
+
+.kickstarterCodeCon {
+    width: 100vw;
+}
+
+.addCode {
+    width: 30vw;
+    margin:auto;
+}
+
+.addButton {
+    margin-left: 1vw;
+}
+
+.form-group {
+    display: flex;
+}
+
+.inputCol {
+    flex: 4;
+}
+
+.btnCol {
+    flex: 1;
+}
+
+@media only screen and (max-width: 576px) {
+    .addCode {
+        width: 90vw;
+        margin:auto;
+    }
+}

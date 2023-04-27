@@ -245,6 +245,16 @@
             </ul>
           </div>
           <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5].includes('admin')">
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="javascript:void(0)" routerLink="/couponGeneration" id="couponGenerationLink" class="text-white text-decoration-none footerNote">Coupon Codes</a>
+              </li>
+            </ul>
+          </div>
+          <!--Grid column-->
           
         </div>
         <!--Grid row-->
