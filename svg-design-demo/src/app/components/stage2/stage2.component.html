@@ -40,7 +40,7 @@
     <h1><b>{{post.fields.stage2header}}</b></h1>
     <span [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(post.fields.stage2body), 1)"></span>
     <div id="dividerTypeImages">
-      <figure class="dividerTypeImageCon" *ngFor="let dividerType of ['nodiv', 'raiseddiv', 'embeddeddiv']" (click)="chooseDivider(dividerType);" [attr.style]="this.getIconHighlight('dividerType', dividerType)">
+      <figure class="dividerTypeImageCon" *ngFor="let dividerType of ['nodiv', 'raiseddiv', 'embeddeddiv', 'sample']" (click)="chooseDivider(dividerType);" [attr.style]="this.getIconHighlight('dividerType', dividerType)">
         <img id="dividerTypeImage_{{dividerType}}" class="dividerTypeImage" src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/>
         <figcaption>{{dividerName(dividerType)}}</figcaption>
       </figure>
@@ -50,14 +50,27 @@
   <div id="section2" class="section">
     <span [innerHTML]="this.contentfulService.markdownToHtml(this.posts[0].fields.stage2hiddenBody)" id="windowShapeTextMobile" class="notOnLaptop"></span>
     <div id="windowShapeImages">
-      <div class="middleWindowShapes">
+      <div class="middleWindowShapes" *ngIf="this.sharedDataService.sampleOrder == ''">
         <figure class="windowShapeImageCon" *ngFor="let windowShape of ['vertical2to4']" (click)="chooseWindowShape(windowShape);" [attr.style]="this.getIconHighlight('windowShape', windowShape)">
           <img id="windowShapeImage_{{windowShape}}" class="windowShapeImage" src="{{this.getWindowShapeSrc(windowShape)}}" alt="{{windowShape}}"/>
           <figcaption class="windowShapeCaption">{{windowShapeExample(windowShape)}}</figcaption>
         </figure>
       </div>
-      <div class="middleWindowShapes">
+      <div class="middleWindowShapes" *ngIf="this.sharedDataService.sampleOrder == ''">
         <figure class="windowShapeImageCon" *ngFor="let windowShape of ['2xhung2to4']" (click)="chooseWindowShape(windowShape);" [attr.style]="this.getIconHighlight('windowShape', windowShape)">
+          <img id="windowShapeImage_{{windowShape}}" class="windowShapeImage" src="{{this.getWindowShapeSrc(windowShape)}}" alt="{{windowShape}}"/>
+          <figcaption class="windowShapeCaption">{{windowShapeExample(windowShape)}}</figcaption>
+        </figure>
+      </div>
+
+      <div class="middleWindowShapes" *ngIf="this.sharedDataService.sampleOrder != ''">
+        <figure class="windowShapeImageCon" *ngFor="let windowShape of ['coasters']" (click)="chooseWindowShape(windowShape);" [attr.style]="this.getIconHighlight('windowShape', windowShape)">
+          <img id="windowShapeImage_{{windowShape}}" class="windowShapeImage" src="{{this.getWindowShapeSrc(windowShape)}}" alt="{{windowShape}}"/>
+          <figcaption class="windowShapeCaption">{{windowShapeExample(windowShape)}}</figcaption>
+        </figure>
+      </div>
+      <div class="middleWindowShapes" *ngIf="this.sharedDataService.sampleOrder != ''">
+        <figure class="windowShapeImageCon" *ngFor="let windowShape of ['lightcatcher']" (click)="chooseWindowShape(windowShape);" [attr.style]="this.getIconHighlight('windowShape', windowShape)">
           <img id="windowShapeImage_{{windowShape}}" class="windowShapeImage" src="{{this.getWindowShapeSrc(windowShape)}}" alt="{{windowShape}}"/>
           <figcaption class="windowShapeCaption">{{windowShapeExample(windowShape)}}</figcaption>
         </figure>

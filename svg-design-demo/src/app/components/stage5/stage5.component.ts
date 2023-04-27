@@ -100,6 +100,7 @@ export class Stage5Component implements OnInit {
       const country:string = "US";
       const bottomWindowWidth:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice) : 0;
       const bottomWindowHeight:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice) : 0;
+      const frameColor:string = this.sharedDataService.currentFilamentColor;
       
       this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/saveorder?email='"+email
       +"'&password='"+password+"'&selectedDividerType='"+selectedDividerType+"'&unitChoice='"+unitChoice
@@ -108,7 +109,7 @@ export class Stage5Component implements OnInit {
       +"&templateID="+templateID+"&panelColoringString='"+panelColoringString
       +"'&streetAddress='"+streetAddress+"'&city='"+city+"'&state='"+state
       +"'&zipcode='"+zipcode+"'&country='"+country+"'&bottomWindowWidth="+bottomWindowWidth+
-      "&bottomWindowHeight="+bottomWindowHeight).subscribe(result => alert("Success! Your order has been saved."));
+      "&bottomWindowHeight="+bottomWindowHeight+"&frameColor='"+frameColor+"'").subscribe(result => alert("Success! Your order has been saved."));
     }
   }
 

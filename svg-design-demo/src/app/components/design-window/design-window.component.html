@@ -39,10 +39,10 @@
     <app-colors-container *ngIf="isColorPage()" [paneColors]=false class="colorsOnLeft"></app-colors-container>
     <div class="float-right">
         <div class="dropdown">
-            <button class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1 dropdown-toggle" type="button" id="dropdownMenuButton" *ngIf="!isColorPage()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1 dropdown-toggle" type="button" id="dropdownMenuButtonFrame" *ngIf="!isColorPage()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Frame Color
             </button>
-            <div *ngIf="!isColorPage()" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div *ngIf="!isColorPage()" class="dropdown-menu" aria-labelledby="dropdownMenuButtonFrame">
             <a href="javascript:void(0)" style="background-color: #666666;color:#ffffff;" (click)="changeFrameColor('666666')" class="dropdown-item">Silver</a>
             <a href="javascript:void(0)" style="background-color: #FFD700;color:#ffffff;" (click)="changeFrameColor('FFD700')" class="dropdown-item">Gold</a>
             <a href="javascript:void(0)" style="background-color: #CD7F32;color:#ffffff;" (click)="changeFrameColor('CD7F32')" class="dropdown-item">Bronze</a>
@@ -63,7 +63,7 @@
     </div>
     
     <svg xmlns="http://www.w3.org/2000/svg" width="109mm" height="114mm" viewBox="-4 40 109 114" id="currentTemplate">
-        <path id="svgTemplate" style="fill:#666666" d=""/>
+        <path id="svgTemplate" [attr.fill]="'#'+this.sharedDataService.currentFilamentColor" d=""/>
         <path *ngFor="let i of range()" id="pane{{i}}" (click)="updateSelectedPane(i)"/>
     </svg>
   

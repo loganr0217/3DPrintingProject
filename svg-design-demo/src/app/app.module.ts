@@ -44,6 +44,7 @@ import {
   FacebookLoginProvider
 } from '@abacritt/angularx-social-login';
 import { MobileColorPickerComponent } from './components/mobile-color-picker/mobile-color-picker.component';
+import { CouponCodeGenerationPageComponent } from './components/coupon-code-generation-page/coupon-code-generation-page.component';
 
 const googleLoginOptions:GoogleInitOptions = {
   oneTapEnabled: (JSON.parse(localStorage.getItem('userInfo') || '{}').length > 1 ? false : true), // user signed in before
@@ -85,7 +86,8 @@ const googleLoginOptions:GoogleInitOptions = {
     ColorOfferingsPageComponent,
     CarouselComponent,
     LandingPageComponent,
-    MobileColorPickerComponent
+    MobileColorPickerComponent,
+    CouponCodeGenerationPageComponent
   ],
   imports: [
     BrowserModule,

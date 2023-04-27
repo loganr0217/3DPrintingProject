@@ -96,19 +96,23 @@ export class Stage2Component implements OnInit {
   }
 
   getWindowShapeSrc(windowShape:string):string {
+    if(this.sharedDataService.sampleOrder != '') {return "assets/img/windowButtons2/"+windowShape+"sample.svg";}
     return "assets/img/windowButtons2/"+windowShape+this.sharedDataService.selectedDividerType+".svg";
   }
 
   getIconHighlight(iconType:string, iconName:string):string {
     if(iconType == "windowShape") {
-      if(this.sharedDataService.selectedWindowShape == iconName) {return "border: 1px solid black;";}
+      if(this.sharedDataService.sampleOrder == iconName) {return "border: 1px solid black;";}
+      else if(this.sharedDataService.sampleOrder == '' && this.sharedDataService.selectedWindowShape == iconName) {return "border: 1px solid black;";}
       else {return "";}
     }
     else {
-      if(this.sharedDataService.selectedDividerType == iconName) {return "border: 1px solid black;";}
+      if(this.sharedDataService.sampleOrder != '' && iconName == 'sample') {return "border: 1px solid black;";}
+      else if(this.sharedDataService.sampleOrder == '' && this.sharedDataService.selectedDividerType == iconName) {return "border: 1px solid black;";}
       else {return "";}
     }
   }
+
 
   // Method to change the currently selected divider
   chooseDivider(dividerType:string) {
@@ -143,8 +147,17 @@ export class Stage2Component implements OnInit {
     }
     
     // Updating values for dividerType
-    this.sharedDataService.selectedDividerType = dividerType;
-    this.dividerType = dividerType;
+    if(dividerType == "sample") {
+      this.sharedDataService.sampleOrder = "sample";
+      this.sharedDataService.selectedDividerType = "nodiv";
+      this.dividerType = "nodiv";
+    }
+    else {
+      this.sharedDataService.sampleOrder = "";
+      this.sharedDataService.selectedDividerType = dividerType;
+      this.dividerType = dividerType;
+    }
+    
 
     // Updating the dividerWindow if it exists already
     if(this.sharedDataService.dividerWindow != null) {
@@ -168,8 +181,18 @@ export class Stage2Component implements OnInit {
     // document.getElementById("windowShapeImage_"+windowShape)?.setAttribute("style", "filter: invert(25%);");
     
     // Updating values for windowShape
-    this.windowShape = windowShape;
-    if(window.innerWidth > 576) {this.sharedDataService.currentStepID = 3;}
+    if(this.sharedDataService.sampleOrder != '') {
+      this.sharedDataService.sampleOrder = windowShape;
+      this.windowShape = 'vertical2to4';
+      this.sharedDataService.selectedWindowShape = 'vertical2to4';
+    }
+    else {
+      this.windowShape = windowShape;
+      this.sharedDataService.selectedWindowShape = windowShape;
+    }
+    
+    if(window.innerWidth > 576 && this.sharedDataService.sampleOrder == '') {this.sharedDataService.currentStepID = 3;}
+    if(window.innerWidth > 576 && this.sharedDataService.sampleOrder != '') {this.sharedDataService.currentStepID = 4;}
 
     // Getting type of window and default dimensions
     let windowDimensions:string[] = windowShape.slice(windowShape.length-4).split("to");
@@ -181,7 +204,6 @@ export class Stage2Component implements OnInit {
     else {defaultWidth = 100;}
     let defaultHeight:number = defaultWidth / widthHeightRatio;
 
-    this.sharedDataService.selectedWindowShape = windowShape;
     // Setting default dimensions for step 3
     this.updateDimensions(defaultWidth, defaultHeight, numHorizontalDividers, numVerticalDividers);
     this.sharedDataService.topSash = true;
@@ -193,7 +215,40 @@ export class Stage2Component implements OnInit {
       this.sharedDataService.finishedSashes = true;
       document.getElementById("submitInput")?.removeAttribute("disabled");
     }
-    if(window.innerWidth > 576) {
+
+    // Sample order
+    if(this.sharedDataService.sampleOrder != '') {
+      this.sharedDataService.resetFractionNums();
+      this.sharedDataService.unitChoice = 'mm';
+      // Coasters default 2x2 each 4in^2
+      if(this.sharedDataService.sampleOrder == 'coasters') {
+        this.sharedDataService.selectedDividerType = "raiseddiv";
+        this.sharedDataService.dividerWidth = 1;
+        this.sharedDataService.dividerNumbers = [1, 1];
+        this.sharedDataService.windowWidth = 204.2;
+        this.sharedDataService.windowHeight = 204.2;
+        this.sharedDataService.panelLayout = [];
+        for(let i:number = 0; i < 2; ++i) {
+          this.sharedDataService.panelLayout.push([]);
+        }
+        this.sharedDataService.panelLayoutDims = [2, 2];
+      }
+      // Lightcatcher each 12in^2
+      else if(this.sharedDataService.sampleOrder == 'lightcatcher') {
+        this.sharedDataService.selectedDividerType = "nodiv";
+        this.sharedDataService.dividerWidth = 0;
+        this.sharedDataService.dividerNumbers = [0, 0];
+        this.sharedDataService.windowWidth = 304.8;
+        this.sharedDataService.windowHeight = 304.8;
+        this.sharedDataService.panelLayout = [];
+        for(let i:number = 0; i < 1; ++i) {
+          this.sharedDataService.panelLayout.push([]);
+        }
+        this.sharedDataService.panelLayoutDims = [1, 1];
+      }
+      if(window.innerWidth > 576) {this.nextStageTemplateCategory();}
+    }
+    else if(window.innerWidth > 576) {
       document.getElementById("widthInput")?.focus();
       this.nextstage3();
     }
@@ -260,10 +315,16 @@ export class Stage2Component implements OnInit {
     document.getElementById("stage3")?.scrollIntoView({behavior: 'smooth'});
   }
 
+  nextStageTemplateCategory():void {
+    document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;")
+    document.getElementById("templateCategoryStage")?.scrollIntoView({behavior: 'smooth'});
+  }
+
   dividerName(id:string):string {
     if(id == "nodiv") {return "No Dividers";}
     else if(id == "raiseddiv") {return "Raised Dividers";}
     else if(id == "embeddeddiv") {return "Embedded Dividers";}
+    else if(id == "sample") {return "Samples";}
     else {return "";}
   }
 
@@ -272,6 +333,8 @@ export class Stage2Component implements OnInit {
     else if(windowShape == "2xhung2to4") {return "Double Hung";}
     else if(windowShape == "horizontal4to1") {return "Horizontal";}
     else if(windowShape == "vertical2to4") {return "Casement";}
+    else if(windowShape == "coasters") {return "Coaster Set";}
+    else if(windowShape == "lightcatcher") {return "Lightcatcher";}
     else {return "";}
   }
 

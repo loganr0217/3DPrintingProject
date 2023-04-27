@@ -7,36 +7,28 @@
                         <div class="col-lg-4">
                             <div class="row px-2">
                                 <div class="form-group col-md-12">
-                                    <label class="form-control-label">Street Address</label>
-                                    <input type="text" id="streetAddressInput" name="streetAddress"/>
-                                </div>
-                            </div>
-                            <div class="row px-2">
-                                <div class="form-group col-md-12">
-                                    <label class="form-control-label">Zip Code</label>
-                                    <input type="text" id="zipcodeInput" name="zipcode"/>
+                                    <label class="form-control-label">Address</label>
+                                    <input type="text" id="searchTextField"/>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="row px-2">
-                                <div class="form-group col-md-12">
-                                    <label class="form-control-label">City</label>
-                                    <input type="text" id="cityInput" name="city"/>
-                                </div>
-                            </div>
-                            <div class="row px-2">
-                                <div class="form-group col-md-12">
-                                    <label class="form-control-label">State</label>
-                                    <input type="text" id="stateInput" name="state"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="row px-2">
-                                <div class="form-group col-md-12">
-                                    <label class="form-control-label">Coupon Code</label>
-                                    <input type="text" id="couponCodeInput" name="couponCode"/>
+                                <div class="form-group col-md-12 codeDropdown">
+                                    <!-- <label class="form-control-label">Coupon Code</label> -->
+                                    <div class="dropdown">
+                                        <button class="form-control-label btn-dark btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButtonCouponCheckout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Coupon Codes
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonCouponCheckout">
+                                            <ng-container *ngFor="let couponCode of this.userCouponCodes; let i = index">
+                                                <a href="javascript:void(0)" *ngIf="isValidCouponCode(i)" (click)="selectCouponCode(couponCode[1], i)" class="dropdown-item">{{couponCode[1]}}</a>
+                                            </ng-container>
+                                            
+                                        </div>
+                                    </div>
+                                    <input type="text" disabled id="couponCodeInput" name="couponCode"/>
+                                    
                                 </div>
                             </div>
 
