@@ -63,7 +63,7 @@
     </div>
     
     <svg xmlns="http://www.w3.org/2000/svg" width="109mm" height="114mm" viewBox="-4 40 109 114" id="currentTemplate">
-        <path id="svgTemplate" style="fill:#666666" d=""/>
+        <path id="svgTemplate" [attr.fill]="'#'+this.sharedDataService.currentFilamentColor" d=""/>
         <path *ngFor="let i of range()" id="pane{{i}}" (click)="updateSelectedPane(i)"/>
     </svg>
   
