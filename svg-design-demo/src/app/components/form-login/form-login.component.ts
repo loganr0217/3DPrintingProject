@@ -24,13 +24,14 @@ export class FormLoginComponent implements OnInit {
   constructor(private formBuilder:UntypedFormBuilder, private http:HttpClient, public sharedDataService:SharedDataService, 
     private router:Router) { }
 
-  ngOnInit(): void {
+  ngOnInit():void {
     this.loginForm = this.formBuilder.group({
       emailId: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
     this.isShow = false;
     this.pass = 'password';
+    
   }
 
   // convenience getter for easy access to form fields

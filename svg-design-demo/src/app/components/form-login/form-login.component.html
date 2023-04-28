@@ -1,6 +1,6 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<div id="formLoginContainer" *ngIf="!this.sharedDataService.signedIn">
-<!-- main app container -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<h1 *ngIf="this.sharedDataService.signedIn">You are already signed in!</h1>
+<div id="formLoginContainer">
     <div class="container">
         <div class="container mt-3 mb-3">
             <div class="row header" style="text-align: center;">
@@ -53,4 +53,3 @@
 
     <!-- <app-carousel id="carouselContainer" [startNumber]="4"></app-carousel> -->
 </div>
-<h1 *ngIf="this.sharedDataService.signedIn">You are already signed in!</h1>
