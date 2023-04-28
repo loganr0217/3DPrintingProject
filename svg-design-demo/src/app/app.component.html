@@ -227,7 +227,7 @@
           <!--Grid column-->
 
           <!--Grid column-->
-          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] == 'admin' || this.sharedDataService.userInfo[5] == 'designer'">
+          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('designer'))">
             <ul class="list-unstyled mb-0">
               <li>
                 <a href="javascript:void(0)" routerLink="/windowCreation" id="tdiLink" class="text-white text-decoration-none footerNote">TDI</a>
@@ -237,7 +237,7 @@
           <!--Grid column-->
 
           <!--Grid column-->
-          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] == 'admin'">
+          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))">
             <ul class="list-unstyled mb-0">
               <li>
                 <a href="javascript:void(0)" routerLink="/colorOfferings" class="text-white text-decoration-none footerNote">Color Offerings</a>
@@ -247,7 +247,7 @@
           <!--Grid column-->
 
           <!--Grid column-->
-          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] == 'admin'">
+          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))">
             <ul class="list-unstyled mb-0">
               <li>
                 <a href="javascript:void(0)" routerLink="/couponGeneration" id="couponGenerationLink" class="text-white text-decoration-none footerNote">Coupon Codes</a>
