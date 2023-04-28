@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ViewChild } from '@angular/core';
-import { ElementRef } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { Router } from '@angular/router';
-import { SocialAuthService } from '@abacritt/angularx-social-login';
-import { FacebookLoginProvider } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'form-login',
