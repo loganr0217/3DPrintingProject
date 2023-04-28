@@ -43,7 +43,6 @@
 
 .windowTemplate {
     flex:1;
-    display: flex;
 }
 
 @media only screen and (max-width: 576px) {
