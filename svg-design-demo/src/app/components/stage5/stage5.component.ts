@@ -93,22 +93,21 @@ export class Stage5Component implements OnInit {
         if(i != this.sharedDataService.panelColoringArray.length - 1) {panelColoringString += ";";}
       }
 
-      const streetAddress:string = (<HTMLInputElement>document.getElementById("streetAddressInput")).value;
-      const city:string = (<HTMLInputElement>document.getElementById("cityInput")).value;
-      const state:string = (<HTMLInputElement>document.getElementById("stateInput")).value;
-      const zipcode:string = (<HTMLInputElement>document.getElementById("zipcodeInput")).value;
-      const country:string = "US";
+      // const streetAddress:string = (<HTMLInputElement>document.getElementById("streetAddressInput")).value;
+      // const city:string = (<HTMLInputElement>document.getElementById("cityInput")).value;
+      // const state:string = (<HTMLInputElement>document.getElementById("stateInput")).value;
+      // const zipcode:string = (<HTMLInputElement>document.getElementById("zipcodeInput")).value;
+      // const country:string = "US";
       const bottomWindowWidth:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice) : 0;
       const bottomWindowHeight:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice) : 0;
       const frameColor:string = this.sharedDataService.currentFilamentColor;
-      
+
       this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/saveorder?email='"+email
       +"'&password='"+password+"'&selectedDividerType='"+selectedDividerType+"'&unitChoice='"+unitChoice
       +"'&windowWidth="+windowWidth+"&windowHeight="+windowHeight+"&horzDividers="+horzDividers
       +"&vertDividers="+vertDividers+"&dividerWidth="+dividerWidth
       +"&templateID="+templateID+"&panelColoringString='"+panelColoringString
-      +"'&streetAddress='"+streetAddress+"'&city='"+city+"'&state='"+state
-      +"'&zipcode='"+zipcode+"'&country='"+country+"'&bottomWindowWidth="+bottomWindowWidth+
+      +"'&bottomWindowWidth="+bottomWindowWidth+
       "&bottomWindowHeight="+bottomWindowHeight+"&frameColor='"+frameColor+"'").subscribe(result => alert("Success! Your order has been saved."));
     }
   }
