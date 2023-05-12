@@ -1102,6 +1102,7 @@ export class SVGTemplate {
     polygonPaths:string[];
     startingPoint:number[];
     sortedStartingPoint:number[];
+    panelNumber:number;
 
     // Values for max/min in x/y
     xMin:number;
@@ -1428,7 +1429,7 @@ id="svg567">
         return fullFileText;
     }
 
-    getLineartPanesFileText(newWidth:number, newHeight:number, svgFileName:string = "panesFile", sortedPanesInfo):string {
+    getLineartPanesFileText(newWidth:number, newHeight:number, svgFileName:string = "panesFile", sortedPanesInfo, pNumber:number):string {
         let scaledDInfo:string = this.getLineScaledPanes((newWidth-6)/320, (newHeight-6)/320);
         let individualPanes:string[] = scaledDInfo.split("Z");
         let paths:string = "";
@@ -1436,12 +1437,13 @@ id="svg567">
         let widthHeightPolygonCheck:SVGTemplate;
         for(let i:number = 1; i < this.subShapes.length; ++i) {
             widthHeightPolygonCheck = new SVGTemplate(individualPanes[i-1] + " Z");
-            let tmp:{paneHex:string, paneWidth:number, paneHeight:number, d:string, transform:string} = {
+            let tmp:{paneHex:string, paneWidth:number, paneHeight:number, d:string, transform:string, panelNumber:number} = {
                 paneHex:this.paneColorString[i-1], 
                 paneWidth:widthHeightPolygonCheck.width, 
                 paneHeight:widthHeightPolygonCheck.height,
                 d:individualPanes[i-1] + " Z",
-                transform:this.getFileTransform(1, 1)
+                transform:this.getFileTransform(1, 1),
+                panelNumber:pNumber
             }
             if(sortedPanesInfo.has(tmp.paneHex)) {
                 let tmpArray = sortedPanesInfo.get(tmp.paneHex);
@@ -1727,8 +1729,8 @@ export class LightScreen {
                     });
                 }
                 else if(process.argv[2] && process.argv[2] == "-PANES") {
-                    if(i < this.numberTopPanels) {currentSVG.getLineartPanesFileText(this.topPanelWidth, this.topPanelHeight, "paneFile"+i, this.sortedPanesInformation);}
-                    else {currentSVG.getLineartPanesFileText(this.bottomPanelWidth, this.bottomPanelHeight, "paneFile"+i, this.sortedPanesInformation);}
+                    if(i < this.numberTopPanels) {currentSVG.getLineartPanesFileText(this.topPanelWidth, this.topPanelHeight, "paneFile"+i, this.sortedPanesInformation, i);}
+                    else {currentSVG.getLineartPanesFileText(this.bottomPanelWidth, this.bottomPanelHeight, "paneFile"+i, this.sortedPanesInformation, i);}
                 }
                 else {
                     if(i < this.numberTopPanels) {
@@ -1865,14 +1867,16 @@ export class LightScreen {
         for(let currentKey of Array.from(this.sortedPanesInformation.keys())) {
             console.log(currentKey);
             let paths:string = "";
+            let textPaths:string = "";
             let currentPanesArray = this.sortedPanesInformation.get(currentKey);
 
             // Populating array of currentPanes and sorting them by arear (smallest to largest)
             let currentRectangles:SVGTemplate[] = [];
             for(let i:number = 0; i < currentPanesArray.length; ++i) {
-                let tmp:{paneHex:string, paneWidth:number, paneHeight:number, d:string, transform:string} = currentPanesArray[i];
+                let tmp:{paneHex:string, paneWidth:number, paneHeight:number, d:string, transform:string, panelNumber:number} = currentPanesArray[i];
                 let tmpSVG:SVGTemplate = new SVGTemplate(tmp.d);
                 tmpSVG.transformValue = tmp.transform;
+                tmpSVG.panelNumber = tmp.panelNumber;
                 // Swapping width and height if tranform rotates the pane
                 if(tmp.transform.includes("rotate(90") || tmp.transform.includes("rotate(270")) {
                     let tmpWidth:number = tmpSVG.width;
@@ -1896,6 +1900,7 @@ export class LightScreen {
             // Looping through to generate a file for each bin
             for(let binNumber:number = 0; binNumber < finalSortedBins.length; ++binNumber) {
                 paths = "";
+                textPaths = ""
                 // Looping through each pane in current bin
                 for(let i:number = 0; i < finalSortedBins[binNumber].length; ++i) {
                     let dArray = finalSortedBins[binNumber][i].getOptimizedD().trim().split(" ");
@@ -1910,6 +1915,9 @@ export class LightScreen {
                     d="` + finalD + `"
                     transform="` + finalSortedBins[binNumber][i].transformValue + `" /> \n
                 `;
+                    textPaths += `\n
+                    <text xml:space="preserve" id="text`+i+`" style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1;stroke:none"><textPath xlink:href="#rect` + i + `">` + finalSortedBins[binNumber][i].panelNumber + `
+        </textPath></text>`
                 } 
 
                 let svgSizeInfo:string = "\nwidth='"+304.8+"mm'\n" +
@@ -1922,7 +1930,8 @@ xmlns:dc="http://purl.org/dc/elements/1.1/"
 xmlns:cc="http://creativecommons.org/ns#"
 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 xmlns:svg="http://www.w3.org/2000/svg"
-xmlns="http://www.w3.org/2000/svg"` + 
+xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink"` + 
 svgSizeInfo +
 `
 version="1.1"
@@ -1943,7 +1952,9 @@ id="svg567">
 </metadata>
     ` + 
     paths + 
-`     
+`   
+` +
+textPaths +`
 </svg>
 `
 
