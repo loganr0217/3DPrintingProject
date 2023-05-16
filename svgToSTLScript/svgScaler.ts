@@ -1791,7 +1791,7 @@ export class LightScreen {
 
     // Recursive algorithm to handle bin packing into a sized rectangle [304.8, 609.6]
     // Takes in array of rectangles, baseBinSize->set, array of subBins for each finalBin in format [subBin.width, subBin.height, subBin.startX, subBin.startY], and array for finalBins
-    binpack2D(rectangles:SVGTemplate[], baseBinSize:number[] = [609.6, 609.6], paneSpaceBetween:number = 1, subBins:number[][][] = [[]], finalBins:SVGTemplate[][] = [[]]):SVGTemplate[][] {
+    binpack2D(rectangles:SVGTemplate[], baseBinSize:number[] = [385, 609.6], paneSpaceBetween:number = 1, subBins:number[][][] = [[]], finalBins:SVGTemplate[][] = [[]]):SVGTemplate[][] {
         // Base case of having no more rectangles to sort
         if(rectangles.length == 0) {return finalBins;}
 
