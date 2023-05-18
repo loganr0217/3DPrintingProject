@@ -15,6 +15,7 @@ import { ProfilePageComponent } from './components/profile-page/profile-page.com
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { TutorialsPageComponent } from './components/tutorials-page/tutorials-page.component';
 import { YourIdentifyComponent } from './components/verify-identity/your-identify/your-identify.component';
+import { UserDirectoryComponent } from './components/user-directory/user-directory.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'light-screen', pathMatch: 'full' },
@@ -79,6 +80,10 @@ const routes: Routes = [
   {
     path: "forgot-pass",
     component: ForgotPassComponent
+  },
+  {
+  path: "userDirectory",
+  component: UserDirectoryComponent
   }
 ];
 
