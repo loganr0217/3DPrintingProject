@@ -17,9 +17,10 @@
             </a>
         </div>
         <div id="usersList">
-            <div>
-                <div class="form-check-inline user">
-                    <label class="form-check-label userLabel">{{userData}}</label>
+            <div class="userData" *ngFor="let user of this.userData; let i=index">
+                <div class="form-check-inline user" (click)="this.selectUser(user)">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="{{'flexRadioDefault'+i}}">
+                    <label class="form-check-label pastOrderLabel" for="{{'flexRadioDefault'+i}}"><b>ID: </b>{{user[0]}} <b>First Name: </b>{{user[1]}} <b>Last Name: </b>{{user[2]}} <b>Email: </b>{{user[3]}} <b>Signup Date: </b>{{user[5]}}</label>
                 </div>
             </div>
         </div>
@@ -32,7 +33,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Number of Orders:</span>
                     </div>
-                    <input type="text" class="form-control" id="orderInput"/>
+                    <input type="number" class="form-control" id="orderInput"/>
                 </div>
             </div>
             <div class="form-group form-row">
@@ -40,7 +41,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Number of Drawings Saved:</span>
                       </div>
-                    <input type="text" class="form-control" id="savedInput"/>
+                    <input type="number" class="form-control" id="savedInput"/>
                 </div>
             </div>
             <div class="form-group form-row">
@@ -48,7 +49,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Signup Date:</span>
                     </div>
-                    <input type="number" class="form-control" id="signupInput"/>
+                    <input type="text" class="form-control" id="signupInput"/>
                 </div>
             </div>
             <input type="button" class="btn btn-dark btn-med" id="filterInput" (click)="this.filterUsers()"  value="Filter"/>
