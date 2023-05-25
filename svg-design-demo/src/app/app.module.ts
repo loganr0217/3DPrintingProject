@@ -38,6 +38,7 @@ import { OrderPageComponent } from './components/order-page/order-page.component
 import { ColorOfferingsPageComponent } from './components/color-offerings-page/color-offerings-page.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { UserDirectoryComponent } from './components/user-directory/user-directory.component';
 import { SocialLoginModule, SocialAuthServiceConfig, GoogleInitOptions } from '@abacritt/angularx-social-login';
 import {
   GoogleLoginProvider,
@@ -85,7 +86,8 @@ const googleLoginOptions:GoogleInitOptions = {
     ColorOfferingsPageComponent,
     CarouselComponent,
     LandingPageComponent,
-    MobileColorPickerComponent
+    MobileColorPickerComponent,
+    UserDirectoryComponent
   ],
   imports: [
     BrowserModule,
