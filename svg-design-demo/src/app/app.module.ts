@@ -45,6 +45,9 @@ import {
 } from '@abacritt/angularx-social-login';
 import { MobileColorPickerComponent } from './components/mobile-color-picker/mobile-color-picker.component';
 import { CouponCodeGenerationPageComponent } from './components/coupon-code-generation-page/coupon-code-generation-page.component';
+import { BlogPageComponent } from './components/blog-page/blog-page.component';
+import { OrderSuccessComponent } from './components/order-success/order-success.component';
+import { OrderFailureComponent } from './components/order-failure/order-failure.component';
 
 const googleLoginOptions:GoogleInitOptions = {
   oneTapEnabled: (JSON.parse(localStorage.getItem('userInfo') || '{}').length > 1 ? false : true), // user signed in before
@@ -87,7 +90,10 @@ const googleLoginOptions:GoogleInitOptions = {
     CarouselComponent,
     LandingPageComponent,
     MobileColorPickerComponent,
-    CouponCodeGenerationPageComponent
+    CouponCodeGenerationPageComponent,
+    BlogPageComponent,
+    OrderSuccessComponent,
+    OrderFailureComponent
   ],
   imports: [
     BrowserModule,

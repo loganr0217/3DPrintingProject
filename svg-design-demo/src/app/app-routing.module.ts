@@ -16,9 +16,15 @@ import { ProfilePageComponent } from './components/profile-page/profile-page.com
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { TutorialsPageComponent } from './components/tutorials-page/tutorials-page.component';
 import { YourIdentifyComponent } from './components/verify-identity/your-identify/your-identify.component';
+import { BlogPageComponent } from './components/blog-page/blog-page.component';
+import { OrderSuccessComponent } from './components/order-success/order-success.component';
+import { OrderFailureComponent } from './components/order-failure/order-failure.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'light-screen', pathMatch: 'full' },
+  { path: 'tiktok', redirectTo: 'light-screen', pathMatch: 'full' },
+  { path: 'instagram', redirectTo: 'light-screen', pathMatch: 'full' },
+  { path: 'facebook', redirectTo: 'light-screen', pathMatch: 'full' },
   { path: 'light-screen', component: MainPageComponent
     // children: [
     //   { path: '/', redirectTo: 'detail', terminal: true },
@@ -84,6 +90,18 @@ const routes: Routes = [
   {
     path: "couponGeneration",
     component: CouponCodeGenerationPageComponent
+  },
+  {
+    path: "blogPage",
+    component: BlogPageComponent
+  },
+  {
+    path: "orderSuccess",
+    component: OrderSuccessComponent
+  },
+  {
+    path: "orderFailure",
+    component: OrderFailureComponent
   }
 ];
 

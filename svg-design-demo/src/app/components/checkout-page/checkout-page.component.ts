@@ -69,7 +69,7 @@ export class CheckoutPageComponent implements OnInit {
 
   getFinalInfo():void {
     if(!this.sharedDataService.signedIn && this.email?.invalid) {alert("Make sure to enter your email."); return;}
-    if (confirm('Are you sure you want to make this order?')) {
+    if(confirm('Are you sure you want to make this order?')) {
       let finalText:string[] = [String(this.convertNumber(this.sharedDataService.windowWidth / this.sharedDataService.panelLayoutDims[0], this.sharedDataService.unitChoice)),
       String(this.convertNumber(this.sharedDataService.windowHeight / this.sharedDataService.panelLayoutDims[1], this.sharedDataService.unitChoice))];
       let final:string = "[";
@@ -85,7 +85,12 @@ export class CheckoutPageComponent implements OnInit {
       }
       final += "]\n"
       final += this.sharedDataService.panelColoringArray;
-      if(this.isValidCouponCode(this.selectedCouponCodeIndex)) {
+      const streetAddress:string = (<HTMLInputElement>document.getElementById("searchTextField")).value;
+      // if(streetAddress == "") {
+      //   alert("Make sure to enter an address.");
+      //   return;
+      // }
+      if(streetAddress != "" && ( ((this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin')))) || this.isValidCouponCode(this.selectedCouponCodeIndex) )) {
         // Setting up vars to get final info for order
         const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : (<HTMLInputElement>document.getElementById("emailInput")).value;
         const selectedDividerType:string = this.sharedDataService.selectedDividerType;
@@ -102,11 +107,7 @@ export class CheckoutPageComponent implements OnInit {
           if(i != this.sharedDataService.panelColoringArray.length - 1) {panelColoringString += ";";}
         }
 
-        const streetAddress:string = (<HTMLInputElement>document.getElementById("searchTextField")).value;
-        if(streetAddress == "") {
-          alert("Make sure to enter an address.");
-          return;
-        }
+        
         // const city:string = (<HTMLInputElement>document.getElementById("cityInput")).value;
         // const state:string = (<HTMLInputElement>document.getElementById("stateInput")).value;
         // const zipcode:string = (<HTMLInputElement>document.getElementById("zipcodeInput")).value;
@@ -115,19 +116,28 @@ export class CheckoutPageComponent implements OnInit {
         const bottomWindowHeight:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice) : 0;
         const frameColor:string = this.sharedDataService.currentFilamentColor;
         const totalWindowArea:number = this.sharedDataService.sampleOrder != "" ? (this.sharedDataService.sampleOrder == "coasters" ? (1) : (2)) : ((this.sharedDataService.windowWidth * this.sharedDataService.windowHeight) + (this.sharedDataService.bottomSashWidth * this.sharedDataService.bottomPanelHeight)); 
-
-        this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/makeorder?email='"+email
+        if(this.selectedCouponCodeIndex == -1 && (this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin')))) {this.selectedCouponCode = "stripe"};
+        window.open(("https://backend-dot-lightscreendotart.uk.r.appspot.com/makeorder?email='"+email
         +"'&selectedDividerType='"+selectedDividerType+"'&unitChoice='"+unitChoice
         +"'&windowWidth="+windowWidth+"&windowHeight="+windowHeight+"&horzDividers="+horzDividers
         +"&vertDividers="+vertDividers+"&dividerWidth="+dividerWidth
         +"&templateID="+templateID+"&panelColoringString='"+panelColoringString
         +"'&streetAddress='"+streetAddress+"'&bottomWindowWidth="+bottomWindowWidth+
-        "&bottomWindowHeight="+bottomWindowHeight+"&frameColor='"+frameColor+"'"+"&couponCode="+this.selectedCouponCode+"&totalArea="+totalWindowArea).subscribe(result => {
-          let test = JSON.parse(JSON.stringify(result));
-          if(test[0] == 1) {alert("Success! Your order has been placed.");}
-          else if(test[0] == -2) {alert("This code is invalid.");}
-          else {alert("Something went wrong when placing the order.");}
-        });
+        "&bottomWindowHeight="+bottomWindowHeight+"&frameColor='"+frameColor+"'"+"&couponCode="+this.selectedCouponCode+"&totalArea="+totalWindowArea), '_blank')!.focus();
+       
+        // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/makeorder?email='"+email
+        // +"'&selectedDividerType='"+selectedDividerType+"'&unitChoice='"+unitChoice
+        // +"'&windowWidth="+windowWidth+"&windowHeight="+windowHeight+"&horzDividers="+horzDividers
+        // +"&vertDividers="+vertDividers+"&dividerWidth="+dividerWidth
+        // +"&templateID="+templateID+"&panelColoringString='"+panelColoringString
+        // +"'&streetAddress='"+streetAddress+"'&bottomWindowWidth="+bottomWindowWidth+
+        // "&bottomWindowHeight="+bottomWindowHeight+"&frameColor='"+frameColor+"'"+"&couponCode="+this.selectedCouponCode+"&totalArea="+totalWindowArea).subscribe(result => {
+        //   window.location.href = result.toString();
+        //   // let test = JSON.parse(JSON.stringify(result));
+        //   // if(test[0] == 1) {alert("Success! Your order has been placed.");}
+        //   // else if(test[0] == -2) {alert("This code is invalid.");}
+        //   // else {alert("Something went wrong when placing the order.");}
+        // });
       }
       else {
         alert("Make sure to enter your coupon code as well as your shipping information.");

@@ -7,6 +7,7 @@ env_variables:
   CLOUD_SQL_DATABASE_NAME: lightscreen-db
   CLOUD_SQL_CONNECTION_NAME: /cloudsql/lightscreendotart:us-east5:lightscreen-clouddb
   CONTACT_FORM_PASSWORD: fohbum-jirMuk-gubqi7
+  STRIPE_SECRET_KEY: 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
 
 handlers:
 - url: /.*
