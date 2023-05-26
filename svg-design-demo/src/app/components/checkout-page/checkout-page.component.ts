@@ -154,6 +154,7 @@ export class CheckoutPageComponent implements OnInit {
 
   isValidCouponCode(index:number):boolean {
     // Hasn't been used yet
+    if(this.selectedCouponCodeIndex == -1) {return false;}
     if(this.userCouponCodes[index][3] == undefined) {
       let totalWindowArea:number = (this.sharedDataService.windowWidth * this.sharedDataService.windowHeight) + (this.sharedDataService.bottomSashWidth * this.sharedDataService.bottomPanelHeight); 
       if(this.sharedDataService.sampleOrder == "coasters" && this.userCouponCodes[index][1].toString().includes("coasters_")) {return true;}
