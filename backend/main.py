@@ -866,7 +866,7 @@ def getLightScreenPrice(totalArea):
     # Lightcatcher
     elif totalArea == 2:
         finalArea = 92903
-    costPerSqMM = 25 / 92903
+    costPerSqMM = 30 / 92903
     finalPrice = costPerSqMM * finalArea * 100
     return round(finalPrice)
 
