@@ -1,14 +1,15 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect
 from flask_cors import CORS
 from flask_mail import Mail, Message
 import os
 import secrets
 import requests
+import stripe
 
 app = Flask(__name__)
 
 mail= Mail(app)
-
+stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
 emailPassword = os.environ.get('CONTACT_FORM_PASSWORD')
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
@@ -857,6 +858,18 @@ def isCouponCodeValid(couponCode, totalArea, numAvailable):
         return False
     return False
 
+def getLightScreenPrice(totalArea):
+    finalArea = totalArea
+    # Coaster
+    if totalArea == 1:
+        finalArea = 41290.2
+    # Lightcatcher
+    elif totalArea == 2:
+        finalArea = 92903
+    costPerSqMM = 25 / 92903
+    finalPrice = costPerSqMM * finalArea * 100
+    return round(finalPrice)
+
 
 @app.route('/makeorder')
 def makeOrder():
@@ -898,6 +911,7 @@ def makeOrder():
             cur.execute("SELECT * from coupon_codes where order_id is null and code = '{}';".format(couponCode))
             rows = cur.fetchall()
             numAvailable = len(rows)
+            # User has a kickstarter code to use
             if isCouponCodeValid(couponCode, totalArea, numAvailable):
                 cur.execute("""
                 INSERT INTO orders(user_email, selected_divider_type, unit_choice, window_width, 
@@ -914,17 +928,79 @@ def makeOrder():
                 rows = cur.fetchall()
                 conn.commit()
                 if len(rows) > 0:
-                    rows = (1,)
+                    return redirect("https://lightscreenart.com/orderSuccess", code=302)
                 else:
-                    rows = (-3,)
+                    return redirect("https://lightscreenart.com/orderFailure", code=302)
+            # User is checking out using stripe
+            elif couponCode == "stripe":
+                cur.execute("""
+                INSERT INTO orders(user_email, selected_divider_type, unit_choice, window_width, 
+                window_height, horizontal_dividers, vertical_dividers, divider_width, template_id, 
+                panel_coloring_string, street_address, city, state, zipcode, country, bottom_sash_width, bottom_sash_height, status, frame_color) 
+                VALUES({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, 'saved', {}) RETURNING id;""".format(
+                email, selectedDividerType, unitChoice, windowWidth, windowHeight,
+                horzDividers, vertDividers, dividerWidth, templateID, panelColoringString, 
+                streetAddress, city, state, zipcode, country, bottomWindowWidth, bottomWindowHeight, frameColor))
+                rows = cur.fetchall()
+                conn.commit()
+
+                # Creating checkout session and adding order id to metadata
+                checkout_session = stripe.checkout.Session.create(
+                    shipping_address_collection={"allowed_countries": ["US"]},
+                    shipping_options=[{"shipping_rate": "shr_1NBr3dJm14hg4HLn2eNPaz5J"}],
+                    line_items=[{
+                        "price_data": {
+                            "currency":"usd",
+                            "product_data":{"name":"Custom LightScreen"},
+                            "unit_amount":getLightScreenPrice(totalArea),
+                        },
+                        "quantity":1,
+                    },],
+                    automatic_tax= {
+                        'enabled': True,
+                    },
+                    payment_intent_data={"metadata":{"orderID":int(rows[0][0]),},},
+                    mode='payment',
+                    success_url="https://backend-dot-lightscreendotart.uk.r.appspot.com/stripeordercomplete?orderId={}&orderStatus=1".format(int(rows[0][0])),
+                    cancel_url="https://backend-dot-lightscreendotart.uk.r.appspot.com/stripeordercomplete?orderId={}&orderStatus=0".format(int(rows[0][0])),
+                )
+                return redirect(checkout_session.url, code=302)
             else:
-                rows = (-2,)
+                return redirect("https://lightscreenart.com/orderSuccess", code=302)
         else:
-            rows = (-1,)
+            return redirect("https://lightscreenart.com/orderSuccess", code=302)
         # Returning the final result
         return jsonify(rows)
     except Exception as e:
-        return "Error connecting to the database " + str(e)
+        return redirect("https://lightscreenart.com/orderSuccess", code=302)
+
+# Return endpoint for stripe order checkout
+@app.route('/stripeordercomplete')
+def stripeOrderComplete():
+    global conn
+    # 0 -> cancelled , 1 -> success
+    orderId = request.args.get('orderId', default=0, type=int)
+    orderStatus = request.args.get('orderStatus', default=0, type=int)
+    
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if orderId != 0 and orderStatus == 1:
+            cur.execute("SELECT * FROM orders WHERE id = {};".format(orderId))
+            rows = cur.fetchall()
+            # Order is in the database and payment worked so updating to placed
+            if len(rows) > 0:
+                cur.execute("UPDATE orders set status = 'placed' where id = {};".format(orderId))
+                conn.commit()
+                return redirect("https://lightscreenart.com/orderSuccess", code=302)
+            else:
+                return redirect("https://lightscreenart.com/orderFailure", code=302)
+        else:
+            return redirect("https://lightscreenart.com/orderFailure", code=302)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return redirect("https://lightscreenart.com/orderFailure", code=302)
 
 # Endpoint to delete order 
 @app.route('/deleteorder')

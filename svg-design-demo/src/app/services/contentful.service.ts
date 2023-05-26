@@ -37,6 +37,14 @@ export class ContentfulService {
     .then(res => res.items);
   }
 
+  getBlogPostsOrdered(contentTypeId:string, query?: object): Promise<Entry<any>[]> {
+    return this.cdaClient.getEntries(Object.assign({
+      content_type: contentTypeId,
+      order: "-fields.blogPostDateTime"
+    }, query))
+    .then(res => res.items);
+  }
+
   getPostById(postId:string, contentTypeId:string, query?: object): Promise<Entry<any>> {
     return this.cdaClient.getEntry(postId, Object.assign({
       content_type: contentTypeId

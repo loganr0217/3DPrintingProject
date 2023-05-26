@@ -1,0 +1,10 @@
+<h1>Blog Page</h1>
+<div id="blogPostsContainer">
+    <div class="blogPostContainer" *ngFor="let post of this.posts; let i = index">
+        <div>
+            <h3 [innerHTML]="post.fields.blogPostTitle"></h3>
+            <p [innerHTML]="getFormattedDate(post.fields.blogPostDateTime)"></p>
+        </div>
+        <p [innerHTML]="this.contentfulService.richtextToHtml(post.fields.blogPostBody)"></p>
+    </div>
+</div>
