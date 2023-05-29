@@ -828,7 +828,7 @@ def saveOrder():
                 INSERT INTO orders(user_email, selected_divider_type, unit_choice, window_width, 
                 window_height, horizontal_dividers, vertical_dividers, divider_width, template_id, 
                 panel_coloring_string, street_address, city, state, zipcode, country, bottom_sash_width, bottom_sash_height, status, frame_color) 
-                VALUES({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, 'saved', {})""".format(
+                VALUES({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, 'Saved', {})""".format(
                 email, selectedDividerType, unitChoice, windowWidth, windowHeight,
                 horzDividers, vertDividers, dividerWidth, templateID, panelColoringString, 
                 streetAddress, city, state, zipcode, country, bottomWindowWidth, bottomWindowHeight, frameColor))
@@ -868,6 +868,8 @@ def getLightScreenPrice(totalArea):
         finalArea = 92903
     costPerSqMM = 30 / 92903
     finalPrice = costPerSqMM * finalArea * 100
+    if finalPrice < 3000:
+        finalPrice = 3000
     return round(finalPrice)
 
 
@@ -917,7 +919,7 @@ def makeOrder():
                 INSERT INTO orders(user_email, selected_divider_type, unit_choice, window_width, 
                 window_height, horizontal_dividers, vertical_dividers, divider_width, template_id, 
                 panel_coloring_string, street_address, city, state, zipcode, country, bottom_sash_width, bottom_sash_height, status, frame_color) 
-                VALUES({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, 'placed', {}) RETURNING id;""".format(
+                VALUES({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, 'Purchased', {}) RETURNING id;""".format(
                 email, selectedDividerType, unitChoice, windowWidth, windowHeight,
                 horzDividers, vertDividers, dividerWidth, templateID, panelColoringString, 
                 streetAddress, city, state, zipcode, country, bottomWindowWidth, bottomWindowHeight, frameColor))
@@ -937,7 +939,7 @@ def makeOrder():
                 INSERT INTO orders(user_email, selected_divider_type, unit_choice, window_width, 
                 window_height, horizontal_dividers, vertical_dividers, divider_width, template_id, 
                 panel_coloring_string, street_address, city, state, zipcode, country, bottom_sash_width, bottom_sash_height, status, frame_color) 
-                VALUES({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, 'saved', {}) RETURNING id;""".format(
+                VALUES({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, 'Saved', {}) RETURNING id;""".format(
                 email, selectedDividerType, unitChoice, windowWidth, windowHeight,
                 horzDividers, vertDividers, dividerWidth, templateID, panelColoringString, 
                 streetAddress, city, state, zipcode, country, bottomWindowWidth, bottomWindowHeight, frameColor))
@@ -988,9 +990,9 @@ def stripeOrderComplete():
         if orderId != 0 and orderStatus == 1:
             cur.execute("SELECT * FROM orders WHERE id = {};".format(orderId))
             rows = cur.fetchall()
-            # Order is in the database and payment worked so updating to placed
+            # Order is in the database and payment worked so updating to Purchased
             if len(rows) > 0:
-                cur.execute("UPDATE orders set status = 'placed' where id = {};".format(orderId))
+                cur.execute("UPDATE orders set status = 'Purchased' where id = {};".format(orderId))
                 conn.commit()
                 return redirect("https://lightscreenart.com/orderSuccess", code=302)
             else:
@@ -1001,6 +1003,42 @@ def stripeOrderComplete():
         return jsonify(rows)
     except Exception as e:
         return redirect("https://lightscreenart.com/orderFailure", code=302)
+
+# Endpoint to update order status
+@app.route('/updateorderstatus')
+def updateOrderStatus():
+    global conn
+    email = request.args.get('email', default='null', type=str)
+    password = request.args.get('password', default='null', type=str)
+    orderId = request.args.get('orderId', default=-1, type=int)
+    status = request.args.get('status', default='null', type=str)
+    
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' and password != 'null' and orderId != -1 and (status == "Saved" or status == "Purchased" or status == "Production" or status == "Shipped"):
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions LIKE '%admin%' OR permissions LIKE '%production%');")
+            rows = cur.fetchall()
+            # User has been authenticated as an admin or production
+            if len(rows) > 0:
+                cur.execute("SELECT * FROM orders WHERE id = {}".format(orderId))
+                rows = cur.fetchall()
+                # Order exists
+                if len(rows) > 0:
+                    cur.execute("UPDATE orders set status = '{}' WHERE id = {}".format(status, orderId))
+                    conn.commit()
+                    row = (1,)
+                # No order to update
+                else:
+                    rows = (-3,)
+            else:
+                rows = (-2,)
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
 
 # Endpoint to delete order 
 @app.route('/deleteorder')
