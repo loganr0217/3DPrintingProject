@@ -140,7 +140,7 @@ export class CheckoutPageComponent implements OnInit {
         // });
       }
       else {
-        alert("Make sure to enter your coupon code as well as your shipping information.");
+        alert("Make sure to enter your address.");
       }
     }
     
@@ -152,9 +152,27 @@ export class CheckoutPageComponent implements OnInit {
     (<HTMLInputElement>document.getElementById("couponCodeInput")).value = this.selectedCouponCode;
   }
 
+  isAnyValidCouponCodes():boolean {
+    if(this.userCouponCodes == undefined || this.userCouponCodes.length == 0) {return false;}
+    for(let index:number = 0; index < this.userCouponCodes.length; ++index) {
+      if(this.userCouponCodes[index][3] == undefined) {
+        let totalWindowArea:number = (this.sharedDataService.windowWidth * this.sharedDataService.windowHeight) + (this.sharedDataService.bottomSashWidth * this.sharedDataService.bottomPanelHeight); 
+        if(this.sharedDataService.sampleOrder == "coasters" && this.userCouponCodes[index][1].toString().includes("coasters_")) {return true;}
+        else if(this.sharedDataService.sampleOrder == "lightcatcher" && this.userCouponCodes[index][1].toString().includes("lightcatcher_")) {return true;}
+        else if(this.sharedDataService.sampleOrder == "") {
+          let numberStart:number = Number(this.userCouponCodes[index][1].substring(0, this.userCouponCodes[index][1].indexOf("sq")));
+          let maxSize:number = (numberStart*12*25.4)*(numberStart*12*25.4);
+          if(totalWindowArea <= maxSize) {return true;}
+          else {continue;}
+        }
+        else {continue;}
+      }
+    }
+    return false;
+  }
+
   isValidCouponCode(index:number):boolean {
     // Hasn't been used yet
-    if(this.selectedCouponCodeIndex == -1) {return false;}
     if(this.userCouponCodes[index][3] == undefined) {
       let totalWindowArea:number = (this.sharedDataService.windowWidth * this.sharedDataService.windowHeight) + (this.sharedDataService.bottomSashWidth * this.sharedDataService.bottomPanelHeight); 
       if(this.sharedDataService.sampleOrder == "coasters" && this.userCouponCodes[index][1].toString().includes("coasters_")) {return true;}

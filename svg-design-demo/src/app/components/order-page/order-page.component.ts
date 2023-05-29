@@ -14,6 +14,7 @@ export class OrderPageComponent implements OnInit {
   userOrders:any;
   adminFilter:boolean = false;
   order:any;
+  filterStatus:string = "all";
 
   constructor(public sharedDataService:SharedDataService, private http:HttpClient, private router:Router) { }
 
@@ -289,6 +290,51 @@ export class OrderPageComponent implements OnInit {
         this.refreshOrders();
        });
     }
+  }
+
+  getOrderStatus():string {
+    let selectedOrderStatuses:string = "";
+    let statusesSelected:number = 0;
+    for(const orderStatus of ['Saved', 'Purchased', 'Production', 'Shipped']) {
+      if((<HTMLInputElement>document.getElementById("customSwitch_"+orderStatus))?.checked) {
+        selectedOrderStatuses += orderStatus;
+        ++statusesSelected;
+      }
+    }
+    if(statusesSelected == 1) {return selectedOrderStatuses;}
+    else {return "error";}
+  }
+
+  // Updates status of selected order
+  updateOrderStatus():void {
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    const orderId:number = this.order[0];
+    const orderStatus:string = this.getOrderStatus();
+    if(orderStatus == "error") {alert("Make sure to only select one status when updating.");}
+    else {
+      if(orderId != undefined && orderId != -1 && confirm('Are you sure you want to update order ' + orderId + ' with the status ' + orderStatus + '?')) {
+        this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updateorderstatus?email='"+email+"'&password='"+password+ "'&orderId=" + orderId+ "&status="+orderStatus).subscribe(result => {
+          let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+          alert(test);
+          this.refreshOrders();
+         });
+      }
+    }
+  }
+
+  // Filters orders by the status selected
+  filterOrders():void {
+    let selectedOrderStatuses:string = "";
+    let statusesSelected:number = 0;
+    for(const orderStatus of ['Saved', 'Purchased', 'Production', 'Shipped']) {
+      if((<HTMLInputElement>document.getElementById("customSwitch_"+orderStatus))?.checked) {
+        selectedOrderStatuses += orderStatus + ";";
+        ++statusesSelected;
+      }
+    }
+    if(statusesSelected == 0) {this.filterStatus = "all";}
+    else {this.filterStatus = selectedOrderStatuses;}
   }
 
 }
