@@ -90,7 +90,7 @@ export class CheckoutPageComponent implements OnInit {
       //   alert("Make sure to enter an address.");
       //   return;
       // }
-      if(streetAddress != "" && ( ((this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin')))) || this.isValidCouponCode(this.selectedCouponCodeIndex) )) {
+      if(streetAddress != "" && this.isValidCouponCode(this.selectedCouponCodeIndex)) {
         // Setting up vars to get final info for order
         const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : (<HTMLInputElement>document.getElementById("emailInput")).value;
         const selectedDividerType:string = this.sharedDataService.selectedDividerType;
