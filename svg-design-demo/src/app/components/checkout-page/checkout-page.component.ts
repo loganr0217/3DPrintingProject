@@ -90,7 +90,7 @@ export class CheckoutPageComponent implements OnInit {
       //   alert("Make sure to enter an address.");
       //   return;
       // }
-      if(streetAddress != "" && this.isValidCouponCode(this.selectedCouponCodeIndex)) {
+      if(streetAddress != "") {
         // Setting up vars to get final info for order
         const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : (<HTMLInputElement>document.getElementById("emailInput")).value;
         const selectedDividerType:string = this.sharedDataService.selectedDividerType;
@@ -116,7 +116,7 @@ export class CheckoutPageComponent implements OnInit {
         const bottomWindowHeight:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice) : 0;
         const frameColor:string = this.sharedDataService.currentFilamentColor;
         const totalWindowArea:number = this.sharedDataService.sampleOrder != "" ? (this.sharedDataService.sampleOrder == "coasters" ? (1) : (2)) : ((this.sharedDataService.windowWidth * this.sharedDataService.windowHeight) + (this.sharedDataService.bottomSashWidth * this.sharedDataService.bottomPanelHeight)); 
-        if(this.selectedCouponCodeIndex == -1 && (this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin')))) {this.selectedCouponCode = "stripe"};
+        if(this.selectedCouponCodeIndex == -1) {this.selectedCouponCode = "stripe"};
         window.open(("https://backend-dot-lightscreendotart.uk.r.appspot.com/makeorder?email='"+email
         +"'&selectedDividerType='"+selectedDividerType+"'&unitChoice='"+unitChoice
         +"'&windowWidth="+windowWidth+"&windowHeight="+windowHeight+"&horzDividers="+horzDividers
@@ -172,6 +172,7 @@ export class CheckoutPageComponent implements OnInit {
   }
 
   isValidCouponCode(index:number):boolean {
+    if(this.userCouponCodes == undefined || this.userCouponCodes.length < index+1) {return false;}
     // Hasn't been used yet
     if(this.userCouponCodes[index][3] == undefined) {
       let totalWindowArea:number = (this.sharedDataService.windowWidth * this.sharedDataService.windowHeight) + (this.sharedDataService.bottomSashWidth * this.sharedDataService.bottomPanelHeight); 
