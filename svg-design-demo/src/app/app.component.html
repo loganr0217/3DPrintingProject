@@ -1,5 +1,5 @@
 <!-- Modal for howTo info -->
-<div class="modal fade" id="discountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<!-- <div class="modal fade" id="discountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-md" role="document">
       <div class="modal-content">
           <div class="modal-header">
@@ -10,7 +10,12 @@
           </div>
           <div class="modal-body">
             <h6 class="modal-text">Visit our <a target="_blank" href="https://www.kickstarter.com/projects/lightscreenart/lightscreen-art-the-art-of-stained-glass-modernized?ref=cnj5cm">Kickstarter Campaign</a> to Purchase</h6>
-            <!-- <form *ngIf="this.sharedDataService.userInfo.length <= 1" [formGroup]="emailFormModal" class="modal-emailForm">
+            // THIS IS WHERE THE BELOW COMMENTED OUT FORM GOES //
+          </div>
+      </div>
+  </div>
+</div> -->
+<!-- <form *ngIf="this.sharedDataService.userInfo.length <= 1" [formGroup]="emailFormModal" class="modal-emailForm">
               <div class="form-group mt-2 mb-2">
                   <input type="text" placeholder="Enter Email" formControlName="email" class="form-control inputField" />
                   <div style="color: red;" *ngIf="emailModal?.invalid && (emailModal?.touched || emailModal?.dirty)">
@@ -22,18 +27,13 @@
                 <button class="btn btn-dark" (click)="submitEmailForm()"><b>Register</b></button>
               </div>
             </form> -->
-          </div>
-      </div>
-  </div>
-</div>
-
 <div>
   <!-- Laptop Navbar content -->
   <nav class="navbar sticky-top navbar-light navbar-custom" style="height: 65px;" id="mainNavbar">
           <a href="javascript:void(0)" routerLink="" class="navbar-brand">
               <!-- Logo Image -->
               <a href="javascript:void(0)" routerLink="">
-                <img src="assets/img/g46.png" width="200" alt="" class="d-inline-block align-middle mr-2">
+                <img src="assets/img/g47.png" width="200" alt="" class="d-inline-block align-middle mr-2">
               </a>
           </a>
           <!-- Toggler/collapsibe Button -->
@@ -50,6 +50,7 @@
                   </button> -->
                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButtonAbout">
                     <a href="javascript:void(0)" routerLink="/mission" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">Company</a>
+                    <a href="javascript:void(0)" routerLink="/blogPage" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">Blog</a>
                     <a href="javascript:void(0)" routerLink="/about" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">How To Design</a>
                     <a href="javascript:void(0)" routerLink="/tutorials" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">Tutorials</a>
                     <a href="javascript:void(0)" routerLink="/faq" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">FAQs</a>
@@ -130,11 +131,18 @@
           </svg>
         </a>
 
-
+        
         <!-- Kickstarter -->
-        <a class="btn btn-outline-light btn-floating m-1" href="https://www.kickstarter.com/projects/lightscreenart/lightscreen-art-the-art-of-stained-glass-modernized?ref=cnj5cm" target="_blank" role="button">
+        <!-- <a class="btn btn-outline-light btn-floating m-1" href="https://www.kickstarter.com/projects/lightscreenart/lightscreen-art-the-art-of-stained-glass-modernized?ref=cnj5cm" target="_blank" role="button">
           <svg width="32" height="32" viewBox="-17 0 290 290" version="1.1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid">
             <path d="M209.302,144.583 L235.582,118.478 C262.806,91.436 262.806,47.391 235.582,20.349 C208.358,-6.694 164.018,-6.694 136.794,20.349 L127.225,29.853 C114.557,11.781 93.667,0 69.812,0 C31.267,0 0,31.059 0,69.346 L0,219.686 C0,257.973 31.267,289.032 69.812,289.032 C93.667,289.032 114.557,277.251 127.225,259.178 L136.794,268.683 C164.018,295.726 208.358,295.726 235.582,268.683 C262.806,241.641 262.806,197.597 235.582,170.554 L209.302,144.583"></path>
+          </svg>
+        </a> -->
+
+        <!-- Tiktok -->
+        <a class="btn btn-outline-light btn-floating m-1" href="https://www.tiktok.com/@lightscreen.art" target="_blank" role="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
+            <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3V0Z"/>
           </svg>
         </a>
 

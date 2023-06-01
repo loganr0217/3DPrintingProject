@@ -129,15 +129,15 @@ export class AppComponent {
   get message() {return this.contactForm.get('message');}
 
   ngOnInit() {
-    // Sets up popping modal for 20 seconds of not signing in
-    this.modalPopups = window.innerWidth < 576 ? 1 : 0;
-    this.modalPopupIntervalId = setInterval(() => {
-      if(this.sharedDataService.signedIn || this.modalPopups >= 1) {clearInterval(this.modalPopupIntervalId);}
-      else {
-        ++this.modalPopups;
-        $('#discountModal').modal('show');
-      }
-    }, 40000);
+    // Sets up popping modal for 40 seconds of not signing in
+    // this.modalPopups = window.innerWidth < 576 ? 0 : 0;
+    // this.modalPopupIntervalId = setInterval(() => {
+    //   if(this.sharedDataService.signedIn || this.modalPopups >= 1) {clearInterval(this.modalPopupIntervalId);}
+    //   else {
+    //     ++this.modalPopups;
+    //     $('#discountModal').modal('show');
+    //   }
+    // }, 40000);
   
     // Closes navbar on click outside
     $(function() {
