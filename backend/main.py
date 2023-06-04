@@ -1016,7 +1016,7 @@ def stripeOrderComplete():
                 userFirstName = rows[0][0]
                 # Sending email letting user know the order has been placed
                 try:
-                    msg = Message("We've Receieved Your Order!", sender = 'info@lightscreenart.com', recipients = [email])
+                    msg = Message("We've Receieved Your Order!", sender = 'info@lightscreenart.com', recipients = [userEmail])
                     msg.body = """Dear {} -\n\nThank you for placing your order with LightScreen Art! This is to confirm that we've received your order and are now scheduling it for production. For your reference, your order number is {}.\n\nOur production team, our laser cutters and our 3D printers are working as fast as humanly (and robotically!) possible to get you your lightscreen. We'll send you an email when your order is in production and we'll send another email shortly after it ships.\n\nIf you have any questions or comments while you're waiting for your lightscreen, just email us at help@lightscreenart.com and reference your order number above. We're here to help and will get back to you within 24 hours.\n\nWith color and light,\n\nThe LightScreen Art Team
                     """.format(userFirstName, int(orderId))
                     mail.send(msg)
