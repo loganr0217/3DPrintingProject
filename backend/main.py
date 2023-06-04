@@ -925,12 +925,28 @@ def makeOrder():
                 streetAddress, city, state, zipcode, country, bottomWindowWidth, bottomWindowHeight, frameColor))
                 rows = cur.fetchall()
                 conn.commit()
-                cur.execute("UPDATE coupon_codes set order_id = {} where code = '{}';".format(int(rows[0][0]), couponCode))
-                cur.execute("SELECT * from coupon_codes where order_id = {} and code = '{}';".format(int(rows[0][0]), couponCode))
+                orderId = int(rows[0][0])
+                cur.execute("UPDATE coupon_codes set order_id = {} where code = '{}';".format(orderId, couponCode))
+                cur.execute("SELECT * from coupon_codes where order_id = {} and code = '{}';".format(orderId, couponCode))
                 rows = cur.fetchall()
                 conn.commit()
+                # Order was successfully placed
                 if len(rows) > 0:
+                    cur.execute("SELECT first_name FROM users WHERE email = {}".format(email))
+                    rows = cur.fetchall()
+                    userFirstName = rows[0][0]
+                    # Sending email letting user know the order has been placed
+                    try:
+                        msg = Message("We've Receieved Your Order!", sender = 'info@lightscreenart.com', recipients = [email.replace("'","")])
+                        msg.body = """Dear {} -\n\nThank you for placing your order with LightScreen Art! This is to confirm that we've received your order and are now scheduling it for production. For your reference, your order number is {}.\n\nOur production team, our laser cutters and our 3D printers are working as fast as humanly (and robotically!) possible to get you your lightscreen. We'll send you an email when your order is in production and we'll send another email shortly after it ships.\n\nIf you have any questions or comments while you're waiting for your lightscreen, just email us at help@lightscreenart.com and reference your order number above. We're here to help and will get back to you within 24 hours.\n\nThank you for your support during our Kickstarter campaign!\n\nWith color and light,\n\nThe LightScreen Art Team
+                        """.format(userFirstName, orderId)
+                        mail.send(msg)
+                        # Returning the final result
+                        return redirect("https://lightscreenart.com/orderSuccess", code=302)
+                    except Exception as e:
+                        return redirect("https://lightscreenart.com/orderSuccess", code=302)
                     return redirect("https://lightscreenart.com/orderSuccess", code=302)
+                # Error placing order
                 else:
                     return redirect("https://lightscreenart.com/orderFailure", code=302)
             # User is checking out using stripe
@@ -988,12 +1004,26 @@ def stripeOrderComplete():
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
         cur = conn.cursor()
         if orderId != 0 and orderStatus == 1:
-            cur.execute("SELECT * FROM orders WHERE id = {};".format(orderId))
+            cur.execute("SELECT user_email FROM orders WHERE id = {};".format(orderId))
             rows = cur.fetchall()
             # Order is in the database and payment worked so updating to Purchased
             if len(rows) > 0:
+                userEmail = rows[0][0]
                 cur.execute("UPDATE orders set status = 'Purchased' where id = {};".format(orderId))
                 conn.commit()
+                cur.execute("SELECT first_name FROM users WHERE email = '{}'".format(userEmail))
+                rows = cur.fetchall()
+                userFirstName = rows[0][0]
+                # Sending email letting user know the order has been placed
+                try:
+                    msg = Message("We've Receieved Your Order!", sender = 'info@lightscreenart.com', recipients = [email])
+                    msg.body = """Dear {} -\n\nThank you for placing your order with LightScreen Art! This is to confirm that we've received your order and are now scheduling it for production. For your reference, your order number is {}.\n\nOur production team, our laser cutters and our 3D printers are working as fast as humanly (and robotically!) possible to get you your lightscreen. We'll send you an email when your order is in production and we'll send another email shortly after it ships.\n\nIf you have any questions or comments while you're waiting for your lightscreen, just email us at help@lightscreenart.com and reference your order number above. We're here to help and will get back to you within 24 hours.\n\nWith color and light,\n\nThe LightScreen Art Team
+                    """.format(userFirstName, int(orderId))
+                    mail.send(msg)
+                    # Returning the final result
+                    return jsonify(rows)
+                except Exception as e:
+                    return redirect("https://lightscreenart.com/orderSuccess", code=302)
                 return redirect("https://lightscreenart.com/orderSuccess", code=302)
             else:
                 return redirect("https://lightscreenart.com/orderFailure", code=302)
@@ -1021,13 +1051,36 @@ def updateOrderStatus():
             rows = cur.fetchall()
             # User has been authenticated as an admin or production
             if len(rows) > 0:
-                cur.execute("SELECT * FROM orders WHERE id = {}".format(orderId))
+                cur.execute("SELECT user_email FROM orders WHERE id = {}".format(int(orderId)))
                 rows = cur.fetchall()
+                userEmail = rows[0][0]
+                cur.execute("SELECT first_name FROM users WHERE email = '{}'".format(userEmail))
+                rows = cur.fetchall()
+                userFirstName = rows[0][0]
                 # Order exists
                 if len(rows) > 0:
-                    cur.execute("UPDATE orders set status = '{}' WHERE id = {}".format(status, orderId))
+                    cur.execute("UPDATE orders set status = '{}' WHERE id = {}".format(status, int(orderId)))
                     conn.commit()
-                    row = (1,)
+                    subject = "LightScreen Status Update"
+                    body = "Your LightScreen order (id: {}) status has been updated to {}".format(int(orderId), status)
+                    if status == "Production":
+                        subject = "Your Order is in Production"
+                        body = """Dear {} -\n\nGreat news! Your LightScreen order is now in production.\n\nAs you may be aware, lightscreens are custom produced at our facility in Akron, Ohio with laser cutters and 3D printers. We find digital manufacturing to be fascinating and think that you might too.\n\nTo get an idea of how our production process works, our TikTok page (https://www.tiktok.com/@lightscreen.art) has dozens of videos from our staff showing everything from laser cutting panes, to printing frames to our “guerrilla decorating” campaign. These videos are a snapshot into what it means to apply 21st century manufacturing to an ancient art form. If you're not a TikTok fan, we've reposted most of our production videos to our Instagram Reels (https://www.instagram.com/lightscreen.art/reels/).\n\nIf you have any questions or just want to check up on our progress, email us at help@lightscreenart.com and reference your order number, {}. We'll get back to you within 24 hours.\n\nThank you again for supporting LightScreen Art. We'll send you another email to let you know that your order shipped along with a link to some installation tips.\n\nWith color and light,\n\nThe LightScreen Art Team
+                        """.format(userFirstName, int(orderId))
+                    elif status == "Shipped":
+                        subject = "Your LightScreen has Shipped!"
+                        body = """Dear {} -\n\nThis is to confirm that your lightscreen has shipped!\n\nWe've made installing your lightscreen as easy as it was to design it. But while you're waiting for your order to arrive, you might want to see how the process works. You can check out our installation video and instructions here (https://lightscreenart.com/tutorials). If you have any questions at all about your lightscreen and how to install it, email us at help@lightscreenart.com and we'll get back to you within 24 hours.\n\nWhen you've installed your lightscreen you may find that you want to show it to the world. Social media is a great place to do that. If you send us a link to your posts we'll be sure to like them!\n\nThank you for supporting LightScreen Art. We hope you enjoy your lightscreen as much as we've enjoyed building your creation just for you.\n\nWith color and light,\n\nThe LightScreen Art Team
+                        """.format(userFirstName)
+                    # Sending email to user
+                    try:
+                        msg = Message(subject, sender = 'info@lightscreenart.com', recipients = [userEmail])
+                        msg.body = body
+                        mail.send(msg)
+                        # Returning the final result
+                        return jsonify(rows)
+                    except Exception as e:
+                        return ("Error sending the message " + str(e), )
+                    rows = (1,)
                 # No order to update
                 else:
                     rows = (-3,)
