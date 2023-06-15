@@ -30,7 +30,7 @@
           </div>
       </div>
       <div class="form-group sendButton mt-2 mb-2">
-        <button class="btn btn-outline-dark registerBtn" (click)="submitEmailForm()"><b>Register</b></button>
+        <button class="btn btn-outline-dark registerBtn" (click)="submitEmailForm('step0')"><b>Register</b></button>
       </div>
   </form>
 </div>
@@ -63,7 +63,7 @@
         </figure>
       </div>
 
-      <div class="middleWindowShapes" *ngIf="this.sharedDataService.sampleOrder != ''">
+      <div class="middleWindowShapes" *ngIf="this.sharedDataService.sampleOrder != '' && isAnyCoasterCouponCodes()">
         <figure class="windowShapeImageCon" *ngFor="let windowShape of ['coasters']" (click)="chooseWindowShape(windowShape);" [attr.style]="this.getIconHighlight('windowShape', windowShape)">
           <img id="windowShapeImage_{{windowShape}}" class="windowShapeImage" src="{{this.getWindowShapeSrc(windowShape)}}" alt="{{windowShape}}"/>
           <figcaption class="windowShapeCaption">{{windowShapeExample(windowShape)}}</figcaption>

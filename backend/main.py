@@ -866,10 +866,11 @@ def getLightScreenPrice(totalArea):
     # Lightcatcher
     elif totalArea == 2:
         finalArea = 92903
-    costPerSqMM = 30 / 92903
+    # 29 is for $29/sqft
+    costPerSqMM = 29 / 92903
     finalPrice = costPerSqMM * finalArea * 100
-    if finalPrice < 3000:
-        finalPrice = 3000
+    if finalPrice < 2900:
+        finalPrice = 2900
     return round(finalPrice)
 
 
@@ -965,7 +966,7 @@ def makeOrder():
                 # Creating checkout session and adding order id to metadata
                 checkout_session = stripe.checkout.Session.create(
                     shipping_address_collection={"allowed_countries": ["US"]},
-                    shipping_options=[{"shipping_rate": "shr_1NBr3dJm14hg4HLn2eNPaz5J"}],
+                    shipping_options=[{"shipping_rate": "shr_1NJMLUJm14hg4HLno4Cm4jQD"}],
                     line_items=[{
                         "price_data": {
                             "currency":"usd",
@@ -1157,16 +1158,27 @@ def addTempUser(email):
 
 # Endpoint to send an email through contact form
 @app.route("/submitcontactform", methods = ['POST'])
-def index():
+def submitContactForm():
     global conn
     data = request.get_json()
     email = data.get('email')
+    location = data.get('location')
     name = data.get('name')
     message = data.get('message')
+
+    emailSubject = 'Contact Form Submission'
+    if location == 'ContactForm':
+        emailSubject = 'Contact Form Submission'
+    elif location == 'landingPage':
+        emailSubject = 'Landing Page'
+    elif location == 'step0':
+        emailSubject = 'Step 0'
     
     try:
-        msg = Message('Contact Form Submission', sender = 'info@lightscreenart.com', recipients = ['logan.richards@lightscreenart.com', 'willow.mattison@lightscreenart.com', 'ron.seide@lightscreenart.com', 'info@lightscreenart.com'])
+        msg = Message(emailSubject, sender = 'info@lightscreenart.com', recipients = ['logan.richards@lightscreenart.com', 'willow.mattison@lightscreenart.com', 'ron.seide@lightscreenart.com', 'info@lightscreenart.com'])
         msg.body = "Name: {}\nEmail: {}\nMessage: {}".format(name, email, message)
+        if location != 'ContactForm':
+            msg.body = "Email: {}".format(email)
         mail.send(msg)
 
         # Checking to see if we need to create a new user account
