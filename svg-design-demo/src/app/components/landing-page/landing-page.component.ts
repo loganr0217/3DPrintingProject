@@ -30,11 +30,12 @@ export class LandingPageComponent implements OnInit {
   }
 
   // Email form submission
-  submitEmailForm():void {
+  submitEmailForm(signupLocation:string):void {
     const headers = { 'content-type': 'application/json'}  
     const body=JSON.stringify(
       {
-        'email':this.email?.value
+        'email':this.email?.value,
+        'location':signupLocation
       });
       
     // Making sure each field has data and it's valid

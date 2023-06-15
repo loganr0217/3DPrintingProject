@@ -154,7 +154,7 @@ export class MainPageComponent implements OnInit {
     if(this.sharedDataService.currentStepID == 3) {
       this.updateDimensionsButton();
       this.updatePanelLayout();
-      if(!this.isAvailableTemplate()) {$('#dimensionsFormModal').modal('show');}
+      if(!this.isAvailableTemplate() || this.isDoubleHung()) {$('#dimensionsFormModal').modal('show');}
       else {
         ++this.sharedDataService.currentStepID;
         this.stageSwitch();

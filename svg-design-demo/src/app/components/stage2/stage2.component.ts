@@ -16,6 +16,7 @@ export class Stage2Component implements OnInit {
   posts:Entry<any>[] = [];
   howToPosts:Entry<any>[] = [];
   emailForm!:UntypedFormGroup;
+  userCouponCodes:any;
 
   constructor(public sharedDataService:SharedDataService, public contentfulService:ContentfulService,
     private sanitizer:DomSanitizer, private http:HttpClient, private formBuilder:UntypedFormBuilder) { }
@@ -39,14 +40,32 @@ export class Stage2Component implements OnInit {
     this.dividerType = this.sharedDataService.selectedDividerType;
     this.windowShape = this.sharedDataService.selectedWindowShape;
     this.windowShapes = this.sharedDataService.windowShapes;
+
+    // Getting coupon codes to check for coasters
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/getusercouponcodes?email='"+email+"'&password='"+password+ "'").subscribe(result => {
+      this.userCouponCodes = JSON.parse(JSON.stringify(result));
+    });
+  }
+
+  isAnyCoasterCouponCodes():boolean {
+    if(this.userCouponCodes == undefined || this.userCouponCodes.length == 0) {return false;}
+    for(let index:number = 0; index < this.userCouponCodes.length; ++index) {
+      if(this.userCouponCodes[index][3] == undefined) { 
+        if(this.userCouponCodes[index][1].toString().includes("coasters_")) {return true;}
+      }
+    }
+    return false;
   }
 
   // Email form submission
-  submitEmailForm():void {
+  submitEmailForm(signupLocation:string):void {
     const headers = { 'content-type': 'application/json'}  
     const body=JSON.stringify(
       {
-        'email':this.email?.value
+        'email':this.email?.value,
+        'location':signupLocation
       });
       
     // Making sure each field has data and it's valid

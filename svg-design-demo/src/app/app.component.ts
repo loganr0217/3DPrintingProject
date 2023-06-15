@@ -85,7 +85,8 @@ export class AppComponent {
       {
         'name':this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[1]+" "+this.sharedDataService.userInfo[2] : this.name?.value,
         'email':this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : this.email?.value,
-        'message':this.message?.value
+        'message':this.message?.value,
+        'location':'ContactForm'
       });
       
     // Making sure each field has data and it's valid
