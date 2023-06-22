@@ -4,6 +4,7 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
 import { Entry } from 'contentful';
 import { Polygon, DividerWindow, WindowPane, SVGTemplate } from '../svgScaler';
 import { ContentfulService } from 'src/app/services/contentful.service';
+import { HttpClient } from '@angular/common/http';
 
 declare var $:any;
 @Component({
@@ -15,7 +16,7 @@ export class DimensionsFormComponent implements OnInit {
   stage3Posts:Entry<any>[] = [];
   unitChoice:string;
 
-  constructor(public sharedDataService:SharedDataService, public contentfulService:ContentfulService) {
+  constructor(public sharedDataService:SharedDataService, public contentfulService:ContentfulService, private http:HttpClient) {
   }
   
   ngOnInit(): void {
@@ -432,6 +433,8 @@ getPanelHeight(height:number):number {
       alert("We currently do not offer a template for that window shape.");
     }
     ++this.sharedDataService.currentStepID;
+    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID).subscribe(result => { 
+    });
     
   }
   

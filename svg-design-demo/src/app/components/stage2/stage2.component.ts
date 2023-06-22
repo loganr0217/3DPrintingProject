@@ -142,7 +142,11 @@ export class Stage2Component implements OnInit {
       document.getElementById("requiredEmailFieldStep0")?.focus();
       return;
     }
-    if(window.innerWidth > 576) {this.sharedDataService.currentStepID = 2;}
+    if(window.innerWidth > 576) {
+      this.sharedDataService.currentStepID = 2;
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID).subscribe(result => { 
+      });
+    }
     
 
     document.getElementById("windowShapeText")?.setAttribute("style", "visibility:visible;");
@@ -210,8 +214,16 @@ export class Stage2Component implements OnInit {
       this.sharedDataService.selectedWindowShape = windowShape;
     }
     
-    if(window.innerWidth > 576 && this.sharedDataService.sampleOrder == '') {this.sharedDataService.currentStepID = 3;}
-    if(window.innerWidth > 576 && this.sharedDataService.sampleOrder != '') {this.sharedDataService.currentStepID = 4;}
+    if(window.innerWidth > 576 && this.sharedDataService.sampleOrder == '') {
+      this.sharedDataService.currentStepID = 3;
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID).subscribe(result => { 
+      });
+    }
+    if(window.innerWidth > 576 && this.sharedDataService.sampleOrder != '') {
+      this.sharedDataService.currentStepID = 4;
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID).subscribe(result => { 
+      });
+    }
 
     // Getting type of window and default dimensions
     let windowDimensions:string[] = windowShape.slice(windowShape.length-4).split("to");

@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { User } from 'src/app/models/user';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { DividerWindow } from '../svgScaler';
+import { HttpClient } from '@angular/common/http';
 
 declare var $:any;
 @Component({
@@ -12,7 +13,7 @@ declare var $:any;
 })
 export class MainPageComponent implements OnInit {
   //users:User[];
-  constructor(public sharedDataService:SharedDataService) {
+  constructor(public sharedDataService:SharedDataService, private http:HttpClient) {
     // this.apiService.readUsers().subscribe((users: User[])=>{
     //   this.users = users;
     // }) 
@@ -144,10 +145,16 @@ export class MainPageComponent implements OnInit {
   }
 
   previousStage():void {
+    if(this.sharedDataService.continueSavedOrder && this.sharedDataService.currentStepID == 5) {return;}
     if(this.sharedDataService.currentStepID == 1 && this.sharedDataService.signedIn) {this.sharedDataService.currentStepID = -1;} 
     else {--this.sharedDataService.currentStepID;}
     if(this.sharedDataService.currentStepID == 3 && this.sharedDataService.sampleOrder != '') {--this.sharedDataService.currentStepID;}
     this.stageSwitch();
+  }
+
+  updateSession():void {
+    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID).subscribe(result => { 
+    });
   }
 
   nextStage():void {
@@ -158,6 +165,8 @@ export class MainPageComponent implements OnInit {
       else {
         ++this.sharedDataService.currentStepID;
         this.stageSwitch();
+        this.updateSession();
+        
       }
       
     }
@@ -167,12 +176,14 @@ export class MainPageComponent implements OnInit {
           ++this.sharedDataService.currentStepID;
           if(this.sharedDataService.sampleOrder != '') {++this.sharedDataService.currentStepID;}
           this.stageSwitch();
+          this.updateSession();
         }
       }
       else if(this.sharedDataService.currentStepID == 4) {
         if(this.sharedDataService.selectedTemplateCategory != undefined) {
           ++this.sharedDataService.currentStepID;
           this.stageSwitch();
+          this.updateSession();
         }
       }
       else if(this.sharedDataService.currentStepID == 0) {
@@ -181,6 +192,7 @@ export class MainPageComponent implements OnInit {
       else {
         ++this.sharedDataService.currentStepID;
         this.stageSwitch();
+        this.updateSession();
       }
     }
   }

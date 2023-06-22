@@ -225,6 +225,12 @@ export class AppComponent {
       });
     }
 
+    // Setting up session and getting session id
+    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/startsession").subscribe(result => {
+      this.sharedDataService.sessionID = Number(JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",")); 
+    });
+
+
     // Getting panelsets from database
     this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/panels").subscribe(result => {
       let panelData = JSON.parse(JSON.stringify(result));

@@ -2,6 +2,22 @@
     background-color: white;
 }
 
+#feedbackIcon {
+    z-index:100;
+    position: fixed;
+    right:80px;
+    bottom:0;
+    background-color: #ffffff;
+}
+
+#helpIcon {
+    z-index:100;
+    position: fixed;
+    right:0;
+    bottom:0;
+    background-color: #ffffff;
+}
+
 .contactForm {
     width: 80vw;
     margin: auto;

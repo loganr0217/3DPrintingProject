@@ -74,12 +74,15 @@ export class LandingPageComponent implements OnInit {
     
   }
 
+
   // Starts design process
   nextstage2() {
     document.getElementById("stage2")?.setAttribute("style", "visibility:visible;")
     document.getElementById("stage2")?.scrollIntoView({behavior: 'smooth'});
     if(this.sharedDataService.signedIn) {this.sharedDataService.currentStepID = 1;}
     else {this.sharedDataService.currentStepID = 0;}
+    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID).subscribe(result => { 
+    });
   }
 
 }

@@ -1,5 +1,5 @@
-<div id="designWindow" (mousemove)="onMousemove($event)">
-    <div id="cursorBucket" [style.top]="mouseY+'px'" [style.left]="mouseX+'px'">
+<div id="designWindow" >  <!-- (mousemove)="onMousemove($event)"-->
+    <!-- <div id="cursorBucket" [style.top]="mouseY+'px'" [style.left]="mouseX+'px'">
         <svg
             width="8.4666805mm"
             height="12.98891mm"
@@ -34,7 +34,7 @@
                         id="path338" />
                 </g>
         </svg>
-    </div>
+    </div> -->
     <app-colors-container *ngIf="!isColorPage()" [paneColors]=true class="colorsOnLeft"></app-colors-container>
     <app-colors-container *ngIf="isColorPage()" [paneColors]=false class="colorsOnLeft"></app-colors-container>
     <div class="float-right">
