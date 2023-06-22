@@ -1692,7 +1692,7 @@ export class LightScreen {
             }
 
             // Arrays to collect complete panels
-            let panelsDone:string[] = [];
+            let panelsDone:string = "";
             for(let i:number = 0; i < currentTempString.length; ++i) {
                 let tmpPaneAreas = new Map();
                 let currentPanelString:string[] = currentTempString[i].split(",");
@@ -1703,8 +1703,9 @@ export class LightScreen {
 
                 if(process.argv[2] && process.argv[2] == "-STLS") {
                     // Checking whether panel has been generated already
-                    if(panelsDone.includes(currentPanelString[0] + "," + currentPanelString[1] + "," + currentSVG.flipped + "," + currentSVG.width + "," + currentSVG.height)) {continue;}
-                    else {panelsDone.push(currentPanelString[0] + "," + currentPanelString[1] + "," + currentSVG.flipped + "," + currentSVG.width + "," + currentSVG.height);}
+                    // console.log(panelsDone);
+                    if( (panelsDone.includes(currentPanelString[0] + "," + currentPanelString[1] + "," + currentSVG.flipped + "," + (i < this.numberTopPanels ? this.topPanelWidth : this.bottomPanelWidth) + "," + (i < this.numberTopPanels ? this.topPanelHeight : this.bottomPanelHeight) + ";") )) {continue;}
+                    else {panelsDone += (currentPanelString[0] + "," + currentPanelString[1] + "," + currentSVG.flipped + "," + (i < this.numberTopPanels ? this.topPanelWidth : this.bottomPanelWidth) + "," + (i < this.numberTopPanels ? this.topPanelHeight : this.bottomPanelHeight) + ";");}
                     console.log("Here: " + this.topPanelWidth + ", " + this.topPanelHeight);
                     if(i < this.numberTopPanels) {
                         currentSVG.getLineartFileText(this.topPanelWidth, this.topPanelHeight, 3, 3, "panelFile"+i+"_fullWidth");
