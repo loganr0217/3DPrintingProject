@@ -1311,6 +1311,63 @@ def addUserCouponCode():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
+# Endpoint to start a new session and get the id for it
+@app.route('/startsession')
+def startSession():
+    global conn
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        
+        cur.execute(" INSERT INTO sessions(last_step_id) VALUES(-1) RETURNING id;")
+        rows = cur.fetchall()
+        conn.commit()
+
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
+# Updates session info
+@app.route('/updatesession')
+def updateSession():
+    global conn
+    sessionID = request.args.get('sessionID', default=-10, type=int)
+    lastStepID = request.args.get('lastStepID', default=-10, type=int)
+    
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if sessionID != -10 and lastStepID != -10:
+            cur.execute("SELECT * FROM sessions WHERE id = {};".format(sessionID))
+            rows = cur.fetchall()
+            # Session does exist
+            if len(rows) > 0:
+                cur.execute("UPDATE sessions SET last_step_id = {} where id = {};".format(lastStepID, sessionID))
+                conn.commit()
+                rows = (1,)
+            # Session is missing from database 
+            else:
+                rows = (-2,)
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
+@app.route('/sessions')
+def getSessions():
+    global conn
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM sessions;")
+        rows = cur.fetchall()
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
 
 if __name__ == '__main__':
     from waitress import serve

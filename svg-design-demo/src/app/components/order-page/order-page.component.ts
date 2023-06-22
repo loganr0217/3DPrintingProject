@@ -51,7 +51,6 @@ export class OrderPageComponent implements OnInit {
     this.sharedDataService.bottomSashHeight = this.convertNumber(Number(order[17]), this.sharedDataService.unitChoice);
     if(this.sharedDataService.bottomSashWidth > 0 && this.sharedDataService.bottomSashHeight > 0) {this.sharedDataService.selectedWindowShape = "2xhung2to4";}
     else {this.sharedDataService.selectedWindowShape = "vertical2to4";}
-    this.sharedDataService.continueSavedOrder = true;
     this.sharedDataService.currentFilamentColor = order[22];
 
     // Setting up divider window with this info
@@ -93,6 +92,8 @@ export class OrderPageComponent implements OnInit {
 
   // Continue saved design
   continueSavedDesign():void {
+    this.sharedDataService.currentStepID = 5;
+    this.sharedDataService.continueSavedOrder = true;
     this.router.navigate(['/'])
     // Updating template dimensions
     document.getElementById("windowPerimeter")?.setAttribute("d", this.sharedDataService.dividerWindow.dString);
