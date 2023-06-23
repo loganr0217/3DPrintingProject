@@ -1710,12 +1710,12 @@ export class LightScreen {
                     if(i < this.numberTopPanels) {
                         currentSVG.getLineartFileText(this.topPanelWidth, this.topPanelHeight, 3, 3, "panelFile"+i+"_fullWidth");
                         currentSVG.getLineartFileText(this.topPanelWidth, this.topPanelHeight, 3, 1, "panelFile"+i+"_wellWidth");
-                        for(let j:number = 0; j <= 3; ++j) {currentSVG.getLineartFileText(this.topPanelWidth, this.topPanelHeight, 3-((j+1)*.4), 3-((j+1)*.4), "panelFile"+i+"_topPiece"+j);}
+                        for(let j:number = 0; j <= 3; ++j) {currentSVG.getLineartFileText(this.topPanelWidth, this.topPanelHeight, 3-((j+1)*.5), 3-((j+1)*.5), "panelFile"+i+"_topPiece"+j);}
                     }
                     else {
                         currentSVG.getLineartFileText(this.bottomPanelWidth, this.bottomPanelHeight, 3, 3, "panelFile"+i+"_fullWidth");
                         currentSVG.getLineartFileText(this.bottomPanelWidth, this.bottomPanelHeight, 3, 1, "panelFile"+i+"_wellWidth");
-                        for(let j:number = 0; j <= 3; ++j) {currentSVG.getLineartFileText(this.bottomPanelWidth, this.bottomPanelHeight, 3-((j+1)*.4), 3-((j+1)*.4), "panelFile"+i+"_topPiece"+j);}
+                        for(let j:number = 0; j <= 3; ++j) {currentSVG.getLineartFileText(this.bottomPanelWidth, this.bottomPanelHeight, 3-((j+1)*.5), 3-((j+1)*.5), "panelFile"+i+"_topPiece"+j);}
                     }
 
                     // Doing the final svg to stl conversion

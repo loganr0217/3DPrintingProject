@@ -368,14 +368,14 @@ module stainGlassPanelLineart(panelDims, fullWidthSVG, wellWidthSVG, topSVGs, nu
     
     // Well of the panel
     translate([0, 0, 2]) {
-        linear_extrude(height = 3.2) {
+        linear_extrude(height = 3.4) {
             offset(delta=0.0001)
             import(wellWidthSVG, center=true);
         }
     }
     
     // Top of well of the panel
-    translate([0, 0, 5.2]) {
+    translate([0, 0, 5.4]) {
         linear_extrude(height = 1.6) {
             offset(delta=0.0001) 
             import(fullWidthSVG, center=true);
@@ -384,7 +384,7 @@ module stainGlassPanelLineart(panelDims, fullWidthSVG, wellWidthSVG, topSVGs, nu
     
     // Looping through to add the top caps
     for(i = [0 : len(topSVGs)-1]) {
-        translate([0, 0, 6.8 + (i*.4)]) {
+        translate([0, 0, 7 + (i*.4)]) {
             linear_extrude(height = .4) {
                 offset(delta=0.0001)
                 import(topSVGs[i], center=true);
