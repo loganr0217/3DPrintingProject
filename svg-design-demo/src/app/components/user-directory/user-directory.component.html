@@ -1,9 +1,9 @@
 <!-- 
-    + list all currently regisetered users
-     + display their user info (name, email, signup date, etc)
+    + list all currently regisetered users**DONE**
+     + display their user info (name, email, signup date, etc)**DONE**
      + allow for filters like number of orders placed, saved, etc
      + display data like total number of users that meet the filter requirement, percent with order, etc
-     + (optional) allow for clicking on a user and seeing their orders/saved orders
+     + (optional) allow for clicking on a user and seeing their orders/saved orders**DONE**
 -->
 <div id="userDirectory">
     <div id="userDirectoryList">
@@ -23,6 +23,19 @@
                     <label class="form-check-label pastOrderLabel" for="{{'flexRadioDefault'+i}}"><b>ID: </b>{{user[0]}} <b>First Name: </b>{{user[1]}} <b>Last Name: </b>{{user[2]}} <b>Email: </b>{{user[3]}} <b>Signup Date: </b>{{user[5]}}</label>
                 </div>
             </div>
+        </div>
+        <div id="ordersList">
+            <ng-container *ngFor="let order of this.userOrder; let k=index">
+                <div class="orderData" *ngIf="order[1] == user[3]">
+                    <div class="form-check-inline order" (click)="this.selectOrder(order)">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="{{'flexRadioDefault'+k}}">
+                        <label class="form-check-label pastOrderLabel" for="{{'flexRadioDefault'+k}}"><b>ID: </b>{{order[0]}} <b>Email: </b>{{order[1]}} <b>Status: </b>{{order[18]}} <b>Date: </b>{{order[21]}}</label>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div id="preview">
+            <app-window-preview-container id="orderPreview"></app-window-preview-container>
         </div>
     </div>
     <div id="filter">
@@ -52,8 +65,14 @@
                     <input type="text" class="form-control" id="signupInput"/>
                 </div>
             </div>
-            <input type="button" class="btn btn-dark btn-med" id="filterInput" (click)="this.filterUsers()"  value="Filter"/>
-            <input type="button" class="btn btn-dark btn-med" id="displayInput" (click)="this.displayUserData()" style="margin-left: 20px;"  value="Data Display"/>
+            <div id="orderStatusSliders">
+                <div class="custom-control custom-switch" *ngFor="let templateCategory of ['Saved', 'Purchased', 'Production', 'Shipped']">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch_{{templateCategory}}">
+                    <label class="custom-control-label" for="customSwitch_{{templateCategory}}">{{templateCategory}}</label>
+                </div>
+                <input type="button" class="btn btn-dark btn-med" id="filterInput" (click)="this.filterUsers()"  value="Filter"/>
+                <input type="button" class="btn btn-dark btn-med" id="displayInput" (click)="this.displayUserData()" style="margin-left: 20px;"  value="Data Display"/>
+            </div>
         </form>
     </div>
 </div>

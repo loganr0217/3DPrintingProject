@@ -17,14 +17,37 @@
     flex-direction: column;
     flex:1;
     max-height:70vh;
-    width: 65vw;
+    width: 70vw;
     overflow-y: scroll;
     padding: 2px;
     margin-bottom: 2vh;
     border:1px solid black;
 }
 
+#ordersList {
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    max-height:40vh;
+    width: 70vw;
+    overflow-y: scroll;
+    padding: 2px;
+    margin-bottom: 2vh;
+    border:1px solid black;
+}
+
+#preview {
+    flex:2;
+    flex-direction: column;
+    display: flex;
+}
+
 .userData {
+    display: flex;
+    padding-bottom: 2vh;
+}
+
+.orderData {
     display: flex;
     padding-bottom: 2vh;
 }
@@ -33,8 +56,9 @@
     flex:1;
     margin-top: 22vh;
     margin-left: 2vw;
+    max-height: 35vh;
 }
 
 #usersFilter {
-    max-width: 30vw;
+    max-width: 25vw;
 }
