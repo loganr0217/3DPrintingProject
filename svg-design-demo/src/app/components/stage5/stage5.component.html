@@ -35,6 +35,7 @@
             <p *ngIf="this.isDoubleHung()" [textContent]="getBottomSashHeight()"></p>
             <p *ngIf="this.isDoubleHung()" [textContent]="getPanelWidth(false)"></p>
             <p *ngIf="this.isDoubleHung()" [textContent]="getPanelHeight(false)"></p>
+            <p [textContent]="getWindowPrice()"></p>
             <!-- <input (click)="nextstageCheckout()" type="button" class="btn btn-dark btn-med" value="Back"/> -->
             <!-- <input (click)="goToStage4()" type="button" class="btn btn-light btn-med" id="submitInput" value="Back"/> -->
             <!-- <input *ngIf="this.sharedDataService.signedIn" (click)="saveDesign()" type="button" class="btn btn-light btn-med" id="submitInput" value="Save Design"/> -->
@@ -44,9 +45,22 @@
     <div id="bigContainer">
         <div id="finishedWindowPreview">
             <app-window-preview-container [finished]="true"></app-window-preview-container>
-            <svg *ngIf="this.sharedDataService.currentStepID == 6 && this.sharedDataService.signedIn" (click)="saveDesign()" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-cloud-download saveIcon" viewBox="0 0 16 16">
-                <path d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"/>
-                <path d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z"/>
+            <svg *ngIf="this.sharedDataService.currentStepID >= 4  && this.sharedDataService.currentStepID <= 6 && this.sharedDataService.signedIn" (click)="saveDesign()" xmlns="http://www.w3.org/2000/svg" width="75" height="75" fill="currentColor" class="bi bi-cloud-download saveIcon" viewBox="0 0 16 16">
+                <path d="M 5.1248,1.07354 A 4.424,4.4237529 0 0 1 8,0 c 2.152,0 3.9384,1.5999106 4.1328,3.6629954 1.2736,0.1799899 2.2672,1.2463304 2.2672,2.5550573 0,1.4367197 -1.1984,2.5814557 -2.6504,2.5814557 H 9.6 a 0.4,0.39997766 0 0 1 0,-0.7999553 h 2.1504 c 1.0328,0 1.8496,-0.8095547 1.8496,-1.7815004 0,-0.9727457 -0.816,-1.7823005 -1.8504,-1.7823005 h -0.4 V 4.0357746 C 11.3504,2.2598738 9.8624,0.79995531 8,0.79995531 A 3.624,3.6237976 0 0 0 5.6472,1.6799062 C 5.0416,2.201477 4.7248,2.8302419 4.7248,3.3238143 v 0.35838 l -0.356,0.039198 C 3.2512,3.8437853 2.4,4.761334 2.4,5.854073 2.4,7.0276074 3.384,7.9995531 4.6248,7.9995531 H 6.4 a 0.4,0.39997766 0 0 1 0,0.7999553 H 4.6248 C 2.9664,8.7995084 1.6,7.4923815 1.6,5.854073 1.6,4.4437518 2.6128,3.275817 3.9536,2.9798335 4.068,2.2894721 4.512,1.6015105 5.1248,1.07354 Z"/>
+                <path d="m 7.7166654,12.682492 a 0.4,0.39997766 0 0 0 0.5664,0 l 2.3999996,-2.399866 a 0.40050544,0.40048306 0 0 0 -0.5664,-0.5663688 L 8.3998654,11.433761 V 4.3997542 a 0.4,0.39997766 0 0 0 -0.8,0 v 7.0340068 l -1.7168,-1.7175038 a 0.40050544,0.40048306 0 0 0 -0.5664,0.5663688 z"/>
+                <text
+                    xml:space="preserve"
+                    style="font-style:normal;font-weight:normal;font-size:3.70404px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.124573"
+                    x="2.223613"
+                    y="18.106468"
+                    id="text224"
+                    transform="scale(1.1762409,0.85016598)"><tspan
+                    sodipodi:role="line"
+                    id="tspan222"
+                    style="stroke-width:0.124573"
+                    x="2.223613"
+                    y="18.106468">Save</tspan>
+                </text>
             </svg>
         </div>
     <!-- <div class="row d-flex justify-content-center topText">

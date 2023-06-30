@@ -69,7 +69,7 @@ export class CheckoutPageComponent implements OnInit {
 
   getFinalInfo():void {
     if(!this.sharedDataService.signedIn && this.email?.invalid) {alert("Make sure to enter your email."); return;}
-    if(confirm('Are you sure you want to make this order?')) {
+    if(confirm( (this.isAnyValidCouponCodes() && this.selectedCouponCodeIndex == -1) ? 'Are you sure you want to make this order? You have a free Kickstarter code.' : 'Are you sure you want to make this order?')) {
       let finalText:string[] = [String(this.convertNumber(this.sharedDataService.windowWidth / this.sharedDataService.panelLayoutDims[0], this.sharedDataService.unitChoice)),
       String(this.convertNumber(this.sharedDataService.windowHeight / this.sharedDataService.panelLayoutDims[1], this.sharedDataService.unitChoice))];
       let final:string = "[";
@@ -116,9 +116,11 @@ export class CheckoutPageComponent implements OnInit {
         const bottomWindowHeight:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice) : 0;
         const frameColor:string = this.sharedDataService.currentFilamentColor;
         const totalWindowArea:number = this.sharedDataService.sampleOrder != "" ? (this.sharedDataService.sampleOrder == "coasters" ? (1) : (2)) : ((this.sharedDataService.windowWidth * this.sharedDataService.windowHeight) + (this.sharedDataService.bottomSashWidth * this.sharedDataService.bottomPanelHeight)); 
-        if(this.selectedCouponCodeIndex == -1) {this.selectedCouponCode = "stripe"};
-        this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+100).subscribe(result => { 
-        });
+        if(this.selectedCouponCodeIndex == -1) {
+          this.selectedCouponCode = "stripe";
+        }
+          this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+100).subscribe(result => { 
+          });
         window.open(("https://backend-dot-lightscreendotart.uk.r.appspot.com/makeorder?email='"+email
         +"'&selectedDividerType='"+selectedDividerType+"'&unitChoice='"+unitChoice
         +"'&windowWidth="+windowWidth+"&windowHeight="+windowHeight+"&horzDividers="+horzDividers
