@@ -47,6 +47,7 @@
             <a href="javascript:void(0)" style="background-color: #FFD700;color:#ffffff;" (click)="changeFrameColor('FFD700')" class="dropdown-item">Gold</a>
             <a href="javascript:void(0)" style="background-color: #CD7F32;color:#ffffff;" (click)="changeFrameColor('CD7F32')" class="dropdown-item">Bronze</a>
             <a href="javascript:void(0)" style="background-color: #000000;color:#ffffff;" (click)="changeFrameColor('000000')" class="dropdown-item">Black</a>
+            <a href="javascript:void(0)" style="background-color: #d0d0d0;color:#000000;" (click)="changeFrameColor('d0d0d0')" class="dropdown-item">White</a>
             </div>
         </div>
         <!-- <input type="button" (click)="toggleAutofill()" class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1" id="autofillInput" value="Autofill"/> -->
@@ -97,7 +98,8 @@
             <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z"/>
           </svg>
     </a> -->
-    <input type="button" class="btn btn-med bg-light text-center btn-floating m-1 float-right" *ngIf="!isColorPage()" value="Help" data-toggle="modal" data-target="#howToModal4"/>
+    
+    <input type="button" class="btn btn-med bg-light text-center btn-floating m-1 float-right linkText" *ngIf="!isColorPage()" value="more" data-toggle="modal" data-target="#howToModal4" />
     
 
     

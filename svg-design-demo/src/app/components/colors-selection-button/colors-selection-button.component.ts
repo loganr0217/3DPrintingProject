@@ -22,7 +22,7 @@ export class ColorsSelectionButtonComponent implements OnInit {
     //document.getElementById(currentPaneID)?.setAttribute("style", "fill:#"+hexValue+";opacity:.9");
     if(paneColor) {
       document.getElementById("button_"+this.sharedDataService.currentPaneColor+"_true")?.setAttribute("style", "background-color:#"+this.sharedDataService.currentPaneColor);
-      document.getElementById("button_"+hexValue+"_true")?.setAttribute("style", "border:1px solid #0000ff; background-color:#"+hexValue);
+      document.getElementById("button_"+hexValue+"_true")?.setAttribute("style", "border:2px solid #0000ff; background-color:#"+hexValue);
       this.sharedDataService.currentPaneColor = hexValue;
     }
     else {

@@ -74,14 +74,17 @@
                             <label class="form-check-label">
                                 <input class="form-check-input" id="rememberMeBox" type="checkbox" checked="true"> Remember me
                             </label>
-                            <span class="psw" style="float: right;"><a style="color:black;" routerLink="/forgot-pass">Forgot password?</a></span>
+                            <!-- <span class="psw" style="float: right;"><a style="color:black;" routerLink="/forgot-pass">Forgot password?</a></span> -->
+                        </div>
+                        <div class="form-group form-check mb-2">
+                            <span class="psw" style="float: right;"><a style="color:#0000EE;" routerLink="/forgot-pass">Forgot password?</a></span>
                         </div>
                         
                         <div class="form-group mt-2 mb-2">
                             <button (click)="onSubmit()" style="width: 100%;" class="btn btn-dark">Create account</button>
                         </div>
                         <div class="form-group mb-2">
-                            <span class="psw" style="float: right;">Already have an account? <a style="color:black;" routerLink="/login">Login</a></span>
+                            <span class="psw" style="float: right;">Already have an account? <a style="color:#0000EE;" routerLink="/login">Login</a></span>
                         </div>
                     </form>
                 </div>
