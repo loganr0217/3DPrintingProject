@@ -48,6 +48,7 @@ import { CouponCodeGenerationPageComponent } from './components/coupon-code-gene
 import { BlogPageComponent } from './components/blog-page/blog-page.component';
 import { OrderSuccessComponent } from './components/order-success/order-success.component';
 import { OrderFailureComponent } from './components/order-failure/order-failure.component';
+import { DealerPageComponent } from './components/dealer-page/dealer-page.component';
 
 const googleLoginOptions:GoogleInitOptions = {
   oneTapEnabled: (JSON.parse(localStorage.getItem('userInfo') || '{}').length > 1 ? false : true), // user signed in before
@@ -93,7 +94,8 @@ const googleLoginOptions:GoogleInitOptions = {
     CouponCodeGenerationPageComponent,
     BlogPageComponent,
     OrderSuccessComponent,
-    OrderFailureComponent
+    OrderFailureComponent,
+    DealerPageComponent
   ],
   imports: [
     BrowserModule,

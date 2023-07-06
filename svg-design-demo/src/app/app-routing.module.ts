@@ -19,6 +19,7 @@ import { YourIdentifyComponent } from './components/verify-identity/your-identif
 import { BlogPageComponent } from './components/blog-page/blog-page.component';
 import { OrderSuccessComponent } from './components/order-success/order-success.component';
 import { OrderFailureComponent } from './components/order-failure/order-failure.component';
+import { DealerPageComponent } from './components/dealer-page/dealer-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'light-screen', pathMatch: 'full' },
@@ -106,6 +107,10 @@ const routes: Routes = [
   {
     path: "orderFailure",
     component: OrderFailureComponent
+  },
+  {
+    path: "dealerPage",
+    component: DealerPageComponent
   }
 ];
 
