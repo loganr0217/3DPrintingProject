@@ -1,0 +1,6 @@
+<div id="dealerPageContainer">
+    <!-- <span [innerHTML]="this.contentfulService.richtextToHtml(this.posts[0].fields.overviewBody)"></span> -->
+    <h1>{{this.post.fields.header}}</h1>
+    <span [innerHTML]="this.contentfulService.richtextToHtml(this.post.fields.body)"></span>
+    
+</div>

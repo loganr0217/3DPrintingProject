@@ -1,5 +1,17 @@
 <div id="bigContainer">
     <div id="section1" class="section">
+        <h1><b>Panel D Testing</b></h1>
+        <form id="dTestingContainer">
+            <div class="form-group form-row">
+                <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">d:</span>
+                    </div>
+                    <input type="text" class="form-control" id="dTestingInput">
+                </div>
+            </div>
+            <input type="button" class="btn btn-dark btn-med" id="dTestingButton" (click)="testDAttribute()" value="Test d"/>
+        </form>
         <h1><b>Panel Management</b></h1>
         <p></p>
         <app-template-info-form></app-template-info-form>

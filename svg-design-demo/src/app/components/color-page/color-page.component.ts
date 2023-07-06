@@ -530,6 +530,18 @@ export class ColorPageComponent implements OnInit {
     
   }
 
+  testDAttribute():void {
+    // Converts 300x300 panel d to lineart and then back to 300x300 to display the result
+    let d:string = (<HTMLInputElement>document.getElementById("dTestingInput"))?.value.toString();
+    let tmp:SVGTemplate = new SVGTemplate(d);
+    let res:string = tmp.getLineScaledD((320+4)/300, (320+4)/300, -2, -2.2);
+    let test2:SVGTemplate = new SVGTemplate(res);
+    console.log("\n\nNew: " + res);
+    let readjustedD:string = test2.getLineScaledD((300-6)/320, (300-6)/320, 3, 3);
+    console.log("\n\nReadjusted: " + readjustedD);
+    this.displayPanel(readjustedD, 0, 0);
+  }
+
   
 
 }
