@@ -62,3 +62,25 @@
 #usersFilter {
     max-width: 25vw;
 }
+
+select {
+    -webkit-appearance: none;
+    appearance: none;
+    outline: 0;
+    color: #4B4B4B;
+    text-align: center;
+    width: 32.5%;
+}
+
+#month {
+    margin-bottom: 2vh;
+    border-radius: 5px;
+    border: solid 1.5px #D3D3D3;
+}
+
+#day, #year {
+    margin-bottom: 2vh;
+    margin-left: 0.25vw;
+    border-radius: 5px;
+    border: solid 1.5px #D3D3D3;
+}

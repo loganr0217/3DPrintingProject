@@ -12,7 +12,7 @@ import { DividerWindow } from '../svgScaler';
 })
 export class UserDirectoryComponent implements OnInit {
     userData:any;
-    user:any
+    user:any;
     data:any;
     userOrder:any;
     order:any;
@@ -50,7 +50,6 @@ export class UserDirectoryComponent implements OnInit {
       let counter:number = 0;
       let saveCounter:number = 0;
       let sign:string = user[5].split(" ");
-      (<HTMLInputElement>document.getElementById("signupInput"))!.value = sign[2] + " " + sign[1] + " " + sign[3]; // Month Day Year
       for(let ord of this.userOrder)
       {
         if(ord[1] == this.user[3])
@@ -174,18 +173,48 @@ export class UserDirectoryComponent implements OnInit {
     filterUsers():void {
       let data:any;
       this.order = this.userOrder;
+      let counter:number = 0;
+      let saveCounter:number = 0;
       let orderInput = Number((<HTMLInputElement>document.getElementById("orderInput"))?.value);
       let savedInput = Number((<HTMLInputElement>document.getElementById("savedInput"))?.value);
-      let signup:string = (<HTMLInputElement>document.getElementById("signupInput"))?.value;
       for(let user of this.userData)
       {
         let sign:string = user[5].split(" ");
         // If input == month day year, month year, month day, year, or month
-        if(signup == sign[2] + " " + sign[1] + " " + sign[3] || signup == sign[2] + " " + sign[3] || signup == sign[2] + " " + sign[1] || signup == sign[3] || signup == sign[2])
+        if(sign[2] == "May")
         {
           data += user;
         }
       }
+      for(let ord of this.userOrder)
+      {
+        if(ord[1] == this.user[3])
+        {
+          counter++;
+          if(ord[18] == 'Saved')
+          {
+            saveCounter++;
+          }
+        }
+      }
+      if(counter == orderInput)
+      {
+
+      }
+      if(saveCounter == savedInput)
+      {
+        
+      }
+      let selectedUserData:string = "";
+      let statusesSelected:number = 0;
+      for(const orderStatus of ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']) {
+        if((<HTMLInputElement>document.getElementById("customSwitch_"+orderStatus))?.checked) {
+          selectedUserData += orderStatus + ";";
+          ++statusesSelected;
+        }
+      }
+      if(statusesSelected == 0) {this.filterStatus = "all";}
+      else {this.filterStatus = selectedUserData;}
     }
 
     displayUserData():void {
@@ -194,7 +223,6 @@ export class UserDirectoryComponent implements OnInit {
       let totalnum:number = this.userData.length;
       let order:number = Number((<HTMLInputElement>document.getElementById("orderInput"))?.value);
       let save:number = Number((<HTMLInputElement>document.getElementById("savedInput"))?.value);
-      let sign:string = (<HTMLInputElement>document.getElementById("signupInput"))?.value;
     }
 
     isAdmin(): boolean {
