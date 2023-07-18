@@ -962,7 +962,11 @@ def makeOrder():
                 streetAddress, city, state, zipcode, country, bottomWindowWidth, bottomWindowHeight, frameColor))
                 rows = cur.fetchall()
                 conn.commit()
-
+                orderId = int(rows[0][0])
+                cur.execute("SELECT permissions FROM users WHERE email = {}".format(email))
+                rows = cur.fetchall()
+                userPermissions = rows[0][0]
+                
                 # Creating checkout session and adding order id to metadata
                 checkout_session = stripe.checkout.Session.create(
                     shipping_address_collection={"allowed_countries": ["US"]},
@@ -978,10 +982,13 @@ def makeOrder():
                     automatic_tax= {
                         'enabled': True,
                     },
-                    payment_intent_data={"metadata":{"orderID":int(rows[0][0]),},},
+                    payment_intent_data={"metadata":{"orderID":orderId,},},
                     mode='payment',
-                    success_url="https://backend-dot-lightscreendotart.uk.r.appspot.com/stripeordercomplete?orderId={}&orderStatus=1".format(int(rows[0][0])),
-                    cancel_url="https://backend-dot-lightscreendotart.uk.r.appspot.com/stripeordercomplete?orderId={}&orderStatus=0".format(int(rows[0][0])),
+                    discounts= [{
+                        'coupon': 'uteJNO0N',
+                    }] if "dealer" in userPermissions or "admin" in userPermissions else [{}],
+                    success_url="https://backend-dot-lightscreendotart.uk.r.appspot.com/stripeordercomplete?orderId={}&orderStatus=1".format(orderId),
+                    cancel_url="https://backend-dot-lightscreendotart.uk.r.appspot.com/stripeordercomplete?orderId={}&orderStatus=0".format(orderId),
                 )
                 return redirect(checkout_session.url, code=302)
             else:
