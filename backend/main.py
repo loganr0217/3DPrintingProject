@@ -1311,6 +1311,36 @@ def addUserCouponCode():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
+# Endpoint to change user's first or last name
+@app.route('/updateUserInfo')
+def updateUserInfo():
+    global conn
+    firstname = request.args.get('firstname', default='null', type=str)
+    lastname = request.args.get('lastname', default='null', type=str)
+    email = request.args.get('email', default='null', type=str).lower()
+    password = request.args.get('password', default='null', type=str)
+
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' and email != '':
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + ";")
+            rows = cur.fetchall()
+            # User already has an account with that email
+            if len(rows) > 0:
+                cur.execute("UPDATE users set first_name = {}, last_name = {} WHERE email = {}".format(firstname, lastname, email))
+                cur.execute("SELECT * FROM users WHERE email = " + email + ";")
+                rows = cur.fetchall()
+                conn.commit()
+            else:
+                rows = (-2,)
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
 # Endpoint to start a new session and get the id for it
 @app.route('/startsession')
 def startSession():
