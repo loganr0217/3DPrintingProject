@@ -65,6 +65,10 @@ export class ProfilePageComponent implements OnInit {
         this.changeUpdatingInfo();
       });
     }
+
+    else {
+      this.changeUpdatingInfo();
+    }
   }
 
 }
