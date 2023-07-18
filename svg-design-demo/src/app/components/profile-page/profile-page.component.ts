@@ -12,6 +12,7 @@ export class ProfilePageComponent implements OnInit {
   userOrders:any;
   adminFilter:boolean = false;
   order:any;
+  isUpdatingInfo:boolean = false;
 
   constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
 
@@ -39,6 +40,31 @@ export class ProfilePageComponent implements OnInit {
       });
     }
     
+  }
+
+  changeUpdatingInfo(newStatus:boolean = false):void {
+    this.isUpdatingInfo = newStatus;
+  }
+
+  updateUserInfo():void {
+    if( !( (<HTMLInputElement>document.getElementById("firstNameInput")).value == this.sharedDataService.userInfo[1] && (<HTMLInputElement>document.getElementById("lastNameInput")).value == this.sharedDataService.userInfo[2] ) ) {
+      const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+      const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+      const firstName:string = (<HTMLInputElement>document.getElementById("firstNameInput")).value;
+      const lastName:string = (<HTMLInputElement>document.getElementById("lastNameInput")).value;
+
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updateUserInfo?email='"+email+"'&password='"+password+ "'&firstname='"+firstName+"'&lastname='"+lastName+"'").subscribe(result => {
+        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+        if(test.length > 1) {
+          alert("Success! Your account info has been updated.");
+          this.sharedDataService.userInfo[1] = (<HTMLInputElement>document.getElementById("firstNameInput")).value;
+          this.sharedDataService.userInfo[2] = (<HTMLInputElement>document.getElementById("lastNameInput")).value;
+          localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));
+        }
+        else {alert("Something went wrong when updating your info.");}
+        this.changeUpdatingInfo();
+      });
+    }
   }
 
 }
