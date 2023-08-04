@@ -130,6 +130,7 @@ export class AppComponent {
   get message() {return this.contactForm.get('message');}
 
   ngOnInit() {
+    this.sharedDataService.sessionStartingUrl = location.pathname;
     // Sets up popping modal for 40 seconds of not signing in
     // this.modalPopups = window.innerWidth < 576 ? 0 : 0;
     // this.modalPopupIntervalId = setInterval(() => {
@@ -228,7 +229,11 @@ export class AppComponent {
     // Setting up session and getting session id
     this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/startsession").subscribe(result => {
       this.sharedDataService.sessionID = Number(JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",")); 
+      const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : 'undefined';
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID+"&startingURL='"+this.sharedDataService.sessionStartingUrl+"'&userEmail='"+email+"'").subscribe(result => { 
+      });
     });
+
 
 
     // Getting panelsets from database
@@ -280,7 +285,7 @@ export class AppComponent {
           if(tmp.length >= 1) {
             // console.log(templateData);
             for(let i:number = 0; i < tmp.length; ++i) {
-              let currentTmp:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number} = {id:tmp[i][0], name:tmp[i][1], hex:tmp[i][2], paneColor:true, isAvailable:tmp[i][3], placementID:tmp[i][4], opacity:tmp[i][5]};
+              let currentTmp:{id:number, name:string, hex:string, darkHex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number, darkOpacity:number} = {id:tmp[i][0], name:tmp[i][1], hex:tmp[i][2], darkHex:tmp[i][6], paneColor:true, isAvailable:tmp[i][3], placementID:tmp[i][4], opacity:tmp[i][5], darkOpacity:tmp[i][7]};
               this.sharedDataService.colorsData.push(currentTmp);
             }
           }

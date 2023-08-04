@@ -482,6 +482,8 @@ def addPaneColor():
     isAvailable = request.args.get('isAvailable', default=False, type=bool)
     placementID = request.args.get('placementID', default=-1, type=int)
     colorOpacity = request.args.get('opacity', default=1, type=int)
+    colorHexDark = request.args.get('hexDark', default='null', type=str)
+    colorOpacityDark = request.args.get('opacityDark', default=1, type=float)
 
     try:
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
@@ -490,8 +492,14 @@ def addPaneColor():
             cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions LIKE '%admin%');")
             rows = cur.fetchall()
             # User has been authenticated as an admin
-            if len(rows) > 0:
-                cur.execute("INSERT INTO pane_colors(name, hex, is_available, placement_id, opacity) VALUES({}, {}, {}, {}, {});".format(colorName, colorHex, isAvailable, placementID, colorOpacity))
+            if len(rows) > 0 and not (colorHex == 'null' and colorHexDark == 'null'):
+                if colorHex != 'null' and colorHexDark != 'null':
+                    cur.execute("INSERT INTO pane_colors(name, hex, hex_dark, is_available, placement_id, opacity, opacity_dark) VALUES({}, {}, {}, {}, {});".format(colorName, colorHex, colorHexDark, isAvailable, placementID, colorOpacity, colorOpacityDark))
+                elif colorHex != 'null':
+                    cur.execute("INSERT INTO pane_colors(name, hex, is_available, placement_id, opacity) VALUES({}, {}, {}, {}, {});".format(colorName, colorHex, isAvailable, placementID, colorOpacity))
+                else:
+                    cur.execute("INSERT INTO pane_colors(name, hex_dark, is_available, placement_id, opacity_dark) VALUES({}, {}, {}, {}, {});".format(colorName, colorHexDark, isAvailable, placementID, colorOpacityDark))
+
                 conn.commit()
                 rows = (1,)
             else:
@@ -514,6 +522,8 @@ def updatePaneColor():
     realID = request.args.get('id', default=-1, type=int)
     placementID = request.args.get('placementID', default=-1, type=int)
     colorOpacity = request.args.get('opacity', default=1, type=float)
+    colorHexDark = request.args.get('hexDark', default='null', type=str)
+    colorOpacityDark = request.args.get('opacityDark', default=1, type=float)
 
     try:
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
@@ -526,8 +536,14 @@ def updatePaneColor():
                 cur.execute("SELECT * FROM pane_colors WHERE id = {};".format(realID))
                 rows = cur.fetchall()
                 # Panel already exists in that location
-                if len(rows) > 0:
-                    cur.execute("UPDATE pane_colors set name = {}, hex = {}, is_available = {}, placement_id = {}, opacity = {} where id = {};".format(colorName, colorHex, isAvailable, placementID, colorOpacity, realID))
+                if len(rows) > 0 and not (colorHex == 'null' and colorHexDark == 'null'):
+                    if colorHex != 'null' and colorHexDark != 'null':
+                        cur.execute("UPDATE pane_colors set name = {}, hex = {}, hex_dark = {} ,is_available = {}, placement_id = {}, opacity = {}, opacity_dark = {} where id = {};".format(colorName, colorHex, colorHexDark, isAvailable, placementID, colorOpacity, colorOpacityDark, realID))
+                    elif colorHex != 'null':
+                        cur.execute("UPDATE pane_colors set name = {}, hex = {}, is_available = {}, placement_id = {}, opacity = {} where id = {};".format(colorName, colorHex, isAvailable, placementID, colorOpacity, realID))
+                    else:
+                        cur.execute("UPDATE pane_colors set name = {}, hex_dark = {}, is_available = {}, placement_id = {}, opacity_dark = {} where id = {};".format(colorName, colorHexDark, isAvailable, placementID, colorOpacityDark, realID))
+                    
                     conn.commit()
                     rows = (1,)
                 # No pane color to update
@@ -850,8 +866,8 @@ def isCouponCodeValid(couponCode, totalArea, numAvailable):
             return True
         if "lightcatcher_" in couponCode and totalArea == 2:
             return True
-        if "coasters_" not in couponCode and "lightcatcher_" not in couponCode and couponCode.find("sq") != -1:
-            startNum = int(couponCode[0:couponCode.find("sq")])
+        if "coasters_" not in couponCode and "lightcatcher_" not in couponCode and couponCode.find("sqFt") != -1:
+            startNum = int(couponCode[0:couponCode.find("sqFt")])
             maxSize = (startNum*12*25.4)*(startNum*12*25.4)
             if totalArea <= maxSize:
                 return True
@@ -1371,6 +1387,8 @@ def updateSession():
     global conn
     sessionID = request.args.get('sessionID', default=-10, type=int)
     lastStepID = request.args.get('lastStepID', default=-10, type=int)
+    userEmail = request.args.get('userEmail', default='undefined', type=str)
+    startingURL = request.args.get('startingURL', default='undefined', type=str)
     
     try:
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
@@ -1380,7 +1398,12 @@ def updateSession():
             rows = cur.fetchall()
             # Session does exist
             if len(rows) > 0:
-                cur.execute("UPDATE sessions SET last_step_id = {} where id = {};".format(lastStepID, sessionID))
+                if userEmail != 'undefined' and 'lrichards0217@gmail.com' in userEmail:
+                    pass
+                elif userEmail != 'undefined':
+                    cur.execute("UPDATE sessions SET last_step_id = {}, starting_url = {}, user_email = {} where id = {};".format(lastStepID, startingURL, userEmail, sessionID))
+                else:
+                    cur.execute("UPDATE sessions SET last_step_id = {}, starting_url = {} where id = {};".format(lastStepID, startingURL, sessionID))
                 conn.commit()
                 rows = (1,)
             # Session is missing from database 

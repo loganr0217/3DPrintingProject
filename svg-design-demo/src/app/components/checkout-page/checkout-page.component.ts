@@ -14,6 +14,7 @@ export class CheckoutPageComponent implements OnInit {
   userCouponCodes:any;
   selectedCouponCode:string = "";
   selectedCouponCodeIndex:number = -1;
+  isUpdatingInfo:boolean = false;
 
   constructor(public sharedDataService:SharedDataService, private http:HttpClient, private formBuilder:UntypedFormBuilder,
     private router:Router) { }
@@ -33,6 +34,36 @@ export class CheckoutPageComponent implements OnInit {
 
     this.initialize();
   }
+
+  changeUpdatingInfo(newStatus:boolean = false):void {
+    this.isUpdatingInfo = newStatus;
+  }
+
+  updateUserInfo():void {
+    if( !( (<HTMLInputElement>document.getElementById("firstNameInput")).value == this.sharedDataService.userInfo[1] && (<HTMLInputElement>document.getElementById("lastNameInput")).value == this.sharedDataService.userInfo[2] ) ) {
+      const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+      const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+      const firstName:string = (<HTMLInputElement>document.getElementById("firstNameInput")).value;
+      const lastName:string = (<HTMLInputElement>document.getElementById("lastNameInput")).value;
+
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updateUserInfo?email='"+email+"'&password='"+password+ "'&firstname='"+firstName+"'&lastname='"+lastName+"'").subscribe(result => {
+        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+        if(test.length > 1) {
+          alert("Success! Your account info has been updated.");
+          this.sharedDataService.userInfo[1] = (<HTMLInputElement>document.getElementById("firstNameInput")).value;
+          this.sharedDataService.userInfo[2] = (<HTMLInputElement>document.getElementById("lastNameInput")).value;
+          localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));
+        }
+        else {alert("Something went wrong when updating your info.");}
+        this.changeUpdatingInfo();
+      });
+    }
+
+    else {
+      this.changeUpdatingInfo();
+    }
+  }
+
 
   initialize() {
     var input = document.getElementById('searchTextField') as HTMLInputElement;
@@ -69,7 +100,7 @@ export class CheckoutPageComponent implements OnInit {
 
   getFinalInfo():void {
     if(!this.sharedDataService.signedIn && this.email?.invalid) {alert("Make sure to enter your email."); return;}
-    if(confirm( (this.isAnyValidCouponCodes() && this.selectedCouponCodeIndex == -1) ? 'Are you sure you want to make this order? You have a free Kickstarter code.' : 'Are you sure you want to make this order?')) {
+    if( !(this.isAnyValidCouponCodes() && this.selectedCouponCodeIndex == -1) || confirm('Are you sure you want to make this order? You have a free Kickstarter code.')) {
       let finalText:string[] = [String(this.convertNumber(this.sharedDataService.windowWidth / this.sharedDataService.panelLayoutDims[0], this.sharedDataService.unitChoice)),
       String(this.convertNumber(this.sharedDataService.windowHeight / this.sharedDataService.panelLayoutDims[1], this.sharedDataService.unitChoice))];
       let final:string = "[";
@@ -119,8 +150,9 @@ export class CheckoutPageComponent implements OnInit {
         if(this.selectedCouponCodeIndex == -1) {
           this.selectedCouponCode = "stripe";
         }
-          this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+100).subscribe(result => { 
-          });
+          
+        this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID+"&startingURL='"+this.sharedDataService.sessionStartingUrl+"'&userEmail='"+email+"'").subscribe(result => { 
+        });
         window.open(("https://backend-dot-lightscreendotart.uk.r.appspot.com/makeorder?email='"+email
         +"'&selectedDividerType='"+selectedDividerType+"'&unitChoice='"+unitChoice
         +"'&windowWidth="+windowWidth+"&windowHeight="+windowHeight+"&horzDividers="+horzDividers

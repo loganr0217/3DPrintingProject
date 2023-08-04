@@ -19,8 +19,10 @@
                 <div class="form-check-inline" (click)="this.selectColor(color)">
                     <input class="form-check-input" type="radio" name="flexRadioDefault" id="{{'flexRadioDefault'+color.id}}">
                     <!-- <label class="form-check-label pastOrderLabel" *ngFor="let orderField of userOrder; let j = index" for="{{'flexRadioDefault'+i}}">{{this.getOrderFieldHeading(j) + orderField}}</label> -->
-                    <label class="form-check-label pastOrderLabel" for="{{'flexRadioDefault'+color.id}}"><b>ID:</b> {{color.id}} <b>Placement ID:</b> {{color.placementID}} <b>Name:</b> {{color.name}} <b>Hex:</b> #{{color.hex}} <b>Availability:</b> {{color.isAvailable ? 'Available' : 'Unavailable'}}</label>
+                    <label class="form-check-label pastOrderLabel" for="{{'flexRadioDefault'+color.id}}"><b>ID:</b> {{color.id}} <b>Placement ID:</b> {{color.placementID}} <b>Name:</b> {{color.name}} <b>Availability:</b> {{color.isAvailable ? 'Available' : 'Unavailable'}} <b>Hex:</b> #{{color.hex}}</label>
                     <label class="form-check-input colorIcons" for="{{'flexRadioDefault'+color.id}}" [attr.style]="'background-color: #' + color.hex+'; opacity:' + color.opacity + ';'" type="button" title="{{color.name}}" id="button_{{color.hex}}_{{color.paneColor}}"></label>
+                    <label class="form-check-label pastOrderLabel" for="{{'flexRadioDefault'+color.id}}"><b>Dark Hex:</b> #{{color.darkHex}}</label>
+                    <label class="form-check-input colorIcons" for="{{'flexRadioDefault'+color.id}}" [attr.style]="'background-color: #' + color.darkHex+'; opacity:' + color.darkOpacity + ';'" type="button" title="{{color.name}}" id="button_{{color.darkHex}}_{{color.paneColor}}"></label>
                 </div>
                 
             </div> 
@@ -50,6 +52,14 @@
             <div class="form-group form-row">
                 <div class="col input-group">
                     <div class="input-group-prepend">
+                        <span class="input-group-text">Dark Hex:</span>
+                      </div>
+                    <input type="text" class="form-control" id="darkHexInput"/>
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <div class="col input-group">
+                    <div class="input-group-prepend">
                         <span class="input-group-text">Placement ID:</span>
                     </div>
                     <input type="number" class="form-control" id="placementIDInput"/>
@@ -61,6 +71,14 @@
                         <span class="input-group-text">Opacity:</span>
                       </div>
                     <input type="number" class="form-control" id="opacityInput"/>
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Dark Opacity:</span>
+                      </div>
+                    <input type="number" class="form-control" id="darkOpacityInput"/>
                 </div>
             </div>
             <div class="form-group form-row">
