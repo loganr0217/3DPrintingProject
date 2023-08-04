@@ -54,6 +54,7 @@ export class SharedDataService {
   continueSavedOrder:boolean = false;
   sampleOrder:string = "";
   sessionID:number;
+  sessionStartingUrl:string = "";
 
   // Array holding all window shapes offered
   windowShapes:string[] = [
@@ -302,7 +303,7 @@ export class SharedDataService {
     
 }
 
-colorsData:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number}[] = [];
+colorsData:{id:number, name:string, hex:string, darkHex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number, darkOpacity:number}[] = [];
 
   // Array holding all colors currently offered with corresponding hex values
   oldColorsData:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean}[] = [

@@ -177,7 +177,8 @@ export class TemplateIconComponent implements OnInit {
       document.getElementById("stage4")?.scrollIntoView({behavior: 'auto'});
       this.sharedDataService.currentStepID = 5;
       $('#howToModal4').modal('show');
-      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID).subscribe(result => { 
+      const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : 'undefined';
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID+"&startingURL='"+this.sharedDataService.sessionStartingUrl+"'&userEmail='"+email+"'").subscribe(result => { 
       });
     }
   }

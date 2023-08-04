@@ -81,8 +81,9 @@ export class LandingPageComponent implements OnInit {
     document.getElementById("stage2")?.scrollIntoView({behavior: 'smooth'});
     if(this.sharedDataService.signedIn) {this.sharedDataService.currentStepID = 1;}
     else {this.sharedDataService.currentStepID = 0;}
-    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID).subscribe(result => { 
-    });
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : 'undefined';
+    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID+"&startingURL='"+this.sharedDataService.sessionStartingUrl+"'&userEmail='"+email+"'").subscribe(result => { 
+      });
   }
 
 }
