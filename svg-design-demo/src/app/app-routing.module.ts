@@ -26,7 +26,7 @@ const routes: Routes = [
   { path: 'tiktok', redirectTo: 'light-screen', pathMatch: 'full' },
   { path: 'instagram', redirectTo: 'light-screen', pathMatch: 'full' },
   { path: 'facebook', redirectTo: 'light-screen', pathMatch: 'full' },
-  { path: 'google-direct', redirectTo: 'light-screen', pathMatch: 'full' },
+  { path: 'google-search', redirectTo: 'light-screen', pathMatch: 'full' },
   { path: 'google-display', redirectTo: 'light-screen', pathMatch: 'full' },
   { path: 'twitter', redirectTo: 'light-screen', pathMatch: 'full' },
   { path: 'linkedin', redirectTo: 'light-screen', pathMatch: 'full' },
