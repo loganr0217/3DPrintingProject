@@ -1066,6 +1066,7 @@ def updateOrderStatus():
     password = request.args.get('password', default='null', type=str)
     orderId = request.args.get('orderId', default=-1, type=int)
     status = request.args.get('status', default='null', type=str)
+    notify = request.args.get('notify', default=0, type=int)
     
     try:
         conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
@@ -1095,15 +1096,16 @@ def updateOrderStatus():
                         subject = "Your LightScreen has Shipped!"
                         body = """Dear {} -\n\nThis is to confirm that your lightscreen has shipped!\n\nWe've made installing your lightscreen as easy as it was to design it. But while you're waiting for your order to arrive, you might want to see how the process works. You can check out our installation video and instructions here (https://lightscreenart.com/tutorials). If you have any questions at all about your lightscreen and how to install it, email us at help@lightscreenart.com and we'll get back to you within 24 hours.\n\nWhen you've installed your lightscreen you may find that you want to show it to the world. Social media is a great place to do that. If you send us a link to your posts we'll be sure to like them!\n\nThank you for supporting LightScreen Art. We hope you enjoy your lightscreen as much as we've enjoyed building your creation just for you.\n\nWith color and light,\n\nThe LightScreen Art Team
                         """.format(userFirstName)
-                    # Sending email to user
-                    try:
-                        msg = Message(subject, sender = 'info@lightscreenart.com', recipients = [userEmail])
-                        msg.body = body
-                        mail.send(msg)
-                        # Returning the final result
-                        return jsonify(rows)
-                    except Exception as e:
-                        return ("Error sending the message " + str(e), )
+                    if notify == 1:
+                        # Sending email to user if notify parameter is on
+                        try:
+                            msg = Message(subject, sender = 'info@lightscreenart.com', recipients = [userEmail])
+                            msg.body = body
+                            mail.send(msg)
+                            # Returning the final result
+                            return jsonify(rows)
+                        except Exception as e:
+                            return ("Error sending the message " + str(e), )
                     rows = (1,)
                 # No order to update
                 else:

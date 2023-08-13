@@ -1,14 +1,34 @@
-<div id="landingPage1" class="landingPage">
-    <div id="landingImg1">
+<div id="landingPage1" class="landingPage" >
+    <div id="landingImg1" *ngIf="(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')">
         <img class="img1" src="assets/img/landingPageImg1.jpg" alt="First slide"/>
     </div>
+    <!-- Pic for tots landing page -->
+    <div id="landingImg1" *ngIf="!(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')">
+        <img class="img1" src="assets/img/totPicture.jpg" alt="First slide"/>
+    </div>
+
     <div id="sideText1">
-        <h1 class="text1">{{this.posts[0].fields.lp1header}}</h1>
-        <button class="btn btn-outline-light startDesigning1" (click)="nextstage2()"><b>Start Designing</b></button>
-        <div id = "news_text">
+        <h1 class="text1" *ngIf="(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')">{{this.posts[0].fields.lp1header}}</h1>
+        <h1 class="text1" *ngIf="!(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')">Go Ahead,<br/>Color on the<br/>Windows</h1>
+        
+        <button class="btn btn-outline-light startDesigning1" *ngIf="(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')" (click)="nextstage2()"><b>Start Designing</b></button>
+        
+        <div id = "news_text" *ngIf="(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')">
             <span class="light" [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(this.posts[0].fields.lp1newsText), 1)"></span>
         </div>
-        <form *ngIf="this.sharedDataService.userInfo.length <= 1" [formGroup]="emailForm">
+        <div id = "news_text" *ngIf="!(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')">
+            <span class="light"><p>At LightScreen Art we actually encourage you to put 
+                color on your windows. Lightscreens are a modern 
+                alternative to stained glass and a whole new way 
+                to cover windows. Lightscreens are shatterproof, 
+                recyclable and easy to install. Best of all, lightscreens 
+                are designed right here so they fit your windows, 
+                complement your decor and match your color scheme. 
+                Check out our gallery below or just,</p></span>
+        </div>
+        <button class="btn btn-outline-light startDesigning1" *ngIf="!(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')" (click)="nextstage2()"><b>Start Designing</b></button>
+
+        <form *ngIf="this.sharedDataService.userInfo.length <= 1 && (this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')" [formGroup]="emailForm">
             <div class="form-group mt-2 mb-2">
                 <input type="text" placeholder="Enter Email" formControlName="email" class="form-control inputField" id="requiredEmailField" />
                 <div style="color: red;" *ngIf="email?.invalid && (email?.touched || email?.dirty)">
@@ -23,6 +43,11 @@
     </div>
 </div>
 
+<div id="landingPage4">
+    <h1 class="text4">Product Gallery</h1>
+    <app-carousel [startNumber]="0"></app-carousel>
+</div>
+
 <div id="landingPage2" class="landingPage">
     <div id="sideText2">
         <h1 class="text2">{{this.posts[0].fields.lp2header}}</h1>
@@ -35,18 +60,15 @@
     </div>
 </div>
 
-<div id="landingPage3" class="landingPage">
+<!-- <div id="landingPage3" class="landingPage">
     <div id="sideText3">
         <h1 class="text3 lp3text" [innerHTML]="this.contentfulService.markdownToHtml(this.posts[0].fields.lp3header)"></h1>
         <hr class="hr-light" />
         <h3 class="bodyText3 lp3bodyText" [innerHTML]="this.contentfulService.markdownToHtml(this.posts[0].fields.lp3body)"></h3>
     </div>
-</div>
+</div> -->
 
-<div id="landingPage4">
-    <h1 class="text4">Product Gallery</h1>
-    <app-carousel [startNumber]="0"></app-carousel>
-</div>
+
 
 <div id="landingPage5" class="landingPage">
     <img class="imgChart" src="assets/img/comparisonChart.png" alt="Comparison Chart"/>

@@ -135,8 +135,8 @@ export class Stage2Component implements OnInit {
 
   // Method to change the currently selected divider
   chooseDivider(dividerType:string) {
-    // User needs to sign in
-    if(window.innerWidth > 576 && !this.sharedDataService.signedIn) {
+    // User needs to sign in (used to require email signup with false being !this.sharedDataService.signedIn)
+    if(window.innerWidth > 576 && false) {
       document.getElementById("requiredEmailFieldStep0")?.focus();
       document.getElementById("requiredEmailFieldStep0")?.blur();
       document.getElementById("requiredEmailFieldStep0")?.focus();

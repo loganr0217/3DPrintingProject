@@ -77,7 +77,8 @@ export class MainPageComponent implements OnInit {
 
   // Focus email signup
   focusEmailRegister():void {
-    if(this.sharedDataService.signedIn) {
+    // used to be this.sharedDataService.signedIn instead of true for non optional signup
+    if(true) {
       this.sharedDataService.currentStepID = 1;
       this.stageSwitch();
     }

@@ -63,7 +63,7 @@
         </figure>
       </div>
 
-      <div class="middleWindowShapes" *ngIf="this.sharedDataService.sampleOrder != '' && isAnyCoasterCouponCodes()">
+      <div class="middleWindowShapes" *ngIf="this.sharedDataService.sampleOrder != '' && this.sharedDataService.signedIn && isAnyCoasterCouponCodes()">
         <figure class="windowShapeImageCon" *ngFor="let windowShape of ['coasters']" (click)="chooseWindowShape(windowShape);" [attr.style]="this.getIconHighlight('windowShape', windowShape)">
           <img id="windowShapeImage_{{windowShape}}" class="windowShapeImage" src="{{this.getWindowShapeSrc(windowShape)}}" alt="{{windowShape}}"/>
           <figcaption class="windowShapeCaption">{{windowShapeExample(windowShape)}}</figcaption>

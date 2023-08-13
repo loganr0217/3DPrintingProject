@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-12">
                 <div class="card bg-dark text-white">
-                    <div class="row">
+                    <div class="row" *ngIf="this.sharedDataService.signedIn">
                         <div class="col-lg-4">
                             <div class="row px-2">
                                 <div class="form-group col-md-12">
@@ -31,23 +31,6 @@
                                     
                                 </div>
                             </div>
-
-                            
-                            <form [formGroup]="emailForm" *ngIf="!this.sharedDataService.signedIn">
-                                <div class="row px-2" >
-                                    <div class="form-group col-md-12">
-                                        <label class="form-control-label">Email</label>
-                                        <input type="text" formControlName="email" autocomplete="email" class="form-control" id="emailInput"/>
-                                        <div style="color: red;" *ngIf="email?.invalid && (email?.touched || email?.dirty)">
-                                            <span *ngIf="email?.errors?.['required']">*Email is required</span>
-                                            <span *ngIf="email?.errors?.['email']">*Enter valid email (example@gmail.com)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                                    
-                        
-
                             <!-- <button (click)="getFinalInfo()" class="btn-block btn-light notOnMobile">
                                 <span>
                                     <span id="checkout">Checkout</span>
@@ -88,13 +71,27 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" *ngIf="!this.sharedDataService.signedIn">
+                        <form [formGroup]="emailForm" class="emailForm" *ngIf="this.sharedDataService.userInfo.length <= 1">
+                            <div class="form-group mt-2 mb-2 emailInput">
+                                <input type="text" placeholder="Enter Email" formControlName="email" class="form-control inputField" id="requiredEmailFieldStep0" />
+                                <div style="color: red;" *ngIf="email?.invalid && (email?.touched || email?.dirty)">
+                                  <span *ngIf="email?.errors?.['required']">*Email is required to save your design</span>
+                                  <span *ngIf="email?.errors?.['email']">*Enter valid email (example@gmail.com)</span>
+                                </div>
+                            </div>
+                            <div class="form-group sendButton mt-2 mb-2">
+                              <button class="btn btn-outline-light registerBtn" (click)="submitEmailForm('step0')"><b>Register</b></button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
 </div>
-<div class="breadCrumbs">
+<div class="breadCrumbs" id="checkoutBreadcrumbs">
     <a *ngIf="this.sharedDataService.currentStepID == 7" (click)="previousStage()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-light btn-lg breadCrumbButton" value="Go Back"/> </a>
     <a *ngIf="this.sharedDataService.currentStepID == 7" (click)="getFinalInfo()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton nextButton" value="Checkout"/> </a>
 </div>
