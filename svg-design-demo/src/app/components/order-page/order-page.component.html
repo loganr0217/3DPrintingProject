@@ -16,7 +16,7 @@
                     <div class="form-check-inline userOrder" *ngIf="( this.adminFilter && (this.filterStatus == 'all' || this.filterStatus.includes(userOrder[18])) ) || ( !this.adminFilter && userOrder[1] == this.sharedDataService.userInfo[3])">
                         <input class="form-check-input" type="radio" name="flexRadioDefault" (click)="this.selectOrder(userOrder)" id="{{'flexRadioDefault'+i}}">
                         <!-- <label class="form-check-label pastOrderLabel" *ngFor="let orderField of userOrder; let j = index" for="{{'flexRadioDefault'+i}}">{{this.getOrderFieldHeading(j) + orderField}}</label> -->
-                        <label class="form-check-label pastOrderLabel" for="{{'flexRadioDefault'+i}}">{{("ID: " + userOrder[0] + ", ") + "Email: " + userOrder[1] + (this.adminFilter ? (", Date: " + userOrder[21]) : (", Status: " + userOrder[18]))}}</label>
+                        <label class="form-check-label pastOrderLabel" for="{{'flexRadioDefault'+i}}">{{("ID: " + userOrder[0] + ", ") + "Email: " + userOrder[1] + (this.adminFilter ? (", Date: " + userOrder[21] + ", Status: " + userOrder[18]) : (", Status: " + userOrder[18]))}}</label>
                     </div>
                 </div>
             </div>
@@ -29,6 +29,12 @@
                 </div>
                 <input type="button" class="btn btn-dark btn-med btnReg" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('production'))" (click)="updateOrderStatus()" id="templateCategoryInput"  value="Update Order Status"/>
                 <input type="button" class="btn btn-dark btn-med btnReg" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('production'))" (click)="filterOrders()" id="templateFilterInput"  value="Filter Orders (select none to see all orders)"/>
+                <!-- Checkbox for notification on status change -->
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch_notify">
+                    <label class="custom-control-label" for="customSwitch_notify">Notify on Status Change</label>
+                </div>
+                
             </div>
         </div>
         <div id="previewAndContinue">

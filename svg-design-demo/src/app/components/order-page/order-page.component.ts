@@ -312,10 +312,11 @@ export class OrderPageComponent implements OnInit {
     const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
     const orderId:number = this.order[0];
     const orderStatus:string = this.getOrderStatus();
+    const notify:number = (<HTMLInputElement>document.getElementById("customSwitch_notify"))?.checked ? 1 : 0;
     if(orderStatus == "error") {alert("Make sure to only select one status when updating.");}
     else {
       if(orderId != undefined && orderId != -1 && confirm('Are you sure you want to update order ' + orderId + ' with the status ' + orderStatus + '?')) {
-        this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updateorderstatus?email='"+email+"'&password='"+password+ "'&orderId=" + orderId+ "&status="+orderStatus).subscribe(result => {
+        this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updateorderstatus?email='"+email+"'&password='"+password+ "'&orderId=" + orderId+ "&status="+orderStatus+"&notify="+notify).subscribe(result => {
           let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
           alert(test);
           this.refreshOrders();

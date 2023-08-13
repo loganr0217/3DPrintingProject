@@ -231,4 +231,39 @@ export class CheckoutPageComponent implements OnInit {
     document.getElementById("stage5")?.scrollIntoView({behavior: 'smooth'});
   }
 
+  // Email form submission
+  submitEmailForm(signupLocation:string):void {
+    const headers = { 'content-type': 'application/json'}  
+    const body=JSON.stringify(
+      {
+        'email':this.email?.value,
+        'location':signupLocation
+      });
+      
+    // Making sure each field has data and it's valid
+    if(this.email?.value != "" && this.email?.valid) {
+        let fullMessage:string = "Is this the correct email?\n> " + this.email?.value;
+      
+        if (confirm(fullMessage)) {
+          // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelSetId + "&panelNumber=" + panelNumber + "&panelName='" + panelName + "'&dAttribute='" + dAttribute + "'").subscribe(result => {
+          //   let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+          //   alert(test);
+          //  });
+          this.http.post("https://backend-dot-lightscreendotart.uk.r.appspot.com/submitcontactform", body, {'headers':headers}).subscribe(result => {
+            this.sharedDataService.userInfo = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(","); 
+            if(this.sharedDataService.userInfo.length > 1) {
+              this.sharedDataService.signedIn = true;
+              localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));
+              alert("You're now registered and should have recieved a confirmation email in your inbox.");
+              document.getElementById("stage5")?.scrollIntoView({behavior: 'smooth'});
+              document.getElementById("checkoutStage")?.scrollIntoView({behavior: 'smooth'});
+            }
+            else if(this.sharedDataService.userInfo.length == 1 && this.sharedDataService.userInfo[0] == -1) {alert("A user with that email already exists.");}
+          });;
+          this.emailForm.reset();
+        }
+    }
+    else {alert("Make sure to enter information in each field");}
+  }
+
 }

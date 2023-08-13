@@ -148,22 +148,45 @@ export class AppComponent {
       });
     });
 
+    const sharedDataServiceLocal:any = this.sharedDataService;
+
     // Detects scroll for disappearing navbar
     $(window).scroll(function (event:any) {
       var scroll = $(window).scrollTop();
+      // Setting current stage name to make progress bar visbile only on correct step
+      let currentStageName:string = "";
+      switch(sharedDataServiceLocal.currentStepID) {
+        case 1:
+        case 2: {currentStageName = "stage2"; break;}
+        case 3: {currentStageName = "stage3"; break;}
+        case 4: {currentStageName = "templateCategoryStage"; break;}
+        case 5: {currentStageName = "stage4"; break;}
+        case 6: {currentStageName = "stage5"; break;}
+        case 7: {currentStageName = "checkoutStage"; break;}
+      }
+      var rect:any = document.getElementById(currentStageName)?.getBoundingClientRect();
       if(scroll >= pageScroll) {
           pageScroll = scroll;
           if(stickyNav) {
             document.getElementById("mainNavbar")?.classList.remove("sticky-top");
             stickyNav = false; 
+          }
+          if(rect.top < 100) {
+            document.getElementById("customProgressBar")!.style.visibility = "visible";
+            if(currentStageName == "checkoutStage") {document.getElementById("checkoutBreadcrumbs")!.style.visibility = "visible";}
           } 
       }
+      // Scroll up
       else {
-        if(Math.abs(scroll - pageScroll) > 5) {
-          pageScroll = scroll;
-          document.getElementById("mainNavbar")?.classList.add("sticky-top");
-          stickyNav = true;
-        }
+          if(Math.abs(scroll - pageScroll) > 5) {
+            pageScroll = scroll;
+            document.getElementById("mainNavbar")?.classList.add("sticky-top");
+            stickyNav = true;
+          }
+          if(rect.top > 100) {
+            document.getElementById("customProgressBar")!.style.visibility = "hidden";
+            if(currentStageName == "checkoutStage") {document.getElementById("checkoutBreadcrumbs")!.style.visibility = "hidden";}
+          } 
       }
     });
 
