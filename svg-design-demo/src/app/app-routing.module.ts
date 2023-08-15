@@ -28,6 +28,7 @@ const routes: Routes = [
   { path: 'facebook', redirectTo: 'light-screen', pathMatch: 'full' },
   { path: 'google-search', redirectTo: 'light-screen', pathMatch: 'full' },
   { path: 'google-display', redirectTo: 'light-screen', pathMatch: 'full' },
+  { path: 'mailchimp', redirectTo: 'light-screen', pathMatch: 'full' },
   { path: 'twitter', redirectTo: 'light-screen', pathMatch: 'full' },
   { path: 'linkedin', redirectTo: 'light-screen', pathMatch: 'full' },
   { path: 'pinterest', redirectTo: 'light-screen', pathMatch: 'full' },
