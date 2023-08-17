@@ -17,8 +17,10 @@ export class ColorOfferingsPageComponent implements OnInit {
     this.selectedColor = chosenColor;
     (<HTMLInputElement>document.getElementById("nameInput"))!.value = this.selectedColor.name;
     (<HTMLInputElement>document.getElementById("hexInput"))!.value = this.selectedColor.hex;
+    (<HTMLInputElement>document.getElementById("darkHexInput"))!.value = this.selectedColor.darkHex;
     (<HTMLInputElement>document.getElementById("placementIDInput"))!.value = String(this.selectedColor.placementID);
     (<HTMLInputElement>document.getElementById("opacityInput"))!.value = String(this.selectedColor.opacity);
+    (<HTMLInputElement>document.getElementById("darkOpacityInput"))!.value = String(this.selectedColor.darkOpacity);
     (<HTMLInputElement>document.getElementById("customSwitchAvailable"))!.checked = this.selectedColor.isAvailable;
 
   }

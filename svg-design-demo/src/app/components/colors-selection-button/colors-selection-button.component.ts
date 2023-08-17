@@ -41,7 +41,6 @@ export class ColorsSelectionButtonComponent implements OnInit {
     let r:string = "0x"+hex.substring(0,2);
     let g:string = "0x"+hex.substring(2,4);
     let b:string = "0x"+hex.substring(4,6);
-    
     return "rgba("+Number(r)+","+Number(g)+","+Number(b)+","+opacity+")";
   }
 

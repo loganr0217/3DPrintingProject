@@ -116,13 +116,13 @@
 }
 
 .darkModeSwitch-inner:before {
-    content: "Dark Mode";
+    content: "Light Mode";
     background-color: #EEEEEE; color: #666666;
     text-align: center;
 }
 
 .darkModeSwitch-inner:after {
-    content: "Light Mode";
+    content: "Dark Mode";
     background-color: #EEEEEE; color: #666666;
     text-align: center;
 }
