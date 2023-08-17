@@ -65,6 +65,7 @@ export class ColorPageComponent implements OnInit {
   // Updates current template in display window with selected version
   displayPanel(svgD:string, row:number, col:number):void {
     this.sharedDataService.panelColoringArray = [[]];
+    this.sharedDataService.darkPanelColoringArray = [[]];
     this.clearOldPanes();
     this.sharedDataService.currentSvgTemplate = new SVGTemplate(svgD);
     this.sharedDataService.currentTemplateNumber = 0; // ******* Only for color page *********
@@ -76,6 +77,7 @@ export class ColorPageComponent implements OnInit {
       if(i != newTemplate.outerEdgeIndex) {
         document.getElementById("pane"+numPane)?.setAttribute("d", newTemplate.subShapes[i].getScalablePath());
         this.sharedDataService.panelColoringArray[0].push("f0f0f1");
+        this.sharedDataService.darkPanelColoringArray[0].push("f0f0f1");
         // Filling the pane with a saved color or blank
         let savedStyle = document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+numPane)?.getAttribute("style");
         if(savedStyle != null) {document.getElementById("pane"+numPane)?.setAttribute("style", savedStyle);}
