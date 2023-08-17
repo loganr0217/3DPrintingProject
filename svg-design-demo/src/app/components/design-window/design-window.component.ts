@@ -25,6 +25,7 @@ export class DesignWindowComponent implements OnInit {
 
   // Queue-like array to hold changes
   recentChanges:string[][][];
+  darkRecentChanges:string[][][];
   undoQueueSize:number = 10;
   ngOnInit(): void {
     this.contentfulService.getPostById('59SeNkOJ9iQ3KlfMaRb0WA', 'howTo').then(post => this.howToPosts.push(post));
@@ -37,6 +38,7 @@ export class DesignWindowComponent implements OnInit {
     // panes.setAttribute("id", "svgPanes");
     // document.getElementById("currentTemplate")?.appendChild(panes);
     this.recentChanges = [];
+    this.darkRecentChanges = [];
   }
 
   // Checking whether it is the color page (TDI)
@@ -63,13 +65,16 @@ export class DesignWindowComponent implements OnInit {
           tmpHex = foundColor[0].hex;
 
           // Adding change to last change array
-          let previousStyle:string = String(document.getElementById("windowPane"+panelNumber+"_"+i)?.getAttribute("style"));
+          let previousStyle:string = "fill:#" + this.sharedDataService.panelColoringArray[panelNumber][i];
+          let darkPreviousStyle:string = "fill:#" + this.sharedDataService.darkPanelColoringArray[panelNumber][i];
           this.recentChanges[this.recentChanges.length-1].push([String(panelNumber), String(i), previousStyle]);
+          this.darkRecentChanges[this.darkRecentChanges.length-1].push([String(panelNumber), String(i), darkPreviousStyle]);
 
-          if(this.sharedDataService.currentTemplateNumber == panelNumber) {document.getElementById("pane"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);}
-          document.getElementById("windowPane"+panelNumber+"_"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
-          document.getElementById("windowPaneFinished"+panelNumber+"_"+i)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
-          this.sharedDataService.panelColoringArray[panelNumber][i] = this.sharedDataService.currentPaneColor;
+          if(this.sharedDataService.currentTemplateNumber == panelNumber) {document.getElementById("pane"+i)?.setAttribute("style", "fill:#"+(this.isDarkMode() ? this.sharedDataService.currentSelectedColor.darkHex: this.sharedDataService.currentSelectedColor.hex));}
+          document.getElementById("windowPane"+panelNumber+"_"+i)?.setAttribute("style", "fill:#"+(this.isDarkMode() ? this.sharedDataService.currentSelectedColor.darkHex: this.sharedDataService.currentSelectedColor.hex));
+          document.getElementById("windowPaneFinished"+panelNumber+"_"+i)?.setAttribute("style", "fill:#"+(this.isDarkMode() ? this.sharedDataService.currentSelectedColor.darkHex: this.sharedDataService.currentSelectedColor.hex));
+          this.sharedDataService.panelColoringArray[panelNumber][i] = this.sharedDataService.currentSelectedColor.hex;
+          this.sharedDataService.darkPanelColoringArray[panelNumber][i] = this.sharedDataService.currentSelectedColor.darkHex;
         }
         //else {tmpHex = foundColor[0].hex;}
         
@@ -79,7 +84,8 @@ export class DesignWindowComponent implements OnInit {
   
   // Updates the color of the pane selected by the user (also updated the window preview)
   updateSelectedPane(paneID:number):void {
-    let previousStyle:string = String(document.getElementById("pane"+paneID)?.getAttribute("style"));
+    let previousStyle:string = "fill:#"+this.sharedDataService.panelColoringArray[this.sharedDataService.currentTemplateNumber][paneID];
+    let darkPreviousStyle:string = "fill:#"+this.sharedDataService.darkPanelColoringArray[this.sharedDataService.currentTemplateNumber][paneID];
     if(this.sharedDataService.currentPaneColor != "") {
       // Autofill is on
       if((<HTMLInputElement>document.getElementById("customSwitch_autofill"))?.checked) {
@@ -87,8 +93,9 @@ export class DesignWindowComponent implements OnInit {
         let baseAutofillString = this.sharedDataService.panelLayout[Math.floor(this.sharedDataService.currentTemplateNumber/this.sharedDataService.panelLayoutDims[0])][this.sharedDataService.currentTemplateNumber%this.sharedDataService.panelLayoutDims[0]].autofillString;
 
         // Adding new array for changes to be made by each panel getting autofilled
-        if(this.recentChanges.length >= this.undoQueueSize) {this.recentChanges.shift();}
+        if(this.recentChanges.length >= this.undoQueueSize) {this.recentChanges.shift(); this.darkRecentChanges.shift;}
         this.recentChanges.push([]);
+        this.darkRecentChanges.push([]);
         
         for(let row of this.sharedDataService.panelLayout) {
           for(let svgTemplate of row) {
@@ -101,36 +108,58 @@ export class DesignWindowComponent implements OnInit {
       // Autofill is off
       else {
         // Adding change to recent changes
-        if(this.recentChanges.length < this.undoQueueSize) {this.recentChanges.push([[String(this.sharedDataService.currentTemplateNumber), String(paneID), previousStyle]]);}
-        else {this.recentChanges.shift(); this.recentChanges.push([[String(this.sharedDataService.currentTemplateNumber), String(paneID), previousStyle]]);}
+        if(this.recentChanges.length < this.undoQueueSize) {
+          this.recentChanges.push([[String(this.sharedDataService.currentTemplateNumber), String(paneID), previousStyle]]); 
+          this.darkRecentChanges.push([[String(this.sharedDataService.currentTemplateNumber), String(paneID), darkPreviousStyle]]);
+        }
+        else {
+          this.recentChanges.shift(); this.recentChanges.push([[String(this.sharedDataService.currentTemplateNumber), String(paneID), previousStyle]]);
+          this.darkRecentChanges.shift(); this.darkRecentChanges.push([[String(this.sharedDataService.currentTemplateNumber), String(paneID), darkPreviousStyle]]);
+        }
         
-        document.getElementById("pane"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
-        document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
-        document.getElementById("windowPaneFinished"+this.sharedDataService.currentTemplateNumber+"_"+paneID)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
+        document.getElementById("pane"+paneID)?.setAttribute("style", "fill:#"+ (this.isDarkMode() ? this.sharedDataService.currentSelectedColor.darkHex: this.sharedDataService.currentSelectedColor.hex));
+        document.getElementById("windowPane"+this.sharedDataService.currentTemplateNumber+"_"+paneID)?.setAttribute("style", "fill:#"+(this.isDarkMode() ? this.sharedDataService.currentSelectedColor.darkHex: this.sharedDataService.currentSelectedColor.hex));
+        document.getElementById("windowPaneFinished"+this.sharedDataService.currentTemplateNumber+"_"+paneID)?.setAttribute("style", "fill:#"+(this.isDarkMode() ? this.sharedDataService.currentSelectedColor.darkHex: this.sharedDataService.currentSelectedColor.hex));
         this.sharedDataService.panelColoringArray[this.sharedDataService.currentTemplateNumber][paneID] = this.sharedDataService.currentPaneColor;
+        this.sharedDataService.darkPanelColoringArray[this.sharedDataService.currentTemplateNumber][paneID] = this.sharedDataService.currentSelectedColor.darkHex;
       }
     }
     this.sharedDataService.currentPaneID = "pane"+paneID;
   }
+  
 
   // Undoes the last change recent changes array : [templateNum, paneID, style]
   undoChange():void {
     if(this.recentChanges.length > 0) {
 
       let recentChangeArray:string[][] = this.recentChanges.pop()!;
+      let darkRecentChangeArray:string[][] = this.darkRecentChanges.pop()!;
       while(recentChangeArray.length > 0) {
         
         let recentChange:string[] = recentChangeArray.pop()!;;
+        let darkRecentChange:string[] = darkRecentChangeArray.pop()!;
         if(recentChange[0] == String(this.sharedDataService.currentTemplateNumber)) {
-          document.getElementById("pane"+recentChange[1])?.setAttribute("style", recentChange[2]);
+          document.getElementById("pane"+recentChange[1])?.setAttribute("style", (this.isDarkMode() ? darkRecentChange[2] : recentChange[2]) );
         }
         this.sharedDataService.panelColoringArray[Number(recentChange[0])][Number(recentChange[1])] = recentChange[2].substring(6);
-        document.getElementById("windowPane"+recentChange[0]+"_"+recentChange[1])?.setAttribute("style", recentChange[2]);
-        document.getElementById("windowPaneFinished"+recentChange[0]+"_"+recentChange[1])?.setAttribute("style", recentChange[2]);
+        this.sharedDataService.darkPanelColoringArray[Number(recentChange[0])][Number(recentChange[1])] = darkRecentChange[2].substring(6);
+        document.getElementById("windowPane"+recentChange[0]+"_"+recentChange[1])?.setAttribute("style",(this.isDarkMode() ? darkRecentChange[2] : recentChange[2]));
+        document.getElementById("windowPaneFinished"+recentChange[0]+"_"+recentChange[1])?.setAttribute("style", (this.isDarkMode() ? darkRecentChange[2] : recentChange[2]));
       }
     }
     
 
+  }
+
+  isDarkMode():boolean {
+    return (<HTMLInputElement>document.getElementById("customSwitch_DarkMode"))?.checked;
+  }
+
+  refreshCurrentPanel():void {
+    let numPanes = this.sharedDataService.numberPanes;
+    for(let i = 0; i < numPanes; ++i) {
+      document.getElementById("pane"+i)?.setAttribute("style", "fill:#"+ (this.isDarkMode() ? this.sharedDataService.darkPanelColoringArray[this.sharedDataService.currentTemplateNumber][i] : this.sharedDataService.panelColoringArray[this.sharedDataService.currentTemplateNumber][i]))
+    }
   }
   
     // Method to clear old panes

@@ -1,7 +1,7 @@
 
 <div id="colorIconContainer">
     <div *ngFor="let color of (this.paneColors ? this.sharedDataService.colorsData : this.sharedDataService.tdiColorsData)">
-        <input class="colorButtons" *ngIf="color.isAvailable == true && color.placementID >= 0" [attr.style]="'background-color: #' + color.hex+';'" type="button" title="{{color.name}}"  id="button_{{color.hex}}_{{color.paneColor}}"
-        (click)="changePanesColor(color.hex, color.paneColor)"/>
+        <input class="colorButtons" *ngIf="color.isAvailable == true && color.placementID >= 0" [attr.style]="(isColorCurrentlySelected(color.hex, color.paneColor) ? 'border:2px solid #0000ff;' : ';') + 'background-color:' + (this.isDarkMode() ? hexOpacityToRGBA(color.darkHex, color.darkOpacity) : hexOpacityToRGBA(color.hex, color.opacity)) +';'" type="button" title="{{color.name}}"  id="button_{{color.hex}}_{{color.paneColor}}"
+        (click)="changePanesColor(color.hex, color.paneColor); updateSelectedColor(color)"/>
     </div>
 </div>

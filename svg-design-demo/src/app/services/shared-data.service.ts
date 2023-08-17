@@ -9,6 +9,7 @@ export class SharedDataService {
   currentPaneID:string = "";
   numberPanes:number = 0;
   currentPaneColor:string = "";
+  currentSelectedColor:{id:number, name:string, hex:string, darkHex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number, darkOpacity:number};
   currentFilamentColor:string = "666666";
   currentSvgTemplate:SVGTemplate;
   dividerWindow:DividerWindow;
@@ -336,14 +337,14 @@ colorsData:{id:number, name:string, hex:string, darkHex:string, paneColor:boolea
     {id:24, name:"Ivory", hex:"dec89f", paneColor:true, isAvailable:true}
   ];
 
-  tdiColorsData:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number}[] = [
-    {id:0, name:"Red", hex:"ff0000", paneColor:true, isAvailable:true, placementID:0, opacity:1},
-    {id:1, name:"Orange", hex:"e14931", paneColor:true, isAvailable:true, placementID:1, opacity:1},
-    {id:2, name:"Yellow", hex:"f2cc2e", paneColor:true, isAvailable:true, placementID:2, opacity:1},
-    {id:3, name:"Green", hex:"054c20", paneColor:true, isAvailable:true, placementID:3, opacity:1},
-    {id:4, name:"Blue", hex:"178fdc", paneColor:true, isAvailable:true, placementID:4, opacity:1},
-    {id:5, name:"Purple", hex:"75459a", paneColor:true, isAvailable:true, placementID:5, opacity:1},
-    {id:6, name:"White", hex:"f0f0f1", paneColor:true, isAvailable:true, placementID:6, opacity:1}
+  tdiColorsData:{id:number, name:string, hex:string, darkHex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number, darkOpacity:number}[] = [
+    {id:0, name:"Red", hex:"ff0000", darkHex:"ffffff", paneColor:true, isAvailable:true, placementID:0, opacity:1, darkOpacity:1},
+    {id:1, name:"Orange", hex:"e14931", darkHex:"ffffff", paneColor:true, isAvailable:true, placementID:1, opacity:1, darkOpacity:1},
+    {id:2, name:"Yellow", hex:"f2cc2e", darkHex:"ffffff", paneColor:true, isAvailable:true, placementID:2, opacity:1, darkOpacity:1},
+    {id:3, name:"Green", hex:"054c20", darkHex:"ffffff", paneColor:true, isAvailable:true, placementID:3, opacity:1, darkOpacity:1},
+    {id:4, name:"Blue", hex:"178fdc", darkHex:"ffffff", paneColor:true, isAvailable:true, placementID:4, opacity:1, darkOpacity:1},
+    {id:5, name:"Purple", hex:"75459a", darkHex:"ffffff", paneColor:true, isAvailable:true, placementID:5, opacity:1, darkOpacity:1},
+    {id:6, name:"White", hex:"f0f0f1", darkHex:"ffffff", paneColor:true, isAvailable:true, placementID:6, opacity:1, darkOpacity:1}
 
   ];
 
@@ -365,6 +366,7 @@ colorsData:{id:number, name:string, hex:string, darkHex:string, paneColor:boolea
 
   // Array that holds each panel's color makeup
   panelColoringArray:string[][] = [];
+  darkPanelColoringArray:string[][] = [];
   templateData:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}[];
   // Array containing the svgPath data for displaying icons / generating a template
   svgTemplateData:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string}[][];

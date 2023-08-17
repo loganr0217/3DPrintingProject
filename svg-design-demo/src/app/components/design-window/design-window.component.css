@@ -85,6 +85,52 @@
      margin-left: 0;
  }
 
+ /* 
+  */
+
+  .darkModeSwitch {
+    position: relative; left: 5px; width: 127px;
+    -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;
+}
+
+.darkModeSwitch-checkbox {
+    position: absolute; left: 5px;
+    opacity: 0;
+    pointer-events: none; 
+}
+
+.darkModeSwitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border-radius: 4px;
+}
+
+.darkModeSwitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+
+.darkModeSwitch-inner:before, .darkModeSwitch-inner:after {
+    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
+    font-size: 14px; color: white; font-weight: bold;
+    box-sizing: border-box;
+}
+
+.darkModeSwitch-inner:before {
+    content: "Dark Mode";
+    background-color: #EEEEEE; color: #666666;
+    text-align: center;
+}
+
+.darkModeSwitch-inner:after {
+    content: "Light Mode";
+    background-color: #EEEEEE; color: #666666;
+    text-align: center;
+}
+
+.darkModeSwitch-checkbox:checked + .darkModeSwitch-label .darkModeSwitch-inner {
+    margin-left: 0;
+}
+
  @media only screen and (max-width: 576px) {
     .notOnMobile {
         display: none;
