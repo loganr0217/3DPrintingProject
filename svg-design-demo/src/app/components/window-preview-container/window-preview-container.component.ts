@@ -182,7 +182,14 @@ export class WindowPreviewContainerComponent implements OnInit {
   }
 
   getPaneStyle(row:number, col:number, paneNum:number):string {
+    if(this.isDarkMode()) {
+      return "fill:#"+this.sharedDataService.darkPanelColoringArray[(row*this.sharedDataService.panelLayoutDims[0] + col)][paneNum];
+    }
     return "fill:#"+this.sharedDataService.panelColoringArray[(row*this.sharedDataService.panelLayoutDims[0] + col)][paneNum];
+  }
+
+  isDarkMode():boolean {
+    return (<HTMLInputElement>document.getElementById("customSwitch_DarkMode"))?.checked;
   }
 
   getPanelID(row:number, col:number):string {

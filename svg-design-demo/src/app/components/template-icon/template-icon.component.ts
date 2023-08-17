@@ -67,6 +67,7 @@ export class TemplateIconComponent implements OnInit {
     
     for(let i:number = 0; i < window.length; ++i) {
       this.sharedDataService.panelColoringArray.push([]);
+      this.sharedDataService.darkPanelColoringArray.push([]);
       currentTemplate = new SVGTemplate(window[i].d);
       viewboxValue = ""+currentTemplate.xMin+" "+currentTemplate.yMin+" "+currentTemplate.width+" "+currentTemplate.height;
 
@@ -92,6 +93,7 @@ export class TemplateIconComponent implements OnInit {
         let finishedPath:Element = document.createElementNS("http://www.w3.org/2000/svg", "path");
         if(j != currentTemplate.outerEdgeIndex) {
           this.sharedDataService.panelColoringArray[i].push("f0f0f1");
+          this.sharedDataService.darkPanelColoringArray[i].push("f0f0f1");
           newPath.setAttribute("style", "fill:#f0f0f1;");
           newPath.setAttribute("d", currentTemplate.subShapes[j].getScalablePath());
           newPath.setAttribute("id", "windowPane"+i+"_"+numPane);
@@ -264,10 +266,13 @@ export class TemplateIconComponent implements OnInit {
     this.sharedDataService.panelLayout = this.getPanelLayout(temp);
     this.sharedDataService.panelLayoutDims = [this.sharedDataService.panelLayout[0].length, this.sharedDataService.panelLayout.length];
     this.sharedDataService.panelColoringArray = [];
+    this.sharedDataService.darkPanelColoringArray = [];
     for(let i:number = 0; i < temp.numPanels; ++i) {
       this.sharedDataService.panelColoringArray.push([]);
+      this.sharedDataService.darkPanelColoringArray.push([]);
       for(let j:number = 1; j < this.sharedDataService.panelLayout[Math.floor(i/this.sharedDataService.panelLayoutDims[0])][i%this.sharedDataService.panelLayoutDims[0]].subShapes.length; ++j) {
         this.sharedDataService.panelColoringArray[i].push("f0f0f1");
+        this.sharedDataService.darkPanelColoringArray[i].push("f0f0f1");
       }
     }
     this.sharedDataService.selectedTemplateID = temp.id;
