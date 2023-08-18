@@ -1366,6 +1366,42 @@ def updateUserInfo():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
+# Endpoint to update user permissions 
+@app.route('/updateuserpermissions')
+def updateUserPermissions():
+    global conn
+    email = request.args.get('email', default='null', type=str)
+    password = request.args.get('password', default='null', type=str)
+    userId = request.args.get('userId', default=-1, type=int)
+    newPermissions = request.args.get('permissions', default='null', type=str)
+    
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' and password != 'null' and userId != -1 and newPermissions != 'null':
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions LIKE '%admin%');")
+            rows = cur.fetchall()
+            # User has been authenticated as an admin
+            if len(rows) > 0:
+                cur.execute("SELECT * FROM users WHERE id = {}".format(userId))
+                rows = cur.fetchall()
+                # User already exists
+                if len(rows) > 0:
+                    cur.execute("UPDATE USERS SET permissions = {} WHERE id = {}".format(newPermissions, userId))
+                    conn.commit()
+                    row = (1,)
+                # No user to update
+                else:
+                    rows = (-3,)
+            else:
+                rows = (-2,)
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
 # Endpoint to start a new session and get the id for it
 @app.route('/startsession')
 def startSession():
