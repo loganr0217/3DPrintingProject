@@ -1,0 +1,143 @@
+<!-- 
+    + list all currently regisetered users**DONE**
+     + display their user info (name, email, signup date, etc)**DONE**
+     + allow for filters like number of orders placed, saved, etc
+     + display data like total number of users that meet the filter requirement, percent with order, etc
+     + (optional) allow for clicking on a user and seeing their orders/saved orders**DONE**
+-->
+<div id="userDirectory" *ngIf="this.isAdmin()">
+    <div id="userDirectoryList">
+        <div id="userDirectoryHeader">
+            <h1>User Directory</h1>
+            <a href="javascript:void(0)" class="refreshIcon" (click)="refreshUsers();">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                </svg>
+            </a>
+        </div>
+        <div id="usersList">
+            <div class="userData" *ngFor="let user of this.userData; let i=index">
+                <div class="form-check-inline user" (click)="this.selectUser(user)">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="{{'flexRadioDefault'+i}}">
+                    <label class="form-check-label pastOrderLabel" for="{{'flexRadioDefault'+i}}"><b>ID: </b>{{user[0]}} <b>First Name: </b>{{user[1]}} <b>Last Name: </b>{{user[2]}} <b>Email: </b>{{user[3]}} <b>Permissions: </b>{{user[4]}} <b>Signup Date: </b>{{user[5]}}</label>
+                </div>
+            </div>
+        </div>
+        <div id="ordersList">
+            <ng-container *ngFor="let order of this.userOrder; let k=index">
+                <div class="orderData" *ngIf="order[1] == user[3]">
+                    <div class="form-check-inline order" (click)="this.selectOrder(order)">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="{{'flexRadioDefault'+k}}">
+                        <label class="form-check-label pastOrderLabel" for="{{'flexRadioDefault'+k}}"><b>ID: </b>{{order[0]}} <b>Email: </b>{{order[1]}} <b>Status: </b>{{order[18]}} <b>Date: </b>{{order[21]}}</label>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div id="preview">
+            <app-window-preview-container id="orderPreview"></app-window-preview-container>
+        </div>
+    </div>
+    <div id="filter">
+        <h1>Filter</h1>
+        <form id="usersFilter">
+            <div class="form-group form-row">
+                <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Number of Orders:</span>
+                    </div>
+                    <input type="number" class="form-control" id="orderInput"/>
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <div class="col input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Number of Drawings Saved:</span>
+                      </div>
+                    <input type="number" class="form-control" id="savedInput"/>
+                </div>
+            </div>
+            <div id="selectedUserData">
+                <div>
+                    <select id='month'>
+                        <option value=''>--Select Month--</option>
+                        <option value='Jan'>January</option>
+                        <option value='Feb'>February</option>
+                        <option value='Mar'>March</option>
+                        <option value='Apr'>April</option>
+                        <option value='May'>May</option>
+                        <option value='Jun'>June</option>
+                        <option value='Jul'>July</option>
+                        <option value='Aug'>August</option>
+                        <option value='Sep'>September</option>
+                        <option value='Oct'>October</option>
+                        <option value='Nov'>November</option>
+                        <option value='Dec'>December</option>
+                    </select> 
+                    <select id='day'>
+                        <option value=''>--Select Day--</option>
+                        <option value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option value='4'>4</option>
+                        <option value='5'>5</option>
+                        <option value='6'>6</option>
+                        <option value='7'>7</option>
+                        <option value='8'>8</option>
+                        <option value='9'>9</option>
+                        <option value='10'>10</option>
+                        <option value='11'>11</option>
+                        <option value='12'>12</option>
+                        <option value='13'>13</option>
+                        <option value='14'>14</option>
+                        <option value='15'>15</option>
+                        <option value='16'>16</option>
+                        <option value='17'>17</option>
+                        <option value='18'>18</option>
+                        <option value='19'>19</option>
+                        <option value='20'>20</option>
+                        <option value='21'>21</option>
+                        <option value='22'>22</option>
+                        <option value='23'>23</option>
+                        <option value='24'>24</option>
+                        <option value='25'>25</option>
+                        <option value='26'>26</option>
+                        <option value='27'>27</option>
+                        <option value='28'>28</option>
+                        <option value='29'>29</option>
+                        <option value='30'>30</option>
+                        <option value='31'>31</option>
+                    </select>
+                        <select id='year'>
+                            <option value=''>--Select Year--</option>
+                            <option value='2023'>2023</option>
+                            <option value='2024'>2024</option>
+                            <option value='2025'>2025</option>
+                            <option value='2026'>2026</option>
+                            <option value='2027'>2027</option>
+                            <option value='2028'>2028</option>
+                            <option value='2029'>2029</option>
+                            <option value='2030'>2030</option>
+                            <option value='2031'>2031</option>
+                            <option value='2032'>2032</option>
+                            <option value='2033'>2033</option>
+                        </select> 
+                </div>
+                <input type="button" class="btn btn-dark btn-med" id="filterInput" (click)="this.filterUsers()"  value="Filter"/>
+                <input type="button" class="btn btn-dark btn-med" id="displayInput" (click)="this.displayUserData()" style="margin-left: 20px;"  value="Data Display"/>
+            </div>
+        </form>
+        <br/>
+        <h1>Update Permissions</h1>
+        <div class="dropdown">
+            <div id="permissionsSliders">
+                <div class="custom-control custom-switch" *ngFor="let permissions of ['basic', 'dealer', 'designer', 'production']">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch_{{permissions}}">
+                    <label class="custom-control-label" for="customSwitch_{{permissions}}">{{permissions}}</label>
+                </div>
+                <input type="button" class="btn btn-dark btn-med" (click)="addUserPermissions()" id="userPermissionsInput"  value="Update User Permissions"/>
+                <!-- <input type="button" class="btn btn-dark btn-med" (click)="filterTemplates()" id="templateFilterInput"  value="Filter Templates (select 1 category or none)"/> -->
+            </div>
+        </div>
+    </div>
+</div>

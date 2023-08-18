@@ -298,6 +298,12 @@ export class Stage2Component implements OnInit {
     }
   }
 
+  skipStep0():void {
+    this.sharedDataService.currentStepID = 1;
+    document.getElementById("stage2ACon")?.setAttribute("style", "visibility:visible;");
+    document.getElementById("stage2ACon")?.scrollIntoView({behavior: 'smooth'});
+  }
+
   // Method to update dimensions
   updateDimensions(newWidth:number, newHeight:number, horizontalDividers:number, verticalDividers:number):void {
     if(this.sharedDataService.dividerWindow != null) {this.clearOldDividerPanes();}

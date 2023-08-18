@@ -1,0 +1,86 @@
+#userDirectory {
+    display: flex;
+    margin-top: 2vh;
+}
+
+#userDirectoryList {
+    flex:1;
+    margin-left: 1vw;
+}
+
+#userDirectoryHeader {
+    display: flex;
+}
+
+#usersList {
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    max-height:70vh;
+    width: 70vw;
+    overflow-y: scroll;
+    padding: 2px;
+    margin-bottom: 2vh;
+    border:1px solid black;
+}
+
+#ordersList {
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    max-height:40vh;
+    width: 70vw;
+    overflow-y: scroll;
+    padding: 2px;
+    margin-bottom: 2vh;
+    border:1px solid black;
+}
+
+#preview {
+    flex:2;
+    flex-direction: column;
+    display: flex;
+}
+
+.userData {
+    display: flex;
+    padding-bottom: 2vh;
+}
+
+.orderData {
+    display: flex;
+    padding-bottom: 2vh;
+}
+
+#filter {
+    flex:1;
+    margin-top: 22vh;
+    margin-left: 2vw;
+    max-height: 35vh;
+}
+
+#usersFilter {
+    max-width: 25vw;
+}
+
+select {
+    -webkit-appearance: none;
+    appearance: none;
+    outline: 0;
+    color: #4B4B4B;
+    text-align: center;
+    width: 32.5%;
+}
+
+#month {
+    margin-bottom: 2vh;
+    border-radius: 5px;
+    border: solid 1.5px #D3D3D3;
+}
+
+#day, #year {
+    margin-bottom: 2vh;
+    margin-left: 0.25vw;
+    border-radius: 5px;
+    border: solid 1.5px #D3D3D3;
+}
