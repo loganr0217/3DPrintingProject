@@ -174,3 +174,30 @@
     </div> -->
     
 </div>
+
+<div id="palleteBuilderContainer"> 
+    <app-colors-container [paneColors]=true></app-colors-container>
+    <div class="palleteInfo">
+        <p><b>Pallete Colors:</b></p>
+        <div class="form-group form-row">
+            <div class="col">
+                <label class="formLabel" for="palleteSizeInput">Number of Colors</label>
+                <input type="number" class="form-control" id="palleteSizeInput">
+            </div>
+        </div>
+        <input type="button" class="btn btn-dark btn-med" (click)="updatePalleteSize()" id="updatePalleteSizeInput"  value="Update Pallete Size"/>
+        <input type="button" class="btn btn-dark btn-med" (click)="addPallete()" id="addPalleteInput"  value="Add Pallete"/>
+    </div>
+    <svg *ngIf="this.currentPalleteSize > 2" xmlns="http://www.w3.org/2000/svg" class="svgPalleteIcons" [attr.viewBox]="'0,0,300,300'">
+        <path [attr.style]="'fill:#666666;stroke-width:2; stroke:#000000'" [attr.d]="'M 0,0 V 300 H 300 V 0 Z'"/>
+        <path [attr.style]="'fill:#'+color+';stroke-width:2; stroke:#000000'" *ngFor="let color of this.currentPalleteColors; let i = index" (click)="updatePalleteColor(i)" [attr.d]="getPalleteColorD(i)"/>
+    </svg>
+</div>
+<br/>
+<h3 style="margin-left: 1vw;">Palletes</h3>
+<ng-container *ngFor="let pallete of this.palletes">
+    <svg *ngIf="pallete.split(',').length == this.currentPalleteSize" xmlns="http://www.w3.org/2000/svg" class="svgAllPalleteIcon" [attr.viewBox]="'0,0,300,300'">
+        <path [attr.style]="'fill:#666666;stroke-width:2; stroke:#000000'" [attr.d]="'M 0,0 V 300 H 300 V 0 Z'"/>
+        <path [attr.style]="'fill:#'+color+';stroke-width:2; stroke:#000000'" *ngFor="let color of pallete.split(','); let i = index" [attr.d]="getPalleteColorD(i)"/>
+    </svg>
+</ng-container>
