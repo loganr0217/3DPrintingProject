@@ -18,6 +18,7 @@ export class SharedDataService {
   maxPanes:number = 100;
   selectedDividerType:string = "nodiv";
   selectedWindowShape:string = "unselected";
+  colorModeSelected:string = "";
   dividerNumbers:number[] = [0, 0]; // [horizontalDividers, verticalDividers]
   dividerWidth:number = 0;
   windowWidth:number = 0;

@@ -730,6 +730,47 @@ def deleteTemplate():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
+# Endpoint to get the full list of palletes
+@app.route('/palletes')
+def getPalletes():
+    global conn
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM palletes;")
+        rows = cur.fetchall()
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
+@app.route('/addpallete')
+def addPallete():
+    global conn
+    email = request.args.get('email', default='null', type=str)
+    password = request.args.get('password', default='null', type=str)
+    palleteColorString = request.args.get('palleteColorString', default='null', type=str)
+    
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' and password != 'null':
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions LIKE '%admin%');")
+            rows = cur.fetchall()
+            # User has been authenticated as an admin
+            if len(rows) > 0:
+                cur.execute("INSERT INTO palletes(pallete_colors) VALUES({})".format(palleteColorString))
+                rows = (1,)
+                conn.commit()
+
+            else:
+                rows = (-1,)
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
 # Endpoint to get the full list of templates
 @app.route('/templates')
 def getTemplates():

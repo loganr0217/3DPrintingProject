@@ -10,6 +10,31 @@ p {
     font-size: 1.3vw;
 }
 
+#palleteBuilderContainer {
+    display: flex;
+    margin-top: 10vh;
+}
+
+.palleteInfo {
+    margin-left:1vw;
+}
+
+.svgPalleteIcons {
+    width:20vw;
+    height:20vw;
+    border: 1px solid gray;
+    margin-left: 1vw;
+    margin-bottom: 1vw;
+}
+
+.svgAllPalleteIcon {
+    width:10vw;
+    height:10vw;
+    border: 1px solid gray;
+    margin-left: 1vw;
+    margin-bottom: 1vw;
+}
+
 /* Sections */
 #section1 {
     flex:3;

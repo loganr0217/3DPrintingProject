@@ -19,12 +19,66 @@ export class ColorPageComponent implements OnInit {
   panelSetId:number;
   panelNumber:number;
   onPanels:boolean;
+  currentPalleteSize:number = 0;
+  currentPalleteColors:string[] = [];
+  palletes:string[] = [];
   constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
 
   // Getting optimzed d for template
   getOptimizedTemplateD(d:string):string {
     let myTemplate:SVGTemplate = new SVGTemplate(d);
     return myTemplate.getOptimizedD();
+  }
+
+  getPalleteColorD(colorIndex:number):string {
+    let splitNumber:number = 300 / this.currentPalleteSize;
+    let paneString:string = "M " + colorIndex*splitNumber + ", 0 V 300 H " + (colorIndex+1)*splitNumber + "V 0 Z";
+    return paneString;
+  }
+
+  refreshPalletes():void {
+    this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/palletes").subscribe(result => {
+      let tmp = JSON.parse(JSON.stringify(result));
+      this.palletes = [];
+      if(tmp.length >= 1) {
+        // console.log(templateData);
+        for(let i:number = 0; i < tmp.length; ++i) {
+          this.palletes.push(tmp[i][2]);
+        }
+      }
+      else {alert("error"); this.palletes = [];}
+      // console.log(this.loginForm.value);
+      // console.log(this.sharedDataService.userInfo);
+    });
+  }
+
+  addPallete():void {
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    if(confirm("Are you sure you want to add this pallete?") && this.currentPalleteSize > 2 && this.currentPalleteColors.length == this.currentPalleteSize) {
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpallete?email='"+email+"'&password='"+password+ "'&palleteColorString='"+this.currentPalleteColors.join(',')+"'").subscribe(result => {
+        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+        alert(test);
+        this.refreshPalletes();
+       });
+    }
+  }
+
+  updatePalleteColor(colorIndex:number):void {
+    this.currentPalleteColors[colorIndex] = this.sharedDataService.currentPaneColor;
+  }
+
+  // Updating pallete size 
+  updatePalleteSize():void {
+    let palleteSize:number = Number((<HTMLInputElement>document.getElementById("palleteSizeInput")).value);
+    if(palleteSize > 2) {
+      this.currentPalleteSize = palleteSize;
+      this.currentPalleteColors = [];
+      for(let i:number = 0; i < this.currentPalleteSize; ++i) {
+        this.currentPalleteColors.push("FFFFFF");
+      }
+    }
+    else {alert("Make sure your pallete has at least 3 colors.");}
   }
 
   // Gets template viewbox
@@ -197,6 +251,7 @@ export class ColorPageComponent implements OnInit {
     this.panelNumber = -1;
     this.onPanels = true;
     this.panelLayout = [];
+    this.refreshPalletes();
   }
 
   showTemplateString():void {

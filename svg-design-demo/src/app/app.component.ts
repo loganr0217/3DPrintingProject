@@ -312,7 +312,7 @@ export class AppComponent {
               this.sharedDataService.colorsData.push(currentTmp);
             }
           }
-          else {alert("error"); this.sharedDataService.templateData = [];}
+          else {alert("error"); this.sharedDataService.colorsData = [];}
           // console.log(this.loginForm.value);
           // console.log(this.sharedDataService.userInfo);
         });
