@@ -771,6 +771,42 @@ def addPallete():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
+# Endpoint to add pallete categories to existing pallete
+@app.route('/addpalletecategories')
+def addPalleteCategories():
+    global conn
+    email = request.args.get('email', default='null', type=str)
+    password = request.args.get('password', default='null', type=str)
+    palleteId = request.args.get('palleteId', default='null', type=int)
+    palleteCategories = request.args.get('palleteCategories', default='null', type=str)
+    
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' and password != 'null' and palleteId != -1 and palleteCategories != 'null':
+            cur.execute("SELECT * FROM users WHERE email = " + email + " AND password = " + password + " AND (permissions LIKE '%admin%' OR permissions LIKE '%designer%');")
+            rows = cur.fetchall()
+            # User has been authenticated as an admin or a designer
+            if len(rows) > 0:
+                cur.execute("SELECT * FROM palletes WHERE id = {};".format(palleteId))
+                rows = cur.fetchall()
+                # Panel already exists in that location
+                if len(rows) > 0:
+                    cur.execute("UPDATE palletes set category = {} where id = {};".format(palleteCategories, palleteId))
+                    conn.commit()
+                    row = (1,)
+                # No panel to add string to
+                else:
+                    rows = (-3,)
+            else:
+                rows = (-2,)
+        else:
+            rows = (-1,)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return "Error connecting to the database " + str(e)
+
 # Endpoint to get the full list of templates
 @app.route('/templates')
 def getTemplates():

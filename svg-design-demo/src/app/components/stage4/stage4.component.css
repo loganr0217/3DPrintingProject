@@ -37,6 +37,9 @@ p {
     flex:55;
     justify-content: space-around;
 }
+#section2-easy {
+    flex:24;
+}
 #section3 {
     flex:45;
     justify-content: space-around;
@@ -63,10 +66,43 @@ p {
 .svgPalleteIcons {
     width:5vw;
     border: 1px solid gray;
-    margin-right: 1vw;
+}
+
+.palleteCategoryButtons {
+    display: flex;
+}
+
+.palleteIconsWithNames {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-x: scroll;  
+    overflow-y: scroll;
+    white-space: nowrap;
+    max-height: 40vh;
+    flex:1;
+    width: 35vw;
+    border: 1px solid black;
+    /* flex-direction: column; */
+    overscroll-behavior-x: contain;
+}
+.palleteIconWithName {
+    display: flex;
+    flex-direction: column;
+    padding-left: 1vw;
+    padding-top: 1vw;
+    padding-bottom: 1vw;
+}
+
+.palleteCategory {
+    display: flex;
+    flex-direction: column;
+    margin-left:1vw;
     margin-bottom: 1vw;
 }
 
+.palleteLabel {
+    font-size: small;
+}
 
 @media only screen and (max-width: 576px) {
     .notOnMobile {

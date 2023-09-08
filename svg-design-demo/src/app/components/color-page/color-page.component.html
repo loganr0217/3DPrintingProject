@@ -195,9 +195,23 @@
 </div>
 <br/>
 <h3 style="margin-left: 1vw;">Palletes</h3>
-<ng-container *ngFor="let pallete of this.palletes">
-    <svg *ngIf="pallete.split(',').length == this.currentPalleteSize" xmlns="http://www.w3.org/2000/svg" class="svgAllPalleteIcon" [attr.viewBox]="'0,0,300,300'">
-        <path [attr.style]="'fill:#666666;stroke-width:2; stroke:#000000'" [attr.d]="'M 0,0 V 300 H 300 V 0 Z'"/>
-        <path [attr.style]="'fill:#'+color+';stroke-width:2; stroke:#000000'" *ngFor="let color of pallete.split(','); let i = index" [attr.d]="getPalleteColorD(i)"/>
-    </svg>
-</ng-container>
+<div class="palletesWithLabels">
+    <ng-container *ngFor="let pallete of this.palletes">
+        <div>
+            <svg *ngIf="pallete.colorPlacements.split(',').length == this.currentPalleteSize && this.isPalleteInFilter(pallete.category)" [attr.style]="pallete.id == this.selectedPalleteID ? 'border:3px solid blue;' : ''" xmlns="http://www.w3.org/2000/svg" class="svgAllPalleteIcon" [attr.viewBox]="'0,0,300,300'">
+                <path [attr.style]="'fill:#666666;stroke-width:2; stroke:#000000'" [attr.d]="'M 0,0 V 300 H 300 V 0 Z'"/>
+                <path [attr.style]="'fill:#'+color+';stroke-width:2; stroke:#000000'" *ngFor="let color of pallete.colorPlacements.split(','); let i = index" [attr.d]="getPalleteColorD(i)"/>
+            </svg>
+            <br *ngIf="pallete.colorPlacements.split(',').length == this.currentPalleteSize && this.isPalleteInFilter(pallete.category)"/>
+            <button *ngIf="pallete.colorPlacements.split(',').length == this.currentPalleteSize && this.isPalleteInFilter(pallete.category)" (click)="this.selectPallete(pallete.id)" [textContent]="pallete.id" class="palleteIDButton"></button>
+        </div>
+    </ng-container>
+</div>
+<div id="palleteCategorySliders">
+    <div class="custom-control custom-switch" *ngFor="let palleteCategory of ['Genre1', 'Genre2', 'Genre3', 'Genre4', 'Genre5']">
+        <input type="checkbox" class="custom-control-input" id="customSwitch_{{palleteCategory}}">
+        <label class="custom-control-label" for="customSwitch_{{palleteCategory}}">{{palleteCategory}}</label>
+    </div>
+    <input type="button" class="btn btn-dark btn-med" (click)="addPalleteCategories()" id="palleteCategoryInput"  value="Update Pallete Categories"/>
+    <input type="button" class="btn btn-dark btn-med" (click)="filterPalletes()" id="palleteFilterInput"  value="Filter Palletes (select 1 category or none)"/>
+</div>
