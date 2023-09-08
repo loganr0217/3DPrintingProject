@@ -130,7 +130,7 @@ export class AppComponent {
   get message() {return this.contactForm.get('message');}
 
   ngOnInit() {
-    this.sharedDataService.sessionStartingUrl = location.pathname;
+    this.sharedDataService.sessionStartingUrl = location.pathname + (window.innerWidth <= 576 ? ";mobile" : ";laptop");
     // Sets up popping modal for 40 seconds of not signing in
     // this.modalPopups = window.innerWidth < 576 ? 0 : 0;
     // this.modalPopupIntervalId = setInterval(() => {

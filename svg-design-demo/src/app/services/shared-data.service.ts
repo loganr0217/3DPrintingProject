@@ -42,6 +42,7 @@ export class SharedDataService {
   selectedTemplateID:number = -1;
   signedIn:boolean = false;
   selectedTemplateCategory:string;
+  selectedPalleteCategory:string;
   chosenPanel:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string};
   templatesAvailable:boolean = false;
 
@@ -56,7 +57,7 @@ export class SharedDataService {
   continueSavedOrder:boolean = false;
   sampleOrder:string = "";
   sessionID:number;
-  sessionStartingUrl:string = "";
+  sessionStartingUrl:string = "/";
 
   // Array holding all window shapes offered
   windowShapes:string[] = [

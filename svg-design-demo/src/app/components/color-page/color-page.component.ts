@@ -21,7 +21,8 @@ export class ColorPageComponent implements OnInit {
   onPanels:boolean;
   currentPalleteSize:number = 0;
   currentPalleteColors:string[] = [];
-  palletes:string[] = [];
+  palletes:{id:number, category:string, colorPlacements:string}[] = [];
+  selectedPalleteID:number = -1;
   constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
 
   // Getting optimzed d for template
@@ -43,13 +44,45 @@ export class ColorPageComponent implements OnInit {
       if(tmp.length >= 1) {
         // console.log(templateData);
         for(let i:number = 0; i < tmp.length; ++i) {
-          this.palletes.push(tmp[i][2]);
+          let tmpPallete:{id:number, category:string, colorPlacements:string} = {id:tmp[i][0], category:tmp[i][1] == null ? undefined : tmp[i][1], colorPlacements:tmp[i][2]};
+          this.palletes.push(tmpPallete);
         }
       }
       else {alert("error"); this.palletes = [];}
       // console.log(this.loginForm.value);
       // console.log(this.sharedDataService.userInfo);
     });
+  }
+
+  isPalleteInFilter(category:string):boolean {
+    // Orphan palletes
+    if(this.sharedDataService.selectedPalleteCategory == undefined || this.sharedDataService.selectedPalleteCategory == 'unassigned') {
+      let palleteHasCategory:boolean = false;
+      for(const palleteCategory of ['Genre1', 'Genre2', 'Genre3', 'Genre4', 'Genre5']) {
+        if(category == palleteCategory) {palleteHasCategory = true; break;}
+      }
+      return !palleteHasCategory;
+    }
+    // Pallete needs to match
+    if(category == undefined) {return false;}
+    return category.includes(this.sharedDataService.selectedPalleteCategory);
+  }
+
+  filterPalletes():void {
+    let palleteCategories:string = "";
+    let palleteCategoriesFormatted:string = "";
+    let categoriesSelected:number = 0;
+    for(const palleteCategory of ['Genre1', 'Genre2', 'Genre3', 'Genre4', 'Genre5']) {
+      if((<HTMLInputElement>document.getElementById("customSwitch_"+palleteCategory))?.checked) {
+        palleteCategories += palleteCategory + ";";
+        palleteCategoriesFormatted += "\n- " + palleteCategory;
+        ++categoriesSelected;
+      }
+    }
+    if(categoriesSelected == 0) {this.sharedDataService.selectedPalleteCategory = "unassigned";}
+    else if(categoriesSelected == 1) {this.sharedDataService.selectedPalleteCategory = palleteCategories.substring(0, palleteCategories.length-1);}
+    else {alert("You can only filter by 1 category or unassigned (no category).");} 
+    
   }
 
   addPallete():void {
@@ -64,9 +97,36 @@ export class ColorPageComponent implements OnInit {
     }
   }
 
-  updatePalleteColor(colorIndex:number):void {
-    this.currentPalleteColors[colorIndex] = this.sharedDataService.currentPaneColor;
+  addPalleteCategories():void {
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+    const palleteId:number = this.selectedPalleteID;
+    let palleteCategories:string = "";
+    let palleteCategoriesFormatted:string = "";
+    for(const palleteCategory of ['Genre1', 'Genre2', 'Genre3', 'Genre4', 'Genre5']) {
+      if((<HTMLInputElement>document.getElementById("customSwitch_"+palleteCategory))?.checked) {
+        palleteCategories += palleteCategory + ";";
+        palleteCategoriesFormatted += "\n- " + palleteCategory;
+      }
+    }
+    if(palleteCategories.length > 0) {palleteCategories = palleteCategories.substring(0, palleteCategories.length-1);} 
+    
+    if (palleteCategories != undefined && palleteId != -1 && confirm('Are you sure you want to asign this pallete (' + palleteId + ') to the following categories?' + palleteCategoriesFormatted)) {
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpalletecategories?email='"+email+"'&password='"+password+ "'&palleteId=" + palleteId + "&palleteCategories='" + palleteCategories + "'").subscribe(result => {
+        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+        alert(test);
+        let palleteIndex:number = this.palletes.findIndex(function(item, i){
+          return Number(item.id) == palleteId
+        });
+        this.palletes[palleteIndex].category = palleteCategories;
+       });
+    }
   }
+
+  // Chooses a clicked on pallete
+  selectPallete(palleteID:number):void {this.selectedPalleteID = palleteID;}
+
+  updatePalleteColor(colorIndex:number):void {this.currentPalleteColors[colorIndex] = this.sharedDataService.currentPaneColor;}
 
   // Updating pallete size 
   updatePalleteSize():void {

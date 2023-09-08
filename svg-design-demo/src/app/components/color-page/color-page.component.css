@@ -19,6 +19,14 @@ p {
     margin-left:1vw;
 }
 
+.palletesWithLabels {
+    display: flex;
+}
+
+.palleteWithLabel {
+    width: 13vw;
+}
+
 .svgPalleteIcons {
     width:20vw;
     height:20vw;
@@ -32,7 +40,11 @@ p {
     height:10vw;
     border: 1px solid gray;
     margin-left: 1vw;
-    margin-bottom: 1vw;
+    margin-top: 1vw;
+}
+
+.palleteIDButton {
+    margin-left: 5vw;
 }
 
 /* Sections */
