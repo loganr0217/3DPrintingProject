@@ -16,7 +16,7 @@
     <div id="section2-easy" class="section" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin')) && this.sharedDataService.colorModeSelected == 'easy'">
         <h3>Choose your pallete category below</h3>
         <div class="palleteCategoryButtons">
-            <div class="palleteCategory" *ngFor="let palleteCategory of ['Genre1', 'Genre2', 'Genre3', 'Genre4', 'Genre5']">
+            <div class="palleteCategory" *ngFor="let palleteCategory of ['Pasteles', 'Natural', 'Moody', 'Monochrome', 'Vivid', 'Seasonal']">
                 <svg xmlns="http://www.w3.org/2000/svg" class="svgPalleteIcons" [attr.viewBox]="'0,0,300,300'">
                     <path [attr.style]="'fill:#666666;stroke-width:2; stroke:#000000'" [attr.d]="'M 0,0 V 300 H 300 V 0 Z'"/>
                     <!-- <path [attr.style]="'fill:#'+color+';stroke-width:2; stroke:#000000'" *ngFor="let color of pallete.split(','); let i = index" [attr.d]="getPalleteColorD(pallete, i)"/> -->

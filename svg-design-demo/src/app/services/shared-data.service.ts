@@ -57,7 +57,7 @@ export class SharedDataService {
   continueSavedOrder:boolean = false;
   sampleOrder:string = "";
   sessionID:number;
-  sessionStartingUrl:string = "/";
+  sessionStartingUrl:string = "/;";
 
   // Array holding all window shapes offered
   windowShapes:string[] = [

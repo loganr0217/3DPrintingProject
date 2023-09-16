@@ -1,9 +1,9 @@
 <div id="landingPage1" class="landingPage" >
-    <div id="landingImg1" *ngIf="(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')">
+    <div id="landingImg1" *ngIf="(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl.includes('/;'))">
         <img class="img1" src="assets/img/landingPageImg1.jpg" alt="First slide"/>
     </div>
     <!-- Pic for tots landing page -->
-    <div id="landingImg1" *ngIf="!(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')">
+    <div id="landingImg1" *ngIf="!(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl.includes('/;'))">
         <img class="img1" src="assets/img/totPicture.jpg" alt="First slide"/>
     </div>
 
