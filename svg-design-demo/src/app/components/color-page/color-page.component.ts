@@ -58,7 +58,7 @@ export class ColorPageComponent implements OnInit {
     // Orphan palletes
     if(this.sharedDataService.selectedPalleteCategory == undefined || this.sharedDataService.selectedPalleteCategory == 'unassigned') {
       let palleteHasCategory:boolean = false;
-      for(const palleteCategory of ['Genre1', 'Genre2', 'Genre3', 'Genre4', 'Genre5']) {
+      for(const palleteCategory of ['Pasteles', 'Natural', 'Moody', 'Monochrome', 'Vivid', 'Seasonal']) {
         if(category == palleteCategory) {palleteHasCategory = true; break;}
       }
       return !palleteHasCategory;
@@ -72,7 +72,7 @@ export class ColorPageComponent implements OnInit {
     let palleteCategories:string = "";
     let palleteCategoriesFormatted:string = "";
     let categoriesSelected:number = 0;
-    for(const palleteCategory of ['Genre1', 'Genre2', 'Genre3', 'Genre4', 'Genre5']) {
+    for(const palleteCategory of ['Pasteles', 'Natural', 'Moody', 'Monochrome', 'Vivid', 'Seasonal']) {
       if((<HTMLInputElement>document.getElementById("customSwitch_"+palleteCategory))?.checked) {
         palleteCategories += palleteCategory + ";";
         palleteCategoriesFormatted += "\n- " + palleteCategory;
@@ -103,7 +103,7 @@ export class ColorPageComponent implements OnInit {
     const palleteId:number = this.selectedPalleteID;
     let palleteCategories:string = "";
     let palleteCategoriesFormatted:string = "";
-    for(const palleteCategory of ['Genre1', 'Genre2', 'Genre3', 'Genre4', 'Genre5']) {
+    for(const palleteCategory of ['Pasteles', 'Natural', 'Moody', 'Monochrome', 'Vivid', 'Seasonal']) {
       if((<HTMLInputElement>document.getElementById("customSwitch_"+palleteCategory))?.checked) {
         palleteCategories += palleteCategory + ";";
         palleteCategoriesFormatted += "\n- " + palleteCategory;
@@ -245,10 +245,10 @@ export class ColorPageComponent implements OnInit {
 
   fillOutBlankTemplate():void {
     do {
-      let tmp:SVGTemplate = new SVGTemplate(this.currentWindow[0].d);
-      this.sharedDataService.chosenPanel = this.currentWindow[0];
+      let tmp:SVGTemplate = new SVGTemplate(this.currentWindow[this.panelNumber].d);
+      this.sharedDataService.chosenPanel = this.currentWindow[this.panelNumber];
       tmp.panelsetId = this.panelSetId;
-      tmp.panelNumber = this.currentWindow[0].panelNumber;
+      tmp.panelNumber = this.currentWindow[this.panelNumber].panelNumber;
       this.panelLayout[this.currentPanelLocation[0]][this.currentPanelLocation[1]] = tmp;
       this.increaseCurrentLocation();
     } while(this.currentPanelLocation[0] != 0 || this.currentPanelLocation[1] != 0);
