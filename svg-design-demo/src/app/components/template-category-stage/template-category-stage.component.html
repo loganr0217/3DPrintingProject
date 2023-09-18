@@ -28,7 +28,7 @@
                 <p class="templateName">{{this.sharedDataService.selectedTemplateCategory == undefined ? 'Select Template Category' : this.sharedDataService.selectedTemplateCategory}}</p>
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButtonCategory">
-              <a class="dropdown-item" (click)="showTemplates(templateCategory)" *ngFor="let templateCategory of ['Artist Inspired', 'Interests', 'Garden', 'Classics', 'Sacred']">
+              <a class="dropdown-item" (click)="showTemplates(templateCategory)" *ngFor="let templateCategory of ['Artist Inspired', 'Interests', 'Garden', 'Classics', 'Sacred', 'Abstract']">
                 <img class="templateCategoryImage" src="{{getTemplateCategoryButtonFile(templateCategory)}}" alt="{{templateCategory}}"/><p class="templateName">{{templateCategory}}</p>
               </a>
             </div>
@@ -43,7 +43,7 @@
                 </figure>
             </div>
             <div>
-                <figure (click)="showTemplates(templateCategory)" class="templateCategoryImageCon" *ngFor="let templateCategory of ['Interests', 'Classics']">
+                <figure (click)="showTemplates(templateCategory)" class="templateCategoryImageCon" *ngFor="let templateCategory of ['Interests', 'Classics', 'Abstract']">
                     <img class="templateCategoryImage" src="{{getTemplateCategoryButtonFile(templateCategory)}}" alt="{{templateCategory}}"/>
                     <!-- <img id="dividerTypeImage_{{dividerType}}"  src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/> -->
                     <figcaption>{{templateCategory}}</figcaption>
