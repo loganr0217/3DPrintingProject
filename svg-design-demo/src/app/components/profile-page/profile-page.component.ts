@@ -42,6 +42,17 @@ export class ProfilePageComponent implements OnInit {
     
   }
 
+  sendPasswordReset():void {
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    // Sending reset password link to user
+    if(email != "" && confirm("Are you sure you want to reset your password?")) {
+      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/forgotpassword?email="+String(email)).subscribe(result => {
+        alert("An email with information to reset your password has been sent.");
+      });
+    }
+    
+  }
+
   changeUpdatingInfo(newStatus:boolean = false):void {
     this.isUpdatingInfo = newStatus;
   }

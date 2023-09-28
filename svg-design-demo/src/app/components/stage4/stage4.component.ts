@@ -12,6 +12,7 @@ export class Stage4Component implements OnInit {
   colorChoices:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number}[] = [];
   colorIDs:number[] = [];
   numberPossibleColors:number = 0;
+  selectedPalleteID:number = -1;
 
   constructor(public sharedDataService:SharedDataService) { }
 
@@ -26,6 +27,9 @@ export class Stage4Component implements OnInit {
     document.getElementById("stage5")?.setAttribute("style", "visibility:visible;")
     document.getElementById("stage5")?.scrollIntoView({behavior: 'smooth'});
   }
+
+  updateSelectedPalleteCategory(palleteCategory:string):void {this.sharedDataService.selectedPalleteCategory = palleteCategory;}
+  updateSelectedPallete(palleteID:number):void {this.selectedPalleteID = palleteID;}
 
   updateColorMode(mode:string = ''):void {
     this.sharedDataService.colorModeSelected = mode;
