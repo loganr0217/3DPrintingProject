@@ -40,9 +40,11 @@ export class SharedDataService {
   finishedSashes:boolean = false;
   userInfo:any;
   selectedTemplateID:number = -1;
+  selectedTemplateIDs:number[] = []; // For tdi multi-click
   signedIn:boolean = false;
   selectedTemplateCategory:string;
   selectedPalleteCategory:string;
+  palletes:{id:number, category:string, colorPlacements:string}[] = [];
   chosenPanel:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string};
   templatesAvailable:boolean = false;
 

@@ -64,6 +64,9 @@ export class FormLoginComponent implements OnInit {
         if((<HTMLInputElement>document.getElementById("rememberMeBox"))?.checked) {localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));}
         this.router.navigate(['/']);
       }
+      else {
+        alert("A user with this information can not be found in our system.");
+      }
     });
     // stop here if form is invalid
     // if (this.registerForm.invalid) {

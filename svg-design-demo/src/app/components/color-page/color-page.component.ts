@@ -607,7 +607,7 @@ export class ColorPageComponent implements OnInit {
   addTemplateCategories():void {
     const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
     const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
-    const templateId:number = this.sharedDataService.selectedTemplateID;
+    
     let templateCategories:string = "";
     let templateCategoriesFormatted:string = "";
     for(const tempCategory of ["Artist Inspired", "Interests", "Garden", "Classics", "Sacred", "Abstract"]) {
@@ -618,15 +618,18 @@ export class ColorPageComponent implements OnInit {
     }
     if(templateCategories.length > 0) {templateCategories = templateCategories.substring(0, templateCategories.length-1);} 
     
-    if (templateCategories != undefined && templateId != -1 && confirm('Are you sure you want to asign this template (' + templateId + ') to the following categories?' + templateCategoriesFormatted)) {
-      this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addtemplatecategories?email='"+email+"'&password='"+password+ "'&templateId=" + templateId + "&templateCategories='" + templateCategories + "'").subscribe(result => {
-        let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
-        alert(test);
-        let templateIndex:number = this.sharedDataService.templateData.findIndex(function(item, i){
-          return Number(item.id) == templateId
+    if (templateCategories != undefined && this.sharedDataService.selectedTemplateIDs.length > 0 && confirm('Are you sure you want to asign these templates (' + this.sharedDataService.selectedTemplateIDs + ') to the following categories?' + templateCategoriesFormatted)) {
+      for(let templateId of this.sharedDataService.selectedTemplateIDs) {
+        this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addtemplatecategories?email='"+email+"'&password='"+password+ "'&templateId=" + templateId + "&templateCategories='" + templateCategories + "'").subscribe(result => {
+          let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
+          // alert(test);
+          let templateIndex:number = this.sharedDataService.templateData.findIndex(function(item, i){
+            return Number(item.id) == templateId
+          });
+          this.sharedDataService.templateData[templateIndex].category = templateCategories;
         });
-        this.sharedDataService.templateData[templateIndex].category = templateCategories;
-       });
+      }
+      this.sharedDataService.selectedTemplateIDs = [];
     }
   }
 

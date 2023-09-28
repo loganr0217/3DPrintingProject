@@ -317,6 +317,22 @@ export class AppComponent {
           // console.log(this.loginForm.value);
           // console.log(this.sharedDataService.userInfo);
         });
+
+        // Getting palletes
+        this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/palletes").subscribe(result => {
+          let tmp = JSON.parse(JSON.stringify(result));
+          this.sharedDataService.palletes = [];
+          if(tmp.length >= 1) {
+            // console.log(templateData);
+            for(let i:number = 0; i < tmp.length; ++i) {
+              let tmpPallete:{id:number, category:string, colorPlacements:string} = {id:tmp[i][0], category:tmp[i][1] == null ? undefined : tmp[i][1], colorPlacements:tmp[i][2]};
+              this.sharedDataService.palletes.push(tmpPallete);
+            }
+          }
+          else {alert("error"); this.sharedDataService.palletes = [];}
+          // console.log(this.loginForm.value);
+          // console.log(this.sharedDataService.userInfo);
+        });
         
   }
   

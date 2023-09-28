@@ -276,6 +276,12 @@ export class TemplateIconComponent implements OnInit {
       }
     }
     this.sharedDataService.selectedTemplateID = temp.id;
+    // Multi click for tdi
+    if(this.isColorPage()) {
+      if(this.sharedDataService.selectedTemplateIDs.indexOf(temp.id) > -1) {this.sharedDataService.selectedTemplateIDs.splice(this.sharedDataService.selectedTemplateIDs.indexOf(temp.id), 1);}
+      else {this.sharedDataService.selectedTemplateIDs.push(temp.id);}
+    }
+    
   }
 
   getPanelWidth(top:boolean = true):number {
@@ -345,7 +351,7 @@ export class TemplateIconComponent implements OnInit {
       else {isOkay = false; return false;}
     }
     else {
-      if(temp.category == undefined && (this.sharedDataService.selectedTemplateCategory == undefined || this.sharedDataService.selectedTemplateCategory == "unassigned")) {isOkay = true;}
+      if((temp.category == undefined || temp.category == "") && (this.sharedDataService.selectedTemplateCategory == undefined || this.sharedDataService.selectedTemplateCategory == "unassigned")) {isOkay = true;}
       else if(temp.category != undefined && temp.category.includes(this.sharedDataService.selectedTemplateCategory)) {isOkay = true;}
       else {isOkay = false; return false;}
     }
