@@ -21,20 +21,27 @@ import { OrderSuccessComponent } from './components/order-success/order-success.
 import { OrderFailureComponent } from './components/order-failure/order-failure.component';
 import { DealerPageComponent } from './components/dealer-page/dealer-page.component';
 import { UserDirectoryComponent } from './components/user-directory/user-directory.component';
+import { MarketingMainPageComponent } from './components/marketing-main-page/marketing-main-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'light-screen', pathMatch: 'full' },
-  { path: 'tiktok', redirectTo: 'light-screen', pathMatch: 'full' },
-  { path: 'instagram', redirectTo: 'light-screen', pathMatch: 'full' },
-  { path: 'facebook', redirectTo: 'light-screen', pathMatch: 'full' },
-  { path: 'google-search', redirectTo: 'light-screen', pathMatch: 'full' },
-  { path: 'google-display', redirectTo: 'light-screen', pathMatch: 'full' },
-  { path: 'mailchimp', redirectTo: 'light-screen', pathMatch: 'full' },
-  { path: 'twitter', redirectTo: 'light-screen', pathMatch: 'full' },
-  { path: 'linkedin', redirectTo: 'light-screen', pathMatch: 'full' },
-  { path: 'pinterest', redirectTo: 'light-screen', pathMatch: 'full' },
-  { path: 'twitter', redirectTo: 'light-screen', pathMatch: 'full' },
+  { path: 'tiktok', redirectTo: 'light-screen-ads', pathMatch: 'full' },
+  { path: 'instagram', redirectTo: 'light-screen-ads', pathMatch: 'full' },
+  { path: 'facebook', redirectTo: 'light-screen-ads', pathMatch: 'full' },
+  { path: 'google-search', redirectTo: 'light-screen-ads', pathMatch: 'full' },
+  { path: 'google-display', redirectTo: 'light-screen-ads', pathMatch: 'full' },
+  { path: 'mailchimp', redirectTo: 'light-screen-ads', pathMatch: 'full' },
+  { path: 'twitter', redirectTo: 'light-screen-ads', pathMatch: 'full' },
+  { path: 'linkedin', redirectTo: 'light-screen-ads', pathMatch: 'full' },
+  { path: 'pinterest', redirectTo: 'light-screen-ads', pathMatch: 'full' },
+  { path: 'twitter', redirectTo: 'light-screen-ads', pathMatch: 'full' },
   { path: 'light-screen', component: MainPageComponent
+    // children: [
+    //   { path: '/', redirectTo: 'detail', terminal: true },
+    //   { path: 'detail', component: HeroDetailComponent }
+    // ] 
+  },
+  { path: 'light-screen-ads', component: MarketingMainPageComponent
     // children: [
     //   { path: '/', redirectTo: 'detail', terminal: true },
     //   { path: 'detail', component: HeroDetailComponent }

@@ -50,6 +50,7 @@ import { OrderSuccessComponent } from './components/order-success/order-success.
 import { OrderFailureComponent } from './components/order-failure/order-failure.component';
 import { DealerPageComponent } from './components/dealer-page/dealer-page.component';
 import { UserDirectoryComponent } from './components/user-directory/user-directory.component';
+import { MarketingMainPageComponent } from './components/marketing-main-page/marketing-main-page.component';
 
 const googleLoginOptions:GoogleInitOptions = {
   oneTapEnabled: (JSON.parse(localStorage.getItem('userInfo') || '{}').length > 1 ? false : true), // user signed in before
@@ -97,7 +98,8 @@ const googleLoginOptions:GoogleInitOptions = {
     OrderSuccessComponent,
     OrderFailureComponent,
     DealerPageComponent,
-    UserDirectoryComponent
+    UserDirectoryComponent,
+    MarketingMainPageComponent
   ],
   imports: [
     BrowserModule,

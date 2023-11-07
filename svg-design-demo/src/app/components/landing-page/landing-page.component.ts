@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ContentfulService } from 'src/app/services/contentful.service';
 import { Entry } from 'contentful';
 import { SharedDataService } from 'src/app/services/shared-data.service';
@@ -11,6 +11,8 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./landing-page.component.css']
 })
 export class LandingPageComponent implements OnInit {
+  @Input() marketingPage:boolean;
+
   posts:Entry<any>[] = [];
   emailForm!:UntypedFormGroup;
 

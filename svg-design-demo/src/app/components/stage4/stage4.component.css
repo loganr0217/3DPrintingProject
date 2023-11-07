@@ -68,6 +68,18 @@ p {
     border: 1px solid gray;
 }
 
+.currentPalleteIcon {
+    width:8vw;
+    margin:auto;
+    flex:4;
+    border: 1px solid gray;
+}
+
+.palleteArrow {
+    margin:auto;
+    flex:1;
+}
+
 .palleteCategoryButtons {
     display: flex;
 }
@@ -80,17 +92,27 @@ p {
     white-space: nowrap;
     max-height: 40vh;
     flex:1;
-    width: 35vw;
+    width: 22vw;
     border: 1px solid black;
     /* flex-direction: column; */
     overscroll-behavior-x: contain;
 }
 .palleteIconWithName {
     display: flex;
-    flex-direction: column;
     padding-left: 1vw;
     padding-top: 1vw;
     padding-bottom: 1vw;
+}
+
+.palleteSelectionContainer {
+    display: flex;
+}
+
+.currentPalleteContainer {
+    text-align: center;
+}
+.palleteSelection, .currentPalleteContainer {
+    flex:1;
 }
 
 .palleteCategory {

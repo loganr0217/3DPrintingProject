@@ -24,28 +24,37 @@
                 <button (click)="updateSelectedPalleteCategory(palleteCategory)" [textContent]="palleteCategory"></button>
             </div>
         </div>
-        <h4>Choose your pallete below</h4>
-        <div class="palleteIconsWithNames">
-            <ng-container *ngFor="let pallete of this.sharedDataService.palletes">
-                <div *ngIf="pallete.colorPlacements.split(',').length == numberPossibleColors && pallete.category == this.sharedDataService.selectedPalleteCategory" class="palleteIconWithName">
-                    <svg (click)="updateSelectedPallete(pallete.id); autofillPanel(pallete.colorPlacements)"  [attr.style]="pallete.id == this.selectedPalleteID ? 'border:3px solid blue;' : ''" xmlns="http://www.w3.org/2000/svg" class="svgPalleteIcons" [attr.viewBox]="'0,0,300,300'">
-                        <path [attr.style]="'fill:#666666;stroke-width:2; stroke:#000000'" [attr.d]="'M 0,0 V 300 H 300 V 0 Z'"/>
-                        <path [attr.style]="'fill:#'+color+';stroke-width:2; stroke:#000000'" *ngFor="let color of pallete.colorPlacements.split(','); let i = index" [attr.d]="getPalleteColorD(pallete.colorPlacements, i)"/>
+        <div class="palleteSelectionContainer">
+            <div class="palleteSelection">
+                <h4>Choose your pallete below</h4>
+                <div class="palleteIconsWithNames">
+                    <ng-container *ngFor="let pallete of this.sharedDataService.palletes">
+                        <div *ngIf="pallete.colorPlacements.split(',').length == numberPossibleColors && pallete.category == this.sharedDataService.selectedPalleteCategory" class="palleteIconWithName">
+                            <svg (click)="updateSelectedPallete(pallete.id); autofillPanel(pallete.colorPlacements)"  [attr.style]="pallete.id == this.selectedPalleteID ? 'border:3px solid blue;' : ''" xmlns="http://www.w3.org/2000/svg" class="svgPalleteIcons" [attr.viewBox]="'0,0,300,300'">
+                                <path [attr.style]="'fill:#666666;stroke-width:2; stroke:#000000'" [attr.d]="'M 0,0 V 300 H 300 V 0 Z'"/>
+                                <path [attr.style]="'fill:#'+color+';stroke-width:2; stroke:#000000'" *ngFor="let color of pallete.colorPlacements.split(','); let i = index" [attr.d]="getPalleteColorD(pallete.colorPlacements, i)"/>
+                            </svg>
+                        </div>
+                    </ng-container>
+                </div> 
+            </div>
+            <div class="currentPalleteContainer">
+                <h4>Current Pallete</h4>
+                <div *ngIf="this.selectedPalleteID != -1" class="palleteIconWithName">
+                    <svg xmlns="http://www.w3.org/2000/svg" (click)="updateCurrentColors(false)" width="32" height="32" fill="currentColor" class="bi bi-arrow-left palleteArrow" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
                     </svg>
-                </div>
-            </ng-container>
-            <!-- <ng-container *ngFor="let pallete of ['a09691,d8b5bc,a09691', '6d004c,0057bd,df1b41', '511f1a,511f1a,FFFFFF', 'ed6804,5ad200,5ad200', 'a09691,d8b5bc,a09691', '6d004c,0057bd,df1b41', '511f1a,511f1a,FFFFFF', 'ed6804,5ad200,5ad200', 'a09691,d8b5bc,a09691', '6d004c,0057bd,df1b41', '511f1a,511f1a,FFFFFF', 'ed6804,5ad200,5ad200', '6d004c,012aaa,0057bd', '511f1a,fcc965,c9942e,9fbd97', '6d004c,FFFFFF,d8b5bc,d8b5bc', 'fcc965,cccccc,141315,c9942e', '511f1a,d8b5bd,ea924a,6d004c', 'ce0b11,fcc965,c9942e,004d1f', '6d004c,61a3ed,ce0b11,FFFFFF,004d1f', 'a09691,077e84,0057bd,9fbd97,a4081a', '0057bd,df1b41,d8b5bc,9fbd97,0057bd', 'a09691,012aaa,511f1a,fcc965,eeb806', 'ce0b11,511f1a,fcc965,ed6804,a09691']">
-                <div class="palleteIconWithName">
-                    <svg *ngIf="pallete.split(',').length == numberPossibleColors" xmlns="http://www.w3.org/2000/svg" (click)="autofillPanel(pallete)" class="svgPalleteIcons" [attr.viewBox]="'0,0,300,300'">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="currentPalleteIcon" [attr.viewBox]="'0,0,300,300'">
                         <path [attr.style]="'fill:#666666;stroke-width:2; stroke:#000000'" [attr.d]="'M 0,0 V 300 H 300 V 0 Z'"/>
-                        <path [attr.style]="'fill:#'+color+';stroke-width:2; stroke:#000000'" *ngFor="let color of pallete.split(','); let i = index" [attr.d]="getPalleteColorD(pallete, i)"/>
-                    </svg> -->
-                    <!-- <br *ngIf="pallete.split(',').length == numberPossibleColors"/> -->
-                    <!-- <button class="palleteLabel" *ngIf="pallete.split(',').length == numberPossibleColors" [textContent]="'name'"></button>
-                </div>
-
-            </ng-container> -->
-        </div>        
+                        <path [attr.style]="'fill:#'+color+';stroke-width:2; stroke:#000000'" *ngFor="let color of this.selectedPalleteColors.split(','); let i = index" [attr.d]="getPalleteColorD(this.selectedPalleteColors, i)"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" (click)="updateCurrentColors(true)" width="32" height="32" fill="currentColor" class="bi bi-arrow-right palleteArrow" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                    </svg>
+                </div>  
+            </div>
+        </div>
+          
         <!-- <app-design-window class="notOnMobile"></app-design-window> -->
         <!-- <app-colors-container [paneColors]=true class="notOnMobile"></app-colors-container> -->
         <app-mobile-color-picker class="notOnLaptop"></app-mobile-color-picker>

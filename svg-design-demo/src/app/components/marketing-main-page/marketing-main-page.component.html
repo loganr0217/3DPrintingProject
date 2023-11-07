@@ -1,4 +1,4 @@
-<app-landing-page [marketingPage]="false" [attr.style]="this.getStageVisibility('landingPage')"></app-landing-page>
+<app-landing-page [marketingPage]="true" [attr.style]="this.getStageVisibility('landingPage')"></app-landing-page>
 <div id="savedOrderLandingPage" *ngIf="this.sharedDataService.continueSavedOrder">
     <h3>You are in edit mode for a saved order. Refresh the page to start something new.</h3>
 </div>
