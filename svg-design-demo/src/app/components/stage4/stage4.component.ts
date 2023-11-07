@@ -13,6 +13,7 @@ export class Stage4Component implements OnInit {
   colorIDs:number[] = [];
   numberPossibleColors:number = 0;
   selectedPalleteID:number = -1;
+  selectedPalleteColors:string = '';
 
   constructor(public sharedDataService:SharedDataService) { }
 
@@ -72,9 +73,24 @@ export class Stage4Component implements OnInit {
     return colorIds.length;
   }
 
+  // Updates current pallete colors to be shifted over to the direction listed
+  updateCurrentColors(directionRight:boolean) {
+    let currentColors:string[] = this.selectedPalleteColors.split(",");
+
+    // Rotating colors in accordance with arrow clicked
+    if(directionRight) {currentColors.unshift(currentColors.pop()!);}
+    else {currentColors.push(currentColors.shift()!);}
+
+    this.selectedPalleteColors = currentColors.join(",");
+    this.autofillPanel(this.selectedPalleteColors);
+  }
+
   // Fills selected panel for a pane if autofill string exists
   autofillPanel(palleteColors:string):void {
     let separatedColors:string[] = palleteColors.split(",");
+
+    // Also autofills the currently selected pallete
+    this.selectedPalleteColors = palleteColors;
     
     for(let colorIndex:number = 0; colorIndex < separatedColors.length; ++colorIndex) {
       let panelNumber:number = 0;

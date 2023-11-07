@@ -1,22 +1,22 @@
 <div id="landingPage1" class="landingPage" >
-    <div id="landingImg1" *ngIf="(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl.includes('/;'))">
+    <div id="landingImg1" *ngIf="!marketingPage">
         <img class="img1" src="assets/img/landingPageImg1.jpg" alt="First slide"/>
     </div>
     <!-- Pic for tots landing page -->
-    <div id="landingImg1" *ngIf="!(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl.includes('/;'))">
+    <div id="landingImg1" *ngIf="marketingPage">
         <img class="img1" src="assets/img/totPicture.jpg" alt="First slide"/>
     </div>
 
     <div id="sideText1">
-        <h1 class="text1" *ngIf="(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')">{{this.posts[0].fields.lp1header}}</h1>
-        <h1 class="text1" *ngIf="!(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')">Go Ahead,<br/>Color on the<br/>Windows</h1>
+        <h1 class="text1" *ngIf="!marketingPage">{{this.posts[0].fields.lp1header}}</h1>
+        <h1 class="text1" *ngIf="marketingPage">Go Ahead,<br/>Color on the<br/>Windows</h1>
         
-        <button class="btn btn-outline-light startDesigning1" *ngIf="(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')" (click)="nextstage2()"><b>Start Designing</b></button>
+        <button class="btn btn-outline-light startDesigning1" *ngIf="!marketingPage" (click)="nextstage2()"><b>Start Designing</b></button>
         
-        <div id = "news_text" *ngIf="(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')">
+        <div id = "news_text" *ngIf="!marketingPage">
             <span class="light" [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(this.posts[0].fields.lp1newsText), 1)"></span>
         </div>
-        <div id = "news_text" *ngIf="!(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')">
+        <div id = "news_text" *ngIf="marketingPage">
             <span class="light"><p>At LightScreen Art we actually encourage you to put 
                 color on your windows. Lightscreens are a modern 
                 alternative to stained glass and a whole new way 
@@ -26,9 +26,9 @@
                 complement your decor and match your color scheme. 
                 Check out our gallery below or just,</p></span>
         </div>
-        <button class="btn btn-outline-light startDesigning1" *ngIf="!(this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')" (click)="nextstage2()"><b>Start Designing</b></button>
+        <button class="btn btn-outline-light startDesigning1" *ngIf="marketingPage" (click)="nextstage2()"><b>Start Designing</b></button>
 
-        <form *ngIf="this.sharedDataService.userInfo.length <= 1 && (this.sharedDataService.sessionStartingUrl.includes('light-screen') || this.sharedDataService.sessionStartingUrl == '/')" [formGroup]="emailForm">
+        <form *ngIf="this.sharedDataService.userInfo.length <= 1 && !marketingPage" [formGroup]="emailForm">
             <div class="form-group mt-2 mb-2">
                 <input type="text" placeholder="Enter Email" formControlName="email" class="form-control inputField" id="requiredEmailField" />
                 <div style="color: red;" *ngIf="email?.invalid && (email?.touched || email?.dirty)">

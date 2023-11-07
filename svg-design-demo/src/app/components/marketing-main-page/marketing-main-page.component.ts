@@ -5,11 +5,11 @@ import { HttpClient } from '@angular/common/http';
 
 declare var $:any;
 @Component({
-  selector: 'app-main-page',
-  templateUrl: './main-page.component.html',
-  styleUrls: ['./main-page.component.css']
+  selector: 'app-marketing-main-page',
+  templateUrl: './marketing-main-page.component.html',
+  styleUrls: ['./marketing-main-page.component.css']
 })
-export class MainPageComponent implements OnInit {
+export class MarketingMainPageComponent {
   //users:User[];
   constructor(public sharedDataService:SharedDataService, private http:HttpClient) {
     // this.apiService.readUsers().subscribe((users: User[])=>{
