@@ -29,7 +29,7 @@
                 <h4>Choose your pallete below</h4>
                 <div class="palleteIconsWithNames">
                     <ng-container *ngFor="let pallete of this.sharedDataService.palletes">
-                        <div *ngIf="pallete.colorPlacements.split(',').length == numberPossibleColors && pallete.category == this.sharedDataService.selectedPalleteCategory" class="palleteIconWithName">
+                        <div *ngIf="pallete.colorPlacements.split(',').length == numberPossibleColors && this.sharedDataService.selectedPalleteCategory != undefined && pallete.category == this.sharedDataService.selectedPalleteCategory" class="palleteIconWithName">
                             <svg (click)="updateSelectedPallete(pallete.id); autofillPanel(pallete.colorPlacements)"  [attr.style]="pallete.id == this.selectedPalleteID ? 'border:3px solid blue;' : ''" xmlns="http://www.w3.org/2000/svg" class="svgPalleteIcons" [attr.viewBox]="'0,0,300,300'">
                                 <path [attr.style]="'fill:#666666;stroke-width:2; stroke:#000000'" [attr.d]="'M 0,0 V 300 H 300 V 0 Z'"/>
                                 <path [attr.style]="'fill:#'+color+';stroke-width:2; stroke:#000000'" *ngFor="let color of pallete.colorPlacements.split(','); let i = index" [attr.d]="getPalleteColorD(pallete.colorPlacements, i)"/>
