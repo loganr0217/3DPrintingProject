@@ -34,8 +34,35 @@ export class OrderPageComponent implements OnInit {
     return false;
   }
 
+  // Method to find template corresponding to order
+  getOrderTemplate(order:any):any {
+    let tempID:number = Number(order[9]);
+    // Finding template by id
+    let tempIndex:number = this.sharedDataService.templateData.findIndex(function(item, i){
+      return Number(item.id) == tempID
+    });
+    return this.sharedDataService.templateData[tempIndex];
+  }
+
+  // Method to parse order into a displayable svg
+  parseOrderIntoSVG(order:any):void {
+    let templateFromOrder:any = this.getOrderTemplate(order);
+
+  }
+
+  // Method to format timestamp to month day, year
+  formatTimestamp(timeStamp:string):string {
+    const commaIndex:number = timeStamp.indexOf(",");
+    // Finding day
+    let day:string = timeStamp.substring(commaIndex+2, commaIndex+4);
+    let month:string = timeStamp.substring(commaIndex+5, commaIndex+8);
+    let year:string = timeStamp.substring(commaIndex+9, commaIndex+13);
+    let final:string = month + " " + day + ", " + year;
+    return final;
+  }
+
   // Selects a previous order and fills in all the given information
-  selectOrder(order:any) {
+  selectOrder(order:any):void {
     // Order --> [id, email, dividerType, selectedUnits, windowWidth, windowHeight, horzDividers, 
     // vertDividers, dividerWidth, templateID, colorString, street, city, state, zip, country, 
     // bottomSashWidth, bottomSashHeight, status]
@@ -46,7 +73,7 @@ export class OrderPageComponent implements OnInit {
     this.sharedDataService.windowHeight = this.convertNumber(Number(order[5]), this.sharedDataService.unitChoice);
     this.sharedDataService.dividerNumbers = [Number(order[6]), Number(order[7])];
     this.sharedDataService.dividerWidth = this.convertNumber(Number(order[8]), this.sharedDataService.unitChoice);
-    this.sharedDataService.selectedTemplateID = Number(Number(order[9]));
+    this.sharedDataService.selectedTemplateID = Number(order[9]);
     this.sharedDataService.bottomSashWidth = this.convertNumber(Number(order[16]), this.sharedDataService.unitChoice);
     this.sharedDataService.bottomSashHeight = this.convertNumber(Number(order[17]), this.sharedDataService.unitChoice);
     if(this.sharedDataService.bottomSashWidth > 0 && this.sharedDataService.bottomSashHeight > 0) {this.sharedDataService.selectedWindowShape = "2xhung2to4";}
@@ -172,6 +199,13 @@ export class OrderPageComponent implements OnInit {
       panelLayout[Math.floor(panelID/temp.panelDims[0])].push(myTemplate);
     }
     return panelLayout;
+  }
+
+  // Gets template viewbox
+  getTemplateViewBox(d:string, scaleX:number=1, scaleY:number=1):string {
+    let myTemplate:SVGTemplate = new SVGTemplate(d);
+    let tempViewBox:string = (scaleX * myTemplate.xMin) + " " + (scaleY * myTemplate.yMin) + " " + (scaleX * myTemplate.width) + " " + (scaleY * myTemplate.height);
+    return tempViewBox;
   }
 
   adminFilterToggle():void {
