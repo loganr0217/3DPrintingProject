@@ -2,18 +2,19 @@
     <div id="orderHeading">
         <h2 class="ordersLabel">Past Orders</h2>
         
-        <!-- <a href="javascript:void(0)" class="refreshIcon" (click)="refreshOrders();">
+        <a href="javascript:void(0)" class="refreshIcon" (click)="refreshOrders();">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
                 <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
             </svg>
         </a>
-        <input type="button" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('production'))" class="btn btn-dark btn-med btnReg" (click)="adminFilterToggle()" id="adminFilterInput" [value]="this.adminFilter ? 'Turn Off Admin View' : 'Turn On Admin View'"/> -->
+        <input type="button" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('production'))" class="btn btn-dark btn-med btnReg" (click)="adminFilterToggle()" id="adminFilterInput" [value]="this.adminFilter ? 'Turn Off Admin View' : 'Turn On Admin View'"/>
     </div>
+    <input type="button" class="btn btn-dark btn-med btnReg" (click)="listViewToggle()" id="listViewInput" [value]="this.listView ? 'Turn Off list View' : 'Turn On list View'"/>
     <hr />
 
     <!-- Start of new view for users -->
-    <div id="fullOrderListContainer" *ngIf="!this.adminFilter">
+    <div id="fullOrderListContainer" *ngIf="!this.listView">
         <div *ngFor="let userOrder of this.userOrders; let i = index">
             <div class="form-check-inline userOrder orderViewContainer" *ngIf="( this.adminFilter && (this.filterStatus == 'all' || this.filterStatus.includes(userOrder[18])) ) || ( !this.adminFilter && userOrder[1] == this.sharedDataService.userInfo[3])">
                 <label class="form-check-label orderViewHeader" for="{{'flexRadioDefault'+i}}">{{("Order Placed: " + formatTimestamp(userOrder[21]))}} <span class="orderIDLabel">ORDER #{{userOrder[0]}}</span></label>
@@ -21,7 +22,7 @@
                 <div class="orderViewImageAndButtons">
                     <div class="orderViewRowsTogether">
                         <div class="orderViewRow" *ngFor="let row of getPanelLayout(getOrderTemplate(userOrder)); let rowNumber = index;">
-                            <svg *ngFor="let svgTemplate of row" xmlns="http://www.w3.org/2000/svg" class="svgTemplateIcons" [attr.viewBox]="getTemplateViewBox(svgTemplate.getOptimizedD())">
+                            <svg *ngFor="let svgTemplate of row; let panelNum = index" xmlns="http://www.w3.org/2000/svg" class="svgTemplateIcons" [attr.viewBox]="getTemplateViewBox(svgTemplate.getOptimizedD())">
                                 <path style="fill:#666666" [attr.transform]="svgTemplate.getTransform()" [attr.d]="svgTemplate.getOptimizedD()"/>
                             </svg>
                         </div>
@@ -40,7 +41,7 @@
 
     <!-- End of new view  -->
 
-    <div id="orderListAndPreview" *ngIf="this.adminFilter">
+    <div id="orderListAndPreview" *ngIf="this.listView">
         <div id="orderListAndButton">
             <div id="orderList">
                 <div *ngFor="let userOrder of this.userOrders; let i = index">

@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class OrderPageComponent implements OnInit {
   userOrders:any;
   adminFilter:boolean = false;
+  listView:boolean = false;
   order:any;
   filterStatus:string = "all";
 
@@ -210,6 +211,11 @@ export class OrderPageComponent implements OnInit {
 
   adminFilterToggle():void {
     this.adminFilter = !this.adminFilter;
+    if(this.adminFilter) {this.listView = true;}
+  }
+  listViewToggle():void {
+    if(this.listView) {this.adminFilter = false;}
+    this.listView = !this.listView;
   }
 
   getOrderFieldHeading(index:number):string {
