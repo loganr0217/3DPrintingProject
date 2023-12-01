@@ -30,8 +30,9 @@ export class CheckoutPageComponent implements OnInit {
     this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/getusercouponcodes?email='"+email+"'&password='"+password+ "'").subscribe(result => {
       this.userCouponCodes = JSON.parse(JSON.stringify(result));
     });
-    
+  }
 
+  ngAfterViewInit(): void {
     this.initialize();
   }
 
