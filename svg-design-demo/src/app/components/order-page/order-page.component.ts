@@ -23,6 +23,10 @@ export class OrderPageComponent implements OnInit {
     this.refreshOrders();
   }
 
+  range(i:number):number[] {
+    return [...Array(i).keys()];
+  }
+
   convertNumber(num:number, unit:string):number {
     if(unit == "mm") {return num;}
     else if(unit == "inches") {return num*25.4;}
@@ -60,6 +64,20 @@ export class OrderPageComponent implements OnInit {
     let year:string = timeStamp.substring(commaIndex+9, commaIndex+13);
     let final:string = month + " " + day + ", " + year;
     return final;
+  }
+
+  // Method to get style for an order pane
+  getPaneStyle(row:number, col:number, paneNum:number, order:any):string {
+    // if(this.isDarkMode()) {
+    //   return "fill:#"+this.sharedDataService.darkPanelColoringArray[(row*this.sharedDataService.panelLayoutDims[0] + col)][paneNum];
+    // }
+    let panelColorStrings:string[] = order[10].split(";");
+    if(order.length <= 24) {return "fill:#ff0000";}
+    let i:number = row*order[24] + col;
+    let tmp:string[] = panelColorStrings[i].split(",");
+
+    return "fill:#"+tmp[paneNum];
+    
   }
 
   // Selects a previous order and fills in all the given information
@@ -162,7 +180,7 @@ export class OrderPageComponent implements OnInit {
     // }
   }
 
-  getPanelLayout(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):SVGTemplate[][] {
+  getPanelLayout(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}, orderIndex:number = -1):SVGTemplate[][] {
     // Creating panel layout array
     let panelLayout:SVGTemplate[][] = [];
     for(let row:number = 0; row < temp.panelDims[1]; ++row) {panelLayout.push([]);}
@@ -199,6 +217,9 @@ export class OrderPageComponent implements OnInit {
 
       panelLayout[Math.floor(panelID/temp.panelDims[0])].push(myTemplate);
     }
+
+    // Adding userOrder panelLeftToRight if not already there
+    if(orderIndex != -1 && this.userOrders[orderIndex].length == 24) {this.userOrders[orderIndex].push(panelLayout[0].length);}
     return panelLayout;
   }
 
