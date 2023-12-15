@@ -45,7 +45,7 @@
         <h1 class="headerTitle"><b>{{post.fields.stage3header}}</b></h1>
         <div class="unitButtons">
             <button class="btn btn-outline-dark unitButton" id="inchesButton" (click)="changeUnits('inches')" type="button">inches</button>
-            <button class="btn btn-outline-dark unitButton" id="mmButton" (click)="changeUnits('mm')" type="button">metric</button>
+            <button class="btn btn-outline-dark unitButton" id="mmButton" (click)="changeUnits('mm')" type="button">millimeters</button>
         </div>
         <div id="dividerDetailText" [attr.style]="this.getDimensionsFormVisibility()">
             <span [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(post.fields.stage3body), 2)"></span>
