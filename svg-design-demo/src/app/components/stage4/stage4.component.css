@@ -15,6 +15,10 @@ p {
     text-align: center;
 }
 
+.switcherLink {
+    color: blue;
+}
+
 .colorChoiceContainer {
     width:100vw;
 }
@@ -45,7 +49,10 @@ p {
     justify-content: space-around;
 }
 .section {margin:10px;}
-
+.palleteIconButton {
+    font-size: medium;
+    margin:auto;
+}
 /* Breadcrumbs */
 .breadCrumbs {
     width: 100%;
@@ -66,6 +73,7 @@ p {
 .svgPalleteIcons {
     width:5vw;
     border: 1px solid gray;
+    margin: auto;
 }
 
 .currentPalleteIcon {
