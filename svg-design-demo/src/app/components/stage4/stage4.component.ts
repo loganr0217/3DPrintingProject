@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Entry } from 'contentful';
 import { SharedDataService } from 'src/app/services/shared-data.service';
+import { ContentfulService } from 'src/app/services/contentful.service';
 
 @Component({
   selector: 'app-stage4',
@@ -7,7 +9,7 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
   styleUrls: ['./stage4.component.css']
 })
 export class Stage4Component implements OnInit {
-
+  posts:Entry<any>[] = [];
   currentChosenColorID:number = 0;
   colorChoices:{id:number, name:string, hex:string, paneColor:boolean, isAvailable:boolean, placementID:number, opacity:number}[] = [];
   colorIDs:number[] = [];
@@ -15,9 +17,10 @@ export class Stage4Component implements OnInit {
   selectedPalleteID:number = -1;
   selectedPalleteColors:string = '';
 
-  constructor(public sharedDataService:SharedDataService) { }
+  constructor(public sharedDataService:SharedDataService, public contentfulService:ContentfulService) { }
 
   ngOnInit(): void {
+    this.contentfulService.getPosts('coloringModeSwitcher').then(posts => this.posts = posts);
   }
 
   previousStage() {

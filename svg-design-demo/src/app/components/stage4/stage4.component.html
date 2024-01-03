@@ -1,4 +1,4 @@
-<div class="colorChoiceContainer text-center" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))">
+<!-- <div class="colorChoiceContainer text-center" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))">
     <h1>Choose your coloring mode:</h1>
     <button class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1" (click)="updateColorMode('easy'); getPossibleColors()" type="button">
         Easy Mode
@@ -6,22 +6,22 @@
     <button class="btn btn-med bg-dark text-center text-white btn-outline-light btn-floating m-1" (click)="updateColorMode('hard')" type="button">
         Hard Mode
     </button>
-</div>
+</div> -->
 <div id="bigContainer">
     <div id="section2" class="section" *ngIf="this.sharedDataService.colorModeSelected != 'easy'">
         <app-design-window class="notOnMobile"></app-design-window>
         <!-- <app-colors-container [paneColors]=true class="notOnMobile"></app-colors-container> -->
         <app-mobile-color-picker class="notOnLaptop"></app-mobile-color-picker>
+        <br/>
+        <a *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))" href="javascript:void(0)" (click)="updateColorMode('easy'); getPossibleColors()"><p class="switcherLink">{{this.posts[0].fields.switchToPallete}}</p></a>
     </div>
     <div id="section2-easy" class="section" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin')) && this.sharedDataService.colorModeSelected == 'easy'">
         <h3>Choose your pallete category below</h3>
         <div class="palleteCategoryButtons">
             <div class="palleteCategory" *ngFor="let palleteCategory of ['Pasteles', 'Natural', 'Moody', 'Monochrome', 'Vivid', 'Seasonal']">
-                <svg (click)="updateSelectedPalleteCategory(palleteCategory)" xmlns="http://www.w3.org/2000/svg" class="svgPalleteIcons" [attr.viewBox]="'0,0,300,300'">
-                    <path [attr.style]="'fill:#666666;stroke-width:2; stroke:#000000'" [attr.d]="'M 0,0 V 300 H 300 V 0 Z'"/>
-                    <!-- <path [attr.style]="'fill:#'+color+';stroke-width:2; stroke:#000000'" *ngFor="let color of pallete.split(','); let i = index" [attr.d]="getPalleteColorD(pallete, i)"/> -->
-                </svg>
-                <button (click)="updateSelectedPalleteCategory(palleteCategory)" [textContent]="palleteCategory"></button>
+        
+                <img class="svgPalleteIcons" (click)="updateSelectedPalleteCategory(palleteCategory)" src="{{'assets/img/palleteIcons/'+palleteCategory+'.png'}}" alt="{{palleteCategory}}"/>
+                <p class="palleteIconButton" (click)="updateSelectedPalleteCategory(palleteCategory)" [textContent]="palleteCategory"></p>
             </div>
         </div>
         <div class="palleteSelectionContainer">
@@ -37,6 +37,9 @@
                         </div>
                     </ng-container>
                 </div> 
+                <br/>
+                <br/>
+                <a *ngIf="this.sharedDataService.selectedPalleteCategory != undefined && (this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))) " (click)="updateColorMode('hard')" href="javascript:void(0)"><p class="switcherLink">{{this.posts[0].fields.switchToColorCustom}}</p></a>
             </div>
             <div class="currentPalleteContainer">
                 <h4>Current Pallete</h4>
