@@ -124,6 +124,13 @@ export class OrderPageComponent implements OnInit {
           document.getElementById("windowPane"+i+"_"+j)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
           document.getElementById("windowPaneFinished"+i+"_"+j)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
           this.sharedDataService.panelColoringArray[i][j] = this.sharedDataService.currentPaneColor;
+          // Finding dark color matchup and placing it into dark array --> otherwise, just use regular color
+          let colorIndex:number = this.sharedDataService.colorsData.findIndex(function(item, i){
+            return item.hex == tmp[j]
+          });
+          if(colorIndex != -1) {this.sharedDataService.darkPanelColoringArray[i][j] = this.sharedDataService.colorsData[colorIndex].darkHex;}
+          else {this.sharedDataService.darkPanelColoringArray[i][j] = this.sharedDataService.currentPaneColor;}
+
         }
       }
       if(window.innerWidth < 576) {document.getElementById("pastOrderPreview")?.scrollIntoView({behavior: 'smooth'});}
@@ -165,10 +172,13 @@ export class OrderPageComponent implements OnInit {
 
     this.sharedDataService.panelLayoutDims = [this.sharedDataService.panelLayout[0].length, this.sharedDataService.panelLayout.length];
     this.sharedDataService.panelColoringArray = [];
+    this.sharedDataService.darkPanelColoringArray = [];
     for(let i:number = 0; i < temp.numPanels; ++i) {
       this.sharedDataService.panelColoringArray.push([]);
+      this.sharedDataService.darkPanelColoringArray.push([]);
       for(let j:number = 1; j < this.sharedDataService.panelLayout[Math.floor(i/this.sharedDataService.panelLayoutDims[0])][i%this.sharedDataService.panelLayoutDims[0]].subShapes.length; ++j) {
         this.sharedDataService.panelColoringArray[i].push("f0f0f1");
+        this.sharedDataService.darkPanelColoringArray[i].push("f0f0f1");
       }
     }
     this.sharedDataService.selectedTemplateID = temp.id;

@@ -30,8 +30,8 @@
                     </div>
 
                     <div class="orderViewButtons">
-                        <input type="button" class="btn btn-dark btn-med orderViewButton notOnMobile" [value]="'Continue'"/>
-                        <input type="button" class="btn btn-dark btn-med orderViewButton notOnMobile" [value]="'Buy Again'"/>
+                        <input type="button" class="btn btn-dark btn-med orderViewButton notOnMobile" (click)="this.selectOrder(userOrder); continueSavedDesign()" [value]="'Continue'"/>
+                        <!-- <input type="button" class="btn btn-dark btn-med orderViewButton notOnMobile" [value]="'Buy Again'"/> -->
                     </div>
                 </div>
             </div>
