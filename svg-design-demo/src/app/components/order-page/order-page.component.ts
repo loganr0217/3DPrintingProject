@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class OrderPageComponent implements OnInit {
   userOrders:any;
   adminFilter:boolean = false;
+  listView:boolean = false;
   order:any;
   filterStatus:string = "all";
 
@@ -20,6 +21,10 @@ export class OrderPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshOrders();
+  }
+
+  range(i:number):number[] {
+    return [...Array(i).keys()];
   }
 
   convertNumber(num:number, unit:string):number {
@@ -34,8 +39,49 @@ export class OrderPageComponent implements OnInit {
     return false;
   }
 
+  // Method to find template corresponding to order
+  getOrderTemplate(order:any):any {
+    let tempID:number = Number(order[9]);
+    // Finding template by id
+    let tempIndex:number = this.sharedDataService.templateData.findIndex(function(item, i){
+      return Number(item.id) == tempID
+    });
+    return this.sharedDataService.templateData[tempIndex];
+  }
+
+  // Method to parse order into a displayable svg
+  parseOrderIntoSVG(order:any):void {
+    let templateFromOrder:any = this.getOrderTemplate(order);
+
+  }
+
+  // Method to format timestamp to month day, year
+  formatTimestamp(timeStamp:string):string {
+    const commaIndex:number = timeStamp.indexOf(",");
+    // Finding day
+    let day:string = timeStamp.substring(commaIndex+2, commaIndex+4);
+    let month:string = timeStamp.substring(commaIndex+5, commaIndex+8);
+    let year:string = timeStamp.substring(commaIndex+9, commaIndex+13);
+    let final:string = month + " " + day + ", " + year;
+    return final;
+  }
+
+  // Method to get style for an order pane
+  getPaneStyle(row:number, col:number, paneNum:number, order:any):string {
+    // if(this.isDarkMode()) {
+    //   return "fill:#"+this.sharedDataService.darkPanelColoringArray[(row*this.sharedDataService.panelLayoutDims[0] + col)][paneNum];
+    // }
+    let panelColorStrings:string[] = order[10].split(";");
+    if(order.length <= 24) {return "fill:#ff0000";}
+    let i:number = row*order[24] + col;
+    let tmp:string[] = panelColorStrings[i].split(",");
+
+    return "fill:#"+tmp[paneNum];
+    
+  }
+
   // Selects a previous order and fills in all the given information
-  selectOrder(order:any) {
+  selectOrder(order:any):void {
     // Order --> [id, email, dividerType, selectedUnits, windowWidth, windowHeight, horzDividers, 
     // vertDividers, dividerWidth, templateID, colorString, street, city, state, zip, country, 
     // bottomSashWidth, bottomSashHeight, status]
@@ -46,7 +92,7 @@ export class OrderPageComponent implements OnInit {
     this.sharedDataService.windowHeight = this.convertNumber(Number(order[5]), this.sharedDataService.unitChoice);
     this.sharedDataService.dividerNumbers = [Number(order[6]), Number(order[7])];
     this.sharedDataService.dividerWidth = this.convertNumber(Number(order[8]), this.sharedDataService.unitChoice);
-    this.sharedDataService.selectedTemplateID = Number(Number(order[9]));
+    this.sharedDataService.selectedTemplateID = Number(order[9]);
     this.sharedDataService.bottomSashWidth = this.convertNumber(Number(order[16]), this.sharedDataService.unitChoice);
     this.sharedDataService.bottomSashHeight = this.convertNumber(Number(order[17]), this.sharedDataService.unitChoice);
     if(this.sharedDataService.bottomSashWidth > 0 && this.sharedDataService.bottomSashHeight > 0) {this.sharedDataService.selectedWindowShape = "2xhung2to4";}
@@ -78,6 +124,13 @@ export class OrderPageComponent implements OnInit {
           document.getElementById("windowPane"+i+"_"+j)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
           document.getElementById("windowPaneFinished"+i+"_"+j)?.setAttribute("style", "fill:#"+this.sharedDataService.currentPaneColor);
           this.sharedDataService.panelColoringArray[i][j] = this.sharedDataService.currentPaneColor;
+          // Finding dark color matchup and placing it into dark array --> otherwise, just use regular color
+          let colorIndex:number = this.sharedDataService.colorsData.findIndex(function(item, i){
+            return item.hex == tmp[j]
+          });
+          if(colorIndex != -1) {this.sharedDataService.darkPanelColoringArray[i][j] = this.sharedDataService.colorsData[colorIndex].darkHex;}
+          else {this.sharedDataService.darkPanelColoringArray[i][j] = this.sharedDataService.currentPaneColor;}
+
         }
       }
       if(window.innerWidth < 576) {document.getElementById("pastOrderPreview")?.scrollIntoView({behavior: 'smooth'});}
@@ -119,10 +172,13 @@ export class OrderPageComponent implements OnInit {
 
     this.sharedDataService.panelLayoutDims = [this.sharedDataService.panelLayout[0].length, this.sharedDataService.panelLayout.length];
     this.sharedDataService.panelColoringArray = [];
+    this.sharedDataService.darkPanelColoringArray = [];
     for(let i:number = 0; i < temp.numPanels; ++i) {
       this.sharedDataService.panelColoringArray.push([]);
+      this.sharedDataService.darkPanelColoringArray.push([]);
       for(let j:number = 1; j < this.sharedDataService.panelLayout[Math.floor(i/this.sharedDataService.panelLayoutDims[0])][i%this.sharedDataService.panelLayoutDims[0]].subShapes.length; ++j) {
         this.sharedDataService.panelColoringArray[i].push("f0f0f1");
+        this.sharedDataService.darkPanelColoringArray[i].push("f0f0f1");
       }
     }
     this.sharedDataService.selectedTemplateID = temp.id;
@@ -134,7 +190,7 @@ export class OrderPageComponent implements OnInit {
     // }
   }
 
-  getPanelLayout(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):SVGTemplate[][] {
+  getPanelLayout(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}, orderIndex:number = -1):SVGTemplate[][] {
     // Creating panel layout array
     let panelLayout:SVGTemplate[][] = [];
     for(let row:number = 0; row < temp.panelDims[1]; ++row) {panelLayout.push([]);}
@@ -171,11 +227,26 @@ export class OrderPageComponent implements OnInit {
 
       panelLayout[Math.floor(panelID/temp.panelDims[0])].push(myTemplate);
     }
+
+    // Adding userOrder panelLeftToRight if not already there
+    if(orderIndex != -1 && this.userOrders[orderIndex].length == 24) {this.userOrders[orderIndex].push(panelLayout[0].length);}
     return panelLayout;
+  }
+
+  // Gets template viewbox
+  getTemplateViewBox(d:string, scaleX:number=1, scaleY:number=1):string {
+    let myTemplate:SVGTemplate = new SVGTemplate(d);
+    let tempViewBox:string = (scaleX * myTemplate.xMin) + " " + (scaleY * myTemplate.yMin) + " " + (scaleX * myTemplate.width) + " " + (scaleY * myTemplate.height);
+    return tempViewBox;
   }
 
   adminFilterToggle():void {
     this.adminFilter = !this.adminFilter;
+    if(this.adminFilter) {this.listView = true;}
+  }
+  listViewToggle():void {
+    if(this.listView) {this.adminFilter = false;}
+    this.listView = !this.listView;
   }
 
   getOrderFieldHeading(index:number):string {
