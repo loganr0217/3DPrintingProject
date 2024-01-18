@@ -878,9 +878,12 @@ def getUserOrders():
     except Exception as e:
         return "Error connecting to the database " + str(e)
 
-@app.route('/saveorder')
+@app.route('/saveorder', methods = ['POST', 'GET'])
 def saveOrder():
     global conn
+    if request.method == 'POST':
+        data = request.get_json()
+    
     email = request.args.get('email', default='null', type=str)
     password = request.args.get('password', default='null', type=str)
     selectedDividerType = request.args.get('selectedDividerType', default='null', type=str) 
@@ -901,7 +904,11 @@ def saveOrder():
     bottomDividerWidth = request.args.get('bottomDividerWidth', default='null', type=float) 
 
     templateID = request.args.get('templateID', default='null', type=int) 
-    panelColoringString = request.args.get('panelColoringString', default='null', type=str)
+    # Getting panelColoringString
+    if request.method == 'GET':
+        panelColoringString = request.args.get('panelColoringString', default='null', type=str)
+    else:
+        panelColoringString = data.get('panelColoringString')
     streetAddress = request.args.get('streetAddress', default='null', type=str)
     city = request.args.get('city', default='null', type=str)
     state = request.args.get('state', default='null', type=str) 
@@ -921,7 +928,7 @@ def saveOrder():
                 INSERT INTO orders(user_email, selected_divider_type, unit_choice, window_width, 
                 window_height, horizontal_dividers, vertical_dividers, divider_width, template_id, 
                 panel_coloring_string, street_address, city, state, zipcode, country, bottom_sash_width, bottom_sash_height, status, frame_color) 
-                VALUES({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, 'Saved', {})""".format(
+                VALUES({}, {}, {}, {}, {}, {}, {}, {}, {}, '{}', {}, {}, {}, {}, {}, {}, {}, 'Saved', {})""".format(
                 email, selectedDividerType, unitChoice, windowWidth, windowHeight,
                 horzDividers, vertDividers, dividerWidth, templateID, panelColoringString, 
                 streetAddress, city, state, zipcode, country, bottomWindowWidth, bottomWindowHeight, frameColor))
