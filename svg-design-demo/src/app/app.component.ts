@@ -71,7 +71,7 @@ export class AppComponent {
               alert("You're now registered and should have recieved a confirmation email in your inbox.");
             }
             else if(this.sharedDataService.userInfo.length == 1 && this.sharedDataService.userInfo[0] == -1) {alert("A user with that email already exists.");}
-          });;
+          });
           this.emailFormModal.reset();
         }
     }
