@@ -22,6 +22,7 @@ import { OrderFailureComponent } from './components/order-failure/order-failure.
 import { DealerPageComponent } from './components/dealer-page/dealer-page.component';
 import { UserDirectoryComponent } from './components/user-directory/user-directory.component';
 import { MarketingMainPageComponent } from './components/marketing-main-page/marketing-main-page.component';
+import { ShoppingMainPageComponent } from './components/shopping-main-page/shopping-main-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'light-screen', pathMatch: 'full' },
@@ -35,7 +36,7 @@ const routes: Routes = [
   { path: 'linkedin', redirectTo: 'light-screen-ads', pathMatch: 'full' },
   { path: 'pinterest', redirectTo: 'light-screen-ads', pathMatch: 'full' },
   { path: 'twitter', redirectTo: 'light-screen-ads', pathMatch: 'full' },
-  { path: 'light-screen', component: MainPageComponent
+  { path: 'light-screen', component: ShoppingMainPageComponent
     // children: [
     //   { path: '/', redirectTo: 'detail', terminal: true },
     //   { path: 'detail', component: HeroDetailComponent }

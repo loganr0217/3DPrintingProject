@@ -1,0 +1,23 @@
+#filteringSystem {
+    padding-left: 2vw;
+}
+
+#templateSection {
+    display: flex;
+}
+.leftSection {
+    flex:1;
+}
+.rightSection {
+    flex:5;
+}
+
+.svgPalleteIcons {
+    width:4vw;
+    margin-bottom: 1vh;
+}
+
+.palleteIconsWithNames {
+    display:grid;
+    grid-template-columns: 5vw 5vw;
+}

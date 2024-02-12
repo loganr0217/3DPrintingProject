@@ -347,12 +347,12 @@ export class TemplateIconComponent implements OnInit {
   isTemplateOkay(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):boolean {
     let isOkay:boolean = true;
     if(!this.isColorPage()) {
-      if(temp.category != undefined && temp.category.includes(this.sharedDataService.selectedTemplateCategory)) {isOkay = true;}
+      if(temp.category != undefined && this.sharedDataService.selectedTemplateCategory.includes(temp.category)) {isOkay = true;}
       else {isOkay = false; return false;}
     }
     else {
       if((temp.category == undefined || temp.category == "") && (this.sharedDataService.selectedTemplateCategory == undefined || this.sharedDataService.selectedTemplateCategory == "unassigned")) {isOkay = true;}
-      else if(temp.category != undefined && temp.category.includes(this.sharedDataService.selectedTemplateCategory)) {isOkay = true;}
+      else if(temp.category != undefined && this.sharedDataService.selectedTemplateCategory.includes(temp.category)) {isOkay = true;}
       else {isOkay = false; return false;}
     }
     if(temp.tempString == "-1") {return false;}
@@ -406,4 +406,14 @@ export class TemplateIconComponent implements OnInit {
     }
     return isAvailable;
   }
+
+  getPaneStyle(paneNum:number, autoString:string[]):string {
+    let autoStringPossibilities:string[] = [];
+    for(let i:number = 0; i < autoString.length; ++i) {
+      if(autoStringPossibilities.indexOf(autoString[i]) == -1) {autoStringPossibilities.push(autoString[i]);}
+    }
+    autoStringPossibilities.sort();
+
+    return 'fill:#' + this.sharedDataService.selectedPalleteColors[autoStringPossibilities.indexOf(autoString[paneNum])];
+  } 
 }

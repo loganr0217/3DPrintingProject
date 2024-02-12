@@ -7,6 +7,7 @@
                 <div class="windowTemplate" (click)="nextstage4(); createPreview(template); displayFirstTemplate();" *ngFor="let row of getPanelLayout(template); let rowNumber = index;">
                     <svg *ngFor="let svgTemplate of row" xmlns="http://www.w3.org/2000/svg" class="svgTemplateIcons" [attr.viewBox]="getTemplateViewBox(svgTemplate.getOptimizedD())">
                         <path style="fill:#666666" [attr.transform]="svgTemplate.getTransform()" [attr.d]="svgTemplate.getOptimizedD()"/>
+                        <path [attr.style]="this.getPaneStyle(paneNum, svgTemplate.autofillString.split(','))" [attr.transform]="svgTemplate.getTransform()"  *ngFor="let paneNum of range(svgTemplate.subShapes.length-1)" [attr.d]="svgTemplate.polygonPaths[paneNum+1]"/>
                     </svg>
                 </div>
                 <button *ngIf="isColorPage()" (click)="nextstage4(); createPreview(template); displayFirstTemplate();" [textContent]="template.id"></button>

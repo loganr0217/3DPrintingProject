@@ -1,52 +1,14 @@
-<!-- Modal for howTo info -->
-<div class="modal fade" id="howToModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">{{this.howToPosts[0].fields.stage}}</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <div class="modal-body">
-              <span [innerHTML]="this.contentfulService.richtextToHtml(this.howToPosts[0].fields.bodyCopy)"></span>
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-dark" data-dismiss="modal">Back to Your Window</button>
-              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-          </div>
-      </div>
-  </div>
-</div>
-
-<div id="emailStep0" *ngIf="!this.sharedDataService.signedIn">
-  <h4 *ngIf="this.sharedDataService.userInfo.length <= 1"><b>Enter your email to save your design</b></h4>
-  <form [formGroup]="emailForm" class="emailForm" *ngIf="this.sharedDataService.userInfo.length <= 1">
-      <div class="form-group mt-2 mb-2 emailInput">
-          <input type="text" placeholder="Enter Email" formControlName="email" class="form-control inputField" id="requiredEmailFieldStep0" />
-          <div style="color: red;" *ngIf="email?.invalid && (email?.touched || email?.dirty)">
-            <span *ngIf="email?.errors?.['required']">*Email is required to save your design</span>
-            <span *ngIf="email?.errors?.['email']">*Enter valid email (example@gmail.com)</span>
-          </div>
-      </div>
-      <div class="form-group sendButton mt-2 mb-2">
-        <button class="btn btn-outline-dark registerBtn" (click)="submitEmailForm('step0')"><b>Register</b></button>
-      </div>
-  </form>
-  <p>or <a href="javascript:void(0)" (click)="skipStep0()">continue as guest</a></p>
-</div>
 <!-- Step 2.a -->
+<h4 id="stage2Header"><b>tell us about your window</b></h4>
 <div id="stage2ACon">
   <div *ngFor="let post of this.posts" id="section1" class="section">
-    <h1><b>{{post.fields.stage2header}}</b></h1>
-    <span [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(post.fields.stage2body), 1)"></span>
     <div id="dividerTypeImages">
       <figure class="dividerTypeImageCon" *ngFor="let dividerType of ['nodiv', 'raiseddiv', 'embeddeddiv', 'sample']" (click)="chooseDivider(dividerType);" [attr.style]="this.getIconHighlight('dividerType', dividerType)">
         <img id="dividerTypeImage_{{dividerType}}" class="dividerTypeImage" src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/>
         <figcaption>{{dividerName(dividerType)}}</figcaption>
+        <br *ngIf="dividerType=='raisediv'"/>
       </figure>
     </div>
-    <span [innerHTML]="this.contentfulService.markdownToHtml(post.fields.stage2hiddenBody)" id="windowShapeText" class="notOnMobile"></span>
   </div>
   <div id="section2" class="section">
     <span [innerHTML]="this.contentfulService.markdownToHtml(this.posts[0].fields.stage2hiddenBody)" id="windowShapeTextMobile" class="notOnLaptop"></span>
@@ -79,8 +41,3 @@
     </div>
   </div>
 </div>
-<!-- Adding Breadcrumbs 
-<div class="breadCrumbs" id="step2ABreadCrumbs">
-  <a (click)="preStage1Con()" class="prevBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Prev"/> </a>
-  <a (click)="nextstage2BCon()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next"/> </a>
-</div> -->

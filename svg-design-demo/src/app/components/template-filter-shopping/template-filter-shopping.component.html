@@ -1,0 +1,56 @@
+<div id="filteringSystem">
+    <a href="javascript:void(0)"><p (click)="changeStage2Visibility()">{{this.stage2Visible ? 'Window -' : 'Window +'}}</p></a>
+    <app-stage2 *ngIf="stage2Visible"></app-stage2>
+    <a href="javascript:void(0)"><p (click)="changeStage3Visibility()">{{this.stage3Visible ? 'Measurement -' : 'Measurement +'}}</p></a>
+    <app-stage3 *ngIf="stage3Visible"></app-stage3>
+    <a href="javascript:void(0)"><p (click)="changeTemplateSectionVisibility()">Template +</p></a>
+    <div id="templateSection" *ngIf="this.templateSectionVisible">
+        <div class="leftSection">
+            <div id="categoryFiltering">
+                <div class="form-check" (click)="updateSelectedTemplateCategories()" *ngFor="let templateCategory of ['Artist Inspired', 'Interests', 'Garden', 'Classics', 'Sacred', 'Abstract']">
+                    <input class="form-check-input" type="checkbox" value="" id="check_{{templateCategory}}">
+                    <label class="form-check-label" for="check_{{templateCategory}}">{{templateCategory}}</label>
+                </div>
+            </div>
+            <div id="palleteFiltering">
+                <p><u>Color</u></p>
+                <div class="form-check" (click)="updatePalleteCategories()" *ngFor="let palleteCategory of ['Pasteles', 'Natural', 'Moody', 'Monochrome', 'Vivid', 'Seasonal']">
+                    <input class="form-check-input" type="checkbox" value="" id="check_{{palleteCategory}}">
+                    <label class="form-check-label" for="check_{{palleteCategory}}">{{palleteCategory}}</label>
+                </div>
+                <div class="palleteSelectionContainer">
+                    <div class="palleteSelection">
+                        <div class="palleteIconsWithNames">
+                            <ng-container *ngFor="let pallete of this.sharedDataService.palletes">
+                                <div *ngIf="this.sharedDataService.selectedPalleteCategory != undefined && this.sharedDataService.selectedPalleteCategory.includes(pallete.category) && pallete.colorPlacements.split(',').length == 6" class="palleteIconWithName">
+                                    <svg (click)="updateSelectedPallete(pallete.id); updatePalleteColors(pallete.colorPlacements)"  [attr.style]="pallete.id == this.selectedPalleteID ? 'border:3px solid blue;' : ''" xmlns="http://www.w3.org/2000/svg" class="svgPalleteIcons" [attr.viewBox]="'0,0,300,300'">
+                                        <path [attr.style]="'fill:#666666;stroke-width:2; stroke:#000000'" [attr.d]="'M 0,0 V 300 H 300 V 0 Z'"/>
+                                        <path [attr.style]="'fill:#'+color+';stroke-width:2; stroke:#000000'" *ngFor="let color of pallete.colorPlacements.split(','); let i = index" [attr.d]="getPalleteColorD(pallete.colorPlacements, i)"/>
+                                    </svg>
+                                </div>
+                            </ng-container>
+                        </div> 
+                        <br/>
+                        <br/>
+                    </div>
+                    <!-- <div class="currentPalleteContainer">
+                        <h4>Current Pallete</h4>
+                        <div *ngIf="this.selectedPalleteID != -1" class="palleteIconWithName">
+                            <svg xmlns="http://www.w3.org/2000/svg" (click)="updateCurrentColors(false)" width="32" height="32" fill="currentColor" class="bi bi-arrow-left palleteArrow" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="currentPalleteIcon" [attr.viewBox]="'0,0,300,300'">
+                                <path [attr.style]="'fill:#666666;stroke-width:2; stroke:#000000'" [attr.d]="'M 0,0 V 300 H 300 V 0 Z'"/>
+                                <path [attr.style]="'fill:#'+color+';stroke-width:2; stroke:#000000'" *ngFor="let color of this.selectedPalleteColors.split(','); let i = index" [attr.d]="getPalleteColorD(this.selectedPalleteColors, i)"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" (click)="updateCurrentColors(true)" width="32" height="32" fill="currentColor" class="bi bi-arrow-right palleteArrow" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                            </svg>
+                        </div>  
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <app-template-selection-container class="rightSection"></app-template-selection-container>
+    </div>
+</div>

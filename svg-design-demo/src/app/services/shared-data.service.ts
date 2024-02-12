@@ -44,6 +44,8 @@ export class SharedDataService {
   signedIn:boolean = false;
   selectedTemplateCategory:string;
   selectedPalleteCategory:string;
+  selectedPalleteID:number = -1;
+  selectedPalleteColors:string[] = [];
   palletes:{id:number, category:string, colorPlacements:string}[] = [];
   chosenPanel:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string};
   templatesAvailable:boolean = false;
