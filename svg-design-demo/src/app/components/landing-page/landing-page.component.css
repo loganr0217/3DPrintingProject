@@ -1,6 +1,7 @@
-#landingPage1, #landingPage3 {background-color: #1A1919;}
-
+#landingPage3 {background-color: #1A1919;}
+#landingPage1 {background-color: #ffffff;}
 .landingPage {display: flex;}
+#landingPage1 {flex-direction: column;}
 
 #landingPage6 {position: relative;}
 
@@ -83,10 +84,9 @@
 
     /* Landing page 1 */
     #landingImg1 {
-        max-width: 57vw;
-        max-height: 90vh;
+        width: 100vw;
+        height:60vh;
     }
-    .img1 {max-width: 57vw;}
     .text1 {
         font-size: 5.5vw;
     }
@@ -232,10 +232,6 @@ form {
     display: flex;
 }
 
-.form-group {
-    margin-right: 1vw;
-}
-
 .inputField {
     font-family: 'Inter Tight', sans-serif;
     font-weight: 400;
@@ -244,14 +240,15 @@ form {
 
 .registerBtn {
     font-family: 'Inter Tight', sans-serif;
-    font-weight: 400;
+    font-weight: 200;
 }
 .registerBtn6 {border: 1px solid black;}
 
 
 .img1, .img2 {
-    max-height: 90vh;
-    object-fit: contain;
+    width: 100vw;
+    height:60vh;
+    /* object-fit: contain; */
 }
 
 .imgChart {
@@ -259,4 +256,13 @@ form {
     max-height: 80vh;
     margin:auto;
     object-fit: contain;
+}
+
+#landingPage1Text {
+    display: flex;
+    margin-top:10vh;
+}
+.landingPage1TextItem {
+    flex:1;
+    margin-left: 1vw;
 }

@@ -14,10 +14,13 @@
     z-index:100;
     position: fixed;
     right:0;
-    bottom:0;
+    bottom:45vh;
     background-color: #ffffff;
 }
 
+.navbarIcon {
+    margin-left:2vw;
+}
 .contactForm {
     margin: auto;
     padding-bottom: 5vh;

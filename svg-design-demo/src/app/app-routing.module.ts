@@ -36,7 +36,7 @@ const routes: Routes = [
   { path: 'linkedin', redirectTo: 'light-screen-ads', pathMatch: 'full' },
   { path: 'pinterest', redirectTo: 'light-screen-ads', pathMatch: 'full' },
   { path: 'twitter', redirectTo: 'light-screen-ads', pathMatch: 'full' },
-  { path: 'light-screen', component: ShoppingMainPageComponent
+  { path: 'light-screen', component: MainPageComponent
     // children: [
     //   { path: '/', redirectTo: 'detail', terminal: true },
     //   { path: 'detail', component: HeroDetailComponent }

@@ -1,32 +1,30 @@
 <div id="landingPage1" class="landingPage" >
-    <div id="landingImg1" *ngIf="!marketingPage">
+    <div id="landingImg1">
         <img class="img1" src="assets/img/landingPageImg1.jpg" alt="First slide"/>
     </div>
-    <!-- Pic for tots landing page -->
-    <div id="landingImg1" *ngIf="marketingPage">
-        <img class="img1" src="assets/img/totPicture.jpg" alt="First slide"/>
+    <div id="landingPage1Text" *ngIf="this.sharedDataService.userInfo.length <= 1">
+        <form [formGroup]="emailForm" class="landingPage1TextItem">
+            <div class="form-group mt-2 mb-2">
+                <input type="text" placeholder="your email" formControlName="email" class="form-control inputField" id="requiredEmailField" />
+                <div style="color: red;" *ngIf="email?.invalid && (email?.touched || email?.dirty)">
+                  <span *ngIf="email?.errors?.['required']">*Email is required to save your design</span>
+                  <span *ngIf="email?.errors?.['email']">*Enter valid email (example@gmail.com)</span>
+                </div>
+            </div>
+            <div class="form-group sendButton mt-2 mb-2">
+              <button class="btn btn-dark registerBtn" (click)="submitEmailForm('landingPage')"><b>Sign Up</b></button>
+            </div>
+        </form>
+        <h1 class="landingPage1TextItem">Let us light up your inbox</h1>
     </div>
-
-    <div id="sideText1">
-        <h1 class="text1" *ngIf="!marketingPage">{{this.posts[0].fields.lp1header}}</h1>
-        <h1 class="text1" *ngIf="marketingPage">Go Ahead,<br/>Color on the<br/>Windows</h1>
+    <!-- <div id="sideText1">
+        <h1 class="text1">{{this.posts[0].fields.lp1header}}</h1>
         
-        <button class="btn btn-outline-light startDesigning1" *ngIf="!marketingPage" (click)="nextstage2()"><b>Start Designing</b></button>
+        <button class="btn btn-outline-light startDesigning1" (click)="nextstage2()"><b>Start Designing</b></button>
         
-        <div id = "news_text" *ngIf="!marketingPage">
+        <div id = "news_text">
             <span class="light" [innerHTML]="this.contentfulService.addModalLink(this.contentfulService.markdownToHtml(this.posts[0].fields.lp1newsText), 1)"></span>
         </div>
-        <div id = "news_text" *ngIf="marketingPage">
-            <span class="light"><p>At LightScreen Art we actually encourage you to put 
-                color on your windows. Lightscreens are a modern 
-                alternative to stained glass and a whole new way 
-                to cover windows. Lightscreens are shatterproof, 
-                recyclable and easy to install. Best of all, lightscreens 
-                are designed right here so they fit your windows, 
-                complement your decor and match your color scheme. 
-                Check out our gallery below or just,</p></span>
-        </div>
-        <button class="btn btn-outline-light startDesigning1" *ngIf="marketingPage" (click)="nextstage2()"><b>Start Designing</b></button>
 
         <form *ngIf="this.sharedDataService.userInfo.length <= 1 && !marketingPage" [formGroup]="emailForm">
             <div class="form-group mt-2 mb-2">
@@ -40,7 +38,7 @@
               <button class="btn btn-outline-light registerBtn" (click)="submitEmailForm('landingPage')"><b>Register</b></button>
             </div>
         </form>
-    </div>
+    </div> -->
 </div>
 
 <div id="landingPage4">
