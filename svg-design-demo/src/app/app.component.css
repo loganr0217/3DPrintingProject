@@ -17,7 +17,16 @@
     bottom:45vh;
     background-color: #ffffff;
 }
-
+#footer {
+    background-color: #1E1C1A;
+}
+.footerLinkContainer {
+    display: flex;
+}
+.footerTextLinks {
+    width:45vw;
+    margin-top: 5vh;
+}
 .navbarIcon {
     margin-left:2vw;
 }
@@ -70,7 +79,7 @@
         font-size: 2vw;
     }
     .footerTag, .footerNote {
-        font-size: 2vw;
+        font-size: 1.3vw;
     }
 }
 

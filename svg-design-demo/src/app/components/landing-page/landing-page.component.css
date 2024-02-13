@@ -251,6 +251,11 @@ form {
     /* object-fit: contain; */
 }
 
+.img5 {
+    width:100vw;
+    height:90vh;
+}
+
 .imgChart {
     max-width: 100vw;
     max-height: 80vh;
@@ -260,9 +265,87 @@ form {
 
 #landingPage1Text {
     display: flex;
-    margin-top:10vh;
+    padding-top: 4vh;
+    margin-bottom:5vh;
 }
 .landingPage1TextItem {
     flex:1;
     margin-left: 1vw;
+}
+
+.startDesigningHeader {
+    width: 100vw;
+    height:15vh;
+    padding-top: 4vh;
+    text-align: center;
+    background-color: antiquewhite;
+}
+
+.designerTempPalletesButton {
+    width: 80vw;
+    margin-left:10vw;
+    font-size: 2.5vw;
+    display: flex;
+}
+
+.landingPage2BottomButtons {
+    margin-top:2vh;
+    display: flex;
+    margin-bottom:5vh;
+}
+
+.designerTempPalletesBottomButton {
+    width:29vw;
+    margin-left:14vw;
+    display: flex;
+}
+
+.designerTempPalletesButtonText {
+    margin-left: 5vw;
+    text-align: left;
+}
+#landingPage5 {
+    position: relative;
+}
+#landingPage6 {display: flex;}
+.img6 {
+    width:18vw;
+    height:26vw;
+    margin-left:1vw;
+    margin-top: 1vw;
+}
+.img6Background {
+    position: relative;
+    margin-left: 10vw;
+    width:20vw;
+    height:28vw;
+    background-color: #000000;
+}
+.img6Text {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    color:white;
+    margin-left:1.5vw;
+    margin-right:1.5vw;
+    top:30%;
+}
+.img6Background:hover .img6Text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.img6Background:hover .img6{
+    opacity: .2;
+}
+
+.designByHumanButton {
+    z-index: 100;
+    position: absolute;
+    left:3vw;
+    top:40%;
+    width:20vw;
+    background-color: #000000aa;
+    text-align: left;
+    font-size: 1.5vw;
 }

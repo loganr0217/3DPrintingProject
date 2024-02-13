@@ -101,11 +101,134 @@
   
   <router-outlet></router-outlet>
   <!-- Footer -->
-  <footer id="footer" class="bg-dark text-center text-white" style="width:100%; margin-top: 70vh;">
+  <footer id="footer" class="text-center text-white" style="width:100%; margin-top: 10vh;">
     <!-- Grid container -->
-    <div class="container p-4">
+    <div class="container footerLinkContainer p-4">
       <!-- Section: Social media -->
+      <!-- Section: Social media -->
+
+      <!-- Section: Text -->
+      <!-- <section class="mb-4">
+        <h1 class="text-white footerTag">
+          Questions?
+        </h1>
+      </section> -->
+      <!-- Section: Text -->
+
+      <!-- Section: Contact Form -->
+      <!-- <section class="mb-4 contactForm">
+        <form [formGroup]="contactForm">
+          <div *ngIf="this.sharedDataService.userInfo.length <= 1" class="form-group mt-2 mb-2">
+              <input type="text" placeholder="Name" formControlName="name" class="form-control" />
+          </div>
+          <div *ngIf="this.sharedDataService.userInfo.length <= 1" class="form-group mt-2 mb-2">
+              <input type="text" placeholder="Email*" formControlName="email" class="form-control" />
+              <div style="color: red;" *ngIf="email?.invalid && (email?.touched || email?.dirty)">
+                <span *ngIf="email?.errors?.['required']">*Email is required</span>
+                <span *ngIf="email?.errors?.['email']">*Enter valid email (example@gmail.com)</span>
+              </div>
+          </div>
+          <div class="form-group mt-2 mb-2">
+            <input type="text" placeholder="How can we help you?" formControlName="message" class="form-control" />
+          </div>
+          <div class="form-group mt-2 mb-2">
+            <button style="width: 100%;" (click)="submitContactForm()" class="btn btn-dark contactFormButton">Send Message</button>
+          </div>
+        </form>
+      </section> -->
+      <!-- Section: Contact Form -->
+
+      <!-- Section: Links -->
+      <section class="footerTextLinks">
+        <!--Grid row-->
+        <div class="row">
+          <!--Grid column-->
+          <!-- <div class="col-lg-3 mb-4 mb-md-0">
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="mailto: info@lightscreen.art" class="text-white text-decoration-none">Contact</a>
+              </li>
+            </ul>
+          </div> -->
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-lg-3 mb-4 mb-md-0">
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="javascript:void(0)" routerLink="/about" class="text-white text-decoration-none footerNote">About</a>
+              </li>
+            </ul>
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="javascript:void(0)" routerLink="/about" class="text-white text-decoration-none footerNote">About</a>
+              </li>
+            </ul>
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-lg-3 mb-4 mb-md-0">
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="javascript:void(0)" routerLink="/gallery" class="text-white text-decoration-none footerNote">Gallery</a>
+              </li>
+            </ul>
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="!this.sharedDataService.signedIn">
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="javascript:void(0)" routerLink="/signup" class="text-white text-decoration-none footerNote">Signup</a>
+              </li>
+            </ul>
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="javascript:void(0)" routerLink="/login" class="text-white text-decoration-none footerNote">Login</a>
+              </li>
+            </ul>
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('designer'))">
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="javascript:void(0)" routerLink="/windowCreation" id="tdiLink" class="text-white text-decoration-none footerNote">TDI</a>
+              </li>
+            </ul>
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))">
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="javascript:void(0)" routerLink="/colorOfferings" class="text-white text-decoration-none footerNote">Color Offerings</a>
+              </li>
+            </ul>
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))">
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="javascript:void(0)" routerLink="/couponGeneration" id="couponGenerationLink" class="text-white text-decoration-none footerNote">Coupon Codes</a>
+              </li>
+            </ul>
+          </div>
+          <!--Grid column-->
+          
+        </div>
+        <!--Grid row-->
+      </section>
+      <!-- Section: Links -->
+
       <section class="mb-4">
+        <h4>Connect and be connected</h4>
         <!-- Facebook -->
         <!-- <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
@@ -171,127 +294,6 @@
         </a>
 
       </section>
-      <!-- Section: Social media -->
-
-      <!-- Section: Text -->
-      <section class="mb-4">
-        <h1 class="text-white footerTag">
-          Questions?
-        </h1>
-      </section>
-      <!-- Section: Text -->
-
-      <!-- Section: Contact Form -->
-      <section class="mb-4 contactForm">
-        <form [formGroup]="contactForm">
-          <div *ngIf="this.sharedDataService.userInfo.length <= 1" class="form-group mt-2 mb-2">
-              <input type="text" placeholder="Name" formControlName="name" class="form-control" />
-          </div>
-          <div *ngIf="this.sharedDataService.userInfo.length <= 1" class="form-group mt-2 mb-2">
-              <input type="text" placeholder="Email*" formControlName="email" class="form-control" />
-              <div style="color: red;" *ngIf="email?.invalid && (email?.touched || email?.dirty)">
-                <span *ngIf="email?.errors?.['required']">*Email is required</span>
-                <span *ngIf="email?.errors?.['email']">*Enter valid email (example@gmail.com)</span>
-              </div>
-          </div>
-          <div class="form-group mt-2 mb-2">
-            <input type="text" placeholder="How can we help you?" formControlName="message" class="form-control" />
-          </div>
-          <div class="form-group mt-2 mb-2">
-            <button style="width: 100%;" (click)="submitContactForm()" class="btn btn-dark contactFormButton">Send Message</button>
-          </div>
-        </form>
-      </section>
-      <!-- Section: Contact Form -->
-
-      <!-- Section: Links -->
-      <section class="">
-        <!--Grid row-->
-        <div class="row">
-          <!--Grid column-->
-          <!-- <div class="col-lg-3 mb-4 mb-md-0">
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="mailto: info@lightscreen.art" class="text-white text-decoration-none">Contact</a>
-              </li>
-            </ul>
-          </div> -->
-          <!--Grid column-->
-
-          <!--Grid column-->
-          <div class="col-lg-3 mb-4 mb-md-0">
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="javascript:void(0)" routerLink="/about" class="text-white text-decoration-none footerNote">About</a>
-              </li>
-            </ul>
-          </div>
-          <!--Grid column-->
-
-          <!--Grid column-->
-          <div class="col-lg-3 mb-4 mb-md-0">
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="javascript:void(0)" routerLink="/gallery" class="text-white text-decoration-none footerNote">Gallery</a>
-              </li>
-            </ul>
-          </div>
-          <!--Grid column-->
-
-          <!--Grid column-->
-          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="!this.sharedDataService.signedIn">
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="javascript:void(0)" routerLink="/signup" class="text-white text-decoration-none footerNote">Signup</a>
-              </li>
-            </ul>
-          </div>
-          <!--Grid column-->
-
-          <!--Grid column-->
-          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="!this.sharedDataService.signedIn">
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="javascript:void(0)" routerLink="/login" class="text-white text-decoration-none footerNote">Login</a>
-              </li>
-            </ul>
-          </div>
-          <!--Grid column-->
-
-          <!--Grid column-->
-          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('designer'))">
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="javascript:void(0)" routerLink="/windowCreation" id="tdiLink" class="text-white text-decoration-none footerNote">TDI</a>
-              </li>
-            </ul>
-          </div>
-          <!--Grid column-->
-
-          <!--Grid column-->
-          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))">
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="javascript:void(0)" routerLink="/colorOfferings" class="text-white text-decoration-none footerNote">Color Offerings</a>
-              </li>
-            </ul>
-          </div>
-          <!--Grid column-->
-
-          <!--Grid column-->
-          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))">
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="javascript:void(0)" routerLink="/couponGeneration" id="couponGenerationLink" class="text-white text-decoration-none footerNote">Coupon Codes</a>
-              </li>
-            </ul>
-          </div>
-          <!--Grid column-->
-          
-        </div>
-        <!--Grid row-->
-      </section>
-      <!-- Section: Links -->
     </div>
     <!-- Grid container -->
     <!-- Copyright -->

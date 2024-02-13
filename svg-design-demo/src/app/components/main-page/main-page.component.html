@@ -1,8 +1,9 @@
 <app-landing-page [marketingPage]="false" [attr.style]="this.getStageVisibility('landingPage')"></app-landing-page>
-<div id="savedOrderLandingPage" *ngIf="this.sharedDataService.continueSavedOrder">
+<!-- <app-shopping-main-page></app-shopping-main-page> -->
+<!-- <div id="savedOrderLandingPage" *ngIf="this.sharedDataService.continueSavedOrder">
     <h3>You are in edit mode for a saved order. Refresh the page to start something new.</h3>
 </div>
-<!-- <app-stage1 id="stage1" class="notOnLaptop"></app-stage1> -->
+
 <app-stage2 id="stage2" style="visibility: hidden; display: none;"></app-stage2>
 <app-stage3 *ngIf="this.sharedDataService.sampleOrder == ''" id="stage3" style="visibility: hidden; display: none;"></app-stage3>
 <app-template-category-stage id="templateCategoryStage" style="visibility: hidden; display: none;"></app-template-category-stage>
@@ -24,4 +25,4 @@
     <div >
         <h5 class="progressLabel">Step {{this.sharedDataService.currentStepID}} of 7</h5>
     </div>
-</div>
+</div> -->
