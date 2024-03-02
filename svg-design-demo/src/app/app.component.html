@@ -46,14 +46,16 @@
               </a>
               <!-- Profile Icon -->
               <a href="javascript:void(0)" routerLink="/profile" class="navbarIcon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="bi bi-person" viewBox="0 0 16 16">
-                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="bi bi-person" viewBox="0 0 30 30">
+                  <path d="m 1.0002078,30.00001 c -0.086115,-17 26.0000002,-17 26.0000002,0 M 22.000208,9 a 8,8 0 0 1 -8,8 8,8 0 0 1 -8.0000005,-8 8,8 0 0 1 8.0000005,-8 8,8 0 0 1 8,8 z"/>
                 </svg>
               </a>
               <!-- Cart Icon -->
               <a href="javascript:void(0)" routerLink="" class="navbarIcon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="bi bi-cart" viewBox="0 0 16 16">
-                  <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff" stroke="#000000" class="bi bi-cart" viewBox="0 0 30 30">
+                  <path d="M 19.999988,13.416427 V 4.4164267 c -0.274669,-2.1463512 -2.511361,-2.9999999 -5,-2.9999999 -2.488638,0 -4.72533,0.8536487 -4.9999989,2.9999999 v 9.0000003"/>
+                  <path d="m 9.9999881,8.9164268 h 9.9999999 m -10e-7,0 h 7 l 2,20.0000002 h -14 H 0.99998806 L 2.9999881,8.9164268 h 7"/>
+                  <text x="9" y="25">{{this.sharedDataService.cartItems}}</text>
                 </svg>
               </a>
           </a>
@@ -101,7 +103,7 @@
   
   <router-outlet></router-outlet>
   <!-- Footer -->
-  <footer id="footer" class="text-center text-white" style="width:100%; margin-top: 10vh;">
+  <footer id="footer" class="text-center text-white" style="width:100%; margin-top: 30vh;">
     <!-- Grid container -->
     <div class="container footerLinkContainer p-4">
       <!-- Section: Social media -->
@@ -141,7 +143,7 @@
       <!-- Section: Links -->
       <section class="footerTextLinks">
         <!--Grid row-->
-        <div class="row">
+        <div class="row text-left">
           <!--Grid column-->
           <!-- <div class="col-lg-3 mb-4 mb-md-0">
             <ul class="list-unstyled mb-0">
@@ -155,14 +157,11 @@
           <!--Grid column-->
           <div class="col-lg-3 mb-4 mb-md-0">
             <ul class="list-unstyled mb-0">
-              <li>
-                <a href="javascript:void(0)" routerLink="/about" class="text-white text-decoration-none footerNote">About</a>
-              </li>
-            </ul>
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="javascript:void(0)" routerLink="/about" class="text-white text-decoration-none footerNote">About</a>
-              </li>
+              <li><a href="javascript:void(0)" routerLink="/mission" class="text-white text-decoration-none footerNote">Company</a></li>
+              <li><a href="javascript:void(0)" routerLink="/blogPage" class="text-white text-decoration-none footerNote">Blog</a></li>
+              <li><a href="javascript:void(0)" routerLink="/about" class="text-white text-decoration-none footerNote">How to Design</a></li>
+              <li><a href="javascript:void(0)" routerLink="/tutorials" class="text-white text-decoration-none footerNote">Tutorials</a></li>
+              <li><a href="javascript:void(0)" routerLink="/faq" class="text-white text-decoration-none footerNote">FAQs</a></li>
             </ul>
           </div>
           <!--Grid column-->
@@ -170,56 +169,54 @@
           <!--Grid column-->
           <div class="col-lg-3 mb-4 mb-md-0">
             <ul class="list-unstyled mb-0">
-              <li>
-                <a href="javascript:void(0)" routerLink="/gallery" class="text-white text-decoration-none footerNote">Gallery</a>
-              </li>
+              <li *ngIf="this.sharedDataService.signedIn"><a href="javascript:void(0)" routerLink="/profile" class="text-white text-decoration-none footerNote">Profile</a></li>
+              <li *ngIf="this.sharedDataService.signedIn"><a href="javascript:void(0)" routerLink="/orders" class="text-white text-decoration-none footerNote">Saved Orders</a></li>
+              <li *ngIf="!this.sharedDataService.signedIn"><a href="javascript:void(0)" routerLink="/signup" class="text-white text-decoration-none footerNote">Signup</a></li>
+              <li *ngIf="!this.sharedDataService.signedIn"><a href="javascript:void(0)" routerLink="/login" class="text-white text-decoration-none footerNote">Login</a></li>
+              <li><a href="javascript:void(0)" routerLink="/gallery" class="text-white text-decoration-none footerNote">Gallery</a></li>
             </ul>
           </div>
           <!--Grid column-->
 
           <!--Grid column-->
-          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="!this.sharedDataService.signedIn">
+          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))">
             <ul class="list-unstyled mb-0">
-              <li>
-                <a href="javascript:void(0)" routerLink="/signup" class="text-white text-decoration-none footerNote">Signup</a>
-              </li>
-            </ul>
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="javascript:void(0)" routerLink="/login" class="text-white text-decoration-none footerNote">Login</a>
-              </li>
+              <li><a href="javascript:void(0)" routerLink="/userDirectory" class="text-white text-decoration-none footerNote">User Directory</a></li>
+              <li><a href="javascript:void(0)" routerLink="/windowCreation" class="text-white text-decoration-none footerNote">TDI</a></li>
+              <li><a href="javascript:void(0)" routerLink="/colorOfferings" class="text-white text-decoration-none footerNote">Color Offerings</a></li>
+              <li><a href="javascript:void(0)" routerLink="/couponGeneration" class="text-white text-decoration-none footerNote">Coupon Codes</a></li>
             </ul>
           </div>
           <!--Grid column-->
 
           <!--Grid column-->
-          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('designer'))">
+          <!-- <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('designer'))">
             <ul class="list-unstyled mb-0">
               <li>
                 <a href="javascript:void(0)" routerLink="/windowCreation" id="tdiLink" class="text-white text-decoration-none footerNote">TDI</a>
               </li>
             </ul>
-          </div>
+          </div> -->
           <!--Grid column-->
 
           <!--Grid column-->
-          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))">
+          <!-- <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))">
             <ul class="list-unstyled mb-0">
               <li>
                 <a href="javascript:void(0)" routerLink="/colorOfferings" class="text-white text-decoration-none footerNote">Color Offerings</a>
               </li>
             </ul>
-          </div>
+          </div> -->
           <!--Grid column-->
 
           <!--Grid column-->
-          <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))">
+          <!-- <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))">
             <ul class="list-unstyled mb-0">
               <li>
                 <a href="javascript:void(0)" routerLink="/couponGeneration" id="couponGenerationLink" class="text-white text-decoration-none footerNote">Coupon Codes</a>
               </li>
             </ul>
-          </div>
+          </div> -->
           <!--Grid column-->
           
         </div>

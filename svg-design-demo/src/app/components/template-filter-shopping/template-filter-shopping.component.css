@@ -10,8 +10,26 @@
 }
 .rightSection {
     flex:5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+.modal-body {
+    display: flex;
+} 
+.cartButtons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.cartButton {
+    margin-bottom: 1vw;
+}
+.rightSectionHeader {
+    margin-bottom: 5vh;
+    margin-top: -5vh;
+}
 .svgPalleteIcons {
     width:4vw;
     margin-bottom: 1vh;
@@ -19,5 +37,12 @@
 
 .palleteIconsWithNames {
     display:grid;
-    grid-template-columns: 5vw 5vw;
+    grid-template-columns: 7vw 7vw;
 }
+
+.palleteIconWithName {
+    display: flex;
+}
+
+
+.palleteSelectionContainer {max-height: 20vh; overflow-y: scroll;}

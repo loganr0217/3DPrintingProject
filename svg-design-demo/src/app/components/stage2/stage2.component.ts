@@ -95,19 +95,8 @@ export class Stage2Component implements OnInit {
 
 
   displayWindowShapes(dividerType:string) {
-    // // Adding new window shapes
-    // let iter:number = 0;
-    // for(let i = 0; i < this.windowShapes.length; ++i) {
-    //   if(this.windowShapes[i].includes(windowShapeExample)) {
-    //     // Getting type of window and default dimensions
-    //     let windowDimensions:string[] = this.windowShapes[i].slice(this.windowShapes[i].length-4).split("to");
-    //     let width:number = Number(windowDimensions[0])*5;
-    //     let height:number = Number(windowDimensions[1])*5;
-    //     document.getElementById("windowShapeImage_"+this.windowShapes[iter])?.setAttribute("src", "assets/img/windowButtons2/"+this.windowShapes[i]+this.dividerType+".svg");
-    //     document.getElementById("windowShapeImage_"+this.windowShapes[iter])?.setAttribute("style", "visibility:visible; width:"+width+"vw; height:"+height+"vw;");
-    //     ++iter;
-    //   }
-    // }
+    document.getElementById("section2")?.setAttribute("style", "visibility:visible;");
+    document.getElementById("windowShapeImages")?.setAttribute("style", "visibility:visible;");
     for(let i = 0; i < this.windowShapes.length; ++i) {
         document.getElementById("windowShapeImage_"+this.windowShapes[i])?.setAttribute("src", "assets/img/windowButtons2/"+this.windowShapes[i]+this.dividerType+".svg");
         document.getElementById("windowShapeImage_"+this.windowShapes[i])?.setAttribute("style", "visibility:visible;");
@@ -136,12 +125,12 @@ export class Stage2Component implements OnInit {
   // Method to change the currently selected divider
   chooseDivider(dividerType:string) {
     // User needs to sign in (used to require email signup with false being !this.sharedDataService.signedIn)
-    if(window.innerWidth > 576 && false) {
-      document.getElementById("requiredEmailFieldStep0")?.focus();
-      document.getElementById("requiredEmailFieldStep0")?.blur();
-      document.getElementById("requiredEmailFieldStep0")?.focus();
-      return;
-    }
+    // if(window.innerWidth > 576 && false) {
+    //   document.getElementById("requiredEmailFieldStep0")?.focus();
+    //   document.getElementById("requiredEmailFieldStep0")?.blur();
+    //   document.getElementById("requiredEmailFieldStep0")?.focus();
+    //   return;
+    // }
     if(window.innerWidth > 576) {
       this.sharedDataService.currentStepID = 2;
       const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : 'undefined';
@@ -286,6 +275,8 @@ export class Stage2Component implements OnInit {
       document.getElementById("widthInput")?.focus();
       this.nextstage3();
     }
+    this.sharedDataService.stage2Visible = false;
+    this.sharedDataService.stage3Visible = true;
   }
 
   // Method to clear old panes

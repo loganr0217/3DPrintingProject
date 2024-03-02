@@ -10,6 +10,7 @@ import { Input } from '@angular/core';
 })
 export class WindowPreviewContainerComponent implements OnInit {
   @Input() finished:boolean;
+  @Input() modalPreview:boolean;
   
   // Array containing the svgPath data for displaying icons / generating a template
   svgTemplateData:{id:number, name:string, d:string}[][];
@@ -177,6 +178,7 @@ export class WindowPreviewContainerComponent implements OnInit {
   }
 
   getPaneID(row:number, col:number, paneNum:number):string {
+    if(this.modalPreview) {return "windowPaneModal" + (row*this.sharedDataService.panelLayoutDims[0] + col) + "_" + paneNum;}
     if(!this.finished) {return "windowPane" + (row*this.sharedDataService.panelLayoutDims[0] + col) + "_" + paneNum;}
     else {return "windowPaneFinished" + (row*this.sharedDataService.panelLayoutDims[0] + col) + "_" + paneNum;}
   }
@@ -193,6 +195,7 @@ export class WindowPreviewContainerComponent implements OnInit {
   }
 
   getPanelID(row:number, col:number):string {
+    if(this.modalPreview) {return "windowSVGModal" + (row*this.sharedDataService.panelLayoutDims[0] + col);}
     if(!this.finished) {return "windowSVG" + (row*this.sharedDataService.panelLayoutDims[0] + col);}
     else {return "windowSVGFinished" + (row*this.sharedDataService.panelLayoutDims[0] + col);}
   }

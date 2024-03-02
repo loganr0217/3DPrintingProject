@@ -50,6 +50,13 @@ export class SharedDataService {
   chosenPanel:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string};
   templatesAvailable:boolean = false;
 
+  stage2Visible:boolean = true;
+  stage3Visible:boolean = false;
+  templateSectionVisible:boolean = false;
+  shoppingSectionActive:boolean = false;
+  oldDesignProcessActive:boolean = false;
+  cartItems:number = 0;
+
   currentStepID:number = -1;
 
   windowWidthFractionNum:number;

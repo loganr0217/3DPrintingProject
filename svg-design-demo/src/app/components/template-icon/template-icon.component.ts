@@ -178,7 +178,8 @@ export class TemplateIconComponent implements OnInit {
       document.getElementById("stage4")?.setAttribute("style", "visibility:visible;")
       document.getElementById("stage4")?.scrollIntoView({behavior: 'auto'});
       this.sharedDataService.currentStepID = 5;
-      $('#howToModal4').modal('show');
+      if(this.sharedDataService.shoppingSectionActive) {$('#customLightscreenModal').modal('show');}
+      else {$('#howToModal4').modal('show');}
       const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : 'undefined';
       this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID+"&startingURL='"+this.sharedDataService.sessionStartingUrl+"'&userEmail='"+email+"'").subscribe(result => { 
       });
@@ -253,6 +254,40 @@ export class TemplateIconComponent implements OnInit {
       panelLayout[Math.floor(panelID/temp.panelDims[0])].push(myTemplate);
     }
     return panelLayout;
+  }
+
+  // Fills selected panel for a pane if autofill string exists
+  updateColorArray():void {
+    let separatedColors:string[] = this.sharedDataService.selectedPalleteColors;
+    let colorIds:number[] = [];
+
+    for(let row of this.sharedDataService.panelLayout) {
+      for(let svgTemplate of row) {
+        let currentAutofillString:string[] = svgTemplate.autofillString.split(",");
+        for(let i:number = 0; i < currentAutofillString.length; ++i) {
+          if(!colorIds.includes(Number(currentAutofillString[i]))) {colorIds.push(Number(currentAutofillString[i]));}
+        }
+        // console.log(currentAutofillString);
+      }
+    }
+    colorIds = colorIds.sort();
+    
+    for(let colorIndex:number = 0; colorIndex < separatedColors.length; ++colorIndex) {
+      let panelNumber:number = 0;
+      for(let row of this.sharedDataService.panelLayout) {
+        for(let svgTemplate of row) {
+          let splitAutofillString:string[] = svgTemplate.autofillString.split(",");
+          // alert(splitAutofillString);
+          for(let i:number = 0; i < splitAutofillString.length; ++i) {
+            if(Number(splitAutofillString[i]) == colorIds[colorIndex]) {
+              this.sharedDataService.panelColoringArray[panelNumber][i] = separatedColors[colorIndex];
+            } 
+          }
+          ++panelNumber;
+        }
+      }
+    }
+    
   }
 
   // Creates the window previews
@@ -413,7 +448,7 @@ export class TemplateIconComponent implements OnInit {
       if(autoStringPossibilities.indexOf(autoString[i]) == -1) {autoStringPossibilities.push(autoString[i]);}
     }
     autoStringPossibilities.sort();
-
-    return 'fill:#' + this.sharedDataService.selectedPalleteColors[autoStringPossibilities.indexOf(autoString[paneNum])];
+    if(this.sharedDataService.selectedPalleteColors.length > autoStringPossibilities.indexOf(autoString[paneNum])) {return 'fill:#' + this.sharedDataService.selectedPalleteColors[autoStringPossibilities.indexOf(autoString[paneNum])];}
+    return 'fill:#ffffff';
   } 
 }

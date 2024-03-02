@@ -1,10 +1,10 @@
 <div id="filteringSystem">
-    <a href="javascript:void(0)"><p (click)="changeStage2Visibility()">{{this.stage2Visible ? 'Window -' : 'Window +'}}</p></a>
-    <app-stage2 *ngIf="stage2Visible"></app-stage2>
-    <a href="javascript:void(0)"><p (click)="changeStage3Visibility()">{{this.stage3Visible ? 'Measurement -' : 'Measurement +'}}</p></a>
-    <app-stage3 *ngIf="stage3Visible"></app-stage3>
-    <a href="javascript:void(0)"><p (click)="changeTemplateSectionVisibility()">Template +</p></a>
-    <div id="templateSection" *ngIf="this.templateSectionVisible">
+    <a href="javascript:void(0)"><p (click)="changeStage2Visibility()">{{this.sharedDataService.stage2Visible ? 'Window -' : 'Window +'}}</p></a>
+    <app-stage2 *ngIf="this.sharedDataService.stage2Visible"></app-stage2>
+    <a href="javascript:void(0)"><p (click)="changeStage3Visibility()">{{this.sharedDataService.stage3Visible ? 'Measurement -' : 'Measurement +'}}</p></a>
+    <app-stage3 *ngIf="this.sharedDataService.stage3Visible"></app-stage3>
+    <a href="javascript:void(0)"><p (click)="changeTemplateSectionVisibility()">{{this.sharedDataService.templateSectionVisible ? 'Template -' : 'Template +'}}</p></a>
+    <div id="templateSection" *ngIf="this.sharedDataService.templateSectionVisible">
         <div class="leftSection">
             <div id="categoryFiltering">
                 <div class="form-check" (click)="updateSelectedTemplateCategories()" *ngFor="let templateCategory of ['Artist Inspired', 'Interests', 'Garden', 'Classics', 'Sacred', 'Abstract']">
@@ -21,13 +21,20 @@
                 <div class="palleteSelectionContainer">
                     <div class="palleteSelection">
                         <div class="palleteIconsWithNames">
-                            <ng-container *ngFor="let pallete of this.sharedDataService.palletes">
+                            <ng-container class="palleteIconWithName" *ngFor="let pallete of this.sharedDataService.palletes; let i = index">
                                 <div *ngIf="this.sharedDataService.selectedPalleteCategory != undefined && this.sharedDataService.selectedPalleteCategory.includes(pallete.category) && pallete.colorPlacements.split(',').length == 6" class="palleteIconWithName">
-                                    <svg (click)="updateSelectedPallete(pallete.id); updatePalleteColors(pallete.colorPlacements)"  [attr.style]="pallete.id == this.selectedPalleteID ? 'border:3px solid blue;' : ''" xmlns="http://www.w3.org/2000/svg" class="svgPalleteIcons" [attr.viewBox]="'0,0,300,300'">
+                                    <svg xmlns="http://www.w3.org/2000/svg" (click)="updateCurrentColors(false);" width="16" height="48" fill="currentColor" class="bi bi-arrow-left palleteArrow" viewBox="0 0 16 16" [attr.style]="pallete.id == this.selectedPalleteID ? 'visibility:visible; flex:1;' : 'visibility:hidden; flex:1;'">
+                                        <path d="M10 12.796V3.204L4.519 8zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753"/>
+                                    </svg>
+                                    <svg (click)="updateSelectedPallete(pallete.id); updatePalleteColors(pallete.colorPlacements);"  [attr.style]="pallete.id == this.selectedPalleteID ? 'border:3px solid blue;' : ''" xmlns="http://www.w3.org/2000/svg" class="svgPalleteIcons" [attr.viewBox]="'0,0,300,300'">
                                         <path [attr.style]="'fill:#666666;stroke-width:2; stroke:#000000'" [attr.d]="'M 0,0 V 300 H 300 V 0 Z'"/>
-                                        <path [attr.style]="'fill:#'+color+';stroke-width:2; stroke:#000000'" *ngFor="let color of pallete.colorPlacements.split(','); let i = index" [attr.d]="getPalleteColorD(pallete.colorPlacements, i)"/>
+                                        <path [attr.style]="'fill:#'+(pallete.id == this.selectedPalleteID ? this.selectedPalleteColors.split(',')[i] : color)+';stroke-width:2; stroke:#000000'" *ngFor="let color of pallete.colorPlacements.split(','); let i = index" [attr.d]="getPalleteColorD(pallete.colorPlacements, i)"/>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" (click)="updateCurrentColors(true);" width="16" height="48" fill="currentColor" class="bi bi-arrow-right palleteArrow" viewBox="0 0 16 16" [attr.style]="pallete.id == this.selectedPalleteID ? 'visibility:visible; flex:1;' : 'visibility:hidden; flex:1;'">
+                                        <path d="M6 12.796V3.204L11.481 8zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753"/>
                                     </svg>
                                 </div>
+                                
                             </ng-container>
                         </div> 
                         <br/>
@@ -51,6 +58,30 @@
                 </div>
             </div>
         </div>
-        <app-template-selection-container class="rightSection"></app-template-selection-container>
+        <div class="rightSection">
+            <h4 class="rightSectionHeader">on to the fun part</h4>
+            <app-template-selection-container ></app-template-selection-container>
+            <!-- Modal for order info -->
+            <div class="modal fade" id="customLightscreenModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Your Custom Lightscreen</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="cartButtons">
+                                <button type="button" (click)="addCartItem()" class="btn btn-light cartButton">Add to Cart</button>
+                                <button type="button" (click)="saveDesign()" class="btn btn-light cartButton">Save for Later</button>
+                            </div>
+                            <app-window-preview-container [modalPreview]="true"></app-window-preview-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </div>
 </div>

@@ -14,6 +14,7 @@ export class LandingPageComponent implements OnInit {
   @Input() marketingPage:boolean;
 
   posts:Entry<any>[] = [];
+  fadeawayImages:Entry<any>[] = [];
   emailForm!:UntypedFormGroup;
 
   constructor(public contentfulService:ContentfulService, public sharedDataService:SharedDataService, 
@@ -29,6 +30,7 @@ export class LandingPageComponent implements OnInit {
     });
 
     this.contentfulService.getPosts('landingPage').then(posts => this.posts = posts);
+    this.contentfulService.getPosts('fadeawayImage').then(posts => this.fadeawayImages = posts);
   }
 
   // Email form submission
@@ -79,13 +81,26 @@ export class LandingPageComponent implements OnInit {
 
   // Starts design process
   nextstage2() {
-    document.getElementById("stage2")?.setAttribute("style", "visibility:visible;")
+    this.sharedDataService.shoppingSectionActive = false;
+    this.sharedDataService.oldDesignProcessActive = true;
+    document.getElementById("shoppingPage")?.setAttribute("style", "visibility:hidden; display:none;");
+    document.getElementById("oldDesignProcess")?.setAttribute("style", "visibility:visible;");
+    document.getElementById("stage2")?.setAttribute("style", "visibility:visible;");
     document.getElementById("stage2")?.scrollIntoView({behavior: 'smooth'});
     if(this.sharedDataService.signedIn) {this.sharedDataService.currentStepID = 1;}
     else {this.sharedDataService.currentStepID = 0;}
     const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : 'undefined';
     this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID+"&startingURL='"+this.sharedDataService.sessionStartingUrl+"'&userEmail='"+email+"'").subscribe(result => { 
       });
+  }
+
+  // Starts shopping process and wipes design process
+  enterShoppingPage() {
+    this.sharedDataService.shoppingSectionActive = true;
+    this.sharedDataService.oldDesignProcessActive = false;
+    document.getElementById("oldDesignProcess")?.setAttribute("style", "visibility:hidden; display:none;");
+    document.getElementById("shoppingPage")?.setAttribute("style", "visibility:visible;");
+    document.getElementById("shoppingPage")?.scrollIntoView({behavior: 'smooth'});
   }
 
 }

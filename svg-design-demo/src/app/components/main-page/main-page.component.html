@@ -1,28 +1,31 @@
 <app-landing-page [marketingPage]="false" [attr.style]="this.getStageVisibility('landingPage')"></app-landing-page>
-<!-- <app-shopping-main-page></app-shopping-main-page> -->
-<!-- <div id="savedOrderLandingPage" *ngIf="this.sharedDataService.continueSavedOrder">
-    <h3>You are in edit mode for a saved order. Refresh the page to start something new.</h3>
-</div>
+<app-shopping-main-page id="shoppingPage" *ngIf="this.sharedDataService.shoppingSectionActive"></app-shopping-main-page>
 
-<app-stage2 id="stage2" style="visibility: hidden; display: none;"></app-stage2>
-<app-stage3 *ngIf="this.sharedDataService.sampleOrder == ''" id="stage3" style="visibility: hidden; display: none;"></app-stage3>
-<app-template-category-stage id="templateCategoryStage" style="visibility: hidden; display: none;"></app-template-category-stage>
-<app-stage4 id="stage4" [attr.style]="this.getStageVisibility('stage4')"></app-stage4>
-<app-stage5 id="stage5" [attr.style]="this.getStageVisibility('stage5')"></app-stage5>
-<app-checkout-page id="checkoutStage" [attr.style]="this.getStageVisibility('checkout')"></app-checkout-page>
-
-<div id="customProgressBar" [hidden]="isCustomProgressBarHidden()">
-    <div class="breadCrumbs" id="step2ABreadCrumbs">
-        <a *ngIf="this.sharedDataService.currentStepID != 7 && !(this.sharedDataService.continueSavedOrder && this.sharedDataService.currentStepID == 5)" (click)="previousStage()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-light btn-lg breadCrumbButton" value="Go Back"/> </a>
-        <a *ngIf="this.sharedDataService.currentStepID != 3 && this.sharedDataService.currentStepID != 7" (click)="nextStage()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" [value]="this.sharedDataService.currentStepID >= 6 ? 'Checkout' : 'Next Step'"/> </a>
-        <a *ngIf="this.sharedDataService.currentStepID == 3 && this.sharedDataService.unitChoice != ''" (click)="nextStage()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next Step"/> </a>
+<div id="oldDesignProcess" style="visibility: hidden; display: none;" *ngIf="this.sharedDataService.oldDesignProcessActive">
+    <div id="savedOrderLandingPage" *ngIf="this.sharedDataService.continueSavedOrder">
+        <h3>You are in edit mode for a saved order. Refresh the page to start something new.</h3>
     </div>
-    <div class="progress">
-        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="12.5"
-        aria-valuemin="0" aria-valuemax="100" [style]="'width:'+(100*this.sharedDataService.currentStepID/8)+'%;'">
+
+    <app-stage2 id="stage2" style="visibility: hidden; display: none;"></app-stage2>
+    <app-stage3 *ngIf="this.sharedDataService.sampleOrder == ''" id="stage3" style="visibility: hidden; display: none;"></app-stage3>
+    <app-template-category-stage id="templateCategoryStage" style="visibility: hidden; display: none;"></app-template-category-stage>
+    <app-stage4 id="stage4" [attr.style]="this.getStageVisibility('stage4')"></app-stage4>
+    <app-stage5 id="stage5" [attr.style]="this.getStageVisibility('stage5')"></app-stage5>
+    <app-checkout-page id="checkoutStage" [attr.style]="this.getStageVisibility('checkout')"></app-checkout-page>
+
+    <div id="customProgressBar" [hidden]="isCustomProgressBarHidden()">
+        <div class="breadCrumbs" id="step2ABreadCrumbs">
+            <a *ngIf="this.sharedDataService.currentStepID != 7 && !(this.sharedDataService.continueSavedOrder && this.sharedDataService.currentStepID == 5)" (click)="previousStage()" class="prevBreadCrumb"> <input type="button" class="btn btn-outline-dark btn-light btn-lg breadCrumbButton" value="Go Back"/> </a>
+            <a *ngIf="this.sharedDataService.currentStepID != 3 && this.sharedDataService.currentStepID != 7" (click)="nextStage()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" [value]="this.sharedDataService.currentStepID >= 6 ? 'Checkout' : 'Next Step'"/> </a>
+            <a *ngIf="this.sharedDataService.currentStepID == 3 && this.sharedDataService.unitChoice != ''" (click)="nextStage()" class="nextBreadCrumb"> <input type="button" class="btn btn-dark btn-lg breadCrumbButton" value="Next Step"/> </a>
+        </div>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="12.5"
+            aria-valuemin="0" aria-valuemax="100" [style]="'width:'+(100*this.sharedDataService.currentStepID/8)+'%;'">
+            </div>
+        </div>
+        <div >
+            <h5 class="progressLabel">Step {{this.sharedDataService.currentStepID}} of 7</h5>
         </div>
     </div>
-    <div >
-        <h5 class="progressLabel">Step {{this.sharedDataService.currentStepID}} of 7</h5>
-    </div>
-</div> -->
+</div>

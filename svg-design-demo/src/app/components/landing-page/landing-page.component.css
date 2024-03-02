@@ -3,7 +3,7 @@
 .landingPage {display: flex;}
 #landingPage1 {flex-direction: column;}
 
-#landingPage6 {position: relative;}
+#landingPage6 {position: relative; margin-bottom: 20vh;}
 
 /* Mobile site styling */
 @media only screen and (max-width: 576px) {
@@ -85,7 +85,7 @@
     /* Landing page 1 */
     #landingImg1 {
         width: 100vw;
-        height:60vh;
+        height:75vh;
     }
     .text1 {
         font-size: 5.5vw;
@@ -247,13 +247,14 @@ form {
 
 .img1, .img2 {
     width: 100vw;
-    height:60vh;
-    /* object-fit: contain; */
+    height:75vh;
+    object-fit: cover;
 }
 
 .img5 {
     width:100vw;
     height:90vh;
+    object-fit: cover;
 }
 
 .imgChart {
@@ -271,12 +272,14 @@ form {
 .landingPage1TextItem {
     flex:1;
     margin-left: 1vw;
+    font-weight: 600;
 }
 
 .startDesigningHeader {
     width: 100vw;
     height:15vh;
     padding-top: 4vh;
+    font-weight: 600;
     text-align: center;
     background-color: antiquewhite;
 }
@@ -286,6 +289,10 @@ form {
     margin-left:10vw;
     font-size: 2.5vw;
     display: flex;
+}
+.designerTempPalletesButton, .designerTempPalletesBottomButton {
+    background-color: #1E1C1A;
+    border-radius: 20px;
 }
 
 .landingPage2BottomButtons {
@@ -310,7 +317,7 @@ form {
 #landingPage6 {display: flex;}
 .img6 {
     width:18vw;
-    height:26vw;
+    height:18vw;
     margin-left:1vw;
     margin-top: 1vw;
 }
@@ -318,7 +325,7 @@ form {
     position: relative;
     margin-left: 10vw;
     width:20vw;
-    height:28vw;
+    height:20vw;
     background-color: #000000;
 }
 .img6Text {
