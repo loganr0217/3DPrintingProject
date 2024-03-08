@@ -86,6 +86,7 @@
     #landingImg1 {
         width: 100vw;
         height:75vh;
+        position: relative;
     }
     .text1 {
         font-size: 5.5vw;
@@ -285,26 +286,32 @@ form {
 }
 
 .designerTempPalletesButton {
-    width: 80vw;
-    margin-left:10vw;
+    width: 50vw;
+    margin-left:3vw;
     font-size: 2.5vw;
+    margin-top: 2vh;
     display: flex;
+    float: left;
 }
 .designerTempPalletesButton, .designerTempPalletesBottomButton {
     background-color: #1E1C1A;
     border-radius: 20px;
 }
 
+
 .landingPage2BottomButtons {
-    margin-top:2vh;
+    /* margin-top:2vh; */
     display: flex;
+    flex-direction: column;
     margin-bottom:5vh;
 }
 
 .designerTempPalletesBottomButton {
-    width:29vw;
-    margin-left:14vw;
+    width:42vw;
+    margin-right:3vw;
+    margin-left:2vw;
     display: flex;
+    margin-bottom: 2vh;
 }
 
 .designerTempPalletesButtonText {
@@ -355,4 +362,36 @@ form {
     background-color: #000000aa;
     text-align: left;
     font-size: 1.5vw;
+}
+
+.headerTransparent1 {
+    position: absolute;
+    top:170px;
+    left:120px;
+    width:270px;
+    height: 65px;
+    display: flex;
+    text-align: left;
+    justify-content: center;
+    align-items: center;
+    background-color: #d3d3d3aa;
+    border-radius: 10px;
+}
+.startDesigningButtonTransparent {
+    text-decoration: none;
+    color: white;
+}
+.headerTransparent2 {
+    position: absolute;
+    top:210px;
+    left:270px;
+    width:160px;
+    height: 40px;
+    background-color: #0000007a;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 10px;
 }

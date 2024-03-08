@@ -63,7 +63,7 @@
             <app-template-selection-container ></app-template-selection-container>
             <!-- Modal for order info -->
             <div class="modal fade" id="customLightscreenModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLongTitle">Your Custom Lightscreen</h5>
@@ -72,11 +72,19 @@
                             </button>
                         </div>
                         <div class="modal-body">
+                            
                             <div class="cartButtons">
+                                <p *ngIf="this.sharedDataService.sampleOrder == ''" [textContent]="getWindowWidth()"></p>
+                                <p *ngIf="this.sharedDataService.sampleOrder == ''" [textContent]="getWindowHeight()"></p>
+                                <hr *ngIf="this.isDoubleHung()" />
+                                <p *ngIf="this.isDoubleHung()" [textContent]="getBottomSashWidth()"></p>
+                                <p *ngIf="this.isDoubleHung()" [textContent]="getBottomSashHeight()"></p>
+                                <p [textContent]="getWindowPrice()"></p>
                                 <button type="button" (click)="addCartItem()" class="btn btn-light cartButton">Add to Cart</button>
                                 <button type="button" (click)="saveDesign()" class="btn btn-light cartButton">Save for Later</button>
+                                <!-- <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-label="Close"><span>go back</span></a> -->
                             </div>
-                            <app-window-preview-container [modalPreview]="true"></app-window-preview-container>
+                            <app-window-preview-container class="windowPreviewCon" [modalPreview]="true"></app-window-preview-container>
                         </div>
                     </div>
                 </div>

@@ -49,6 +49,7 @@ export class SharedDataService {
   palletes:{id:number, category:string, colorPlacements:string}[] = [];
   chosenPanel:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string};
   templatesAvailable:boolean = false;
+  shoppingCart:any[] = [];
 
   stage2Visible:boolean = true;
   stage3Visible:boolean = false;

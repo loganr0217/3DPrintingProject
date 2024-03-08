@@ -53,6 +53,8 @@ import { UserDirectoryComponent } from './components/user-directory/user-directo
 import { MarketingMainPageComponent } from './components/marketing-main-page/marketing-main-page.component';
 import { TemplateFilterShoppingComponent } from './components/template-filter-shopping/template-filter-shopping.component';
 import { ShoppingMainPageComponent } from './components/shopping-main-page/shopping-main-page.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import { CustomOrderPageComponent } from './components/custom-order-page/custom-order-page.component';
 
 const googleLoginOptions:GoogleInitOptions = {
   oneTapEnabled: (JSON.parse(localStorage.getItem('userInfo') || '{}').length > 1 ? false : true), // user signed in before
@@ -103,7 +105,9 @@ const googleLoginOptions:GoogleInitOptions = {
     UserDirectoryComponent,
     MarketingMainPageComponent,
     TemplateFilterShoppingComponent,
-    ShoppingMainPageComponent
+    ShoppingMainPageComponent,
+    ShoppingCartComponent,
+    CustomOrderPageComponent
   ],
   imports: [
     BrowserModule,

@@ -2,8 +2,12 @@
     <div *ngFor="let post of this.posts" class="sideText">
         <h4 class="headerTitle"><b>and now your dimensions</b></h4>
         <div class="unitButtons">
-            <button class="btn btn-outline-dark unitButton" id="inchesButton" (click)="changeUnits('inches')" type="button">inches</button>
-            <button class="btn btn-outline-dark unitButton" id="mmButton" (click)="changeUnits('mm')" type="button">millimeters</button>
+            <input type="radio" name="flexRadioDefault" id="inchesButton" (click)="changeUnits('inches')" />
+            <label class="form-check-label" for="flexRadioDefault1">inches</label>
+            <!-- <button class="btn btn-outline-dark unitButton" id="inchesButton" (click)="changeUnits('inches')" type="button">inches</button> -->
+            <input type="radio" name="flexRadioDefault" id="mmButton" (click)="changeUnits('mm')" />
+            <label class="form-check-label" for="flexRadioDefault1">millimeters</label>
+            <!-- <button class="btn btn-outline-dark unitButton" id="mmButton" (click)="changeUnits('mm')" type="button">millimeters</button> -->
         </div>
         <div id="dividerDetailText" [attr.style]="this.getDimensionsFormVisibility()">
             <app-dimensions-form></app-dimensions-form>

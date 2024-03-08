@@ -27,36 +27,69 @@
                 <button class="btn btn-dark" (click)="submitEmailForm()"><b>Register</b></button>
               </div>
             </form> -->
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+<div id="sideBar">
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+      <h5 id="offcanvasRightLabel">Cart</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" (click)="showSidebar()" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <app-shopping-cart></app-shopping-cart>
+    </div>
+  </div>
+</div>
+
+
 <div>
   <!-- Laptop Navbar content -->
   <nav class="navbar sticky-top navbar-light navbar-custom" style="height: 65px;" id="mainNavbar">
-          <a href="javascript:void(0)" routerLink="" class="navbar-brand">
+          <a href="javascript:void(0)" routerLink="" class="navbar-brand logoImage">
               <!-- Logo Image -->
               <a href="javascript:void(0)" routerLink="">
                 <img src="assets/img/g47.png" width="200" alt="" class="d-inline-block align-middle mr-2">
               </a>
           </a>
-          <a href="javascript:void(0)" class="navbar-brand">
+          <a href="javascript:void(0)" class="navbar-brand navbarIcons">
+              <!-- Gallery Icon -->
+              <a href="javascript:void(0)" class="navbarIcon" (click)="goToDesigning()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff" stroke="#000000" class="bi bi-images" viewBox="0 0 30 30">
+                  <path d="m 17.733814,28.462949 c -4.26,-1.37422 -5.70174,-4.2933 -7.55425,-11.70088 -0.6331295,-3.3997 -5.5195195,-3.51203 -5.3020495,1.1261 0.0794,1.16338 0.28933,2.02114 0.32844,3.00293 0.1469,1.90337 -3.571011,2.48438 -3.964811,-0.12903 -0.27007001,-1.93165 -0.27727001,-4.05985 -0.19355,-6.22874 0.13438,-9.9779102 5.509811,-13.89892022 12.2287405,-13.5073302 8.1786,0.10396 15.89962,5.99445 15.54839,18.0821102 0.38742,6.8306 -4.65262,11.42859 -11.09091,9.35484 z"/>
+                  <path d="m 23.34379,23.156469 a 2.5,2.5 0 0 1 -2.5,2.5 2.5,2.5 0 0 1 -2.5,-2.5 2.5,2.5 0 0 1 2.5,-2.5 2.5,2.5 0 0 1 2.5,2.5 z M 21.185419,9.2679188 a 2.5,2.5 0 0 1 -2.5,2.5000002 2.5,2.5 0 0 1 -2.5,-2.5000002 2.5,2.5 0 0 1 2.5,-2.5 2.5,2.5 0 0 1 2.5,2.5 z m 5.020539,6.2873902 a 2.5,2.5 0 0 1 -2.5,2.5 2.5,2.5 0 0 1 -2.5,-2.5 2.5,2.5 0 0 1 2.5,-2.5 2.5,2.5 0 0 1 2.5,2.5 z M 14.288065,5.4204188 a 2.5,2.5 0 0 1 -2.5,2.5 2.5,2.5 0 0 1 -2.4999995,-2.5 2.5,2.5 0 0 1 2.4999995,-2.5 2.5,2.5 0 0 1 2.5,2.5 z"/>
+                </svg>
+                <p class="navbarIconText">start designing</p>
+              </a>
               <!-- Gallery Icon -->
               <a href="javascript:void(0)" routerLink="/gallery" class="navbarIcon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="bi bi-images" viewBox="0 0 16 16">
-                  <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
-                  <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff" stroke="#000000" class="bi bi-images" viewBox="0 0 30 30">
+                  <path d="M 27,13 H 24 M 24.12132,22.12132 22,20 M 22,5.999999 24.12132,3.878679 M 1,13 H 4 M 3.87868,22.12132 6,20 M 6,5.999999 3.87868,3.878679 M 14,23 h 3 c 0.187683,-3.5951 1.04692,-4.652752 2.046921,-5.821114 C 23.191936,12.840972 19.58559,6.999999 14,6.999999 m 0,-3 V 1 m 0,22 H 11 C 10.812317,19.4049 9.95308,18.347248 8.953079,17.178886 4.808064,12.840972 8.41441,6.999999 14,6.999999 m -1.499803,22.000004 h 2.999606 M 11.499768,26 h 5.000464"/>
                 </svg>
+                <p class="navbarIconText">get inspired</p>
               </a>
               <!-- Profile Icon -->
-              <a href="javascript:void(0)" routerLink="/profile" class="navbarIcon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="bi bi-person" viewBox="0 0 30 30">
-                  <path d="m 1.0002078,30.00001 c -0.086115,-17 26.0000002,-17 26.0000002,0 M 22.000208,9 a 8,8 0 0 1 -8,8 8,8 0 0 1 -8.0000005,-8 8,8 0 0 1 8.0000005,-8 8,8 0 0 1 8,8 z"/>
-                </svg>
-              </a>
+                <a href="javascript:void(0)" class="navbarIcon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff" stroke="#000000" class="bi bi-person" viewBox="0 0 30 30">
+                    <path d="m 1.0002078,30.00001 c -0.086115,-17 26.0000002,-17 26.0000002,0 M 22.000208,9 a 8,8 0 0 1 -8,8 8,8 0 0 1 -8.0000005,-8 8,8 0 0 1 8.0000005,-8 8,8 0 0 1 8,8 z"/>
+                  </svg>
+                  <p class="navbarIconText">your account</p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButtonProfile">
+                  <a *ngIf="this.sharedDataService.signedIn" href="javascript:void(0)" routerLink="/profile" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">Profile</a>
+                  <a *ngIf="this.sharedDataService.signedIn" href="javascript:void(0)" routerLink="/orders" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">Saved Orders</a>
+                  <a *ngIf="this.sharedDataService.signedIn" href="javascript:void(0)" (click)="userSignout()" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">Logout</a>
+                  <a *ngIf="!this.sharedDataService.signedIn" href="javascript:void(0)" routerLink="/signup" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">Signup</a>
+                  <a *ngIf="!this.sharedDataService.signedIn" href="javascript:void(0)" routerLink="/login" class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">Login</a>
+                </div>
               <!-- Cart Icon -->
-              <a href="javascript:void(0)" routerLink="" class="navbarIcon">
+              <a href="javascript:void(0)" (click)="showSidebar()" class="navbarIcon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff" stroke="#000000" class="bi bi-cart" viewBox="0 0 30 30">
                   <path d="M 19.999988,13.416427 V 4.4164267 c -0.274669,-2.1463512 -2.511361,-2.9999999 -5,-2.9999999 -2.488638,0 -4.72533,0.8536487 -4.9999989,2.9999999 v 9.0000003"/>
                   <path d="m 9.9999881,8.9164268 h 9.9999999 m -10e-7,0 h 7 l 2,20.0000002 h -14 H 0.99998806 L 2.9999881,8.9164268 h 7"/>
-                  <text x="9" y="25">{{this.sharedDataService.cartItems}}</text>
+                  <!-- <text x="9" y="25">{{this.sharedDataService.cartItems}}</text> -->
                 </svg>
+                <p class="navbarIconText">shopping cart</p>
               </a>
           </a>
           
@@ -94,16 +127,21 @@
           </div>  -->
   </nav>
    <!-- Help icon -->
-   <a id="helpIcon" class="btn btn-outline-light btn-floating m-1" href="mailto: help@lightscreenart.com" target="_blank" role="button">
+   <!-- <a id="helpIcon" class="btn btn-outline-light btn-floating m-1" href="mailto: help@lightscreenart.com" target="_blank" role="button">
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="bi bi-question-circle" viewBox="0 0 16 16">
       <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
       <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
     </svg>
-  </a>
+  </a> -->
   
   <router-outlet></router-outlet>
+
+  <div id="ourPartnersContainer" style="width:100%; margin-top: 30vh;">
+    <img class="ourPartnersImg" src="assets/img/partners.png" alt="First slide"/>
+  </div>
+  
   <!-- Footer -->
-  <footer id="footer" class="text-center text-white" style="width:100%; margin-top: 30vh;">
+  <footer id="footer" class="text-center text-white" style="width:100%;">
     <!-- Grid container -->
     <div class="container footerLinkContainer p-4">
       <!-- Section: Social media -->
@@ -156,11 +194,14 @@
 
           <!--Grid column-->
           <div class="col-lg-3 mb-4 mb-md-0">
+            <h6>Home</h6>
             <ul class="list-unstyled mb-0">
-              <li><a href="javascript:void(0)" routerLink="/mission" class="text-white text-decoration-none footerNote">Company</a></li>
-              <li><a href="javascript:void(0)" routerLink="/blogPage" class="text-white text-decoration-none footerNote">Blog</a></li>
-              <li><a href="javascript:void(0)" routerLink="/about" class="text-white text-decoration-none footerNote">How to Design</a></li>
-              <li><a href="javascript:void(0)" routerLink="/tutorials" class="text-white text-decoration-none footerNote">Tutorials</a></li>
+              <li><a href="javascript:void(0)" (click)="goToDesigning()" class="text-white text-decoration-none footerNote">start designing</a></li>
+              <li><a href="javascript:void(0)" routerLink="/gallery" class="text-white text-decoration-none footerNote">get inspired</a></li>
+              <li *ngIf="this.sharedDataService.signedIn"><a href="javascript:void(0)" routerLink="/profile" class="text-white text-decoration-none footerNote">your profile</a></li>
+              <li *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('dealer'))"><a href="javascript:void(0)" routerLink="/dealerPage" class="text-white text-decoration-none footerNote">dealer program</a></li>
+              <li *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('designer'))"><a href="javascript:void(0)" routerLink="/windowCreation" class="text-white text-decoration-none footerNote">tdi</a></li>
+              <li *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('designer'))"><a href="javascript:void(0)" routerLink="/windowCreation" class="text-white text-decoration-none footerNote">color offerings</a></li>
               <li><a href="javascript:void(0)" routerLink="/faq" class="text-white text-decoration-none footerNote">FAQs</a></li>
             </ul>
           </div>
@@ -168,23 +209,24 @@
 
           <!--Grid column-->
           <div class="col-lg-3 mb-4 mb-md-0">
+            <h6>About</h6>
             <ul class="list-unstyled mb-0">
-              <li *ngIf="this.sharedDataService.signedIn"><a href="javascript:void(0)" routerLink="/profile" class="text-white text-decoration-none footerNote">Profile</a></li>
-              <li *ngIf="this.sharedDataService.signedIn"><a href="javascript:void(0)" routerLink="/orders" class="text-white text-decoration-none footerNote">Saved Orders</a></li>
-              <li *ngIf="!this.sharedDataService.signedIn"><a href="javascript:void(0)" routerLink="/signup" class="text-white text-decoration-none footerNote">Signup</a></li>
-              <li *ngIf="!this.sharedDataService.signedIn"><a href="javascript:void(0)" routerLink="/login" class="text-white text-decoration-none footerNote">Login</a></li>
-              <li><a href="javascript:void(0)" routerLink="/gallery" class="text-white text-decoration-none footerNote">Gallery</a></li>
+              <li><a href="javascript:void(0)" routerLink="/mission" class="text-white text-decoration-none footerNote">company</a></li>
+              <li><a href="javascript:void(0)" routerLink="/gallery" class="text-white text-decoration-none footerNote">lightscreens</a></li>
+              <li><a href="javascript:void(0)" routerLink="/gallery" class="text-white text-decoration-none footerNote">contact</a></li>
+              <!-- <li *ngIf="!this.sharedDataService.signedIn"><a href="javascript:void(0)" routerLink="/login" class="text-white text-decoration-none footerNote">Login</a></li>
+              <li><a href="javascript:void(0)" routerLink="/gallery" class="text-white text-decoration-none footerNote">Gallery</a></li> -->
             </ul>
           </div>
           <!--Grid column-->
 
           <!--Grid column-->
           <div class="col-lg-3 mb-4 mb-md-0" *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))">
+            <h6>How-To</h6>
             <ul class="list-unstyled mb-0">
-              <li><a href="javascript:void(0)" routerLink="/userDirectory" class="text-white text-decoration-none footerNote">User Directory</a></li>
-              <li><a href="javascript:void(0)" routerLink="/windowCreation" class="text-white text-decoration-none footerNote">TDI</a></li>
-              <li><a href="javascript:void(0)" routerLink="/colorOfferings" class="text-white text-decoration-none footerNote">Color Offerings</a></li>
-              <li><a href="javascript:void(0)" routerLink="/couponGeneration" class="text-white text-decoration-none footerNote">Coupon Codes</a></li>
+              <li><a href="javascript:void(0)" routerLink="/mission" class="text-white text-decoration-none footerNote">installation</a></li>
+              <li><a href="javascript:void(0)" routerLink="/mission" class="text-white text-decoration-none footerNote">measure</a></li>
+              <li><a href="javascript:void(0)" routerLink="/mission" class="text-white text-decoration-none footerNote">website</a></li>
             </ul>
           </div>
           <!--Grid column-->
@@ -224,21 +266,21 @@
       </section>
       <!-- Section: Links -->
 
-      <section class="mb-4">
-        <h4>Connect and be connected</h4>
+      <section class="mb-4 socialMediaLinks">
+        <h4>Connect and be connected.</h4>
         <!-- Facebook -->
-        <!-- <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button">
+        <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
             <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
           </svg>
-        </a> -->
+        </a>
 
         <!-- Linkedin -->
-        <a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/company/lightscreendotart/" target="_blank" role="button">
+        <!-- <a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/company/lightscreendotart/" target="_blank" role="button">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
             <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
           </svg>
-        </a>
+        </a> -->
 
         <!-- Instagram -->
         <a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com/lightscreen.art/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank" role="button">
@@ -247,10 +289,18 @@
           </svg>
         </a>
 
-        <!-- Facebook -->
-        <a class="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com/profile.php?id=100086922973151" target="_blank" role="button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+
+        <!-- Twitter -->
+        <!-- <a class="btn btn-outline-light btn-floating m-1" href="https://twitter.com/lightscreen_art?s=20&t=B8QBSXSO8OucH__AzyqtDQ" target="_blank" role="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">
+            <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
+          </svg>
+        </a> -->
+
+        <!-- Pinterest -->
+        <a class="btn btn-outline-light btn-floating m-1" href="https://www.pinterest.com/lightscreenart/" target="_blank" role="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-pinterest" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.422 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/>
           </svg>
         </a>
 
@@ -258,20 +308,6 @@
         <a class="btn btn-outline-light btn-floating m-1" href="mailto: info@lightscreenart.com" role="button">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
             <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
-          </svg>
-        </a>
-
-        <!-- Twitter -->
-        <a class="btn btn-outline-light btn-floating m-1" href="https://twitter.com/lightscreen_art?s=20&t=B8QBSXSO8OucH__AzyqtDQ" target="_blank" role="button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">
-            <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
-          </svg>
-        </a>
-
-        <!-- Pinterest -->
-        <a class="btn btn-outline-light btn-floating m-1" href="https://www.pinterest.com/lightscreenart/" target="_blank" role="button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-pinterest" viewBox="0 0 16 16">
-            <path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.422 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/>
           </svg>
         </a>
 
@@ -284,11 +320,11 @@
         </a> -->
 
         <!-- Tiktok -->
-        <a class="btn btn-outline-light btn-floating m-1" href="https://www.tiktok.com/@lightscreen.art" target="_blank" role="button">
+        <!-- <a class="btn btn-outline-light btn-floating m-1" href="https://www.tiktok.com/@lightscreen.art" target="_blank" role="button">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
             <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3V0Z"/>
           </svg>
-        </a>
+        </a> -->
 
       </section>
     </div>

@@ -1,0 +1,33 @@
+#customOrderPageContainer {
+    display: flex;
+    margin-top: 5vh;
+}
+
+#customOrderTextContainer {
+    flex: 6;
+}
+
+.customOrderText {
+    width: 40vw;
+    margin: auto;
+    text-align: center;
+    margin-bottom: 2vh;
+}
+
+#customOrderFormContainer {
+    flex: 4;
+    margin: auto;
+}
+
+#customOrderForm {
+    width: 30vw;
+    margin: auto;
+}
+
+.contactFormButton {
+    width: 10vw;
+}
+
+.formInputContainer {
+    margin-bottom: 20vh;
+}

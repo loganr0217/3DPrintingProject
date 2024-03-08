@@ -26,8 +26,8 @@ export class DimensionsFormComponent implements OnInit {
   }
 
   // Returns 0 to n-1 (mainly used for iterating svg path items)
-  range(n:number):number[] {
-    return [...Array(n).keys()];
+  range(n:number, startNum:number=0):number[] {
+    return [...Array(n).keys()].slice(startNum, n);
   }
 
 /* SAVING FOR LATER USE IN STEP 4
@@ -297,6 +297,7 @@ getPanelHeight(height:number):number {
 
   //
   updateDimensionsButton():void {
+    // alert((<HTMLSelectElement>document.getElementById("widthInput")).value);
     let newWidth:number = this.convertNumber(Math.floor(Number((<HTMLInputElement>document.getElementById("widthInput")).value)) + (this.sharedDataService.topSash ? this.sharedDataService.windowWidthFractionNum/16 : this.sharedDataService.bottomSashWidthFractionNum/16), this.sharedDataService.unitChoice);
     let newHeight:number = this.convertNumber(Math.floor(Number((<HTMLInputElement>document.getElementById("heightInput")).value)) + (this.sharedDataService.topSash ? this.sharedDataService.windowHeightFractionNum/16 : this.sharedDataService.bottomSashHeightFractionNum/16), this.sharedDataService.unitChoice);
     let newBottomWidth:number = 0, newBottomHeight:number = 0;
@@ -423,10 +424,16 @@ getPanelHeight(height:number):number {
     this.updatePanelLayout();
     let availableTemplate:boolean = this.isAvailableTemplate();
     if(availableTemplate && !(this.sharedDataService.panelLayoutDims[0] == -1 && this.sharedDataService.panelLayoutDims[1] == -1) && this.getPanelWidths(this.sharedDataService.windowWidth)[0] != -1 && this.getPanelHeights(this.sharedDataService.windowHeight)[0] != -1) {
-      document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;");
-      $('#dimensionsFormModal').modal('hide');
-      document.getElementById("templateCategoryStage")?.scrollIntoView({behavior: 'smooth'});
-      // this.sharedDataService.continueSavedOrder = true;
+      if(!this.sharedDataService.shoppingSectionActive) {
+        document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;");
+        $('#dimensionsFormModal').modal('hide');
+        document.getElementById("templateCategoryStage")?.scrollIntoView({behavior: 'smooth'});
+        // this.sharedDataService.continueSavedOrder = true;
+      }
+      else {
+        this.sharedDataService.stage3Visible = false;
+        this.sharedDataService.templateSectionVisible = true;
+      }
     }
     // Doesn't meet panel width/height requirements
     else {

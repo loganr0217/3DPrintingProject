@@ -152,8 +152,58 @@ export class TemplateFilterShoppingComponent {
     }
   }
 
+  getWindowWidth():string {
+    return (this.isDoubleHung() ? "Top Sash Width: " : "Window Width: ") + this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice).toFixed(2)  + " " + this.sharedDataService.unitChoice;
+  }
+
+  getWindowHeight():string {
+    return (this.isDoubleHung() ? "Top Sash Height: " : "Window Height: ") + this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice).toFixed(2) + " " + this.sharedDataService.unitChoice;
+  }
+
+  getBottomSashWidth():string {
+    return "Bottom Sash Width: " + this.convertBackNumber(this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice).toFixed(2)  + " " + this.sharedDataService.unitChoice;
+  }
+
+  getBottomSashHeight():string {
+    return "Bottom Sash Height: " + this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice).toFixed(2)  + " " + this.sharedDataService.unitChoice;
+  }
+
+  getWindowPrice():string {
+    const totalWindowArea:number = this.sharedDataService.sampleOrder != "" ? (this.sharedDataService.sampleOrder == "coasters" ? (1) : (2)) : ((this.sharedDataService.windowWidth * this.sharedDataService.windowHeight) + (this.sharedDataService.bottomSashWidth * this.sharedDataService.bottomPanelHeight));
+    if(totalWindowArea == 1 || totalWindowArea == 2) {return "Price (shipping not included): $29.00";}
+    else {
+      let costPerSqMM:number = 29 / 92903;
+      let totalPrice:string = (totalWindowArea * costPerSqMM < 29 ? (29) : (totalWindowArea * costPerSqMM)).toFixed(2);
+      return "Price (shipping not included): $" + totalPrice;
+    }
+  }
+
   addCartItem():void {
     ++this.sharedDataService.cartItems;
+
+    // Collecting all the order info
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : null;
+    const selectedDividerType:string = this.sharedDataService.selectedDividerType;
+    const unitChoice:string = this.sharedDataService.unitChoice;
+    const windowWidth:number = this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice);
+    const windowHeight:number = this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice);
+    const horzDividers:number = this.sharedDataService.dividerNumbers[0];
+    const vertDividers:number = this.sharedDataService.dividerNumbers[1];
+    const dividerWidth:number = this.convertBackNumber(this.sharedDataService.dividerWidth, this.sharedDataService.unitChoice);
+    const templateID:number = this.sharedDataService.selectedTemplateID;
+    let panelColoringString:string = "";
+    for(let i:number = 0; i < this.sharedDataService.panelColoringArray.length; ++i) {
+      panelColoringString += this.sharedDataService.panelColoringArray[i].join(",");
+      if(i != this.sharedDataService.panelColoringArray.length - 1) {panelColoringString += ";";}
+    }
+    const bottomWindowWidth:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice) : 0;
+    const bottomWindowHeight:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice) : 0;
+    const frameColor:string = this.sharedDataService.currentFilamentColor;
+
+
+    let currentOrder:any = [this.sharedDataService.cartItems, email, selectedDividerType, unitChoice, windowWidth, windowHeight, horzDividers, vertDividers, dividerWidth, templateID, panelColoringString, 0, 0, 0, 0, 0, bottomWindowWidth, bottomWindowHeight, 0, 0, 0, 0, frameColor, this.getWindowPrice()];
+    this.sharedDataService.shoppingCart.push(currentOrder);
+    localStorage.setItem('shoppingCart', JSON.stringify(this.sharedDataService.shoppingCart));
     $('#customLightscreenModal').modal('hide');
   }
 

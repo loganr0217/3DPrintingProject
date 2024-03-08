@@ -23,6 +23,7 @@ export class AppComponent {
   modalPopupIntervalId:any;
   user:SocialUser;
   loggedIn:boolean;
+  sideBarActive:boolean = false;
   
 
   goToFooter():void {
@@ -211,6 +212,14 @@ export class AppComponent {
       this.sharedDataService.userInfo.push(data[i]);
     }
 
+    // Getting data and populating user info
+    const cartData = JSON.parse(localStorage.getItem('shoppingCart') || '{}');
+    this.sharedDataService.shoppingCart = [];
+    for(let i:number = 0; i < cartData.length; ++i) {
+      this.sharedDataService.shoppingCart.push(cartData[i]);
+      ++this.sharedDataService.cartItems;
+    }
+
     // User is not signed in
     if(this.sharedDataService.userInfo == undefined || this.sharedDataService.userInfo.length <= 1) {this.sharedDataService.signedIn = false;} 
     // User is signed in
@@ -334,6 +343,22 @@ export class AppComponent {
           // console.log(this.sharedDataService.userInfo);
         });
         
+  }
+
+  showSidebar():void {
+    if(!this.sideBarActive) {
+      $("#offcanvasRight").removeClass("offcanvas");
+      $("#offcanvasRight").addClass("offcanvas.show");
+    }
+    else {
+      $("#offcanvasRight").removeClass("offcanvas.show");
+      $("#offcanvasRight").addClass("offcanvas");
+    }
+    this.sideBarActive = !this.sideBarActive;
+  }
+
+  goToDesigning():void {
+    document.getElementById("startDesigningHeader")?.scrollIntoView({behavior: 'smooth'});
   }
   
 }

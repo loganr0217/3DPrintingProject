@@ -103,4 +103,8 @@ export class LandingPageComponent implements OnInit {
     document.getElementById("shoppingPage")?.scrollIntoView({behavior: 'smooth'});
   }
 
+  goToDesigning():void {
+    document.getElementById("startDesigningHeader")?.scrollIntoView({behavior: 'smooth'});
+  }
+
 }

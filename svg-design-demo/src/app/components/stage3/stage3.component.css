@@ -10,6 +10,11 @@
     max-height: 70vh;
 }
 
+.form-check-label {
+    margin-left: 1vw;
+    margin-right: 2vw;
+}
+
 .dividerDetails {
     flex: 1;
     max-height: 60vh;

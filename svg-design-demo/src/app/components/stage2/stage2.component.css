@@ -32,8 +32,8 @@
 /* Divider types */
 #dividerTypeImages {
     display:grid;
-    grid-template-columns: 15vw 15vw;
-    grid-row: auto auto;
+    grid-template-columns: 10vw 10vw 10vw;
+    grid-row: auto;
     padding-top: 3vh;
     padding-left: 2vw;
     padding-right: 2vw;

@@ -18,6 +18,9 @@
 .modal-body {
     display: flex;
 } 
+.windowPreviewCon {
+    margin: auto;
+}
 .cartButtons {
     display: flex;
     flex-direction: column;
