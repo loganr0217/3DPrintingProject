@@ -9,10 +9,13 @@ import { ContentfulService } from 'src/app/services/contentful.service';
 })
 export class GalleryPageComponent implements OnInit {
   posts:Entry<any>[] = [];
+  getInspiredPosts:Entry<any>[] = [];
+
   constructor(public contentfulService:ContentfulService) { }
 
   ngOnInit(): void {
     this.contentfulService.getPostsOrdered('galleryItem').then(posts => this.posts = posts);
+    this.contentfulService.getPostById('6mu6paRGymUnFX7dDFUCjn', 'getInspiredContent').then(post => this.getInspiredPosts[0] = post);
   }
 
   range(i:number):number[] {

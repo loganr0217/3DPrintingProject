@@ -358,7 +358,9 @@ export class AppComponent {
   }
 
   goToDesigning():void {
-    document.getElementById("startDesigningHeader")?.scrollIntoView({behavior: 'smooth'});
+    this.router.navigate(['/']);
+    setTimeout(() => {document.getElementById("startDesigningHeader")?.scrollIntoView({behavior: 'smooth'});}, 10);
+    
   }
   
 }

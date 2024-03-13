@@ -1,4 +1,4 @@
-<h1>Gallery</h1>
+<!-- <h1>Gallery</h1>
 <div id="galleryPhotosContainer">
     <figure class="galleryPhotoContainer" id="galleryPhoto{{i}}" *ngFor="let post of this.posts; let i = index">
         <div class="captions showOnLaptop" *ngIf="i%2==0">
@@ -10,7 +10,8 @@
         </div>
         <div class="captions" *ngIf="i%2!=0">
             <figcaption [innerHTML]="this.contentfulService.markdownToHtml(post.fields.imageCaption)"></figcaption>
-        </div>
+        </div> -->
         <!-- <img id="dividerTypeImage_{{dividerType}}"  src="assets/img/windowButtons2/square1to1{{dividerType}}.svg" alt="{{dividerType}}"/> -->
-    </figure>
-</div>
+    <!-- </figure>
+</div> -->
+<div id="getInspiredContainer" [innerHTML]="this.contentfulService.richtextToHtml(this.getInspiredPosts[0].fields.bodyCopy)"></div>
