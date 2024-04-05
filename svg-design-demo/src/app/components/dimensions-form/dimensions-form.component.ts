@@ -433,6 +433,8 @@ getPanelHeight(height:number):number {
       else {
         this.sharedDataService.stage3Visible = false;
         this.sharedDataService.templateSectionVisible = true;
+        setTimeout(() => {document.getElementById("templateSectionButton")?.scrollIntoView({behavior: 'smooth'});}, 10);
+        
       }
     }
     // Doesn't meet panel width/height requirements
@@ -443,6 +445,8 @@ getPanelHeight(height:number):number {
     const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : 'undefined';
     this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID+"&startingURL='"+this.sharedDataService.sessionStartingUrl+"'&userEmail='"+email+"'").subscribe(result => { 
       });
+    if(this.sharedDataService.shoppingSectionActive) {this.sharedDataService.selectedPalleteID = 106; this.sharedDataService.filterTemplates();}
+    
     
   }
   

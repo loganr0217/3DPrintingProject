@@ -18,6 +18,8 @@ export class TemplateIconComponent implements OnInit {
   svgTemplateData:{id:number, name:string, d:string}[][];
   templateData:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}[];
   currentTemplateIndex:number = 0;
+  currentPageNumber:number = 1;
+  totalPages:number;
 
   constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
 
@@ -33,6 +35,16 @@ export class TemplateIconComponent implements OnInit {
     let myTemplate:SVGTemplate = new SVGTemplate(d);
     let tempViewBox:string = (scaleX * myTemplate.xMin) + " " + (scaleY * myTemplate.yMin) + " " + (scaleX * myTemplate.width) + " " + (scaleY * myTemplate.height);
     return tempViewBox;
+  }
+
+  getTotalPages():number {return Math.ceil(this.sharedDataService.filteredTemplateData.length / 6);}
+
+  decreasePageNumber():void {
+    if(this.currentPageNumber > 1) {--this.currentPageNumber;}
+  }
+
+  increasePageNumber():void {
+    if( !(6*this.currentPageNumber >= this.sharedDataService.filteredTemplateData.length) ) {++this.currentPageNumber;}
   }
 
   // Gets template width
@@ -317,6 +329,12 @@ export class TemplateIconComponent implements OnInit {
       else {this.sharedDataService.selectedTemplateIDs.push(temp.id);}
     }
     
+  }
+
+  getSVGIconWidth():string {
+    let iconWidth:number = 18 / this.sharedDataService.panelLayoutDims[0];
+    let final:string = "width:" + iconWidth.toString() + "vw;";
+    return final;
   }
 
   getPanelWidth(top:boolean = true):number {

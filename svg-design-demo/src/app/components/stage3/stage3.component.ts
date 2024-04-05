@@ -157,6 +157,7 @@ export class Stage3Component implements OnInit {
       $("#mmButton").removeClass("active");
       $("#inchesButton").addClass("active");
     }
+    document.getElementById("dividerWindow")?.setAttribute("style", "visibility:visible;");
   }
 
   previousStage() {

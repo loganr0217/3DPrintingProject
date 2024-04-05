@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { SVGTemplate } from '../svgScaler';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -9,7 +10,7 @@ import { SVGTemplate } from '../svgScaler';
 })
 export class ShoppingCartComponent {
 
-  constructor(public sharedDataService:SharedDataService) { }
+  constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
 
   range(i:number):number[] {
     return [...Array(i).keys()];
@@ -20,6 +21,90 @@ export class ShoppingCartComponent {
     let myTemplate:SVGTemplate = new SVGTemplate(d);
     let tempViewBox:string = (scaleX * myTemplate.xMin) + " " + (scaleY * myTemplate.yMin) + " " + (scaleX * myTemplate.width) + " " + (scaleY * myTemplate.height);
     return tempViewBox;
+  }
+
+  convertNumber(num:number, unit:string):number {
+    if(unit == "mm") {return num;}
+    else if(unit == "inches") {return num*25.4;}
+    else {return num*10;};
+  }
+  
+
+  makeOrderMultiple():void {
+    if(confirm("Are you sure you want to checkout with these items in your cart?")) {
+      // Setting up vars to get final info for order
+      const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : null;
+      const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+      let selectedDividerType:string[] = [];
+      let unitChoice:string[] = [];
+      let windowWidth:number[] = [];
+      let windowHeight:number[] = [];
+      let horzDividers:number[] = [];
+      let vertDividers:number[] = [];
+      let dividerWidth:number[] = [];
+      let templateID:number[] = [];
+      let panelColoringString:string[] = [];
+      let bottomWindowWidth:number[] = [];
+      let bottomWindowHeight:number[] = [];
+      let frameColor:string[] = [];
+      let totalArea:number[] = [];
+
+      // Going through the current list of orders
+      for(let i:number = 0; i < this.sharedDataService.shoppingCart.length; ++i) {
+        let currentItem:any = this.sharedDataService.shoppingCart[i];
+        selectedDividerType.push(currentItem[2]);
+        unitChoice.push(currentItem[3]);
+        windowWidth.push(currentItem[4]);
+        windowHeight.push(currentItem[5]);
+        horzDividers.push(currentItem[6]);
+        vertDividers.push(currentItem[7]);
+        dividerWidth.push(currentItem[8]);
+        templateID.push(currentItem[9]);
+        panelColoringString.push(currentItem[10]);
+        bottomWindowWidth.push(currentItem[16]);
+        bottomWindowHeight.push(currentItem[17]);
+        frameColor.push(currentItem[22]);
+        totalArea.push( this.convertNumber( this.convertNumber( (currentItem[4]*currentItem[5])+(currentItem[16]*currentItem[17]), currentItem[3]) , currentItem[3])  );
+      }
+
+      const headers = { 'content-type': 'application/json'}  
+      const body=JSON.stringify(
+        {
+          'email':email,
+          'windowWidth':windowWidth,
+          'windowHeight':windowHeight,
+          'unitChoice':unitChoice,
+          'horzDividers':horzDividers,
+          'vertDividers':vertDividers,
+          'dividerWidth':dividerWidth,
+          'bottomWindowWidth':bottomWindowWidth,
+          'bottomWindowHeight':bottomWindowHeight,
+          'panelColoringString':panelColoringString,
+          'templateID':templateID,
+          'frameColor':frameColor,
+          'couponCode':'stripe',
+          'totalArea':totalArea
+        });
+
+      // const streetAddress:string = (<HTMLInputElement>document.getElementById("streetAddressInput")).value;
+      // const city:string = (<HTMLInputElement>document.getElementById("cityInput")).value;
+      // const state:string = (<HTMLInputElement>document.getElementById("stateInput")).value;
+      // const zipcode:string = (<HTMLInputElement>document.getElementById("zipcodeInput")).value;
+      // const country:string = "US";
+      // const bottomWindowWidth:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice) : 0;
+      // const bottomWindowHeight:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice) : 0;
+      // const frameColor:string = this.sharedDataService.currentFilamentColor;
+
+      // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/saveorder?email='"+email
+      // +"'&password='"+password+"'&selectedDividerType='"+selectedDividerType+"'&unitChoice='"+unitChoice
+      // +"'&windowWidth="+windowWidth+"&windowHeight="+windowHeight+"&horzDividers="+horzDividers
+      // +"&vertDividers="+vertDividers+"&dividerWidth="+dividerWidth
+      // +"&templateID="+templateID+"&panelColoringString='"+panelColoringString
+      // +"'&bottomWindowWidth="+bottomWindowWidth+
+      // "&bottomWindowHeight="+bottomWindowHeight+"&frameColor='"+frameColor+"'").subscribe(result => alert("Success! Your order has been saved."));
+      
+      this.http.post("https://backend-dot-lightscreendotart.uk.r.appspot.com/makeordermultiple?numOrders="+this.sharedDataService.shoppingCart.length, body, {'headers':headers}).subscribe(result => alert("Success! Your order has been saved."));
+    }
   }
 
   // Gets panel layout for an order

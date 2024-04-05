@@ -86,7 +86,7 @@ export class LandingPageComponent implements OnInit {
     document.getElementById("shoppingPage")?.setAttribute("style", "visibility:hidden; display:none;");
     document.getElementById("oldDesignProcess")?.setAttribute("style", "visibility:visible;");
     document.getElementById("stage2")?.setAttribute("style", "visibility:visible;");
-    document.getElementById("stage2")?.scrollIntoView({behavior: 'smooth'});
+    setTimeout(() => {document.getElementById("stage2")?.scrollIntoView({behavior: 'smooth'});}, 10);
     if(this.sharedDataService.signedIn) {this.sharedDataService.currentStepID = 1;}
     else {this.sharedDataService.currentStepID = 0;}
     const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : 'undefined';
@@ -100,7 +100,7 @@ export class LandingPageComponent implements OnInit {
     this.sharedDataService.oldDesignProcessActive = false;
     document.getElementById("oldDesignProcess")?.setAttribute("style", "visibility:hidden; display:none;");
     document.getElementById("shoppingPage")?.setAttribute("style", "visibility:visible;");
-    document.getElementById("shoppingPage")?.scrollIntoView({behavior: 'smooth'});
+    setTimeout(() => {document.getElementById("shoppingPage")?.scrollIntoView({behavior: 'smooth'});}, 10);
   }
 
   goToDesigning():void {

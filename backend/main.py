@@ -973,6 +973,93 @@ def getLightScreenPrice(totalArea):
         finalPrice = 2900
     return round(finalPrice)
 
+@app.route('/makeordermultiple', methods = ['GET', 'POST'])
+def makeOrderMultiple():
+    global conn
+    data = request.get_json()
+
+    email = data.get('email') 
+    numOrders = request.args.get('numOrders', default=1, type=int)
+    selectedDividerType = data.get('selectedDividerType') 
+    unitChoice = data.get('unitChoice') 
+
+    # Top sash data 
+    windowWidth = data.get('windowWidth') 
+    windowHeight = data.get('windowHeight') 
+    horzDividers = data.get('horzDividers') 
+    vertDividers = data.get('vertDividers') 
+    dividerWidth = data.get('dividerWidth') 
+
+    # Bottom sash data (all null if not a double hung)
+    bottomWindowWidth = data.get('bottomWindowWidth')
+    bottomWindowHeight = data.get('bottomWindowHeight') 
+    bottomHorzDividers = data.get('bottomHorzDividers') 
+    bottomVertDividers = data.get('bottomVertDividers') 
+    bottomDividerWidth = data.get('bottomDividerWidth') 
+
+    templateID = data.get('templateID') 
+    panelColoringString = data.get('panelColoringString')
+    streetAddress = data.get('streetAddress')
+    city = data.get('city')
+    state = data.get('state') 
+    zipcode = data.get('zipcode') 
+    country = data.get('country') 
+    frameColor = data.get('frameColor')
+    couponCode = data.get('couponCode')
+    totalArea = data.get('totalArea')
+
+    # return jsonify( (templateID[0], ) )
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+        if email != 'null' or (streetAddress != 'null' and city != 'null' and state != 'null' and country != 'null'):
+            orderId = []
+            for i in range(numOrders):
+                cur.execute("""
+                INSERT INTO orders(user_email, selected_divider_type, unit_choice, window_width, 
+                window_height, horizontal_dividers, vertical_dividers, divider_width, template_id, 
+                panel_coloring_string, bottom_sash_width, bottom_sash_height, status, frame_color) 
+                VALUES({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, 'Saved', {}) RETURNING id;""".format(
+                email, selectedDividerType[i], unitChoice[i], windowWidth[i], windowHeight[i],
+                horzDividers[i], vertDividers[i], dividerWidth[i], templateID[i], panelColoringString[i], 
+                bottomWindowWidth[i], bottomWindowHeight[i], frameColor[i]))
+                rows = cur.fetchall()
+                conn.commit()
+                orderId.append(int(rows[0][0]))
+            cur.execute("SELECT permissions FROM users WHERE email = {}".format(email))
+            rows = cur.fetchall()
+            userPermissions = rows[0][0]
+            
+            # Creating checkout session and adding order id to metadata
+            checkout_session = stripe.checkout.Session.create(
+                shipping_address_collection={"allowed_countries": ["US"]},
+                shipping_options=[{"shipping_rate": "shr_1NJMLUJm14hg4HLno4Cm4jQD"}],
+                line_items=[{
+                    "price_data": {
+                        "currency":"usd",
+                        "product_data":{"name":"Custom LightScreen"},
+                        "unit_amount":getLightScreenPrice(totalArea[i]),
+                    },
+                    "quantity":1,
+                } for i in range(numOrders)],
+                automatic_tax= {
+                    'enabled': True,
+                },
+                payment_intent_data={"metadata":{"orderID":orderId,},},
+                mode='payment',
+                discounts= [{
+                    'coupon': 'uteJNO0N',
+                }] if "dealer" in userPermissions or "admin" in userPermissions else [{}],
+                success_url="https://backend-dot-lightscreendotart.uk.r.appspot.com/stripeordercomplete?orderId={}&orderStatus=1".format(orderId),
+                cancel_url="https://backend-dot-lightscreendotart.uk.r.appspot.com/stripeordercomplete?orderId={}&orderStatus=0".format(orderId),
+            )
+            return jsonify( (checkout_session.url,) )
+        else:
+            return redirect("https://lightscreenart.com/orderSuccess", code=302)
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return redirect("https://lightscreenart.com/orderSuccess", code=302)
 
 @app.route('/makeorder')
 def makeOrder():

@@ -10,16 +10,39 @@ import { ContentfulService } from 'src/app/services/contentful.service';
 export class GalleryPageComponent implements OnInit {
   posts:Entry<any>[] = [];
   getInspiredPosts:Entry<any>[] = [];
+  getInspiredSortedPosts:Entry<any>[] = [];
+  selectedPhotoType:string = "Featured";
 
   constructor(public contentfulService:ContentfulService) { }
 
   ngOnInit(): void {
     this.contentfulService.getPostsOrdered('galleryItem').then(posts => this.posts = posts);
-    this.contentfulService.getPostById('6mu6paRGymUnFX7dDFUCjn', 'getInspiredContent').then(post => this.getInspiredPosts[0] = post);
+    // this.contentfulService.getPosts('getInspiredImage').then(posts => this.getInspiredPosts = posts);
+    // this.contentfulService.getPostById('6mu6paRGymUnFX7dDFUCjn', 'getInspiredContent').then(post => this.getInspiredPosts[0] = post);
+    this.refreshImages();
   }
 
   range(i:number):number[] {
     return [...Array(i).keys()];
+  }
+
+  changePhotoType(photoType:string):void {
+    this.selectedPhotoType = photoType;
+    // console.log(this.getInspiredPosts);
+    this.refreshImages();
+  }
+
+  refreshImages():void {
+    this.getInspiredSortedPosts = [];
+    this.contentfulService.getPosts('getInspiredImage').then(
+      posts => {
+        this.getInspiredPosts = posts;
+        for(let post of this.getInspiredPosts) {
+          if(post.fields.imageType == this.selectedPhotoType || this.selectedPhotoType == "Anywhere") {this.getInspiredSortedPosts.push(post);}
+        }
+      }
+    );
+    
   }
 
   getGalleryCaption(n:number, captionNum:number):string {

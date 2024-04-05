@@ -378,10 +378,126 @@ colorsData:{id:number, name:string, hex:string, darkHex:string, paneColor:boolea
     this.dividerWidthFractionNum = 0;
   }
 
+  // Method to filter templates based on selected categories
+  filterTemplates():void {
+    this.filteredTemplateData = [];
+    for(let i:number = 0; i < this.templateData.length; ++i) {
+      // Pushing templates if they fit and are valid
+      if(this.templateData[i].panelDims[0] == this.panelLayoutDims[0] && this.templateData[i].panelDims[1] == this.panelLayoutDims[1]) {
+        if(this.isTemplateOkay(this.templateData[i])) {
+          this.filteredTemplateData.push(this.templateData[i]);
+        }
+      }
+    }
+  }
+
+  // Checking whether it is the color page (TDI)
+  isColorPage():boolean {
+    return document.URL.includes("windowCreation");
+  }
+
+  getPanelWidth(top:boolean = true):number {
+    let width:number = top ? this.windowWidth : this.bottomSashWidth;
+    if(width <= 0) {return -1;}
+    let vertDividers:number = this.dividerNumbers[1];
+    let finalPanelWidth:number = 0; 
+    if(this.selectedDividerType == 'nodiv') {
+      if(width >= 100 && width <=500) {finalPanelWidth = width;}
+      else {finalPanelWidth = width / (Math.ceil(width/500));}
+    }
+    else if(this.selectedDividerType == 'embeddeddiv') {
+      finalPanelWidth = width / (vertDividers+1);
+      
+    }
+    // raised divs
+    else {
+      finalPanelWidth = ((width - (vertDividers*this.dividerWidth)) / (vertDividers+1));
+    }
+    // Fixing panel width to be under 500
+    if(finalPanelWidth > 500) {finalPanelWidth = finalPanelWidth / (Math.ceil(finalPanelWidth/500));}
+    if(finalPanelWidth >= 100 && finalPanelWidth <= 500) {return finalPanelWidth;}
+    else {return -1;}
+  }
+
+  getPanelHeight(top:boolean = true):number {
+    let height:number = top ? this.windowHeight : this.bottomSashHeight;
+    if(height <= 0) {return -1;}
+    let horzDividers:number = this.dividerNumbers[0];
+    let finalPanelHeight:number = 0; 
+    if(this.selectedDividerType == 'nodiv') {
+      if(height >= 100 && height <=500) {finalPanelHeight = height;}
+      else {finalPanelHeight = height / (Math.ceil(height/500));}
+    }
+    else if(this.selectedDividerType == 'embeddeddiv') {
+      finalPanelHeight = height / (horzDividers+1);
+    }
+    // raised divs
+    else {
+      finalPanelHeight = ((height - (horzDividers*this.dividerWidth)) / (horzDividers+1));
+    }
+    // Fixing panel height to be under 500
+    if(finalPanelHeight >= 500) {finalPanelHeight = finalPanelHeight / (Math.ceil(finalPanelHeight/500));}
+    
+    if(finalPanelHeight >= 100 && finalPanelHeight <= 500) {return finalPanelHeight;}
+    else {return -1;}
+  }
+
+  isRowInTopSash(rowNum:number):boolean {
+    let numberTopRows:number = Math.floor(this.windowHeight / this.getPanelHeight());
+    if(rowNum < numberTopRows) {return true;}
+    else {return false;} 
+  }
+
+  // Method verifying template is okay
+  isTemplateOkay(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):boolean {
+    let isOkay:boolean = true;
+    if(!this.isColorPage()) {
+      if(temp.category != undefined && this.selectedTemplateCategory.includes(temp.category)) {isOkay = true;}
+      else {isOkay = false; return false;}
+    }
+    else {
+      if((temp.category == undefined || temp.category == "") && (this.selectedTemplateCategory == undefined || this.selectedTemplateCategory == "unassigned")) {isOkay = true;}
+      else if(temp.category != undefined && this.selectedTemplateCategory.includes(temp.category)) {isOkay = true;}
+      else {isOkay = false; return false;}
+    }
+    if(temp.tempString == "-1") {return false;}
+    // Splitting the tempString info into a 2d array of panel info
+    let tempString:string[] = temp.tempString.split(';');
+    let panelInfoArray:string[][] = [];
+    for(let index:number = 0; index < tempString.length; ++index) {
+      panelInfoArray.push(tempString[index].split(','));
+    }
+
+    let rowNumber:number = -1;
+    // Adding each panel to the panel layout
+    for(let panelID:number = 0; panelID < panelInfoArray.length; ++panelID) {
+      if(panelID % temp.panelDims[0] == 0) {++rowNumber;}
+
+      // Check for templates with -1 panelset selected
+      if(Number(panelInfoArray[panelID][0]) == -1) {return false;}
+      
+      let panelIndex:number = this.svgTemplateData[Number(panelInfoArray[panelID][0])].findIndex(function(item, i){
+        return Number(item.panelNumber) == Number(panelInfoArray[panelID][1]);
+      });
+      // console.log(panelIndex);
+      
+      if(this.svgTemplateData[Number(panelInfoArray[panelID][0])][panelIndex] == undefined) {isOkay = false; break;}
+      let myTemplate:SVGTemplate = new SVGTemplate(this.svgTemplateData[Number(panelInfoArray[panelID][0])][panelIndex].d);
+      myTemplate.numberRotations = Number(panelInfoArray[panelID][2]);
+      myTemplate.flipped = Number(panelInfoArray[panelID][3]) == 1 ? true : false;
+      if(myTemplate.getScaledD( ( this.isRowInTopSash(rowNumber) ? this.getPanelWidth() : this.getPanelWidth(false) )/300 , ( this.isRowInTopSash(rowNumber) ? this.getPanelHeight() : this.getPanelHeight(false) )/300 )[0].includes("NaN")) {isOkay = false; break;}
+      
+      //panelLayout[Math.floor(panelID/temp.panelDims[0])].push(myTemplate);
+    }
+    if(isOkay) {this.templatesAvailable = true;}
+    return isOkay;
+  }
+
   // Array that holds each panel's color makeup
   panelColoringArray:string[][] = [];
   darkPanelColoringArray:string[][] = [];
   templateData:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}[];
+  filteredTemplateData:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}[];
   // Array containing the svgPath data for displaying icons / generating a template
   svgTemplateData:{id:number, name:string, panelNumber:number, d:string, panelAutofillString:string}[][];
   //   // FLW02

@@ -22,7 +22,7 @@ export class TemplateCategoryStageComponent implements OnInit {
     this.sharedDataService.templatesAvailable = false;
     this.sharedDataService.selectedTemplateCategory = tempCategory;
     document.getElementById("templateSelectionContainer")?.setAttribute("style", "visibility:visible;");
-    
+    this.sharedDataService.filterTemplates();
   }
 
   previousStage() {

@@ -1,7 +1,52 @@
 #aboutPageContainer {
-    padding-top: 5vh;
-    padding-left: 2vw;
-    padding-right: 2vw;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-top: 5vh;
+    text-align: left;
+}
+
+.nameAndEmail {
+    width: 35vw;
+    margin-right: 5vw;
+}
+
+.yourMessage {width: 40vw;}
+
+#customOrderFormContainer {
+    text-align: left;
+}
+#customMessageForm {
+    display: flex;
+}
+#contactSection {
+    text-align: center;
+}
+.aboutSubHeader {
+    font-size: small;
+}
+#aboutSectionType {
+    margin-bottom: 5vh;
+}
+
+.aboutSectionButton:hover {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.sectionItem {
+    display: grid;
+    grid-template-columns: 20vw 19vw 19vw 19vw;
+    margin-bottom: 5vh;
+}
+
+.aboutImage {
+    object-fit: contain;
+    width: 18vw;
+    height: 18vw;
+}
+.aboutText {
+    font-size: small;
+    margin-right: 1vw;
 }
 
 @media only screen and (max-width: 576px) {

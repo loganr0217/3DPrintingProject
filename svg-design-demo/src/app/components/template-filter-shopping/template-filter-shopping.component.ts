@@ -18,6 +18,15 @@ export class TemplateFilterShoppingComponent {
 
   constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
 
+  ngOnInit():void {
+    this.selectedPalleteColors = 'd4ce67,ea924a,c9942e,F1ABB9,d8b5bc';
+    this.selectedPalleteID = 106;
+    this.sharedDataService.selectedPalleteID = this.selectedPalleteID;
+    this.sharedDataService.selectedPalleteColors = this.selectedPalleteColors.split(',');
+    this.sharedDataService.selectedPalleteCategory = "Pasteles";
+    this.sharedDataService.selectedTemplateCategory = "Artist Inspired";
+  }
+
   changeStage2Visibility():void {this.sharedDataService.stage2Visible = !this.sharedDataService.stage2Visible;}
   changeStage3Visibility():void {this.sharedDataService.stage3Visible = !this.sharedDataService.stage3Visible;}
   changeTemplateSectionVisibility():void {this.sharedDataService.templateSectionVisible = !this.sharedDataService.templateSectionVisible;}
@@ -27,7 +36,7 @@ export class TemplateFilterShoppingComponent {
 
   updateSelectedTemplateCategories():void {
     let templateCategories:string = "";
-    for(const tempCategory of ["Artist Inspired", "Interests", "Garden", "Classics", "Sacred", "Abstract"]) {
+    for(const tempCategory of ['Artist Inspired', 'Interests', 'Garden', 'Classics', 'Sacred', 'Abstract', 'Art Deco', 'Mid Century Modern', 'Geometric', 'Traditional', 'Specialty']) {
       if((<HTMLInputElement>document.getElementById("check_"+tempCategory))?.checked) {
         templateCategories += tempCategory + ";";
       }

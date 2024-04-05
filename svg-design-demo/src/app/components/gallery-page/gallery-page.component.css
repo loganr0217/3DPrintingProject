@@ -35,10 +35,10 @@
         font-weight: 300;
     }
     
-    h1 {
+    /* h1 {
         margin-top: 5vh;
         text-align: center;
-    }
+    } */
 }
 @media only screen and (max-width: 576px) {
 
@@ -73,12 +73,43 @@
         font-weight: 300;
     }
     
-    h1 {
+    /* h1 {
         margin-top: 5vh;
         text-align: center;
-    }
+    } */
 }
 
 #getInspiredContainer {
-    margin: 2vw;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-top: 5vh;
+    text-align: left;
+}
+
+.getInspiredSubHeader {
+    font-size: small;
+}
+
+.getInspiredButton:hover {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.getInspiredImage {
+    width: 25vw;
+    height: 25vw;
+
+}
+
+#getInspiredType {margin-bottom: 5vh;}
+
+.getInspiredImageTemplateCategory {
+    margin-top: 1vh;
+}
+.getInspiredImageColorChoices {
+    font-size: small;
+}
+#getInspiredPhotos {
+    display: grid;
+    grid-template-columns: 26.67vw 26.67vw 26.67vw; 
 }

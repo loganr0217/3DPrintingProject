@@ -46,11 +46,10 @@
     <div class="form-group form-row">
         <!-- width input -->
         <div class="col input-group mb-3">
-            <!-- <div class="input-group-prepend">
+            <div class="input-group-prepend">
               <span class="input-group-text">Width:</span>
-            </div> -->
+            </div>
             <select (change)="updateDimensionsButton(); changeElementFocus('heightInput'); updatePanelLayout()" id="widthInput" class="form-control form-select" name="width">
-                <!-- <option selected>width</option> -->
                 <option *ngFor="let num of range(100, 5)" [ngValue]="num">{{num}}</option>
             </select>
             <!-- <input (change)="updateDimensionsButton(); changeElementFocus('heightInput'); updatePanelLayout()" type="number" min="0" class="form-control" id="widthInput" placeholder=""/> -->
