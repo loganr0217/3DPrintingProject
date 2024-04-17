@@ -8,9 +8,9 @@
     <div id="lightscreensSection" *ngIf="this.selectedSection == 'Lightscreens'">
         <div class="sectionItem" *ngFor="let post of this.posts; let i = index">
             <p class="aboutText">{{post.fields.textDescription}}</p>
-            <img class="aboutImage" src="{{post.fields.image1.fields.file.url}}" alt="Gallery Photo {{i}}" />
-            <img class="aboutImage" src="{{post.fields.image2.fields.file.url}}" alt="Gallery Photo {{i}}" />
-            <img class="aboutImage" src="{{post.fields.image3.fields.file.url}}" alt="Gallery Photo {{i}}" />
+            <img class="aboutImage" src="{{post.fields.image1 != undefined ? post.fields.image1.fields.file.url : ''}}" alt="About Photo {{1}}" />
+            <img class="aboutImage" src="{{post.fields.image2 != undefined ? post.fields.image2.fields.file.url : ''}}" alt="About Photo {{2}}" />
+            <img class="aboutImage" src="{{post.fields.image3 != undefined ? post.fields.image3.fields.file.url : ''}}" alt="About Photo {{3}}" />
         </div>
     </div>
 

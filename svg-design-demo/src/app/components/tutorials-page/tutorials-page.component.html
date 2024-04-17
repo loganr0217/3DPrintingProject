@@ -1,22 +1,31 @@
-<div id="tutorialsPageContainer">
-    <h1 id="tutorialTitle">Tutorials</h1>
-    <a href="javascript:void(0)" (click)="goTdiInfo()" class="btn btn-dark">TDI Tutorial</a>
-    <a href="javascript:void(0)" (click)="goMeasurementInfo()" class="btn btn-dark">Measurement Tutorial</a>
-    <a href="javascript:void(0)" (click)="goInstallationInfo()" class="btn btn-dark">Installation Instructions</a>
-    <!-- <a href="https://www.kickstarter.com/projects/38351242/582738137?ref=svhya6&token=12628802" target="_blank" class="btn btn-dark">Kickstarter</a> -->
+<div id="tutorialPageContainer">
+    <h3>We've got your back, every step of the way.</h3>
+    <p class="tutorialSubHeader">Id movet theophrastus sit, an ius soleat civibus. Antiopam definitionem in mel, solum deterruisset mei at. Et numquam tacimates cotidieque est, ad sea clita vitae consulatu, movet hendrerit ad eos. Oratio periculis dissentiet nec ei, id eripuit dolorem fierent vix.</p>
+    <div id="tutorialSectionType">
+        <button (click)="changeTutorialSection(section)" *ngFor="let section of ['Measure', 'Design', 'Install']" class="btn tutorialSectionButton" [attr.style]="this.selectedSection == section ? 'border-top: 1px solid black; border-bottom: 1px solid black;' : ''">{{section}}</button>
+    </div>
 
-    <h3 id="tdiInfo">{{this.posts[0].fields.tutorialHeader}}</h3>
-    <span [innerHTML]="this.fixMailLink(this.contentfulService.markdownToHtml(this.posts[0].fields.tutorialBody))"></span>
-    <br/>
-    <br/>
-    <br/>
+    <div id="measureSection" *ngIf="this.selectedSection == 'Measure'">
+        <span [innerHTML]="this.fixNewPageLink(this.contentfulService.markdownToHtml(this.posts[1].fields.tutorialBody))"></span>
+    </div>
 
-    <h3 id="measurementInfo">{{this.posts[1].fields.tutorialHeader}}</h3>
-    <span [innerHTML]="this.fixNewPageLink(this.contentfulService.markdownToHtml(this.posts[1].fields.tutorialBody))"></span>
-    <br/>
-    <br/>
-    <br/>
+    <div id="designSection" *ngIf="this.selectedSection == 'Design'">
+        <h2>{{this.posts[1].fields.tutorialHeader}}</h2>
+        <span [innerHTML]="this.fixNewPageLink(this.contentfulService.markdownToHtml(this.posts[0].fields.tutorialBody))"></span>
+    </div>
 
-    <h3 id="installationInfo">{{this.posts[2].fields.tutorialHeader}}</h3>
-    <span [innerHTML]="this.fixNewPageLink(this.contentfulService.markdownToHtml(this.posts[2].fields.tutorialBody))"></span>
+    <div id="installSection" *ngIf="this.selectedSection == 'Install'">
+        <div class="installItem" *ngFor="let post of this.installPosts; let i = index">
+            <img class="aboutImage" src="{{post.fields.image != undefined ? post.fields.image.fields.file.url : ''}}" alt="Install Photo {{i}}" />
+            <p class="installImageBody">{{post.fields.imageBody}}</p>
+        </div>
+    </div>
+    <!-- <div id="getInspiredPhotos">
+        <div class="getInspiredPhoto" *ngFor="let post of this.getInspiredSortedPosts; let i = index">
+            <img class="getInspiredImage" src="{{post.fields.lightscreenImage.fields.file.url}}" alt="Gallery Photo {{i}}">
+            <h6 class="getInspiredImageTemplateCategory">{{post.fields.templateCategory}}</h6>
+            <p class="getInspiredImageColorChoices">{{post.fields.colorChoices}}</p>
+        </div>
+    </div> -->
+    
 </div>
