@@ -28,6 +28,10 @@
 }
 .cartButton {
     margin-bottom: 1vw;
+    background-color: #F0E3E0;
+    color: black;
+    border-radius: 10px;
+    width: fit-content;
 }
 .rightSectionHeader {
     margin-bottom: 5vh;

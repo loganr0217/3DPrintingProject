@@ -1,8 +1,8 @@
 #landingPage3 {background-color: #1A1919;}
-#landingPage1 {background-color: antiquewhite;}
+#landingPage1 {background-color: #F0E3E0;}
 .landingPage {display: flex;}
 #landingPage1 {flex-direction: column;}
-#landingPage2 {display: flex; background-color: antiquewhite;}
+#landingPage2 {display: flex; background-color: #F0E3E0; padding-left: 5vw; padding-right: 5vw;}
 #landingPage6 {position: relative; margin-bottom: 20vh;}
 
 /* Mobile site styling */
@@ -248,14 +248,14 @@ form {
 
 .img1, .img2 {
     width: 100vw;
-    height:75vh;
-    object-fit: fill;
+    height:90vh;
+    object-fit: cover;
 }
 
 .img5 {
     width:100vw;
     height:70vh;
-    object-fit: fill;
+    object-fit: cover;
 }
 
 .imgChart {
@@ -279,22 +279,28 @@ form {
     font-weight: 600;
 }
 
+.designSelectionHeader {
+    font-weight: 300;
+}
+
 .startDesigningHeader {
     width: 100vw;
     height:10vh;
     padding-top: 4vh;
-    font-weight: 600;
+    margin-top: 15vh;
+    font-weight: 300;
     text-align: center;
-    background-color: antiquewhite;
+    background-color: #F0E3E0;
 }
 
 .startDesigningBody {
     text-align: center;
     margin-bottom: -1vh;
+    font-size: medium;
 }
 
 .designerTempPalletesButton {
-    background-color: antiquewhite;
+    background-color: #F0E3E0;
     border: none;
     border-bottom: #000;
     display: flex;
@@ -330,17 +336,29 @@ form {
     opacity: 0;
     position: absolute;
     color:black;
-    margin-left:1.5vw;
-    margin-right:1.5vw;
+    margin-left:7vw;
+    margin-right:7vw;
     top:30%;
+    text-align: center;
 }
 .img6Background:hover .img6Text {
     visibility: visible;
+    z-index: 2;
     opacity: 1;
 }
 
+.img6Background:hover .img6Cover {
+    margin-top: 1vw;
+    position: absolute;
+    width:33.33vw;
+    height:33.33vw;
+    background-color: #F0E3E0;
+    opacity: .8;
+    z-index: 1;
+}
+
 .img6Background:hover .img6{
-    opacity: .2;
+    /* opacity: .2; */
 }
 
 .designByHumanButton {

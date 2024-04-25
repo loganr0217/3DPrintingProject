@@ -58,7 +58,7 @@
           </svg> -->
         <img width="100" height="64" src="assets/img/rollerIconBlack.png" alt="First slide"/>
         <div class="designerTempPalletesButtonText">
-            <h5><u>Most Guidance</u></h5>
+            <h5 class="designSelectionHeader"><u>Most Guidance</u></h5>
             <p class="designerTempPalletesButtonTextBody">This option is recommended for first-time screeners. Expertly designed templates, expertly designed palettes.</p>
         </div>
         
@@ -67,14 +67,14 @@
         <button class="btn designerTempPalletesButton" (click)="nextstage2()">
             <img width="100" height="64" src="assets/img/bigBrushIconBlack.png" alt="First slide"/>
             <div class="designerTempPalletesButtonText">
-                <h5><u>A Happy Medium</u></h5>
+                <h5 class="designSelectionHeader"><u>A Happy Medium</u></h5>
                 <p class="designerTempPalletesButtonTextBody">Expertly designed templates, and complete control over the colors. Use Autofill to speed things up, or color panes one by one.</p>
             </div>
         </button>
         <button class="btn designerTempPalletesButton" routerLink="/customOrderPage">
             <img width="100" height="64" src="assets/img/smallBrushIconBlack.png" alt="First slide"/>
             <div class="designerTempPalletesButtonText">
-                <h5><u>Most Control</u></h5>
+                <h5 class="designSelectionHeader"><u>Most Control</u></h5>
                 <p class="designerTempPalletesButtonTextBody">For those who have custom design needs. Upload your logo or artwork and our design team will make it a reality! Design fees apply.</p>
             </div>
         </button>
@@ -115,7 +115,7 @@
     </div>
     <!-- <button class="btn btn-dark designByHumanButton"><b>Designed by humans.<br/>Crafted by robots.</b></button> -->
 </div>
-<div id="landingPage1Text" *ngIf="this.sharedDataService.userInfo.length <= 1">
+<!-- <div id="landingPage1Text" *ngIf="this.sharedDataService.userInfo.length <= 1">
     <form [formGroup]="emailForm" class="landingPage1TextItem">
         <div class="form-group mt-2 mb-2">
             <input type="text" placeholder="your email" formControlName="email" class="form-control inputField rounded-0 border border-dark" id="requiredEmailField" />
@@ -129,9 +129,10 @@
         </div>
     </form>
     <h2 class="landingPage1TextItem landingPage1TextBody">Let us light up your inbox</h2>
-</div>
+</div> -->
 <div id="landingPage6">
     <div class="img6Background" *ngFor="let post of this.fadeawayImages; let i = index">
+        <div class="img6Cover"></div>
         <img class="img6" src="{{post.fields.image.fields.file.url}}" alt="First slide"/>
         <p class="img6Text">{{post.fields.imageText}}</p>
     </div>

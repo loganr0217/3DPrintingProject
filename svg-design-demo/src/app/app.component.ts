@@ -52,12 +52,12 @@ export class AppComponent {
     const headers = { 'content-type': 'application/json'}  
     const body=JSON.stringify(
       {
-        'email':this.email?.value
+        'email':this.emailModal?.value
       });
       
     // Making sure each field has data and it's valid
-    if(this.email?.value != "" && this.email?.valid) {
-        let fullMessage:string = "Is this the correct email?\n> " + this.email?.value;
+    if(this.emailModal?.value != "" && this.emailModal?.valid) {
+        let fullMessage:string = "Is this the correct email?\n> " + this.emailModal?.value;
       
         if (confirm(fullMessage)) {
           // this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addpanel?email='"+email+"'&password='"+password+"'&panelSetId=" + panelSetId + "&panelNumber=" + panelNumber + "&panelName='" + panelName + "'&dAttribute='" + dAttribute + "'").subscribe(result => {
@@ -70,6 +70,7 @@ export class AppComponent {
               this.sharedDataService.signedIn = true;
               localStorage.setItem('userInfo', JSON.stringify(this.sharedDataService.userInfo));
               alert("You're now registered and should have recieved a confirmation email in your inbox.");
+              $('#discountModal').modal('hide');
             }
             else if(this.sharedDataService.userInfo.length == 1 && this.sharedDataService.userInfo[0] == -1) {alert("A user with that email already exists.");}
           });
@@ -134,14 +135,14 @@ export class AppComponent {
     this.sharedDataService.sessionStartingUrl = location.pathname + (window.innerWidth <= 576 ? ";mobile" : ";laptop");
     
     // Sets up popping modal for 40 seconds of not signing in
-    // this.modalPopups = window.innerWidth < 576 ? 0 : 0;
-    // this.modalPopupIntervalId = setInterval(() => {
-    //   if(this.sharedDataService.signedIn || this.modalPopups >= 1) {clearInterval(this.modalPopupIntervalId);}
-    //   else {
-    //     ++this.modalPopups;
-    //     $('#discountModal').modal('show');
-    //   }
-    // }, 40000);
+    this.modalPopups = window.innerWidth < 576 ? 0 : 0;
+    this.modalPopupIntervalId = setInterval(() => {
+      if(this.sharedDataService.signedIn || this.modalPopups >= 1) {clearInterval(this.modalPopupIntervalId);}
+      else {
+        ++this.modalPopups;
+        $('#discountModal').modal('show');
+      }
+    }, 45000);
   
     // Closes navbar on click outside
     $(function() {

@@ -179,11 +179,11 @@ export class TemplateFilterShoppingComponent {
 
   getWindowPrice():string {
     const totalWindowArea:number = this.sharedDataService.sampleOrder != "" ? (this.sharedDataService.sampleOrder == "coasters" ? (1) : (2)) : ((this.sharedDataService.windowWidth * this.sharedDataService.windowHeight) + (this.sharedDataService.bottomSashWidth * this.sharedDataService.bottomPanelHeight));
-    if(totalWindowArea == 1 || totalWindowArea == 2) {return "Price (shipping not included): $29.00";}
+    if(totalWindowArea == 1 || totalWindowArea == 2) {return "$29.00";}
     else {
       let costPerSqMM:number = 29 / 92903;
       let totalPrice:string = (totalWindowArea * costPerSqMM < 29 ? (29) : (totalWindowArea * costPerSqMM)).toFixed(2);
-      return "Price (shipping not included): $" + totalPrice;
+      return "$" + totalPrice;
     }
   }
 

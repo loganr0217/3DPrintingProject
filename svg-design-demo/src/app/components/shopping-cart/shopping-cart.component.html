@@ -1,7 +1,7 @@
 <div id="fullOrderListContainer">
     <div *ngFor="let userOrder of this.sharedDataService.shoppingCart; let i = index">
         <div class="form-check-inline userOrder orderViewContainer">
-            <label class="form-check-label orderViewBody" for="{{'flexRadioDefault'+i}}">{{("Order #" + userOrder[0])}}</label>
+            <label class="form-check-label orderViewBody" for="{{'flexRadioDefault'+i}}">{{("Order #" + (i+1))}}</label>
             <div class="orderViewImageAndButtons">
                 <div class="orderViewRowsTogether">
                     <div class="orderViewRow" *ngFor="let row of getPanelLayout(getOrderTemplate(userOrder), i); let rowNumber = index;">
@@ -14,11 +14,12 @@
 
                 <div class="orderViewButtons">
                     <p>{{userOrder[23]}}</p>
-                    <input type="button" class="btn btn-light btn-med orderViewButton notOnMobile" (click)="this.removeItemFromCart(i)" [value]="'X'"/>
+                    <input type="button" class="btn btn-med orderViewButton notOnMobile" (click)="this.removeItemFromCart(i)" [value]="'X'"/>
                     <!-- <input type="button" class="btn btn-dark btn-med orderViewButton notOnMobile" [value]="'Buy Again'"/> -->
                 </div>
             </div>
         </div>
     </div>
-    <input type="button" class="btn btn-outline-dark" (click)="this.makeOrderMultiple()" [value]="'Complete Order'"/>
+    <p style="font-size: small;">**Taxes and shipping will be calculated at checkout**</p>
+    <input type="button" class="btn completeOrderButton" *ngIf="this.sharedDataService.shoppingCart.length > 0" (click)="this.makeOrderMultiple()" [value]="'Complete Order'"/>
 </div>

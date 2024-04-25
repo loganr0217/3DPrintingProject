@@ -34,11 +34,11 @@ export class GalleryPageComponent implements OnInit {
 
   refreshImages():void {
     this.getInspiredSortedPosts = [];
-    this.contentfulService.getPosts('getInspiredImage').then(
+    this.contentfulService.getPostsOrdered('getInspiredImage').then(
       posts => {
         this.getInspiredPosts = posts;
         for(let post of this.getInspiredPosts) {
-          if(post.fields.imageType == this.selectedPhotoType || this.selectedPhotoType == "Anywhere") {this.getInspiredSortedPosts.push(post);}
+          if(post.fields.imageType == this.selectedPhotoType) {this.getInspiredSortedPosts.push(post);}
         }
       }
     );

@@ -11,7 +11,7 @@
 
 .orderViewHeader {
     width:100%;
-    background-color: lightgray;
+    background-color: #F0E3E0;
     padding-left: 1vw;
     font-size:x-large;
     border-top-right-radius: 1vw;
@@ -20,7 +20,7 @@
 .orderViewBody {
     width:100%;
     font-size: large;
-    background-color: lightgray;
+    background-color: #F0E3E0;
     padding-left: 1vw;
 }
 
@@ -35,12 +35,16 @@
     margin-right:1vw;
     margin-top: 1vw;
     position: relative;
+    text-align: right;
 }
 
 .orderViewButton {
-    width: 5vw;
     margin: auto;
     margin-bottom: 1vw;
+    background-color: #F0E3E0;
+    color: black;
+    border-radius: 10px;
+    width: fit-content;
 }
 
 .orderIDLabel {
@@ -73,4 +77,12 @@
     height: 75vh;
     overflow-y: scroll;
     margin-bottom: 4vh;
+}
+
+
+.completeOrderButton {
+    background-color: #F0E3E0;
+    color: black;
+    border-radius: 10px;
+    width: fit-content;
 }

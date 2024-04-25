@@ -80,8 +80,8 @@
                                 <p *ngIf="this.isDoubleHung()" [textContent]="getBottomSashWidth()"></p>
                                 <p *ngIf="this.isDoubleHung()" [textContent]="getBottomSashHeight()"></p>
                                 <p [textContent]="getWindowPrice()"></p>
-                                <button type="button" (click)="addCartItem()" class="btn btn-light cartButton">Add to Cart</button>
-                                <button type="button" (click)="saveDesign()" class="btn btn-light cartButton">Save for Later</button>
+                                <button type="button" (click)="addCartItem()" class="btn cartButton">Add to Cart</button>
+                                <button type="button" (click)="saveDesign()" class="btn cartButton">Save for Later</button>
                                 <!-- <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-label="Close"><span>go back</span></a> -->
                             </div>
                             <app-window-preview-container class="windowPreviewCon" [modalPreview]="true"></app-window-preview-container>

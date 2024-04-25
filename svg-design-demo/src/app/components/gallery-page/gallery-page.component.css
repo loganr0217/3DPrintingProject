@@ -91,7 +91,6 @@
 }
 
 .getInspiredButton:hover {
-    border-top: 1px solid black;
     border-bottom: 1px solid black;
 }
 
@@ -107,9 +106,13 @@
     margin-top: 1vh;
 }
 .getInspiredImageColorChoices {
-    font-size: small;
+    font-size: 14px;
 }
 #getInspiredPhotos {
     display: grid;
     grid-template-columns: 26.67vw 26.67vw 26.67vw; 
+}
+
+.getInspiredPhoto {
+    margin-bottom: 3vh;
 }

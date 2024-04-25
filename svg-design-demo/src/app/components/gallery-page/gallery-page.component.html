@@ -19,13 +19,13 @@
     <h3>Every house has that one window...</h3>
     <p class="getInspiredSubHeader">Maybe yours is in the shower or looks directly into your neighbor's bedroom. Maybe it causes a glare while you're on Zoom, or it's just too narrow for traditional blinds or curtains. Whatever your situation, lightscreens turn problem windows into works of art.</p>
     <div id="getInspiredType">
-        <button (click)="changePhotoType(photoType)" *ngFor="let photoType of ['Featured', 'Bathroom', 'Entry Way', 'Anywhere']" class="btn getInspiredButton" [attr.style]="this.selectedPhotoType == photoType ? 'border-top: 1px solid black; border-bottom: 1px solid black;' : ''">{{photoType}}</button>
+        <button (click)="changePhotoType(photoType)" *ngFor="let photoType of ['Featured', 'Bathroom', 'Entry Way', 'Anywhere']" class="btn getInspiredButton" [attr.style]="this.selectedPhotoType == photoType ? 'border-bottom: 1px solid black;' : ''">{{photoType}}</button>
     </div>
     <div id="getInspiredPhotos">
         <div class="getInspiredPhoto" *ngFor="let post of this.getInspiredSortedPosts; let i = index">
             <img class="getInspiredImage" src="{{post.fields.lightscreenImage.fields.file.url}}" alt="Gallery Photo {{i}}">
-            <h6 class="getInspiredImageTemplateCategory">{{post.fields.templateCategory}}</h6>
-            <p class="getInspiredImageColorChoices">{{post.fields.colorChoices}}</p>
+            <h5 class="getInspiredImageTemplateCategory">{{post.fields.templateCategory}}</h5>
+            <p class="getInspiredImageColorChoices"><i>{{post.fields.colorChoices}}</i></p>
         </div>
     </div>
 </div>

@@ -10,9 +10,10 @@
 }
 
 .dimensionsSubmitButton {
-    background-color: antiquewhite;
+    background-color: #F0E3E0;
     color: black;
     border-radius: 10px;
+    width: fit-content;
 }
 
 /* select { text-align-last: right; }

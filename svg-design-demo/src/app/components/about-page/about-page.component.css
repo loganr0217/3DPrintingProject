@@ -29,7 +29,6 @@
 }
 
 .aboutSectionButton:hover {
-    border-top: 1px solid black;
     border-bottom: 1px solid black;
 }
 
@@ -45,8 +44,10 @@
     height: 18vw;
 }
 .aboutText {
-    font-size: small;
+    margin-top: 5%;
+    font-size: 14px;
     margin-right: 1vw;
+    text-align: center;
 }
 
 @media only screen and (max-width: 576px) {

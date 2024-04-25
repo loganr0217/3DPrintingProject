@@ -2,7 +2,7 @@
     <h3>LightScreen Art, Lightscreens, Screeners - From A to Z</h3>
     <p class="aboutSubHeader">Id movet theophrastus sit, an ius soleat civibus. Antiopam definitionem in mel, solum deterruisset mei at. Et numquam tacimates cotidieque est, ad sea clita vitae consulatu, movet hendrerit ad eos. Oratio periculis dissentiet nec ei, id eripuit dolorem fierent vix.</p>
     <div id="aboutSectionType">
-        <button (click)="changeAboutSection(section)" *ngFor="let section of ['Lightscreens', 'Company', 'Contact']" class="btn aboutSectionButton" [attr.style]="this.selectedSection == section ? 'border-top: 1px solid black; border-bottom: 1px solid black;' : ''">{{section}}</button>
+        <button (click)="changeAboutSection(section)" *ngFor="let section of ['Lightscreens', 'Company', 'Contact']" class="btn aboutSectionButton" [attr.style]="this.selectedSection == section ? 'border-bottom: 1px solid black;' : ''">{{section}}</button>
     </div>
 
     <div id="lightscreensSection" *ngIf="this.selectedSection == 'Lightscreens'">
@@ -15,6 +15,7 @@
     </div>
 
     <div id="companySection" *ngIf="this.selectedSection == 'Company'">
+        <h2 style="font-weight: 200;">{{this.companyPosts[0].fields.overviewHeader}}</h2>
         <span [innerHTML]="this.contentfulService.richtextToHtml(this.companyPosts[0].fields.overviewBody)"></span>
     </div>
 

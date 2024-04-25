@@ -30,7 +30,7 @@ export class LandingPageComponent implements OnInit {
     });
 
     this.contentfulService.getPosts('landingPage').then(posts => this.posts = posts);
-    this.contentfulService.getPosts('fadeawayImage').then(posts => this.fadeawayImages = posts);
+    this.contentfulService.getPostsOrdered('fadeawayImage').then(posts => this.fadeawayImages = posts);
   }
 
   // Email form submission
