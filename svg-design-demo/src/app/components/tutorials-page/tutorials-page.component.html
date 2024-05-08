@@ -2,19 +2,19 @@
     <h3>We've got your back, every step of the way.</h3>
     <p class="tutorialSubHeader">Id movet theophrastus sit, an ius soleat civibus. Antiopam definitionem in mel, solum deterruisset mei at. Et numquam tacimates cotidieque est, ad sea clita vitae consulatu, movet hendrerit ad eos. Oratio periculis dissentiet nec ei, id eripuit dolorem fierent vix.</p>
     <div id="tutorialSectionType">
-        <button (click)="changeTutorialSection(section)" *ngFor="let section of ['Measure', 'Design', 'Install']" class="btn tutorialSectionButton" [attr.style]="this.selectedSection == section ? 'border-top: 1px solid black; border-bottom: 1px solid black;' : ''">{{section}}</button>
+        <button (click)="changeTutorialSection(section)" *ngFor="let section of ['Measure', 'Design', 'Install']" class="btn tutorialSectionButton" [attr.style]="this.isActiveSection(section) ? 'border-bottom: 1px solid black;' : ''">{{section}}</button>
     </div>
 
-    <div id="measureSection" *ngIf="this.selectedSection == 'Measure'">
+    <div id="measureSection" *ngIf="this.isActiveSection('Measure')">
         <span [innerHTML]="this.fixNewPageLink(this.contentfulService.markdownToHtml(this.posts[1].fields.tutorialBody))"></span>
     </div>
 
-    <div id="designSection" *ngIf="this.selectedSection == 'Design'">
+    <div id="designSection" *ngIf="this.isActiveSection('Design')">
         <h2>{{this.posts[1].fields.tutorialHeader}}</h2>
         <span [innerHTML]="this.fixNewPageLink(this.contentfulService.markdownToHtml(this.posts[0].fields.tutorialBody))"></span>
     </div>
 
-    <div id="installSection" *ngIf="this.selectedSection == 'Install'">
+    <div id="installSection" *ngIf="this.isActiveSection('Install')">
         <div class="installItem" *ngFor="let post of this.installPosts; let i = index">
             <img class="aboutImage" src="{{post.fields.image != undefined ? post.fields.image.fields.file.url : ''}}" alt="Install Photo {{i}}" />
             <p class="installImageBody">{{post.fields.imageBody}}</p>

@@ -67,7 +67,7 @@
           <div class="navbar-text-links">
             <a href="javascript:void(0)" class="navbar-brand navbar-text-link" (click)="goToDesigning()">Start Designing</a>
             <a href="javascript:void(0)" class="navbar-brand navbar-text-link" routerLink="/gallery">Get Inspired</a>
-            <a href="javascript:void(0)" class="navbar-brand navbar-text-link" routerLink="/about">Explore Lightscreens</a>
+            <a href="javascript:void(0)" class="navbar-brand navbar-text-link" routerLink="/about" [queryParams]="{activeSection:'Lightscreens'}">Explore Lightscreens</a>
           </div>
           
           <a href="javascript:void(0)" class="navbar-brand navbarIcons">
@@ -158,7 +158,7 @@
     <div class="partnerLinks">
       <a href="https://bouncehub.org" target="_blank" class="partnerLink"></a>
       <a href="https://www.wcaa.org" target="_blank" class="partnerLink"></a>
-      <a href="https://www.facebook.com/techohiogov/" target="_blank" class="partnerLink"></a>
+      <a href="https://bouncehub.org/2023/03/23/lightscreen-art-offers-alternative-to-stained-glass/" target="_blank" class="partnerLink"></a>
       <a href="https://www.kickstarter.com/projects/lightscreenart/lightscreen-art-the-art-of-stained-glass-modernized?ref=creator-nav" target="_blank" class="partnerLink"></a>
     </div>
     
@@ -230,12 +230,12 @@
           <div class="col-lg-3 mb-4 mb-md-0">
             <h6>Home</h6>
             <ul class="list-unstyled mb-0">
-              <li><a href="javascript:void(0)" (click)="goToDesigning()" class="text-white text-decoration-none footerNote">start designing</a></li>
-              <li><a href="javascript:void(0)" routerLink="/gallery" class="text-white text-decoration-none footerNote">get inspired</a></li>
-              <li *ngIf="this.sharedDataService.signedIn"><a href="javascript:void(0)" routerLink="/profile" class="text-white text-decoration-none footerNote">your profile</a></li>
-              <li *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('dealer'))"><a href="javascript:void(0)" routerLink="/dealerPage" class="text-white text-decoration-none footerNote">dealer program</a></li>
-              <li *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('designer'))"><a href="javascript:void(0)" routerLink="/windowCreation" class="text-white text-decoration-none footerNote">tdi</a></li>
-              <li *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('designer'))"><a href="javascript:void(0)" routerLink="/colorOfferings" class="text-white text-decoration-none footerNote">color offerings</a></li>
+              <li><a href="javascript:void(0)" (click)="goToDesigning()" class="text-white footerNote">start designing</a></li>
+              <li><a href="javascript:void(0)" routerLink="/gallery" class="text-white footerNote">get inspired</a></li>
+              <li *ngIf="this.sharedDataService.signedIn"><a href="javascript:void(0)" routerLink="/profile" class="text-white footerNote">your profile</a></li>
+              <li *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('dealer'))"><a href="javascript:void(0)" routerLink="/dealerPage" class="text-white footerNote">dealer program</a></li>
+              <li *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('designer'))"><a href="javascript:void(0)" routerLink="/windowCreation" class="text-white footerNote">tdi</a></li>
+              <li *ngIf="this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin') || this.sharedDataService.userInfo[5].includes('designer'))"><a href="javascript:void(0)" routerLink="/colorOfferings" class="text-white footerNote">color offerings</a></li>
               <!-- <li><a href="javascript:void(0)" routerLink="/faq" class="text-white text-decoration-none footerNote">FAQs</a></li> -->
             </ul>
           </div>
@@ -245,9 +245,9 @@
           <div class="col-lg-3 mb-4 mb-md-0">
             <h6>About</h6>
             <ul class="list-unstyled mb-0">
-              <li><a href="javascript:void(0)" routerLink="/about" class="text-white text-decoration-none footerNote">lightscreens</a></li>
-              <li><a href="javascript:void(0)" routerLink="/about" class="text-white text-decoration-none footerNote">company</a></li>
-              <li><a href="javascript:void(0)" routerLink="/about" class="text-white text-decoration-none footerNote">contact</a></li>
+              <li><a href="javascript:void(0)" routerLink="/about" [queryParams]="{activeSection:'Lightscreens'}" class="text-white footerNote">lightscreens</a></li>
+              <li><a href="javascript:void(0)" routerLink="/about" [queryParams]="{activeSection:'Company'}" class="text-white footerNote">company</a></li>
+              <li><a href="javascript:void(0)" routerLink="/about" [queryParams]="{activeSection:'Contact'}" class="text-white footerNote">contact</a></li>
               <!-- <li *ngIf="!this.sharedDataService.signedIn"><a href="javascript:void(0)" routerLink="/login" class="text-white text-decoration-none footerNote">Login</a></li>
               <li><a href="javascript:void(0)" routerLink="/gallery" class="text-white text-decoration-none footerNote">Gallery</a></li> -->
             </ul>
@@ -258,9 +258,9 @@
           <div class="col-lg-3 mb-4 mb-md-0">
             <h6>How-To</h6>
             <ul class="list-unstyled mb-0">
-              <li><a href="javascript:void(0)" routerLink="/tutorials" class="text-white text-decoration-none footerNote">measure</a></li>
-              <li><a href="javascript:void(0)" routerLink="/tutorials" class="text-white text-decoration-none footerNote">design</a></li>
-              <li><a href="javascript:void(0)" routerLink="/tutorials" class="text-white text-decoration-none footerNote">install</a></li>
+              <li><a href="javascript:void(0)" routerLink="/tutorials" [queryParams]="{activeSection:'Measure'}" class="text-white footerNote">measure</a></li>
+              <li><a href="javascript:void(0)" routerLink="/tutorials" [queryParams]="{activeSection:'Design'}" class="text-white footerNote">design</a></li>
+              <li><a href="javascript:void(0)" routerLink="/tutorials" [queryParams]="{activeSection:'Install'}" class="text-white footerNote">install</a></li>
             </ul>
           </div>
           <!--Grid column-->
@@ -303,7 +303,7 @@
       <section class="mb-4 socialMediaLinks">
         <h5>Connect and be connected.</h5>
         <!-- Facebook -->
-        <a class="btn btn-floating m-1" href="#!" role="button">
+        <a class="btn btn-floating m-1" href="https://www.facebook.com/Lightscreenart/" target="_blank" role="button">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff" class="bi bi-facebook" viewBox="0 0 16 16">
             <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
           </svg>

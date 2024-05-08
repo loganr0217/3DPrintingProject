@@ -4,6 +4,7 @@ import { ContentfulService } from 'src/app/services/contentful.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-about-page',
@@ -17,7 +18,7 @@ export class AboutPageComponent implements OnInit {
   contactForm!: UntypedFormGroup;
 
   constructor(public contentfulService:ContentfulService, private formBuilder:UntypedFormBuilder, private sharedDataService:SharedDataService,
-    private http:HttpClient) { }
+    private http:HttpClient, private router:Router) { }
 
   ngOnInit(): void {
     // this.contentfulService.getPostById('2LSDhxjmKCwyvIfzne12u9', 'howTo').then(post => this.posts[0] = post);
@@ -85,5 +86,12 @@ export class AboutPageComponent implements OnInit {
   get email() {return this.contactForm.get('email');}
   get message() {return this.contactForm.get('message');}
 
-  changeAboutSection(section:string) {this.selectedSection = section;}
+  isActiveSection(section:string):boolean {
+    return window.location.href.includes(section);
+  }
+
+  changeAboutSection(section:string) {
+    this.selectedSection = section;
+    this.router.navigate(["/about"], {queryParams:{activeSection:section}})
+  }
 }

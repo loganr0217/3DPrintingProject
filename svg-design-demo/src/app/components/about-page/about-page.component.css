@@ -32,10 +32,26 @@
     border-bottom: 1px solid black;
 }
 
+#companySection {
+    display: flex;
+}
+
+#companyInfo {
+    flex:1;
+    margin-right: 5vw;
+}
+#companyPhotoSection {
+    flex:2;
+}
+
 .sectionItem {
     display: grid;
     grid-template-columns: 20vw 19vw 19vw 19vw;
     margin-bottom: 5vh;
+}
+.companyPhoto {
+    width:50vw;
+    object-fit: contain;
 }
 
 .aboutImage {

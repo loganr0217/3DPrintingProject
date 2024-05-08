@@ -24,17 +24,19 @@
                     <span *ngIf="email?.errors?.['email']">*Enter valid email (example@gmail.com)</span>
                 </div>
             </div>
-            <div class="form-group mt-2 mb-4">
+            <!-- <div class="form-group mt-2 mb-4">
                 <button class="btn btn-light contactFormButton">Upload your design.</button>
-            </div>
+            </div> -->
             <div class="form-group mt-2 mb-4">
                 <label>Share the details of your design below.<br/>
                     Measurements, quantity, colors, and any
-                    other relevant information.</label>
+                    other relevant information.<br/>
+                    Attach any images of your design to the email.
+                </label>
                 <textarea formControlName="message" class="form-control" cols="40" rows="5"></textarea>
                 <!-- <input type="text" placeholder="How can we help you?" formControlName="message" class="form-control" /> -->
             </div>
-            <button style="position: absolute; right: 5vw;" (click)="submitContactForm()" class="btn btn-outline-dark">Send Order</button>
+            <button style="position: absolute; right: 5vw;" (click)="submitContactForm(); getEmailLink()" class="btn btn-outline-dark">Send Order</button>
             
         </form>
     </div>

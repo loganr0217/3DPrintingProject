@@ -49,10 +49,14 @@
             <div class="input-group-prepend">
               <span class="input-group-text">Width:</span>
             </div>
-            <select (change)="updateDimensionsButton(); changeElementFocus('heightInput'); updatePanelLayout()" id="widthInput" class="form-control form-select" name="width">
+            <select *ngIf="this.sharedDataService.unitChoice == 'inches'" (change)="updateDimensionsButton(); changeElementFocus('heightInput'); updatePanelLayout()" id="widthInput" class="form-control form-select" name="width">
                 <option *ngFor="let num of range(100, 5)" [ngValue]="num">{{num}}</option>
             </select>
-            <!-- <input (change)="updateDimensionsButton(); changeElementFocus('heightInput'); updatePanelLayout()" type="number" min="0" class="form-control" id="widthInput" placeholder=""/> -->
+            <!-- <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{this.sharedDataService.topSash ? this.sharedDataService.topSashInchNum : this.sharedDataService.bottomSashWidthFractionNum}}</button>
+                <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
+                    <a *ngFor="let num of range(100, 5)" (click)="updateDimensionsButton(); changeElementFocus('heightInput'); updatePanelLayout()" class="dropdown-item" href="javascript:void(0)">{{num}}"</a>
+                </div> -->
+            <input *ngIf="this.sharedDataService.unitChoice == 'mm'" (change)="updateDimensionsButton(); changeElementFocus('heightInput'); updatePanelLayout()" type="number" min="0" class="form-control" id="widthInput" placeholder=""/>
             <div class="input-group-append">
                 <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sup>{{this.sharedDataService.topSash ? this.sharedDataService.windowWidthFractionNum : this.sharedDataService.bottomSashWidthFractionNum}}</sup>&frasl;<sub>16</sub>"</button>
                 <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
@@ -66,11 +70,11 @@
             <!-- <div class="input-group-prepend">
               <span class="input-group-text">Height:</span>
             </div> -->
-            <select (change)="updateDimensionsButton(); changeElementFocus('horizontalDividersInput'); updatePanelLayout()" id="heightInput" class="form-control form-select" name="height">
+            <select *ngIf="this.sharedDataService.unitChoice == 'inches'" (change)="updateDimensionsButton(); changeElementFocus('horizontalDividersInput'); updatePanelLayout()" id="heightInput" class="form-control form-select" name="height">
                 <!-- <option selected>width</option> -->
                 <option *ngFor="let num of range(100, 5)" [ngValue]="num">{{num}}</option>
             </select>
-            <!-- <input (change)="updateDimensionsButton(); changeElementFocus('horizontalDividersInput'); updatePanelLayout()" type="number" min="0" class="form-control" id="heightInput" placeholder=""/> -->
+            <input *ngIf="this.sharedDataService.unitChoice == 'mm'" (change)="updateDimensionsButton(); changeElementFocus('horizontalDividersInput'); updatePanelLayout()" type="number" min="0" class="form-control" id="heightInput" placeholder=""/>
             <div class="input-group-append">
                 <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sup>{{this.sharedDataService.topSash ? this.sharedDataService.windowHeightFractionNum : this.sharedDataService.bottomSashHeightFractionNum}}</sup>&frasl;<sub>16</sub>"</button>
                 <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">

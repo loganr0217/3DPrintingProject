@@ -49,7 +49,7 @@
     
 }
 .logoImage {
-    margin-top: -20px;
+    margin-top: -30px;
 }
 .contactForm {
     margin: auto;
@@ -108,6 +108,14 @@
 .partnerLink {
     height:80px;
     margin-right: 4vw;
+}
+
+.footerNote {
+    text-decoration: none;
+}
+.footerNote:hover {
+    text-decoration: underline;
+    /* text-decoration-color: white; */
 }
 
 

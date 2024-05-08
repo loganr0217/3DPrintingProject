@@ -8,12 +8,13 @@ import { ContentfulService } from 'src/app/services/contentful.service';
 })
 export class DealerPageComponent {
   post:Entry<any>;
-
+  infoTexts:Entry<any>[];
   constructor(public contentfulService:ContentfulService) { }
 
   ngOnInit(): void {
     // this.contentfulService.getPostById('2LSDhxjmKCwyvIfzne12u9', 'howTo').then(post => this.post = post);
     this.contentfulService.getPostById('5FU0B2btQSaxIv2OBQ9qKv', 'dealerPageContent').then(post => this.post = post);
+    this.contentfulService.getPostsOrdered('dealerInfoItem').then(posts => this.infoTexts = posts);
     // this.contentfulService.getPosts('overview').then(posts => this.posts = posts);
   }
 }

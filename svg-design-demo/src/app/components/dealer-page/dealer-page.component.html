@@ -2,5 +2,11 @@
     <!-- <span [innerHTML]="this.contentfulService.richtextToHtml(this.posts[0].fields.overviewBody)"></span> -->
     <h1>{{this.post.fields.header}}</h1>
     <span [innerHTML]="this.contentfulService.richtextToHtml(this.post.fields.body)"></span>
-    
+
+    <div id="infoSection">
+        <div class="infoItem" *ngFor="let post of this.infoTexts; let i = index">
+            <h6 class="infoHeader">{{post.fields.infoHeader}}<br/>-<br/></h6>
+            <p class="infoBody">{{post.fields.infoBody}}</p>
+        </div>
+    </div>
 </div>

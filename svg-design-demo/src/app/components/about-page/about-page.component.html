@@ -2,10 +2,10 @@
     <h3>LightScreen Art, Lightscreens, Screeners - From A to Z</h3>
     <p class="aboutSubHeader">Id movet theophrastus sit, an ius soleat civibus. Antiopam definitionem in mel, solum deterruisset mei at. Et numquam tacimates cotidieque est, ad sea clita vitae consulatu, movet hendrerit ad eos. Oratio periculis dissentiet nec ei, id eripuit dolorem fierent vix.</p>
     <div id="aboutSectionType">
-        <button (click)="changeAboutSection(section)" *ngFor="let section of ['Lightscreens', 'Company', 'Contact']" class="btn aboutSectionButton" [attr.style]="this.selectedSection == section ? 'border-bottom: 1px solid black;' : ''">{{section}}</button>
+        <button (click)="changeAboutSection(section)" *ngFor="let section of ['Lightscreens', 'Company', 'Contact']" class="btn aboutSectionButton" [attr.style]="this.isActiveSection(section) ? 'border-bottom: 1px solid black;' : ''">{{section}}</button>
     </div>
 
-    <div id="lightscreensSection" *ngIf="this.selectedSection == 'Lightscreens'">
+    <div id="lightscreensSection" *ngIf="this.isActiveSection('Lightscreens')">
         <div class="sectionItem" *ngFor="let post of this.posts; let i = index">
             <p class="aboutText">{{post.fields.textDescription}}</p>
             <img class="aboutImage" src="{{post.fields.image1 != undefined ? post.fields.image1.fields.file.url : ''}}" alt="About Photo {{1}}" />
@@ -14,12 +14,19 @@
         </div>
     </div>
 
-    <div id="companySection" *ngIf="this.selectedSection == 'Company'">
-        <h2 style="font-weight: 200;">{{this.companyPosts[0].fields.overviewHeader}}</h2>
-        <span [innerHTML]="this.contentfulService.richtextToHtml(this.companyPosts[0].fields.overviewBody)"></span>
+    <div id="companySection" *ngIf="this.isActiveSection('Company')">
+        <div id="companyInfo">
+            <h2 style="font-weight: 200;">{{this.companyPosts[0].fields.overviewHeader}}</h2>
+            <span [innerHTML]="this.contentfulService.richtextToHtml(this.companyPosts[0].fields.overviewBody)"></span>
+        </div>
+        <div id="companyPhotoSection">
+            <img class="companyPhoto" src="{{this.companyPosts[0].fields.companyPhoto != undefined ? this.companyPosts[0].fields.companyPhoto.fields.file.url : ''}}" alt="About Photo {{1}}" />
+            <p class="companyCaption"><i>{{this.companyPosts[0].fields.photoCaption}}</i></p>
+        </div>
+        
     </div>
 
-    <div id="contactSection" *ngIf="this.selectedSection == 'Contact'">
+    <div id="contactSection" *ngIf="this.isActiveSection('Contact')">
         <h2 style="font-weight: 200;">Have a question or comment?</h2>
         <hr style="width:10vw; margin: auto; margin-bottom: 2vh; margin-top: 2vh;" />
         <h5 style="font-weight: 200; margin-bottom:5vh;">Reach out using the form below. We usually get back within one business day.</h5>

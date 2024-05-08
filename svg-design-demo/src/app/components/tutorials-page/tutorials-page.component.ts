@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Entry } from 'contentful';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ContentfulService } from 'src/app/services/contentful.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tutorials-page',
@@ -11,8 +12,8 @@ import { ContentfulService } from 'src/app/services/contentful.service';
 export class TutorialsPageComponent implements OnInit {
   posts:Entry<any>[] = [];
   installPosts:Entry<any>[] = [];
-  selectedSection:string = "Measure";
-  constructor(public contentfulService:ContentfulService, private sanitizer:DomSanitizer) { }
+  selectedSection:string;
+  constructor(public contentfulService:ContentfulService, private sanitizer:DomSanitizer, private router:Router) { }
 
   ngOnInit(): void {
     // Adding tutorials in this order
@@ -20,10 +21,16 @@ export class TutorialsPageComponent implements OnInit {
     this.contentfulService.getPostById('3Ex7TXWpOtcuBsRJSTftkV', 'tutorial').then(post => this.posts[1] = post);
     this.contentfulService.getPostById('5rurIWPbWdbU7oNtqh2yNr', 'tutorial').then(post => this.posts[2] = post);
     this.contentfulService.getPostsOrdered('installTutorialItem').then(posts => this.installPosts = posts);
+
+  }
+
+  isActiveSection(section:string):boolean {
+    return window.location.href.includes(section);
   }
 
   changeTutorialSection(section:string):void {
     this.selectedSection = section;
+    this.router.navigate(["/tutorials"], {queryParams:{activeSection:section}})
   }
 
   fixNewPageLink(s:string) {

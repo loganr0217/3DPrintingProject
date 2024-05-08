@@ -69,4 +69,12 @@ export class CustomOrderPageComponent {
 
   }
 
+  getEmailLink():void {
+    const name:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[1]+" "+this.sharedDataService.userInfo[2] : this.name?.value;
+    const email:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : this.email?.value;
+    const message:string = name + " Custom Order Details:%0D%0A" + this.message?.value + "%0D%0A%0D%0AAttach any images below:%0D%0A";
+
+    window.location.href="mailto:info@lightscreenart.com?subject=" + name + " Custom Order&body="+message;
+  }
+
 }

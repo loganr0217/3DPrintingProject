@@ -1,9 +1,9 @@
 <div id="filteringSystem">
-    <a href="javascript:void(0)"><p (click)="changeStage2Visibility()">{{this.sharedDataService.stage2Visible ? 'Window -' : 'Window +'}}</p></a>
+    <a href="javascript:void(0)" class="linkWrapper"><h5 (click)="changeStage2Visibility()" class="sectionHeader">{{this.sharedDataService.stage2Visible ? 'Window -' : 'Window +'}}</h5></a>
     <app-stage2 *ngIf="this.sharedDataService.stage2Visible"></app-stage2>
-    <a href="javascript:void(0)"><p (click)="changeStage3Visibility()">{{this.sharedDataService.stage3Visible ? 'Measurement -' : 'Measurement +'}}</p></a>
+    <a href="javascript:void(0)" class="linkWrapper"><h5 (click)="changeStage3Visibility()" class="sectionHeader">{{this.sharedDataService.stage3Visible ? 'Measurement -' : 'Measurement +'}}</h5></a>
     <app-stage3 *ngIf="this.sharedDataService.stage3Visible"></app-stage3>
-    <a id="templateSectionButton" href="javascript:void(0)"><p (click)="changeTemplateSectionVisibility()">{{this.sharedDataService.templateSectionVisible ? 'Template -' : 'Template +'}}</p></a>
+    <a id="templateSectionButton" href="javascript:void(0)" class="linkWrapper"><h5 (click)="changeTemplateSectionVisibility()" class="sectionHeader">{{this.sharedDataService.templateSectionVisible ? 'Template -' : 'Template +'}}</h5></a>
     <div id="templateSection" *ngIf="this.sharedDataService.templateSectionVisible">
         <div class="leftSection">
             <div id="categoryFiltering">

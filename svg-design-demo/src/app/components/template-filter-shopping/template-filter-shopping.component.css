@@ -42,6 +42,11 @@
     margin-bottom: 1vh;
 }
 
+.form-check-input:checked {
+    background-color: black;
+    border-color: black;
+}
+
 .palleteIconsWithNames {
     display:grid;
     grid-template-columns: 7vw 7vw;
@@ -49,6 +54,16 @@
 
 .palleteIconWithName {
     display: flex;
+}
+
+.sectionHeader {
+    font-weight: 300;
+    color: black;
+}
+
+.linkWrapper {
+    text-decoration: underline;
+    text-decoration-color: black;
 }
 
 

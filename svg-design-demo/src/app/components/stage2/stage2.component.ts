@@ -98,14 +98,14 @@ export class Stage2Component implements OnInit {
     document.getElementById("section2")?.setAttribute("style", "visibility:visible;");
     document.getElementById("windowShapeImages")?.setAttribute("style", "visibility:visible;");
     for(let i = 0; i < this.windowShapes.length; ++i) {
-        document.getElementById("windowShapeImage_"+this.windowShapes[i])?.setAttribute("src", "assets/img/windowButtons2/"+this.windowShapes[i]+this.dividerType+".svg");
+        document.getElementById("windowShapeImage_"+this.windowShapes[i])?.setAttribute("src", "assets/img/windowButtons2/"+this.windowShapes[i]+this.sharedDataService.selectedDividerType+"Icon.png");
         document.getElementById("windowShapeImage_"+this.windowShapes[i])?.setAttribute("style", "visibility:visible;");
     }
   }
 
   getWindowShapeSrc(windowShape:string):string {
     if(this.sharedDataService.sampleOrder != '') {return "assets/img/windowButtons2/"+windowShape+"sample.svg";}
-    return "assets/img/windowButtons2/"+windowShape+this.sharedDataService.selectedDividerType+".svg";
+    return "assets/img/windowButtons2/"+windowShape+this.sharedDataService.selectedDividerType+"Icon.png";
   }
 
   getIconHighlight(iconType:string, iconName:string):string {
