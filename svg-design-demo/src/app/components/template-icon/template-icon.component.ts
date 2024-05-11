@@ -18,6 +18,8 @@ export class TemplateIconComponent implements OnInit {
   svgTemplateData:{id:number, name:string, d:string}[][];
   templateData:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}[];
   currentTemplateIndex:number = 0;
+  currentPageNumber:number = 1;
+  totalPages:number;
 
   constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
 
@@ -33,6 +35,16 @@ export class TemplateIconComponent implements OnInit {
     let myTemplate:SVGTemplate = new SVGTemplate(d);
     let tempViewBox:string = (scaleX * myTemplate.xMin) + " " + (scaleY * myTemplate.yMin) + " " + (scaleX * myTemplate.width) + " " + (scaleY * myTemplate.height);
     return tempViewBox;
+  }
+
+  getTotalPages():number {return Math.ceil(this.sharedDataService.filteredTemplateData.length / 6);}
+
+  decreasePageNumber():void {
+    if(this.currentPageNumber > 1) {--this.currentPageNumber;}
+  }
+
+  increasePageNumber():void {
+    if( !(6*this.currentPageNumber >= this.sharedDataService.filteredTemplateData.length) ) {++this.currentPageNumber;}
   }
 
   // Gets template width
@@ -178,7 +190,9 @@ export class TemplateIconComponent implements OnInit {
       document.getElementById("stage4")?.setAttribute("style", "visibility:visible;")
       document.getElementById("stage4")?.scrollIntoView({behavior: 'auto'});
       this.sharedDataService.currentStepID = 5;
-      $('#howToModal4').modal('show');
+      if(this.sharedDataService.shoppingSectionActive) {$('#customLightscreenModal').modal('show');}
+      else {document.getElementById("oldDesignProcessColoringStep")?.setAttribute("style", "display:block;"); document.getElementById("oldDesignProcessColoringStep")?.scrollIntoView({behavior: 'auto'}); $('#howToModal4').modal('show');}
+      // else {$('#howToModal4').modal('show');}
       const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : 'undefined';
       this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID+"&startingURL='"+this.sharedDataService.sessionStartingUrl+"'&userEmail='"+email+"'").subscribe(result => { 
       });
@@ -255,6 +269,40 @@ export class TemplateIconComponent implements OnInit {
     return panelLayout;
   }
 
+  // Fills selected panel for a pane if autofill string exists
+  updateColorArray():void {
+    let separatedColors:string[] = this.sharedDataService.selectedPalleteColors;
+    let colorIds:number[] = [];
+
+    for(let row of this.sharedDataService.panelLayout) {
+      for(let svgTemplate of row) {
+        let currentAutofillString:string[] = svgTemplate.autofillString.split(",");
+        for(let i:number = 0; i < currentAutofillString.length; ++i) {
+          if(!colorIds.includes(Number(currentAutofillString[i]))) {colorIds.push(Number(currentAutofillString[i]));}
+        }
+        // console.log(currentAutofillString);
+      }
+    }
+    colorIds = colorIds.sort();
+    
+    for(let colorIndex:number = 0; colorIndex < separatedColors.length; ++colorIndex) {
+      let panelNumber:number = 0;
+      for(let row of this.sharedDataService.panelLayout) {
+        for(let svgTemplate of row) {
+          let splitAutofillString:string[] = svgTemplate.autofillString.split(",");
+          // alert(splitAutofillString);
+          for(let i:number = 0; i < splitAutofillString.length; ++i) {
+            if(Number(splitAutofillString[i]) == colorIds[colorIndex]) {
+              this.sharedDataService.panelColoringArray[panelNumber][i] = separatedColors[colorIndex];
+            } 
+          }
+          ++panelNumber;
+        }
+      }
+    }
+    
+  }
+
   // Creates the window previews
   createPreview(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):void {
     if(this.isColorPage()) {
@@ -282,6 +330,12 @@ export class TemplateIconComponent implements OnInit {
       else {this.sharedDataService.selectedTemplateIDs.push(temp.id);}
     }
     
+  }
+
+  getSVGIconWidth():string {
+    let iconWidth:number = 18 / this.sharedDataService.panelLayoutDims[0];
+    let final:string = "width:" + iconWidth.toString() + "vw;";
+    return final;
   }
 
   getPanelWidth(top:boolean = true):number {
@@ -347,12 +401,12 @@ export class TemplateIconComponent implements OnInit {
   isTemplateOkay(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):boolean {
     let isOkay:boolean = true;
     if(!this.isColorPage()) {
-      if(temp.category != undefined && temp.category.includes(this.sharedDataService.selectedTemplateCategory)) {isOkay = true;}
+      if(temp.category != undefined && this.sharedDataService.selectedTemplateCategory.includes(temp.category)) {isOkay = true;}
       else {isOkay = false; return false;}
     }
     else {
       if((temp.category == undefined || temp.category == "") && (this.sharedDataService.selectedTemplateCategory == undefined || this.sharedDataService.selectedTemplateCategory == "unassigned")) {isOkay = true;}
-      else if(temp.category != undefined && temp.category.includes(this.sharedDataService.selectedTemplateCategory)) {isOkay = true;}
+      else if(temp.category != undefined && this.sharedDataService.selectedTemplateCategory.includes(temp.category)) {isOkay = true;}
       else {isOkay = false; return false;}
     }
     if(temp.tempString == "-1") {return false;}
@@ -406,4 +460,14 @@ export class TemplateIconComponent implements OnInit {
     }
     return isAvailable;
   }
+
+  getPaneStyle(paneNum:number, autoString:string[]):string {
+    let autoStringPossibilities:string[] = [];
+    for(let i:number = 0; i < autoString.length; ++i) {
+      if(autoStringPossibilities.indexOf(autoString[i]) == -1) {autoStringPossibilities.push(autoString[i]);}
+    }
+    autoStringPossibilities.sort();
+    if(this.sharedDataService.selectedPalleteColors.length > autoStringPossibilities.indexOf(autoString[paneNum])) {return 'fill:#' + this.sharedDataService.selectedPalleteColors[autoStringPossibilities.indexOf(autoString[paneNum])];}
+    return 'fill:#ffffff';
+  } 
 }

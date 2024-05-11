@@ -131,8 +131,11 @@ export class MainPageComponent implements OnInit {
         break;
       }
       case(7): {
-        document.getElementById("checkoutStage")?.setAttribute("style", "visibility:visible;");
-        document.getElementById("checkoutStage")?.scrollIntoView({behavior: 'smooth'});
+        this.addCartItem();
+        $("#offcanvasRight").removeClass("offcanvas");
+        $("#offcanvasRight").addClass("offcanvas.show");
+        // document.getElementById("checkoutStage")?.setAttribute("style", "visibility:visible;");
+        // document.getElementById("checkoutStage")?.scrollIntoView({behavior: 'smooth'});
         break;
       }
       // case(8): {
@@ -470,6 +473,41 @@ export class MainPageComponent implements OnInit {
       }
       
     }
+  }
+
+  convertBackNumber(num:number, unit:string):number {
+    if(unit == "mm") {return num;}
+    else if(unit == "inches") {return num/25.4;}
+    else {return num/10;};
+  }
+
+  // Adds the current order to the cart
+  addCartItem():void {
+    ++this.sharedDataService.cartItems;
+
+    // Collecting all the order info
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : null;
+    const selectedDividerType:string = this.sharedDataService.selectedDividerType;
+    const unitChoice:string = this.sharedDataService.unitChoice;
+    const windowWidth:number = this.convertBackNumber(this.sharedDataService.windowWidth, this.sharedDataService.unitChoice);
+    const windowHeight:number = this.convertBackNumber(this.sharedDataService.windowHeight, this.sharedDataService.unitChoice);
+    const horzDividers:number = this.sharedDataService.dividerNumbers[0];
+    const vertDividers:number = this.sharedDataService.dividerNumbers[1];
+    const dividerWidth:number = this.convertBackNumber(this.sharedDataService.dividerWidth, this.sharedDataService.unitChoice);
+    const templateID:number = this.sharedDataService.selectedTemplateID;
+    let panelColoringString:string = "";
+    for(let i:number = 0; i < this.sharedDataService.panelColoringArray.length; ++i) {
+      panelColoringString += this.sharedDataService.panelColoringArray[i].join(",");
+      if(i != this.sharedDataService.panelColoringArray.length - 1) {panelColoringString += ";";}
+    }
+    const bottomWindowWidth:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashWidth, this.sharedDataService.unitChoice) : 0;
+    const bottomWindowHeight:number = this.isDoubleHung() ? this.convertBackNumber(this.sharedDataService.bottomSashHeight, this.sharedDataService.unitChoice) : 0;
+    const frameColor:string = this.sharedDataService.currentFilamentColor;
+
+    let currentOrder:any = [0, email, selectedDividerType, unitChoice, windowWidth, windowHeight, horzDividers, vertDividers, dividerWidth, templateID, panelColoringString, 0, 0, 0, 0, 0, bottomWindowWidth, bottomWindowHeight, 0, 0, 0, 0, frameColor, 0];
+    this.sharedDataService.shoppingCart.push(currentOrder);
+    localStorage.setItem('shoppingCart', JSON.stringify(this.sharedDataService.shoppingCart));
+    $('#customLightscreenModal').modal('hide');
   }
 
 }

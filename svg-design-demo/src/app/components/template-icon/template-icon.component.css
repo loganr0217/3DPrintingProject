@@ -1,21 +1,29 @@
 .svgTemplateIcons {
-    width:5vw;
-    padding-left: 0;
-    padding-right: 0;
+    /* width:5vw; */
 }
 
-.fullWin {
+#pagingButtons {
     display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 2vh;
+}
+.pagingButton {
+    margin-right: 1vw;
+}
+.fullWin {
+    display: grid;
+    grid-template-columns: 20vw 20vw 20vw;
     flex-wrap: wrap;
-    overflow-x: scroll;  
     overflow-y: scroll;
     white-space: nowrap;
-    max-height: 75vh;
-    flex:1;
-    width: 45vw;
-    border: 1px solid black;
+    max-height: 80vh;
+    margin-left: 5vw;
+    /* flex:1; */
+    width: 62vw;
+    /* border: 1px solid black; */
     /* flex-direction: column; */
-    overscroll-behavior-x: contain;
+    /* overscroll-behavior-x: contain; */
 }
 
 .fullWin::-webkit-scrollbar {
@@ -53,12 +61,9 @@
     .fullWin {
         height: 60vh;
         flex:1;
-        flex-direction: column;
-        flex-wrap: nowrap;
         width: 100vw;
         border: 1px solid black;
         /* flex-direction: column; */
-        overscroll-behavior-x: contain;
     }
 
     .svgTemplateIcons {

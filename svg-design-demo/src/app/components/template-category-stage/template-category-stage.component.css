@@ -19,7 +19,6 @@ p {
 }
 #section2 {
     flex:2;
-    padding-left: 10vw;
     justify-content: space-around;
 }
 /* .section {margin:10px;} */

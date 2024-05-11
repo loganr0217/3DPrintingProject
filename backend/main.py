@@ -928,11 +928,11 @@ def saveOrder():
                 INSERT INTO orders(user_email, selected_divider_type, unit_choice, window_width, 
                 window_height, horizontal_dividers, vertical_dividers, divider_width, template_id, 
                 panel_coloring_string, street_address, city, state, zipcode, country, bottom_sash_width, bottom_sash_height, status, frame_color) 
-                VALUES({}, {}, {}, {}, {}, {}, {}, {}, {}, '{}', {}, {}, {}, {}, {}, {}, {}, 'Saved', {})""".format(
+                VALUES({}, {}, {}, {}, {}, {}, {}, {}, {}, '{}', {}, {}, {}, {}, {}, {}, {}, 'Saved', {}) RETURNING id""".format(
                 email, selectedDividerType, unitChoice, windowWidth, windowHeight,
                 horzDividers, vertDividers, dividerWidth, templateID, panelColoringString, 
                 streetAddress, city, state, zipcode, country, bottomWindowWidth, bottomWindowHeight, frameColor))
-                rows = (1,)
+                rows = cur.fetchall()
                 conn.commit()
             else:
                 rows = (-1,)
@@ -973,6 +973,68 @@ def getLightScreenPrice(totalArea):
         finalPrice = 2900
     return round(finalPrice)
 
+
+# Makes the stripe order after the orders have already been saved
+@app.route('/makeordermultiple', methods = ['GET'])
+def makeOrderMultiple():
+    global conn
+    email = request.args.get('email', default='null', type=str) 
+    numOrders = request.args.get('numOrders', default=-1, type=int)
+    order1Id = request.args.get('order1Id', default=0, type=int)
+    order2Id = request.args.get('order2Id', default=0, type=int)
+    order3Id = request.args.get('order3Id', default=0, type=int)
+    order4Id = request.args.get('order4Id', default=0, type=int)
+    order5Id = request.args.get('order5Id', default=0, type=int)
+
+    order1Area = request.args.get('order1Area', default=-1, type=int)
+    order2Area = request.args.get('order2Area', default=-1, type=int)
+    order3Area = request.args.get('order3Area', default=-1, type=int)
+    order4Area = request.args.get('order4Area', default=-1, type=int)
+    order5Area = request.args.get('order5Area', default=-1, type=int)
+
+    totalPrice = 0
+    for i in [order1Area, order2Area, order3Area, order4Area, order5Area]:
+        if i != 0:
+            totalPrice += getLightScreenPrice(i)
+    
+    # return jsonify( (templateID[0], ) )
+    try:
+        conn=psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(db_name, db_user, db_password, db_connection_name))
+        cur = conn.cursor()
+
+        cur.execute("SELECT permissions FROM users WHERE email = {}".format(email))
+        rows = cur.fetchall()
+        userPermissions = rows[0][0]
+
+        # Creating checkout session and adding order id to metadata
+        checkout_session = stripe.checkout.Session.create(
+            shipping_address_collection={"allowed_countries": ["US"]},
+            shipping_options=[{"shipping_rate": "shr_1NJMLUJm14hg4HLno4Cm4jQD"}],
+            line_items=[{
+                "price_data": {
+                    "currency":"usd",
+                    "product_data":{"name":str(numOrders) + " Custom LightScreens"},
+                    "unit_amount":totalPrice,
+                },
+                "quantity":1,
+            }],
+            automatic_tax= {
+                'enabled': True,
+            },
+            payment_intent_data={"metadata":{"orderIDs":str(order1Id)+","+str(order2Id)+","+str(order3Id)+","+str(order4Id)+","+str(order5Id),},},
+            mode='payment',
+            discounts= [{
+                'coupon': 'kG4AhSTC',
+            }] if "dealer" in userPermissions or "admin" in userPermissions else [{}],
+            success_url="https://backend-dot-lightscreendotart.uk.r.appspot.com/stripeordercomplete?orderId={}&order2Id={}&order3Id={}&order4Id={}&order5Id={}&orderStatus=1".format(order1Id, order2Id, order3Id, order4Id, order5Id),
+            cancel_url="https://backend-dot-lightscreendotart.uk.r.appspot.com/stripeordercomplete?orderId={}&order2Id={}&order3Id={}&order4Id={}&order5Id={}&orderStatus=0".format(order1Id, order2Id, order3Id, order4Id, order5Id),
+        )
+        return redirect(checkout_session.url, code=302)
+
+        # Returning the final result
+        return jsonify(rows)
+    except Exception as e:
+        return redirect("https://lightscreenart.com/orderSuccess", code=302)
 
 @app.route('/makeorder')
 def makeOrder():
@@ -1106,6 +1168,10 @@ def stripeOrderComplete():
     global conn
     # 0 -> cancelled , 1 -> success
     orderId = request.args.get('orderId', default=0, type=int)
+    order2Id = request.args.get('order2Id', default=0, type=int)
+    order3Id = request.args.get('order2Id', default=0, type=int)
+    order4Id = request.args.get('order2Id', default=0, type=int)
+    order5Id = request.args.get('order2Id', default=0, type=int)
     orderStatus = request.args.get('orderStatus', default=0, type=int)
     
     try:
@@ -1118,6 +1184,16 @@ def stripeOrderComplete():
             if len(rows) > 0:
                 userEmail = rows[0][0]
                 cur.execute("UPDATE orders set status = 'Purchased' where id = {};".format(orderId))
+                
+                if order2Id != 0:
+                    cur.execute("UPDATE orders set status = 'Purchased' where id = {};".format(order2Id))
+                if order3Id != 0:
+                    cur.execute("UPDATE orders set status = 'Purchased' where id = {};".format(order3Id))
+                if order4Id != 0:
+                    cur.execute("UPDATE orders set status = 'Purchased' where id = {};".format(order4Id))
+                if order5Id != 0:
+                    cur.execute("UPDATE orders set status = 'Purchased' where id = {};".format(order5Id))
+
                 conn.commit()
                 cur.execute("SELECT first_name FROM users WHERE email = '{}'".format(userEmail))
                 rows = cur.fetchall()

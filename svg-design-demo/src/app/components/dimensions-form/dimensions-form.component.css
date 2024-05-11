@@ -9,6 +9,16 @@
     max-height: 100%;
 }
 
+.dimensionsSubmitButton {
+    background-color: #F0E3E0;
+    color: black;
+    border-radius: 10px;
+    width: fit-content;
+}
+
+
+/* select { text-align-last: right; }
+option { direction: rtl; } */
 .fractionDropdown {
     overflow-y: scroll;
     height: 40vh;

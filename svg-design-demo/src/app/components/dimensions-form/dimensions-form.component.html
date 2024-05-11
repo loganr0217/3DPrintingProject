@@ -49,7 +49,14 @@
             <div class="input-group-prepend">
               <span class="input-group-text">Width:</span>
             </div>
-            <input (change)="updateDimensionsButton(); changeElementFocus('heightInput')" type="number" min="0" class="form-control" id="widthInput" placeholder=""/>
+            <select *ngIf="this.sharedDataService.unitChoice == 'inches'" (change)="updateDimensionsButton(); changeElementFocus('heightInput'); updatePanelLayout()" id="widthInput" class="form-control form-select" name="width">
+                <option *ngFor="let num of range(100, 5)" [ngValue]="num">{{num}}</option>
+            </select>
+            <!-- <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{this.sharedDataService.topSash ? this.sharedDataService.topSashInchNum : this.sharedDataService.bottomSashWidthFractionNum}}</button>
+                <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
+                    <a *ngFor="let num of range(100, 5)" (click)="updateDimensionsButton(); changeElementFocus('heightInput'); updatePanelLayout()" class="dropdown-item" href="javascript:void(0)">{{num}}"</a>
+                </div> -->
+            <input *ngIf="this.sharedDataService.unitChoice == 'mm'" (change)="updateDimensionsButton(); changeElementFocus('heightInput'); updatePanelLayout()" type="number" min="0" class="form-control" id="widthInput" placeholder=""/>
             <div class="input-group-append">
                 <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sup>{{this.sharedDataService.topSash ? this.sharedDataService.windowWidthFractionNum : this.sharedDataService.bottomSashWidthFractionNum}}</sup>&frasl;<sub>16</sub>"</button>
                 <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
@@ -60,10 +67,14 @@
         </div>
         <!-- height input -->
         <div class="col input-group mb-3">
-            <div class="input-group-prepend">
+            <!-- <div class="input-group-prepend">
               <span class="input-group-text">Height:</span>
-            </div>
-            <input (change)="updateDimensionsButton(); changeElementFocus('horizontalDividersInput')" type="number" min="0" class="form-control" id="heightInput" placeholder=""/>
+            </div> -->
+            <select *ngIf="this.sharedDataService.unitChoice == 'inches'" (change)="updateDimensionsButton(); changeElementFocus('horizontalDividersInput'); updatePanelLayout()" id="heightInput" class="form-control form-select" name="height">
+                <!-- <option selected>width</option> -->
+                <option *ngFor="let num of range(100, 5)" [ngValue]="num">{{num}}</option>
+            </select>
+            <input *ngIf="this.sharedDataService.unitChoice == 'mm'" (change)="updateDimensionsButton(); changeElementFocus('horizontalDividersInput'); updatePanelLayout()" type="number" min="0" class="form-control" id="heightInput" placeholder=""/>
             <div class="input-group-append">
                 <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sup>{{this.sharedDataService.topSash ? this.sharedDataService.windowHeightFractionNum : this.sharedDataService.bottomSashHeightFractionNum}}</sup>&frasl;<sub>16</sub>"</button>
                 <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
@@ -82,37 +93,68 @@
         <div class="form-group form-row">
             <!-- horizontal dividers input -->
             <div class="col input-group mb-3" *ngIf="this.sharedDataService.selectedDividerType != 'nodiv'">
-                <div class="input-group-prepend">
+                <!-- <div class="input-group-prepend">
                 <span class="input-group-text">Horizontal:</span>
-                </div>
-                <input (change)="updateDimensionsButton(); changeElementFocus('verticalDividersInput')" type="number" min="0" class="form-control" id="horizontalDividersInput" placeholder="" [value]="this.sharedDataService.dividerNumbers[0]"/>
+                </div> -->
+                <select (change)="updateDimensionsButton(); changeElementFocus('verticalDividersInput'); updatePanelLayout()" id="horizontalDividersInput" class="form-control form-select" name="horz">
+                    <option selected>horizontal</option>
+                    <option value=0>0</option>
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                </select>
+                <!-- <input (change)="updateDimensionsButton(); changeElementFocus('verticalDividersInput'); updatePanelLayout()" type="number" min="0" class="form-control" id="horizontalDividersInput" placeholder="" [value]="this.sharedDataService.dividerNumbers[0]"/> -->
             </div>
             <!-- vertical dividers input -->
             <div class="col input-group mb-3" *ngIf="this.sharedDataService.selectedDividerType != 'nodiv'">
-                <div class="input-group-prepend">
+                <!-- <div class="input-group-prepend">
                 <span class="input-group-text">Vertical:</span>
-                </div>
-                <input (change)="updateDimensionsButton(); changeElementFocus('dividerWidthInput')" type="number" min="0" class="form-control" id="verticalDividersInput" placeholder="" [value]="this.sharedDataService.dividerNumbers[1]"/>
+                </div> -->
+                <select (change)="updateDimensionsButton(); changeElementFocus('dividerWidthInput'); updatePanelLayout()" id="verticalDividersInput" class="form-control form-select" name="vert">
+                    <option selected>vertical</option>
+                    <option value=0>0</option>
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                </select>
+                <!-- <input (change)="updateDimensionsButton(); changeElementFocus('dividerWidthInput'); updatePanelLayout()" type="number" min="0" class="form-control" id="verticalDividersInput" placeholder="" [value]="this.sharedDataService.dividerNumbers[1]"/> -->
             </div>
-        </div>
-        <div class="form-group form-row" *ngIf="this.sharedDataService.selectedDividerType != 'nodiv'">
-            <!-- <label class="formLabel" for="dividerWidthInput">Divider Width:</label>
-            <input type="number" min="0" class="form-control" id="dividerWidthInput" placeholder="{{unitChoice}}"/> -->
-            <!-- vertical dividers input -->
-            <div class="col input-group mb-3">
-                <div class="input-group-prepend">
-                <span class="input-group-text">Divider Width:</span>
-                </div>
-                <input (change)="updateDimensionsButton()" type="number" min="0" class="form-control" id="dividerWidthInput" placeholder="0" [value]="this.getDividerWidthValue()"/>
-                <div class="input-group-append">
-                    <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sup>{{this.sharedDataService.dividerWidthFractionNum}}</sup>&frasl;<sub>16</sub>"</button>
-                    <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
-                        <a *ngFor="let num of range(16)" (click)="this.updateDividerWidthFraction(num); updateDimensionsButton();" class="dropdown-item" href="javascript:void(0)"><sup>{{num}}</sup>&frasl;<sub>16</sub>"</a>
+
+            <!-- <div class="form-group form-row" *ngIf="this.sharedDataService.selectedDividerType != 'nodiv'"> -->
+                <!-- <label class="formLabel" for="dividerWidthInput">Divider Width:</label>
+                <input type="number" min="0" class="form-control" id="dividerWidthInput" placeholder="{{unitChoice}}"/> -->
+                <!-- vertical dividers input -->
+                <div class="col input-group mb-3" *ngIf="this.sharedDataService.selectedDividerType != 'nodiv'">
+                    <!-- <div class="input-group-prepend">
+                    <span class="input-group-text">Divider Width:</span>
+                    </div> -->
+                    <select (change)="updateDimensionsButton(); updatePanelLayout()" id="dividerWidthInput" class="form-control form-select" name="dividerWidth">
+                        <!-- <option selected>width</option> -->
+                        <option *ngFor="let num of range(5)" [ngValue]="num">{{num}}</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sup>{{this.sharedDataService.dividerWidthFractionNum}}</sup>&frasl;<sub>16</sub>"</button>
+                        <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
+                            <a *ngFor="let num of range(16)" (click)="this.updateDividerWidthFraction(num); updateDimensionsButton();" class="dropdown-item" href="javascript:void(0)"><sup>{{num}}</sup>&frasl;<sub>16</sub>"</a>
+                        </div>
+                        <span *ngIf="this.sharedDataService.unitChoice != 'inches'" class="input-group-text textarea-addon" id="widthUnits" [textContent]="unitText()"></span>
                     </div>
-                    <span *ngIf="this.sharedDataService.unitChoice != 'inches'" class="input-group-text textarea-addon" id="widthUnits" [textContent]="unitText()"></span>
+                    <!-- <input (change)="updateDimensionsButton(); updatePanelLayout()" type="number" min="0" class="form-control" id="dividerWidthInput" placeholder="0" [value]="this.getDividerWidthValue()"/>
+                    <div class="input-group-append">
+                        <button *ngIf="this.sharedDataService.unitChoice == 'inches'" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><sup>{{this.sharedDataService.dividerWidthFractionNum}}</sup>&frasl;<sub>16</sub>"</button>
+                        <div *ngIf="this.sharedDataService.unitChoice == 'inches'" class="dropdown-menu fractionDropdown">
+                            <a *ngFor="let num of range(16)" (click)="this.updateDividerWidthFraction(num); updateDimensionsButton();" class="dropdown-item" href="javascript:void(0)"><sup>{{num}}</sup>&frasl;<sub>16</sub>"</a>
+                        </div>
+                        <span *ngIf="this.sharedDataService.unitChoice != 'inches'" class="input-group-text textarea-addon" id="widthUnits" [textContent]="unitText()"></span>
+                    </div> -->
                 </div>
-            </div>
+            <!-- </div> -->
         </div>
+        
     </div>
 
     <!-- Below is only available to mobile users with a double hung -->
@@ -160,6 +202,6 @@
 
     <!-- <input type="button" class="btn btn-light btn-med" id="backInput" (click)="previousStage()" value="Back"/> -->
     <input type="button" [style]="'display: ' + ((isDoubleHung() && isLaptop())  ? 'inline' : 'none') + ';'" class="btn btn-dark btn-med notOnMobile" id="sashSelectionButton" (click)="switchSash()" value="{{sashButtonText()}}"/>
-    <!-- <input type="button" class="btn btn-dark btn-med notOnMobile" id="submitInput" (click)="updateDimensionsButton(); updatePanelLayout()" value="Next" data-toggle="modal" data-target="#dimensionsFormModal"/> -->
+    <input type="button" class="btn dimensionsSubmitButton btn-med notOnMobile" id="submitInput" (click)="nextstage();" value="Confirm"/>
     
 </form>

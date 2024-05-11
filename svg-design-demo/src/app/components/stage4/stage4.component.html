@@ -40,6 +40,7 @@
                 <br/>
                 <br/>
                 <a *ngIf="this.sharedDataService.selectedPalleteCategory != undefined && (this.sharedDataService.userInfo[5] != undefined && (this.sharedDataService.userInfo[5].includes('admin'))) " (click)="updateColorMode('hard')" href="javascript:void(0)"><p class="switcherLink">{{this.posts[0].fields.switchToColorCustom}}</p></a>
+                <input type="button" class="btn dimensionsSubmitButton btn-med notOnMobile" id="submitInput2" (click)="completeOrder();" value="Confirm"/>
             </div>
             <div class="currentPalleteContainer">
                 <h4>Current Pallete</h4>
@@ -57,7 +58,7 @@
                 </div>  
             </div>
         </div>
-          
+        
         <!-- <app-design-window class="notOnMobile"></app-design-window> -->
         <!-- <app-colors-container [paneColors]=true class="notOnMobile"></app-colors-container> -->
         <app-mobile-color-picker class="notOnLaptop"></app-mobile-color-picker>

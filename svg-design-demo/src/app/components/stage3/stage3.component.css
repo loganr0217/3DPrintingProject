@@ -1,6 +1,6 @@
 #stage3Container {
     display: flex;
-    padding-bottom: 40vh;
+    padding-bottom: 20vh;
 }
 
 .sideText {
@@ -10,9 +10,18 @@
     max-height: 70vh;
 }
 
+.form-check-label {
+    margin-left: 1vw;
+    margin-right: 2vw;
+}
+
 .dividerDetails {
     flex: 1;
     max-height: 60vh;
+}
+.unitButtons {
+    padding-top: 1vh;
+    padding-bottom: 3vh;
 }
 
 /* Text

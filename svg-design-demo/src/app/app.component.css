@@ -14,13 +14,49 @@
     z-index:100;
     position: fixed;
     right:0;
-    bottom:0;
+    bottom:45vh;
     background-color: #ffffff;
 }
+#footer {
+    background-color: #1E1C1A;
+}
+.footerLinkContainer {
+    display: flex;
+}
+.footerTextLinks {
+    flex:6;
+    margin-top: 5vh;
+    margin-left: 2vw;
+}
+.navbarIcon {
+    margin-left:2vw;
+    margin-top:3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
+.logoImage {
+    justify-content: center;
+}
+
+.navbarIcon:hover .navbarIconText{
+    visibility: visible;
+}
+.navbarIconText {
+    font-size: small;
+    visibility: hidden;
+    
+}
+.logoImage {
+    margin-top: -30px;
+}
 .contactForm {
     margin: auto;
     padding-bottom: 5vh;
+}
+.navbarIcons {
+    display: flex;
 }
 
 .modal-title, .modal-text {
@@ -38,6 +74,12 @@
     margin-left: 5px;
 }
 
+.socialMediaLinks {
+    margin-top: 10vh;
+    /* margin-left: 10vw; */
+    flex:4;
+}
+
 .contactFormButton {
     color: #ffffff;
     font-family: 'Inter Tight', sans-serif;
@@ -45,9 +87,54 @@
     border: 1px solid black;
 }
 
+#ourPartnersContainer {
+    margin: auto;
+    text-align: center;
+    margin-bottom: 5vh;
+}
+
+.ourPartnersImg {
+    width: 60vw;
+    object-fit: contain;
+}
+.partnerLinks {
+    margin-left:18vw;
+    width: 60vw;
+    display: grid;
+    grid-template-columns: 16vw 18.85vw 19.42vw 14.7vw;
+    position: absolute;
+    z-index: 3;
+}
+.partnerLink {
+    height:80px;
+    margin-right: 4vw;
+}
+
+.footerNote {
+    text-decoration: none;
+}
+.footerNote:hover {
+    text-decoration: underline;
+    /* text-decoration-color: white; */
+}
+
+
 .navbar {padding: 0.5rem 0rem;}
 .nav-item, .navbar-brand, .navbar-toggler {margin-left:2vw; margin-right: 2vw;}
 
+.navbar-text-link, .navbar-text-links {
+    margin-top: -20px;
+    font-weight: 100;
+    font-size: medium;
+}
+
+.navbar-text-links {
+    margin-left: 8.5vw;
+}
+
+.navbar-text-link:hover {
+    text-decoration: underline;
+}
 /* Mobile styling */
 @media only screen and (max-width: 576px) {
     .contactFormButton {
@@ -67,7 +154,7 @@
         font-size: 2vw;
     }
     .footerTag, .footerNote {
-        font-size: 2vw;
+        font-size: small;
     }
 }
 
@@ -86,3 +173,18 @@
     }
 
 } */
+
+.offcanvas-end {
+    /* transform: translateX(60vw)!important; */
+    width:40vw!important;
+    height: 100vh;
+    position: fixed;
+    right: 40vw;
+    top: 65px;
+    z-index: 100;
+    background-color: #ffffff;
+}
+
+#sideBar {
+    position: relative;
+}

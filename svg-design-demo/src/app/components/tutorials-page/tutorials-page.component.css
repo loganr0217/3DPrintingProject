@@ -1,29 +1,73 @@
-#tutorialsPageContainer {
-    padding-top: 5vh;
-    padding-left: 2vw;
-    padding-right: 2vw;
+#tutorialPageContainer {
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-top: 5vh;
+    text-align: left;
 }
 
-.btn {
-    margin-right: 2vw;
+.nameAndEmail {
+    width: 35vw;
+    margin-right: 5vw;
+}
+
+#installSection {
+    display: grid;
+    grid-template-columns: 26.67vw 26.67vw 26.67vw;
+}
+
+.installItem {
     margin-bottom: 5vh;
 }
 
-#tdiInfo, #measurementInfo, #installationInfo {
-    padding-top: 80px;
+.installImageBody {
+    font-size: small;
+    margin-top: 2vh;
 }
 
+.yourMessage {width: 40vw;}
+
+#customOrderFormContainer {
+    text-align: left;
+}
+#customMessageForm {
+    display: flex;
+}
+#contactSection {
+    text-align: center;
+}
+.tutorialSubHeader {
+    font-size: small;
+}
+#tutorialSectionType {
+    margin-bottom: 5vh;
+}
+
+.tutorialSectionButton:hover {
+    border-bottom: 1px solid black;
+}
+
+.sectionItem {
+    display: grid;
+    grid-template-columns: 20vw 19vw 19vw 19vw;
+    margin-bottom: 5vh;
+}
+
+.aboutImage {
+    object-fit: contain;
+    width: 18vw;
+    height: 18vw;
+}
+.aboutText {
+    font-size: small;
+    margin-right: 1vw;
+}
 
 @media only screen and (max-width: 576px) {
-    #tutorialsPageContainer > p {
+    #aboutPageContainer > p {
         font-size: 16px;
     }
 
-    #tutorialsPageContainer > ul > li > p {
-        font-size: 16px;
-    }
-
-    #tutorialsPageContainer > ol > li > p {
+    #aboutPageContainer > ul > li > p{
         font-size: 16px;
     }
 }

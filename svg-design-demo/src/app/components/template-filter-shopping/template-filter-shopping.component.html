@@ -1,0 +1,99 @@
+<div id="filteringSystem">
+    <a href="javascript:void(0)" class="linkWrapper"><h5 (click)="changeStage2Visibility()" class="sectionHeader">{{this.sharedDataService.stage2Visible ? 'Window -' : 'Window +'}}</h5></a>
+    <app-stage2 *ngIf="this.sharedDataService.stage2Visible"></app-stage2>
+    <a href="javascript:void(0)" class="linkWrapper"><h5 (click)="changeStage3Visibility()" class="sectionHeader">{{this.sharedDataService.stage3Visible ? 'Measurement -' : 'Measurement +'}}</h5></a>
+    <app-stage3 *ngIf="this.sharedDataService.stage3Visible"></app-stage3>
+    <a id="templateSectionButton" href="javascript:void(0)" class="linkWrapper"><h5 (click)="changeTemplateSectionVisibility()" class="sectionHeader">{{this.sharedDataService.templateSectionVisible ? 'Template -' : 'Template +'}}</h5></a>
+    <div id="templateSection" *ngIf="this.sharedDataService.templateSectionVisible">
+        <div class="leftSection">
+            <div id="categoryFiltering">
+                <div class="form-check" (click)="updateSelectedTemplateCategories(); this.sharedDataService.filterTemplates()" *ngFor="let templateCategory of ['Art Deco', 'Mid Century Modern', 'Geometric', 'Traditional', 'Specialty']">
+                    <input class="form-check-input" type="checkbox" value="" [checked]="this.sharedDataService.selectedTemplateCategory.includes(templateCategory)" id="check_{{templateCategory}}">
+                    <label class="form-check-label" for="check_{{templateCategory}}">{{templateCategory}}</label>
+                </div>
+            </div>
+            <div id="palleteFiltering">
+                <p><u>Color</u></p>
+                <div class="form-check" (click)="updatePalleteCategories()" *ngFor="let palleteCategory of ['Pasteles', 'Natural', 'Moody', 'Monochrome', 'Vivid', 'Seasonal']">
+                    <input class="form-check-input" type="radio" name="palleteRadioButtons" [checked]="this.sharedDataService.selectedPalleteCategory.includes(palleteCategory)" id="check_{{palleteCategory}}">
+                    <label class="form-check-label" for="check_{{palleteCategory}}">{{palleteCategory}}</label>
+                </div>
+                <div class="palleteSelectionContainer">
+                    <div class="palleteSelection">
+                        <div class="palleteIconsWithNames">
+                            <ng-container class="palleteIconWithName" *ngFor="let pallete of this.sharedDataService.palletes; let i = index">
+                                <div *ngIf="this.sharedDataService.selectedPalleteCategory != undefined && this.sharedDataService.selectedPalleteCategory.includes(pallete.category) && pallete.colorPlacements.split(',').length == 5" class="palleteIconWithName">
+                                    <svg xmlns="http://www.w3.org/2000/svg" (click)="updateCurrentColors(false);" width="16" height="48" fill="currentColor" class="bi bi-arrow-left palleteArrow" viewBox="0 0 16 16" [attr.style]="pallete.id == this.selectedPalleteID ? 'visibility:visible; flex:1;' : 'visibility:hidden; flex:1;'">
+                                        <path d="M10 12.796V3.204L4.519 8zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753"/>
+                                    </svg>
+                                    <svg (click)="updateSelectedPallete(pallete.id); updatePalleteColors(pallete.colorPlacements);"  [attr.style]="pallete.id == this.selectedPalleteID ? 'border:3px solid blue;' : ''" xmlns="http://www.w3.org/2000/svg" class="svgPalleteIcons" [attr.viewBox]="'0,0,300,300'">
+                                        <path [attr.style]="'fill:#666666;stroke-width:2; stroke:#000000'" [attr.d]="'M 0,0 V 300 H 300 V 0 Z'"/>
+                                        <path [attr.style]="'fill:#'+(pallete.id == this.selectedPalleteID ? this.selectedPalleteColors.split(',')[i] : color)+';stroke-width:2; stroke:#000000'" *ngFor="let color of pallete.colorPlacements.split(','); let i = index" [attr.d]="getPalleteColorD(pallete.colorPlacements, i)"/>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" (click)="updateCurrentColors(true);" width="16" height="48" fill="currentColor" class="bi bi-arrow-right palleteArrow" viewBox="0 0 16 16" [attr.style]="pallete.id == this.selectedPalleteID ? 'visibility:visible; flex:1;' : 'visibility:hidden; flex:1;'">
+                                        <path d="M6 12.796V3.204L11.481 8zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753"/>
+                                    </svg>
+                                </div>
+                                
+                            </ng-container>
+                        </div> 
+                        <br/>
+                        <br/>
+                    </div>
+                    <!-- <div class="currentPalleteContainer">
+                        <h4>Current Pallete</h4>
+                        <div *ngIf="this.selectedPalleteID != -1" class="palleteIconWithName">
+                            <svg xmlns="http://www.w3.org/2000/svg" (click)="updateCurrentColors(false)" width="32" height="32" fill="currentColor" class="bi bi-arrow-left palleteArrow" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="currentPalleteIcon" [attr.viewBox]="'0,0,300,300'">
+                                <path [attr.style]="'fill:#666666;stroke-width:2; stroke:#000000'" [attr.d]="'M 0,0 V 300 H 300 V 0 Z'"/>
+                                <path [attr.style]="'fill:#'+color+';stroke-width:2; stroke:#000000'" *ngFor="let color of this.selectedPalleteColors.split(','); let i = index" [attr.d]="getPalleteColorD(this.selectedPalleteColors, i)"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" (click)="updateCurrentColors(true)" width="32" height="32" fill="currentColor" class="bi bi-arrow-right palleteArrow" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                            </svg>
+                        </div>  
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="rightSection">
+            <h4 class="rightSectionHeader">on to the fun part</h4>
+            <app-template-selection-container ></app-template-selection-container>
+            <!-- Modal for order info -->
+            <div class="modal fade" id="customLightscreenModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Your Custom Lightscreen</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            <div class="cartButtons">
+                                <p *ngIf="this.sharedDataService.sampleOrder == ''" [textContent]="getWindowWidth()"></p>
+                                <p *ngIf="this.sharedDataService.sampleOrder == ''" [textContent]="getWindowHeight()"></p>
+                                <hr *ngIf="this.isDoubleHung()" />
+                                <p *ngIf="this.isDoubleHung()" [textContent]="getBottomSashWidth()"></p>
+                                <p *ngIf="this.isDoubleHung()" [textContent]="getBottomSashHeight()"></p>
+                                <p [textContent]="getWindowPrice()"></p>
+                                <button type="button" (click)="addCartItem()" class="btn cartButton">Add to Cart</button>
+                                <button type="button" (click)="saveDesign()" class="btn cartButton">Save for Later</button>
+                                <!-- <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-label="Close"><span>go back</span></a> -->
+                            </div>
+                            <app-window-preview-container class="windowPreviewCon" [modalPreview]="true"></app-window-preview-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+
+    <!-- If old method is being used -->
+    <app-stage4 *ngIf="this.sharedDataService.oldDesignProcessActive" id="oldDesignProcessColoringStep" style="display: none;"></app-stage4>
+</div>

@@ -1,0 +1,74 @@
+#filteringSystem {
+    padding-left: 2vw;
+}
+
+#templateSection {
+    display: flex;
+}
+.leftSection {
+    flex:1;
+}
+.rightSection {
+    flex:5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-body {
+    display: flex;
+} 
+.windowPreviewCon {
+    margin: auto;
+}
+.cartButtons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.cartButton {
+    margin-bottom: 1vw;
+    background-color: #F0E3E0;
+    color: black;
+    border-radius: 10px;
+    width: fit-content;
+}
+.rightSectionHeader {
+    margin-bottom: 5vh;
+    margin-top: -5vh;
+}
+.svgPalleteIcons {
+    width:4vw;
+    margin-bottom: 1vh;
+}
+
+#oldDesignProcessColoringStep {
+    margin-top: 5vh;
+    margin-left: -2vw;
+}
+.form-check-input:checked {
+    background-color: black;
+    border-color: black;
+}
+
+.palleteIconsWithNames {
+    display:grid;
+    grid-template-columns: 7vw 7vw;
+}
+
+.palleteIconWithName {
+    display: flex;
+}
+
+.sectionHeader {
+    font-weight: 300;
+    color: black;
+}
+
+.linkWrapper {
+    text-decoration: underline;
+    text-decoration-color: black;
+}
+
+
+.palleteSelectionContainer {max-height: 20vh; overflow-y: scroll;}

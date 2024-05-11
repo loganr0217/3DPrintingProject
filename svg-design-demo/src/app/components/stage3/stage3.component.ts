@@ -15,7 +15,7 @@ export class Stage3Component implements OnInit {
   posts:Entry<any>[] = [];
   measurementPosts:Entry<any>[] = [];
   howToPosts:Entry<any>[] = [];
-  constructor(private sharedDataService:SharedDataService, public contentfulService:ContentfulService,
+  constructor(public sharedDataService:SharedDataService, public contentfulService:ContentfulService,
     private sanitizer:DomSanitizer) { }
 
   fixNewPageLink(s:string) {
@@ -157,6 +157,7 @@ export class Stage3Component implements OnInit {
       $("#mmButton").removeClass("active");
       $("#inchesButton").addClass("active");
     }
+    document.getElementById("dividerWindow")?.setAttribute("style", "visibility:visible;");
   }
 
   previousStage() {

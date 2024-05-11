@@ -1,9 +1,66 @@
 <div id="aboutPageContainer">
-    <!-- <span [innerHTML]="this.contentfulService.richtextToHtml(this.posts[0].fields.overviewBody)"></span> -->
-    <div *ngFor="let post of this.posts; let i = index">
-        <h1 *ngIf="i == 0">{{this.posts[i].fields.stage}}</h1>
-        <h3 *ngIf="i != 0">{{this.posts[i].fields.stage}}</h3>
-        <span [innerHTML]="this.contentfulService.richtextToHtml(this.posts[i].fields.bodyCopy)"></span>
+    <h3>LightScreen Art, Lightscreens, Screeners - From A to Z</h3>
+    <p class="aboutSubHeader">Id movet theophrastus sit, an ius soleat civibus. Antiopam definitionem in mel, solum deterruisset mei at. Et numquam tacimates cotidieque est, ad sea clita vitae consulatu, movet hendrerit ad eos. Oratio periculis dissentiet nec ei, id eripuit dolorem fierent vix.</p>
+    <div id="aboutSectionType">
+        <button (click)="changeAboutSection(section)" *ngFor="let section of ['Lightscreens', 'Company', 'Contact']" class="btn aboutSectionButton" [attr.style]="this.isActiveSection(section) ? 'border-bottom: 1px solid black;' : ''">{{section}}</button>
     </div>
+
+    <div id="lightscreensSection" *ngIf="this.isActiveSection('Lightscreens')">
+        <div class="sectionItem" *ngFor="let post of this.posts; let i = index">
+            <p class="aboutText">{{post.fields.textDescription}}</p>
+            <img class="aboutImage" src="{{post.fields.image1 != undefined ? post.fields.image1.fields.file.url : ''}}" alt="About Photo {{1}}" />
+            <img class="aboutImage" src="{{post.fields.image2 != undefined ? post.fields.image2.fields.file.url : ''}}" alt="About Photo {{2}}" />
+            <img class="aboutImage" src="{{post.fields.image3 != undefined ? post.fields.image3.fields.file.url : ''}}" alt="About Photo {{3}}" />
+        </div>
+    </div>
+
+    <div id="companySection" *ngIf="this.isActiveSection('Company')">
+        <div id="companyInfo">
+            <h2 style="font-weight: 200;">{{this.companyPosts[0].fields.overviewHeader}}</h2>
+            <span [innerHTML]="this.contentfulService.richtextToHtml(this.companyPosts[0].fields.overviewBody)"></span>
+        </div>
+        <div id="companyPhotoSection">
+            <img class="companyPhoto" src="{{this.companyPosts[0].fields.companyPhoto != undefined ? this.companyPosts[0].fields.companyPhoto.fields.file.url : ''}}" alt="About Photo {{1}}" />
+            <p class="companyCaption"><i>{{this.companyPosts[0].fields.photoCaption}}</i></p>
+        </div>
+        
+    </div>
+
+    <div id="contactSection" *ngIf="this.isActiveSection('Contact')">
+        <h2 style="font-weight: 200;">Have a question or comment?</h2>
+        <hr style="width:10vw; margin: auto; margin-bottom: 2vh; margin-top: 2vh;" />
+        <h5 style="font-weight: 200; margin-bottom:5vh;">Reach out using the form below. We usually get back within one business day.</h5>
+
+        <div id="customOrderFormContainer">
+            <form [formGroup]="contactForm" id="customMessageForm">
+                <div class="form-group mt-2 mb-4 nameAndEmail">
+                    <label>Your Name</label>
+                    <input type="text" placeholder="Name" formControlName="name" class="form-control"/>
+                    <br />
+                    <label>Your Email</label>
+                    <input type="text" placeholder="Email*" formControlName="email" class="form-control" />
+                    <div style="color: red;" *ngIf="email?.invalid && (email?.touched || email?.dirty)">
+                        <span *ngIf="email?.errors?.['required']">*Email is required</span>
+                        <span *ngIf="email?.errors?.['email']">*Enter valid email (example@gmail.com)</span>
+                    </div>
+                </div>
+                <div class="form-group mt-2 mb-4 yourMessage">
+                    <label>Your Message</label>
+                    <textarea formControlName="message" class="form-control" cols="40" rows="5"></textarea>
+                    <!-- <input type="text" placeholder="How can we help you?" formControlName="message" class="form-control" /> -->
+                    <button style="margin-top: 5vh; position: absolute; right: 10vw;" (click)="submitContactForm()" class="btn btn-outline-dark">Send Message</button>
+                </div>
+                
+                
+            </form>
+        </div>
+    </div>
+    <!-- <div id="getInspiredPhotos">
+        <div class="getInspiredPhoto" *ngFor="let post of this.getInspiredSortedPosts; let i = index">
+            <img class="getInspiredImage" src="{{post.fields.lightscreenImage.fields.file.url}}" alt="Gallery Photo {{i}}">
+            <h6 class="getInspiredImageTemplateCategory">{{post.fields.templateCategory}}</h6>
+            <p class="getInspiredImageColorChoices">{{post.fields.colorChoices}}</p>
+        </div>
+    </div> -->
     
 </div>

@@ -22,6 +22,8 @@ import { OrderFailureComponent } from './components/order-failure/order-failure.
 import { DealerPageComponent } from './components/dealer-page/dealer-page.component';
 import { UserDirectoryComponent } from './components/user-directory/user-directory.component';
 import { MarketingMainPageComponent } from './components/marketing-main-page/marketing-main-page.component';
+import { ShoppingMainPageComponent } from './components/shopping-main-page/shopping-main-page.component';
+import { CustomOrderPageComponent } from './components/custom-order-page/custom-order-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'light-screen', pathMatch: 'full' },
@@ -126,6 +128,10 @@ const routes: Routes = [
   {
     path: "userDirectory",
     component: UserDirectoryComponent
+  },
+  {
+    path: "customOrderPage",
+    component: CustomOrderPageComponent
   }
 ];
 
