@@ -406,7 +406,7 @@ export class TemplateIconComponent implements OnInit {
     }
     else {
       if((temp.category == undefined || temp.category == "") && (this.sharedDataService.selectedTemplateCategory == undefined || this.sharedDataService.selectedTemplateCategory == "unassigned")) {isOkay = true;}
-      else if(temp.category != undefined && this.sharedDataService.selectedTemplateCategory.includes(temp.category)) {isOkay = true;}
+      else if(temp.category != undefined && (this.sharedDataService.selectedTemplateCategory != undefined && this.sharedDataService.selectedTemplateCategory.includes(temp.category)) ) {isOkay = true;}
       else {isOkay = false; return false;}
     }
     if(temp.tempString == "-1") {return false;}

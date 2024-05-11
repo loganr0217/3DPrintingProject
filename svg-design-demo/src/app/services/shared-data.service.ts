@@ -384,11 +384,13 @@ colorsData:{id:number, name:string, hex:string, darkHex:string, paneColor:boolea
     for(let i:number = 0; i < this.templateData.length; ++i) {
       // Pushing templates if they fit and are valid
       if(this.templateData[i].panelDims[0] == this.panelLayoutDims[0] && this.templateData[i].panelDims[1] == this.panelLayoutDims[1]) {
-        if(this.isTemplateOkay(this.templateData[i])) {
+        if(this.isTemplateOkay(this.templateData[i]) || (this.isColorPage() && (this.selectedTemplateCategory == undefined && (this.templateData[i].category == '' || this.templateData[i].category == undefined)) ) ) {
           this.filteredTemplateData.push(this.templateData[i]);
+          // alert("foubdn one");
         }
       }
     }
+    console.log(this.filteredTemplateData);
   }
 
   // Checking whether it is the color page (TDI)
@@ -457,7 +459,7 @@ colorsData:{id:number, name:string, hex:string, darkHex:string, paneColor:boolea
     }
     else {
       if((temp.category == undefined || temp.category == "") && (this.selectedTemplateCategory == undefined || this.selectedTemplateCategory == "unassigned")) {isOkay = true;}
-      else if(temp.category != undefined && this.selectedTemplateCategory.includes(temp.category)) {isOkay = true;}
+      else if(temp.category != undefined && (this.selectedTemplateCategory != undefined && this.selectedTemplateCategory.includes(temp.category)) ) {isOkay = true;}
       else {isOkay = false; return false;}
     }
     if(temp.tempString == "-1") {return false;}

@@ -257,6 +257,7 @@ export class ColorPageComponent implements OnInit {
   }
 
   updateLayout():void {
+    this.sharedDataService.filterTemplates();
     let leftRight:number = Number((<HTMLInputElement>document.getElementById("leftRightInput")).value)
     let topBottom:number = Number((<HTMLInputElement>document.getElementById("topBottomInput")).value)
     if(this.onPanels) {
