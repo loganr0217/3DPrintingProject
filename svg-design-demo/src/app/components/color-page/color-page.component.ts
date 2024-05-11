@@ -689,7 +689,7 @@ export class ColorPageComponent implements OnInit {
     if(categoriesSelected == 0) {this.sharedDataService.selectedTemplateCategory = "unassigned";}
     else if(categoriesSelected == 1) {this.sharedDataService.selectedTemplateCategory = templateCategories.substring(0, templateCategories.length-1);}
     else {alert("You can only filter by 1 category or unassigned (no category).");} 
-    
+    this.sharedDataService.filterTemplates();
   }
 
   testDAttribute():void {
