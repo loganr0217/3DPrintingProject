@@ -23,6 +23,8 @@ export class ColorPageComponent implements OnInit {
   currentPalleteColors:string[] = [];
   palletes:{id:number, category:string, colorPlacements:string}[] = [];
   selectedPalleteID:number = -1;
+  allTemplatesString:string = "";
+
   constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
 
   // Getting optimzed d for template
@@ -514,7 +516,7 @@ export class ColorPageComponent implements OnInit {
       }
     }
     //const templateString:string = this.templateString.substring(0, this.templateString.length-1);
-    if (confirm('Are you sure you want to add this template?')) {
+    if (confirm('Are you sure you want to add this template?' + templateString)) {
       this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addtemplate?email='"+email+"'&password='"+password+"'&numberPanelsX=" + numberPanelsX + "&numberPanelsY=" + numberPanelsY + "&templateString='" + templateString + "'&access='public'").subscribe(result => {
         let test = JSON.stringify(result).split('[').join("").split(']').join("").split('"').join("").split(",");
         alert(test);
@@ -522,6 +524,45 @@ export class ColorPageComponent implements OnInit {
     }
     
 
+  }
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  async generateCollectionTemplates():Promise<void> {
+    const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : "";
+    const password:string = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[4] : "";
+
+    // Generates long string of all templates currently available
+    for(let i:number = 0; i < this.sharedDataService.templateData.length; ++i) {
+      this.allTemplatesString += this.sharedDataService.templateData[i].tempString + "s";
+    }
+
+    // Goes through each panelgroup we offer
+    for(let i:number = 0; i < this.sharedDataService.svgTemplateData.length; ++i) {
+      // Goes through each panel in each panelgroup
+      for(let j:number = 0; j < this.sharedDataService.svgTemplateData[i].length; ++j) {
+        // Goes through 1 to 6 for dimensions
+        for(let c:number = 1; c <= 6; ++c) {
+          for(let d:number = 1; d <= 6; ++d) {
+            let tString:string = "";
+            let numPanels:number = c*d;
+            for(let f:number = 0; f < numPanels; ++f) {tString += i+","+this.sharedDataService.svgTemplateData[i][j].panelNumber+",0,0"; if(f != numPanels-1) {tString+=";";}}
+            // if(i == 0 && !this.allTemplatesString.includes(tString)) console.log(tString);
+            
+            this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/addtemplate?email='"+email+"'&password='"+password+"'&numberPanelsX=" + c + "&numberPanelsY=" + d + "&templateString='" + tString + "'&access='public'").subscribe(result => {});
+            console.log("New template added...");
+            await this.delay(2000);
+
+          }
+        }
+      }
+      
+    }
+
+    // Prints string with all templates separated by s
+    // console.log(this.allTemplatesString);
   }
 
   deleteTemplate():void {

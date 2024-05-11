@@ -42,6 +42,10 @@
     margin-bottom: 1vh;
 }
 
+#oldDesignProcessColoringStep {
+    margin-top: 5vh;
+    margin-left: -2vw;
+}
 .form-check-input:checked {
     background-color: black;
     border-color: black;

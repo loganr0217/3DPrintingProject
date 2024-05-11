@@ -2,10 +2,10 @@
     <div *ngFor="let post of this.posts" class="sideText">
         <h4 class="headerTitle"><b>and now your dimensions</b></h4>
         <div class="unitButtons">
-            <input type="radio" name="flexRadioDefault" id="inchesButton" (click)="changeUnits('inches')" />
+            <input type="radio" name="flexRadioDefault" [checked]="this.sharedDataService.unitChoice == 'inches'" id="inchesButton" (click)="changeUnits('inches')" />
             <label class="form-check-label" for="flexRadioDefault1">inches</label>
             <!-- <button class="btn btn-outline-dark unitButton" id="inchesButton" (click)="changeUnits('inches')" type="button">inches</button> -->
-            <input type="radio" name="flexRadioDefault" id="mmButton" (click)="changeUnits('mm')" />
+            <input type="radio" name="flexRadioDefault" [checked]="this.sharedDataService.unitChoice == 'mm'" id="mmButton" (click)="changeUnits('mm')" />
             <label class="form-check-label" for="flexRadioDefault1">millimeters</label>
             <!-- <button class="btn btn-outline-dark unitButton" id="mmButton" (click)="changeUnits('mm')" type="button">millimeters</button> -->
         </div>

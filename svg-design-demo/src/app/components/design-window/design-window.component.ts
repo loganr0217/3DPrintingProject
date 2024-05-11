@@ -5,6 +5,8 @@ import { SVGTemplate } from '../svgScaler';
 import { Entry } from 'contentful';
 import { ContentfulService } from 'src/app/services/contentful.service';
 
+declare var $:any;
+
 @Component({
   selector: 'app-design-window',
   templateUrl: './design-window.component.html',
@@ -49,6 +51,10 @@ export class DesignWindowComponent implements OnInit {
   // Returns 0 to n-1 (mainly used for iterating svg path items)
   range(n:number=this.sharedDataService.maxPanes):number[] {
     return [...Array(n).keys()];
+  }
+
+  completeOrder():void {
+    $('#customLightscreenModal').modal('show');
   }
 
   // Fills selected panel for a pane if autofill string exists

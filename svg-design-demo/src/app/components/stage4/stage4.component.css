@@ -105,6 +105,14 @@ p {
     /* flex-direction: column; */
     overscroll-behavior-x: contain;
 }
+
+.dimensionsSubmitButton {
+    background-color: #F0E3E0;
+    color: black;
+    border-radius: 10px;
+    width: fit-content;
+}
+
 .palleteIconWithName {
     display: flex;
     padding-left: 1vw;

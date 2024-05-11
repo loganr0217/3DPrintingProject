@@ -24,7 +24,7 @@ export class TemplateFilterShoppingComponent {
     this.sharedDataService.selectedPalleteID = this.selectedPalleteID;
     this.sharedDataService.selectedPalleteColors = this.selectedPalleteColors.split(',');
     this.sharedDataService.selectedPalleteCategory = "Pasteles";
-    this.sharedDataService.selectedTemplateCategory = "Artist Inspired";
+    this.sharedDataService.selectedTemplateCategory = "Art Deco";
   }
 
   changeStage2Visibility():void {this.sharedDataService.stage2Visible = !this.sharedDataService.stage2Visible;}

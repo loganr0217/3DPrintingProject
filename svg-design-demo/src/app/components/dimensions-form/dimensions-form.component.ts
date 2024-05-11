@@ -424,18 +424,18 @@ getPanelHeight(height:number):number {
     this.updatePanelLayout();
     let availableTemplate:boolean = this.isAvailableTemplate();
     if(availableTemplate && !(this.sharedDataService.panelLayoutDims[0] == -1 && this.sharedDataService.panelLayoutDims[1] == -1) && this.getPanelWidths(this.sharedDataService.windowWidth)[0] != -1 && this.getPanelHeights(this.sharedDataService.windowHeight)[0] != -1) {
-      if(!this.sharedDataService.shoppingSectionActive) {
-        document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;");
-        $('#dimensionsFormModal').modal('hide');
-        document.getElementById("templateCategoryStage")?.scrollIntoView({behavior: 'smooth'});
-        // this.sharedDataService.continueSavedOrder = true;
-      }
-      else {
+      // if(!this.sharedDataService.shoppingSectionActive) {
+      //   document.getElementById("templateCategoryStage")?.setAttribute("style", "visibility:visible;");
+      //   $('#dimensionsFormModal').modal('hide');
+      //   document.getElementById("templateCategoryStage")?.scrollIntoView({behavior: 'smooth'});
+      //   // this.sharedDataService.continueSavedOrder = true;
+      // }
+      // else {
         this.sharedDataService.stage3Visible = false;
         this.sharedDataService.templateSectionVisible = true;
         setTimeout(() => {document.getElementById("templateSectionButton")?.scrollIntoView({behavior: 'smooth'});}, 10);
         
-      }
+      // }
     }
     // Doesn't meet panel width/height requirements
     else {

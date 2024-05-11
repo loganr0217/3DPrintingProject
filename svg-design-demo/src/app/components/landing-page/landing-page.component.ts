@@ -83,10 +83,13 @@ export class LandingPageComponent implements OnInit {
   nextstage2() {
     this.sharedDataService.shoppingSectionActive = false;
     this.sharedDataService.oldDesignProcessActive = true;
-    document.getElementById("shoppingPage")?.setAttribute("style", "visibility:hidden; display:none;");
-    document.getElementById("oldDesignProcess")?.setAttribute("style", "visibility:visible;");
-    document.getElementById("stage2")?.setAttribute("style", "visibility:visible;");
-    setTimeout(() => {document.getElementById("stage2")?.scrollIntoView({behavior: 'smooth'});}, 10);
+    // document.getElementById("shoppingPage")?.setAttribute("style", "visibility:hidden; display:none;");
+    // document.getElementById("oldDesignProcess")?.setAttribute("style", "visibility:visible;");
+    document.getElementById("oldDesignProcess")?.setAttribute("style", "visibility:hidden; display:none;");
+    document.getElementById("shoppingPage")?.setAttribute("style", "visibility:visible;");
+    // document.getElementById("stage2")?.setAttribute("style", "visibility:visible;");
+    // setTimeout(() => {document.getElementById("stage2")?.scrollIntoView({behavior: 'smooth'});}, 10);
+    setTimeout(() => {document.getElementById("shoppingPage")?.scrollIntoView({behavior: 'smooth'});}, 10);
     if(this.sharedDataService.signedIn) {this.sharedDataService.currentStepID = 1;}
     else {this.sharedDataService.currentStepID = 0;}
     const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : 'undefined';

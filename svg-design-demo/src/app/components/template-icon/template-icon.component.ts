@@ -191,7 +191,8 @@ export class TemplateIconComponent implements OnInit {
       document.getElementById("stage4")?.scrollIntoView({behavior: 'auto'});
       this.sharedDataService.currentStepID = 5;
       if(this.sharedDataService.shoppingSectionActive) {$('#customLightscreenModal').modal('show');}
-      else {$('#howToModal4').modal('show');}
+      else {document.getElementById("oldDesignProcessColoringStep")?.setAttribute("style", "display:block;"); document.getElementById("oldDesignProcessColoringStep")?.scrollIntoView({behavior: 'auto'}); $('#howToModal4').modal('show');}
+      // else {$('#howToModal4').modal('show');}
       const email:any = this.sharedDataService.userInfo.length > 1 ? this.sharedDataService.userInfo[3] : 'undefined';
       this.http.get("https://backend-dot-lightscreendotart.uk.r.appspot.com/updatesession?sessionID="+this.sharedDataService.sessionID+"&lastStepID="+this.sharedDataService.currentStepID+"&startingURL='"+this.sharedDataService.sessionStartingUrl+"'&userEmail='"+email+"'").subscribe(result => { 
       });

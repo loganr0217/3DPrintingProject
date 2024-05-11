@@ -7,7 +7,7 @@
     <div id="templateSection" *ngIf="this.sharedDataService.templateSectionVisible">
         <div class="leftSection">
             <div id="categoryFiltering">
-                <div class="form-check" (click)="updateSelectedTemplateCategories(); this.sharedDataService.filterTemplates()" *ngFor="let templateCategory of ['Artist Inspired', 'Interests', 'Garden', 'Classics', 'Sacred', 'Abstract', 'Art Deco', 'Mid Century Modern', 'Geometric', 'Traditional', 'Specialty']">
+                <div class="form-check" (click)="updateSelectedTemplateCategories(); this.sharedDataService.filterTemplates()" *ngFor="let templateCategory of ['Art Deco', 'Mid Century Modern', 'Geometric', 'Traditional', 'Specialty']">
                     <input class="form-check-input" type="checkbox" value="" [checked]="this.sharedDataService.selectedTemplateCategory.includes(templateCategory)" id="check_{{templateCategory}}">
                     <label class="form-check-label" for="check_{{templateCategory}}">{{templateCategory}}</label>
                 </div>
@@ -92,4 +92,8 @@
         </div>
         
     </div>
+
+
+    <!-- If old method is being used -->
+    <app-stage4 *ngIf="this.sharedDataService.oldDesignProcessActive" id="oldDesignProcessColoringStep" style="display: none;"></app-stage4>
 </div>

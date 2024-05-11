@@ -3,6 +3,9 @@ import { Entry } from 'contentful';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { ContentfulService } from 'src/app/services/contentful.service';
 
+
+declare var $:any;
+
 @Component({
   selector: 'app-stage4',
   templateUrl: './stage4.component.html',
@@ -44,6 +47,10 @@ export class Stage4Component implements OnInit {
     let splitNumber:number = 300 / separatedColors.length;
     let paneString:string = "M " + colorIndex*splitNumber + ", 0 V 300 H " + (colorIndex+1)*splitNumber + "V 0 Z";
     return paneString;
+  }
+
+  completeOrder():void {
+    $('#customLightscreenModal').modal('show');
   }
 
   getPossibleColors():number {
