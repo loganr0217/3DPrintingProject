@@ -384,13 +384,13 @@ colorsData:{id:number, name:string, hex:string, darkHex:string, paneColor:boolea
     for(let i:number = 0; i < this.templateData.length; ++i) {
       // Pushing templates if they fit and are valid
       if(this.templateData[i].panelDims[0] == this.panelLayoutDims[0] && this.templateData[i].panelDims[1] == this.panelLayoutDims[1]) {
-        if(this.isTemplateOkay(this.templateData[i]) || (this.isColorPage() && (this.selectedTemplateCategory == undefined && (this.templateData[i].category == '' || this.templateData[i].category == undefined)) ) ) {
+        if(this.isTemplateOkay(this.templateData[i])) {
           this.filteredTemplateData.push(this.templateData[i]);
           // alert("foubdn one");
         }
       }
     }
-    console.log(this.filteredTemplateData);
+    // console.log(this.filteredTemplateData);
   }
 
   // Checking whether it is the color page (TDI)
@@ -454,12 +454,25 @@ colorsData:{id:number, name:string, hex:string, darkHex:string, paneColor:boolea
   isTemplateOkay(temp:{id:number, numPanels:number, panelDims:number[], tempString:string, category:string}):boolean {
     let isOkay:boolean = true;
     if(!this.isColorPage()) {
-      if(temp.category != undefined && this.selectedTemplateCategory.includes(temp.category)) {isOkay = true;}
+      if(temp.category != undefined) {
+        
+        let categories:string[] = this.selectedTemplateCategory.split(";");
+        isOkay = false;
+        for(let i:number = 0; i < categories.length; ++i) {
+          if(temp.category.includes(categories[i]) && categories[i] != '') {isOkay = true;}
+        }
+      }
       else {isOkay = false; return false;}
     }
     else {
       if((temp.category == undefined || temp.category == "") && (this.selectedTemplateCategory == undefined || this.selectedTemplateCategory == "unassigned")) {isOkay = true;}
-      else if(temp.category != undefined && (this.selectedTemplateCategory != undefined && this.selectedTemplateCategory.includes(temp.category)) ) {isOkay = true;}
+      else if(temp.category != undefined && (this.selectedTemplateCategory != undefined) ) {
+        let categories:string[] = this.selectedTemplateCategory.split(";");
+        isOkay = false;
+        for(let i:number = 0; i < categories.length; ++i) {
+          if(temp.category.includes(categories[i]) && categories[i] != '') {isOkay = true;}
+        }
+      }
       else {isOkay = false; return false;}
     }
     if(temp.tempString == "-1") {return false;}
