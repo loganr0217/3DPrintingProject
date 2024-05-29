@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class AboutPageComponent implements OnInit {
   posts:Entry<any>[] = [];
   companyPosts:Entry<any>[] = [];
+  aboutPagePosts:Entry<any>[] = [];
   selectedSection:string = "Lightscreens";
   contactForm!: UntypedFormGroup;
 
@@ -30,6 +31,7 @@ export class AboutPageComponent implements OnInit {
     // this.contentfulService.getPostById('43QiNN0eAUDDakHAS3h9ix', 'howTo').then(post => this.posts[6] = post);
     this.contentfulService.getPostsOrdered('exploreLightscreensItem').then(posts => this.posts = posts);
     this.contentfulService.getPosts('overview').then(posts => this.companyPosts = posts);
+    this.contentfulService.getPosts('aboutPageContent').then(posts => this.aboutPagePosts = posts);
 
     this.contactForm = this.formBuilder.group({
       name: [this.sharedDataService.userInfo.length <= 1 ? '' : this.sharedDataService.userInfo[1] + ' ' + this.sharedDataService.userInfo[2], Validators.required],

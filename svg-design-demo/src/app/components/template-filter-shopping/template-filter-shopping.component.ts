@@ -15,12 +15,13 @@ export class TemplateFilterShoppingComponent {
   // templateSectionVisible:boolean = false;
   selectedPalleteID:number = -1;
   selectedPalleteColors:string = '';
+  selectedTemplateCategoryMethod:string = 'By Category';
 
   constructor(public sharedDataService:SharedDataService, private http:HttpClient) { }
 
   ngOnInit():void {
-    this.selectedPalleteColors = 'd4ce67,ea924a,c9942e,F1ABB9,d8b5bc';
-    this.selectedPalleteID = 106;
+    this.selectedPalleteColors = this.sharedDataService.oldDesignProcessActive ? 'ffffff,ffffff,ffffff,ffffff,ffffff' : 'f3f3f4,fefea1,fae5e9,FFFFFF,d1e2e6';
+    this.selectedPalleteID = 135;
     this.sharedDataService.selectedPalleteID = this.selectedPalleteID;
     this.sharedDataService.selectedPalleteColors = this.selectedPalleteColors.split(',');
     this.sharedDataService.selectedPalleteCategory = "Pasteles";
@@ -33,6 +34,19 @@ export class TemplateFilterShoppingComponent {
 
   updateSelectedPalleteCategory(palleteCategory:string):void {this.sharedDataService.selectedPalleteCategory = palleteCategory;}
   updateSelectedPallete(palleteID:number):void {this.selectedPalleteID = palleteID; this.sharedDataService.selectedPalleteID = palleteID;}
+
+
+  updateSelectedTemplateCategoryMethod():void {
+    if((<HTMLInputElement>document.getElementById("check_Staff Picks"))?.checked) {
+      this.selectedTemplateCategoryMethod = "Staff Picks";
+      this.sharedDataService.selectedTemplateCategory = "Staff Picks;";
+    }
+    else {
+      this.selectedTemplateCategoryMethod = "By Category";
+      this.sharedDataService.selectedTemplateCategory = "Art Deco;";
+    }
+    this.sharedDataService.filterTemplates();
+  }
 
   updateSelectedTemplateCategories():void {
     let templateCategories:string = "";

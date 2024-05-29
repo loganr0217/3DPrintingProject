@@ -652,7 +652,7 @@ export class ColorPageComponent implements OnInit {
     
     let templateCategories:string = "";
     let templateCategoriesFormatted:string = "";
-    for(const tempCategory of ['Artist Inspired', 'Interests', 'Garden', 'Classics', 'Sacred', 'Abstract', 'Art Deco', 'Mid Century Modern', 'Geometric', 'Traditional', 'Specialty']) {
+    for(const tempCategory of ['Artist Inspired', 'Interests', 'Garden', 'Classics', 'Sacred', 'Abstract', 'Art Deco', 'Mid Century Modern', 'Geometric', 'Traditional', 'Specialty', 'Staff Picks']) {
       if((<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))?.checked) {
         templateCategories += tempCategory + ";";
         templateCategoriesFormatted += "\n- " + tempCategory;
@@ -679,7 +679,7 @@ export class ColorPageComponent implements OnInit {
     let templateCategories:string = "";
     let templateCategoriesFormatted:string = "";
     let categoriesSelected:number = 0;
-    for(const tempCategory of ['Artist Inspired', 'Interests', 'Garden', 'Classics', 'Sacred', 'Abstract', 'Art Deco', 'Mid Century Modern', 'Geometric', 'Traditional', 'Specialty']) {
+    for(const tempCategory of ['Artist Inspired', 'Interests', 'Garden', 'Classics', 'Sacred', 'Abstract', 'Art Deco', 'Mid Century Modern', 'Geometric', 'Traditional', 'Specialty', 'Staff Picks']) {
       if((<HTMLInputElement>document.getElementById("customSwitch_"+tempCategory))?.checked) {
         templateCategories += tempCategory + ";";
         templateCategoriesFormatted += "\n- " + tempCategory;

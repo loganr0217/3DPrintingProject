@@ -42,6 +42,10 @@
     margin-bottom: 1vh;
 }
 
+.templateCategoryCheckboxes {
+    margin-left: 20px;
+}
+
 #oldDesignProcessColoringStep {
     margin-top: 5vh;
     margin-left: -2vw;

@@ -6,13 +6,17 @@
     <a id="templateSectionButton" href="javascript:void(0)" class="linkWrapper"><h5 (click)="changeTemplateSectionVisibility()" class="sectionHeader">{{this.sharedDataService.templateSectionVisible ? 'Template -' : 'Template +'}}</h5></a>
     <div id="templateSection" *ngIf="this.sharedDataService.templateSectionVisible">
         <div class="leftSection">
-            <div id="categoryFiltering">
-                <div class="form-check" (click)="updateSelectedTemplateCategories(); this.sharedDataService.filterTemplates()" *ngFor="let templateCategory of ['Art Deco', 'Mid Century Modern', 'Geometric', 'Traditional', 'Specialty']">
+            <div class="form-check" (click)="updateSelectedTemplateCategoryMethod()" *ngFor="let templateCategoryMethod of ['Staff Picks', 'By Category']">
+                <input class="form-check-input" type="radio" name="templateCategoryMethodRadioButtons" [checked]="this.selectedTemplateCategoryMethod == templateCategoryMethod" id="check_{{templateCategoryMethod}}">
+                <label class="form-check-label" for="check_{{templateCategoryMethod}}">{{templateCategoryMethod}}</label>
+            </div>
+            <div id="categoryFiltering" *ngIf="this.selectedTemplateCategoryMethod == 'By Category'">
+                <div class="form-check templateCategoryCheckboxes" (click)="updateSelectedTemplateCategories(); this.sharedDataService.filterTemplates()" *ngFor="let templateCategory of ['Art Deco', 'Mid Century Modern', 'Geometric', 'Traditional', 'Specialty']">
                     <input class="form-check-input" type="checkbox" value="" [checked]="this.sharedDataService.selectedTemplateCategory.includes(templateCategory)" id="check_{{templateCategory}}">
                     <label class="form-check-label" for="check_{{templateCategory}}">{{templateCategory}}</label>
                 </div>
             </div>
-            <div id="palleteFiltering">
+            <div id="palleteFiltering" *ngIf="!this.sharedDataService.oldDesignProcessActive">
                 <p><u>Color</u></p>
                 <div class="form-check" (click)="updatePalleteCategories()" *ngFor="let palleteCategory of ['Pasteles', 'Natural', 'Moody', 'Monochrome', 'Vivid', 'Seasonal']">
                     <input class="form-check-input" type="radio" name="palleteRadioButtons" [checked]="this.sharedDataService.selectedPalleteCategory.includes(palleteCategory)" id="check_{{palleteCategory}}">
@@ -22,7 +26,7 @@
                     <div class="palleteSelection">
                         <div class="palleteIconsWithNames">
                             <ng-container class="palleteIconWithName" *ngFor="let pallete of this.sharedDataService.palletes; let i = index">
-                                <div *ngIf="this.sharedDataService.selectedPalleteCategory != undefined && this.sharedDataService.selectedPalleteCategory.includes(pallete.category) && pallete.colorPlacements.split(',').length == 5" class="palleteIconWithName">
+                                <div *ngIf="this.sharedDataService.selectedPalleteCategory != undefined && pallete.category != '' && this.sharedDataService.selectedPalleteCategory.includes(pallete.category) && pallete.colorPlacements.split(',').length == 5" class="palleteIconWithName">
                                     <svg xmlns="http://www.w3.org/2000/svg" (click)="updateCurrentColors(false);" width="16" height="48" fill="currentColor" class="bi bi-arrow-left palleteArrow" viewBox="0 0 16 16" [attr.style]="pallete.id == this.selectedPalleteID ? 'visibility:visible; flex:1;' : 'visibility:hidden; flex:1;'">
                                         <path d="M10 12.796V3.204L4.519 8zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753"/>
                                     </svg>

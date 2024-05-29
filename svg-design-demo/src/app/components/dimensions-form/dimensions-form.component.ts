@@ -433,7 +433,7 @@ getPanelHeight(height:number):number {
       // else {
         this.sharedDataService.stage3Visible = false;
         this.sharedDataService.templateSectionVisible = true;
-        setTimeout(() => {document.getElementById("templateSectionButton")?.scrollIntoView({behavior: 'smooth'});}, 10);
+        setTimeout(() => {document.getElementById("windowSectionButton")?.scrollIntoView({behavior: 'smooth'});}, 10);
         
       // }
     }

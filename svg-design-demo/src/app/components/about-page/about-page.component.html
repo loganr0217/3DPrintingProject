@@ -1,6 +1,6 @@
 <div id="aboutPageContainer">
-    <h3>LightScreen Art, Lightscreens, Screeners - From A to Z</h3>
-    <p class="aboutSubHeader">Id movet theophrastus sit, an ius soleat civibus. Antiopam definitionem in mel, solum deterruisset mei at. Et numquam tacimates cotidieque est, ad sea clita vitae consulatu, movet hendrerit ad eos. Oratio periculis dissentiet nec ei, id eripuit dolorem fierent vix.</p>
+    <h3>{{this.aboutPagePosts[0].fields.header}}</h3>
+    <p class="aboutSubHeader">{{this.aboutPagePosts[0].fields.body}}</p>
     <div id="aboutSectionType">
         <button (click)="changeAboutSection(section)" *ngFor="let section of ['Lightscreens', 'Company', 'Contact']" class="btn aboutSectionButton" [attr.style]="this.isActiveSection(section) ? 'border-bottom: 1px solid black;' : ''">{{section}}</button>
     </div>
