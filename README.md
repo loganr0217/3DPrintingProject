@@ -17,7 +17,7 @@ LightScreenArt initially started as a research project aimed at testing the viab
   - Contains code and configuration for the backend server.
     - **main.py:** Flask server to handle user authentication, file manipulation, order and payment processing (Stripe integration), and other services.
     - **requirements.py:** Lists Python dependencies for the backend.
-    - **backend.yaml:** Configuration for deploying the backend on Google Cloud Platform (GCP).
+    - **backend.yaml:** Configuration for deploying the backend on Google Cloud Platform (GCP). Old and nonfunctional passwords and keys are given: just replace with yours in order to get it to work.
 
 - **svg-design-demo/**
   - Angular-based web application styled with Bootstrap and integrated with Contentful for headless CMS functionality.
